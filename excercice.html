@@ -5,12 +5,55 @@
     <meta charset="utf-8"> 
     <meta name="viewport" content="width=device-width, initial-scale=1">
   	<link rel="stylesheet" href="css/bootstrap/bootstrap.min.css">
-	<link rel="stylesheet" href="css/main.css">
-	<script src="js/imports/jquery-3.3.1.min.js"></script>
+	  <link rel="stylesheet" href="css/main.css">
+	  <script src="js/imports/jquery-3.3.1.min.js"></script>
   	<script src="js/imports/bootstrap/bootstrap.min.js"></script>
+    <script src="js/imports/interact.js"></script>
   	<script src="js/excercices.js"></script>
   </head>
   <body>
-  	Test
+    <div class="row container conteneur">
+      <div class="col-sm-8 terrain">
+        <div class="row terrain-space">
+          <div id="drag-1" class="draggable">
+            <p>drag1</p>
+          </div>
+          <div id="drag-2" class="draggable">
+            <p>drag2</p>
+          </div>
+        </div>
+      </div>
+      <div class="col-sm-4 outils">
+        <ul class="nav nav-tabs">
+          <li class="nav-item">
+            <a class="nav-link active" data-toggle="tab" href="#terrainsDiv">Terrains</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" data-toggle="tab" href="#joueursDiv">Joueurs</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" data-toggle="tab" href="#outilsDiv">Outils</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" data-toggle="tab" href="#lignesDiv">Lignes</a>
+          </li>
+        </ul>
+
+        <!-- Tab panes -->
+        <div class="tab-content">
+          <div class="tab-pane active container" id="terrainsDiv">
+            <ul class="list-group">
+              <li class="list-group-item">First item</li>
+              <li class="list-group-item">Second item</li>
+              <li class="list-group-item">Third item</li>
+              <li class="list-group-item">First item</li>
+            </ul>
+          </div>
+          <div class="tab-pane container" id="joueursDiv">.J.</div>
+          <div class="tab-pane container" id="outilsDiv">.O.</div>
+          <div class="tab-pane container" id="lignesDiv">.L.</div>
+        </div>
+      </div>
+    </div>
   </body>
 </html>
