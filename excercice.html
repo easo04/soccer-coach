@@ -4,6 +4,7 @@
   	<title>Excercie</title>
     <meta charset="utf-8"> 
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
   	<link rel="stylesheet" href="css/bootstrap/bootstrap.min.css">
 	  <link rel="stylesheet" href="css/main.css">
 	  <script src="js/imports/jquery-3.3.1.min.js"></script>
@@ -13,16 +14,19 @@
   	<script src="js/excercices.js"></script>
   </head>
   <body>
+    <div class="row container actions">
+      <div class="col-sm-8 outils">
+        <div class="actions-icons">
+          <i class="fa fa-file-image-o"></i>
+          <i class="fa fa-file-pdf-o"></i>
+          <i class="fa fa-floppy-o"></i>
+          <i class="fa fa-eraser" onclick="deleteObject();"></i>
+        </div>
+      </div>
+    </div>
     <div class="row container conteneur">
       <div class="col-sm-8 terrain">
-        <div class="row terrain-space">
-          <div id="drag-1" class="draggable">
-            <p>drag1</p>
-          </div>
-          <div id="drag-2" class="draggable">
-            <p>drag2</p>
-          </div>
-        </div>
+        <div class="row terrain-space"></div>
       </div>
       <div class="col-sm-4 outils">
         <ul class="nav nav-tabs">
@@ -43,13 +47,17 @@
         <!-- Tab panes -->
         <div class="tab-content">
           <div class="tab-pane active container" id="terrainsDiv">
-            <ul class="list-group" id="ul-liste-terrains">
-              <!--<li class="list-group-item"><div class="terrain-li terrain-green"></div></li>-->
-            </ul>
+            <ul class="list-group" id="ul-liste-terrains"></ul>
           </div>
-          <div class="tab-pane container" id="joueursDiv">.J.</div>
-          <div class="tab-pane container" id="outilsDiv">.O.</div>
-          <div class="tab-pane container" id="lignesDiv">.L.</div>
+          <div class="tab-pane container" id="joueursDiv">
+            <ul class="list-group" id="ul-liste-joueurs"></ul>
+          </div>
+          <div class="tab-pane container" id="outilsDiv">
+            <ul class="list-group" id="ul-liste-outils"></ul>
+          </div>
+          <div class="tab-pane container" id="lignesDiv">
+            <ul class="list-group" id="ul-liste-lignes"></ul>
+          </div>
         </div>
       </div>
     </div>

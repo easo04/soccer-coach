@@ -1,15 +1,12 @@
-#drag-1, #drag-2 {
-  width: 30px;
-  height: 30px;
+.drag {
+  width: 40px;
+  height: 40px;
   /*min-height: 6.5em;*/
-  margin: 10%;
-
+  margin: 1%;
   background-color: #29e;
   color: white;
-
-  border-radius: 0.75em;
-  padding: 4%;
-
+  border-radius: 2em;
+  //padding: 4%;
   -webkit-transform: translate(0px, 0px);
           transform: translate(0px, 0px);
 }
@@ -27,13 +24,38 @@
     border: 1px solid black;
 }
 
+.actions-icons{
+    margin-top: 10px;
+    float: right;
+}
+
+.actions-icons i{
+    padding-left: 5px;
+    cursor: pointer;
+    font-size: 20px;
+}
+
+.actions-icons i:hover{
+   color: red;
+   font-size: 21px;
+}
+
 .conteneur{
     padding-left: 0px;
     padding-right: 0px;
     margin-right: auto;
     margin-left: auto;
-    margin-top: 80px;
+    //margin-top: 80px;
     height: 440px;
+}
+
+.actions{
+    margin-top: 80px;
+    padding-left: 0px;
+    padding-right: 0px;
+    margin-right: auto;
+    margin-left: auto;
+    height: 50px;
 }
 
 .terrain-space{
@@ -54,6 +76,32 @@
     overflow-x: hidden;
 }
 
+#joueursDiv{
+    padding-left: 0px;
+    padding-right: 0px;
+    overflow: scroll;
+    height: 385px;
+    overflow-x: hidden;
+}
+
+#outilsDiv{
+    padding-left: 0px;
+    padding-right: 0px;
+    overflow: scroll;
+    height: 385px;
+    overflow-x: hidden;
+}
+
+
+#lignesDiv{
+    padding-left: 0px;
+    padding-right: 0px;
+    overflow: scroll;
+    height: 385px;
+    overflow-x: hidden;
+}
+
+
 .terrain-li{
     padding: 10px;
 }
@@ -61,6 +109,36 @@
 .terrain-li-div{
     cursor: pointer;
     height: 180px;
+    border:1px solid black;
+}
+
+.joueur-li{
+    padding: 10px;
+}
+
+.joueurs-li-div{
+    cursor: pointer;
+    height: 100px;
+    border:1px solid black;
+}
+
+.outil-li{
+    padding: 10px;
+}
+
+.outil-li-div{
+    cursor: pointer;
+    height: 100px;
+    border:1px solid black;
+}
+
+.ligne-li{
+    padding: 10px;
+}
+
+.ligne-li-div{
+    cursor: pointer;
+    height: 100px;
     border:1px solid black;
 }
 
@@ -74,4 +152,9 @@
 
 .terrain-white{
     background-color: white;
+}
+
+
+.fa{
+    cursor: pointer;
 }
