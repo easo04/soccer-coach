@@ -45,3 +45,33 @@
     margin-right: auto;
     margin-top: 18px;
 }
+
+#terrainsDiv{
+    padding-left: 0px;
+    padding-right: 0px;
+    overflow: scroll;
+    height: 385px;
+    overflow-x: hidden;
+}
+
+.terrain-li{
+    padding: 10px;
+}
+
+.terrain-li-div{
+    cursor: pointer;
+    height: 180px;
+    border:1px solid black;
+}
+
+.terrain-green{
+    background-color: forestgreen;
+}
+
+.terrain-blue{
+    background-color: blue;
+}
+
+.terrain-white{
+    background-color: white;
+}

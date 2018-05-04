@@ -1,3 +1,27 @@
+$(function() {
+    initListeTerrains();
+});
+
+
+function initListeTerrains(){
+    var contenu = '';
+
+    listeObjects.liste_terrains.forEach(function (item) {
+        if(item.color !== ''){
+            contenu += '<li class="list-group-item terrain-li"><div class="terrain-li-div terrain-' + item.name + '" onclick="changerTerrain(\'' + item.color + '\');"></div></li>';
+        }else if(item.image !== ''){
+            contenu += '<li class="list-group-item">item</li>';
+        }
+    });
+
+    $("#ul-liste-terrains").html(contenu);
+}
+
+function changerTerrain(color){
+    $('.terrain-space').css('background-color', color);
+}
+
+
 // target elements with the "draggable" class
 interact('.draggable')
   .draggable({
