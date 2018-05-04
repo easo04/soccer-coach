@@ -18,26 +18,44 @@
 
 .terrain{
     border: 1px solid black;
+    padding-right: 18px;
+    padding-left: 18px;
 }
 
 .outils{
     border: 1px solid black;
+    padding-right: 20px;
+    padding-left: 22px;
+}
+
+.icons-soccer{
+    margin-top: 10px;
 }
 
 .actions-icons{
-    margin-top: 10px;
     float: right;
 }
 
-.actions-icons i{
-    padding-left: 5px;
+.icons-soccer i{
     cursor: pointer;
     font-size: 20px;
 }
 
-.actions-icons i:hover{
-   color: red;
-   font-size: 21px;
+.icons-soccer i:hover{
+    color: red;
+    font-size: 21px;
+}
+
+.actions-icons i{
+    padding-left: 10px;
+}
+
+.color-icons{
+    float: left;
+}
+
+.color-icons i{
+    padding-right: 10px;
 }
 
 .conteneur{
@@ -152,9 +170,4 @@
 
 .terrain-white{
     background-color: white;
-}
-
-
-.fa{
-    cursor: pointer;
 }

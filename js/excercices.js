@@ -41,7 +41,7 @@ function initListeJoueurs() {
 function ajouterJoueur(joueurName, joueurImage) {
     var noJoueurs = $('.terrain-space')[0].children.length + 1;
     var contenu = '<div id="drag-joueur-' + noJoueurs +  '" class="draggable drag" onclick="selectObject(\'drag-joueur-' + noJoueurs + '\')">' +
-                  '<p>' + noJoueurs + '</p>' +
+                  '<p>' + noJoueurs + 'J</p>' +
                   '</div>';
     $('.terrain-space').append(contenu);
 }
@@ -57,9 +57,9 @@ function initListeOutils() {
 }
 
 function ajouterOutil(outilName, outilImage) {
-    var noJoueurs = $('.terrain-space')[0].children.length + 1;
-    var contenu = '<div id="drag-outil-' + noJoueurs +  '" class="draggable drag">' +
-        '<p>' + noJoueurs + '</p>' +
+    var noOutil = $('.terrain-space')[0].children.length + 1;
+    var contenu = '<div id="drag-outil-' + noOutil +  '" class="draggable drag" onclick="selectObject(\'drag-outil-' + noOutil + '\')">' +
+        '<p>' + noOutil + 'O</p>' +
         '</div>';
     $('.terrain-space').append(contenu);
 }
@@ -75,15 +75,24 @@ function initListeLignes() {
 }
 
 function ajouterLigne(ligneName, ligneImage) {
-    var noJoueurs = $('.terrain-space')[0].children.length + 1;
-    var contenu = '<div id="drag-lgn-' + noJoueurs +  '" class="draggable drag">' +
-        '<p>' + noJoueurs + '</p>' +
+    var noLigne = $('.terrain-space')[0].children.length + 1;
+    var contenu = '<div id="drag-lgn-' + noLigne +  '" class="draggable drag" onclick="selectObject(\'drag-lgn-' + noLigne + '\')">' +
+        '<p>' + noLigne + 'L</p>' +
         '</div>';
     $('.terrain-space').append(contenu);
 }
 
 function deleteObject() {
     objectSelected.remove()
+}
+
+function deleteAll(){
+    // var lstChildrens = $('.terrain-space')[0].children;
+    // var nbChildrens = lstChildrens.length;
+    // for(var i = 0; i < nbChildrens ; i++){
+    //     lstChildrens[i].remove();
+    // }
+    $('.terrain-space').empty();
 }
 
 function selectObject(dragId){
