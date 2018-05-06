@@ -83,24 +83,41 @@ function ajouterLigne(ligneName, ligneImage) {
 }
 
 function deleteObject() {
-    objectSelected.remove()
+    objectSelected.remove();
+    initButtons();
 }
 
 function deleteAll(){
-    // var lstChildrens = $('.terrain-space')[0].children;
-    // var nbChildrens = lstChildrens.length;
-    // for(var i = 0; i < nbChildrens ; i++){
-    //     lstChildrens[i].remove();
-    // }
     $('.terrain-space').empty();
+    initButtons();
 }
 
 function selectObject(dragId){
     objectSelected = $('#' + dragId);
+    $('.color-icons').show();
 }
 
 function initButtons() {
-    //$('#delete').prop('disabled', true);
+    $('.color-icons').hide();
+}
+
+function changerCouleurOutil(color){
+  if(objectSelected !== null && objectSelected[0].id.startsWith('drag-joueur')){
+    objectSelected[0].className = '';
+    objectSelected.addClass('draggable drag ' + color);
+  }
+}
+
+function savePNG(){
+   html2canvas($(".terrain-space"), {
+    onrendered: function(canvas) {
+        theCanvas = canvas;
+        // Convert and download as image 
+        Canvas2Image.saveAsPNG(canvas); 
+        // Clean up 
+        //document.body.removeChild(canvas);
+    }
+   });
 }
 
 // target elements with the "draggable" class

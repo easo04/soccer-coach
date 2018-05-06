@@ -9,6 +9,8 @@
 	  <link rel="stylesheet" href="css/main.css">
 	  <script src="js/imports/jquery-3.3.1.min.js"></script>
   	<script src="js/imports/bootstrap/bootstrap.min.js"></script>
+    <script src="js/imports/html2canvas.js"></script>
+    <script src="js/imports/canvas2image.js"></script>
     <script src="js/imports/interact.js"></script>
     <script src="js/objects/liste-objects.js"></script>
   	<script src="js/excercices.js"></script>
@@ -17,14 +19,15 @@
     <div class="row container actions">
       <div class="col-sm-8 outils">
         <div class="color-icons icons-soccer">
-          <i class="fa fa-file-image-o"></i>
-          <i class="fa fa-file-pdf-o"></i>
-          <i class="fa fa-floppy-o"></i>
-          <i class="fa fa-eraser" onclick="deleteObject();"></i>
-          <i class="fa fa-trash" onclick="deleteAll();"></i>
+          <div class="color-outil color-red" onclick="changerCouleurOutil('color-red');"></div>
+          <div class="color-outil color-blue" onclick="changerCouleurOutil('color-blue');"></div>
+          <div class="color-outil color-green" onclick="changerCouleurOutil('color-green');"></div>
+          <div class="color-outil color-yellow" onclick="changerCouleurOutil('color-yellow');"></div>
+          <div class="color-outil color-white" onclick="changerCouleurOutil('color-white');"></div>
+          <div class="color-outil color-black" onclick="changerCouleurOutil('color-black');"></div>
         </div>
         <div class="actions-icons icons-soccer">
-          <i class="fa fa-file-image-o"></i>
+          <i class="fa fa-file-image-o" onclick="savePNG();"></i>
           <i class="fa fa-file-pdf-o"></i>
           <i class="fa fa-floppy-o"></i>
           <i class="fa fa-eraser" onclick="deleteObject();"></i>
