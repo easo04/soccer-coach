@@ -1,14 +1,29 @@
 .drag {
-  width: 40px;
-  height: 40px;
+  width: 30px;
+  height: 30px;
   /*min-height: 6.5em;*/
   margin: 1%;
   background-color: #29e;
   color: white;
   border-radius: 2em;
-  //padding: 4%;
+  margin:3px;
+  border:1px solid #679403; 
   -webkit-transform: translate(0px, 0px);
           transform: translate(0px, 0px);
+}
+
+.drag-outil{
+  width: 20px;
+  height: 20px;
+  /*min-height: 6.5em;*/
+  margin: 1%;
+  -webkit-transform: translate(0px, 0px);
+          transform: translate(0px, 0px);
+}
+
+.drag-outil img{
+  width: 20px;
+  height: 20px;
 }
 
 #drag-me::before {

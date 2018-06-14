@@ -17,14 +17,24 @@ function initListeTerrains(){
         if(item.color !== ''){
             contenu += '<li class="list-group-item terrain-li"><div class="terrain-li-div terrain-' + item.name + '" onclick="changerTerrain(\'' + item.color + '\');"></div></li>';
         }else if(item.image !== ''){
-            contenu += '<li class="list-group-item">item</li>';
+            contenu += '<li class="list-group-item terrain-li"><div class="terrain-li-div" onclick="changerTerrainImg(\'' + item.image + '\');"><img src="images/terrain/' + item.image + '" width="293px" height="178px"/></div></li>';
         }
     });
 
     $("#ul-liste-terrains").html(contenu);
 }
 
+function changerTerrainImg(img){
+    $('.terrain-space').css('background-image', 'url(images/terrain/' + img + ')');
+    $('.terrain-space').css('background-repeat', 'no-repeat');
+}
+
+
 function changerTerrain(color){
+    /*$('.terrain-space').removeProp("background-image");
+    $('.terrain-space').removeProp("background-repeat");*/
+    $('.terrain-space').css('background-image', '');
+    $('.terrain-space').css('background-repeat', '');
     $('.terrain-space').css('background-color', color);
 }
 
@@ -50,7 +60,7 @@ function initListeOutils() {
     var contenu = '';
 
     listeObjects.liste_outils.forEach(function (item) {
-        contenu += '<li class="list-group-item outil-li"><div class="outil-li-div" onclick="ajouterOutil(\'' + item.name + '\', \'' + item.image  + '\');">' + item.name + '</div></li>';
+        contenu += '<li class="list-group-item outil-li"><div class="outil-li-div" onclick="ajouterOutil(\'' + item.name + '\', \'' + item.image  + '\');"><img src="images/outils/' + item.image + '"></div></li>';
     });
 
     $('#ul-liste-outils').html(contenu);
@@ -58,8 +68,8 @@ function initListeOutils() {
 
 function ajouterOutil(outilName, outilImage) {
     var noOutil = $('.terrain-space')[0].children.length + 1;
-    var contenu = '<div id="drag-outil-' + noOutil +  '" class="draggable drag" onclick="selectObject(\'drag-outil-' + noOutil + '\')">' +
-        '<p>' + noOutil + 'O</p>' +
+    var contenu = '<div id="drag-outil-' + noOutil +  '" class="draggable drag-outil" onclick="selectObject(\'drag-outil-' + noOutil + '\')">' +
+        '<img src="images/outils/' + outilImage + '">' +
         '</div>';
     $('.terrain-space').append(contenu);
 }
