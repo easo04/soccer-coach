@@ -12,6 +12,10 @@
           transform: translate(0px, 0px);
 }
 
+.drag:hover{
+    border:3px solid #679403;
+}
+
 .drag-outil{
   width: 20px;
   height: 20px;

@@ -118,6 +118,14 @@ function changerCouleurOutil(color){
   }
 }
 
+function changerPlayerName(){
+  var nomPlayer = $("#nomJoueur").val();
+  if(objectSelected !== null && objectSelected[0].id.startsWith('drag-joueur')){
+    objectSelected[0].innerHTML = '<p>' + nomPlayer + '</p>'
+    $("#nomJoueur").val('');
+  }
+}
+
 function savePNG(){
    html2canvas($(".terrain-space"), {
     onrendered: function(canvas) {
