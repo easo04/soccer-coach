@@ -3,7 +3,7 @@
   height: 30px;
   /*min-height: 6.5em;*/
   margin: 1%;
-  background-color: #29e;
+  background-color: #1a1a1a;
   color: white;
   border-radius: 2em;
   margin:3px;
@@ -14,6 +14,31 @@
 
 .drag:hover{
     border:3px solid #679403;
+}
+
+.drag-player-list{
+  width: 50px;
+  height: 50px;
+  /*min-height: 6.5em;*/
+  margin: 1%;
+  background-color: #1a1a1a;
+  color: white;
+  border-radius: 2em;
+  margin-top: 23px;
+  margin-left: auto;
+  margin-right: auto;
+  border:1px solid #679403; 
+  -webkit-transform: translate(0px, 0px);
+          transform: translate(0px, 0px);
+}
+
+.drag-player-list-img{
+  width: 80px;
+  height: 80px;
+  margin-top: 16px;
+  margin-left: auto;
+  margin-right: auto;
+  color:red;
 }
 
 .drag-outil{
@@ -28,6 +53,32 @@
 .drag-outil img{
   width: 20px;
   height: 20px;
+}
+
+.drag-joueur{
+  width: 60px;
+  height: 60px;
+  /*min-height: 6.5em;*/
+  margin: 1%;
+  -webkit-transform: translate(0px, 0px);
+          transform: translate(0px, 0px);
+}
+
+
+.drag-joueur img{
+  width: 60px;
+  height: 60px;
+}
+
+.drag-joueur img:hover{
+  width: 61px;
+  height: 61px;
+}
+
+.drag-joueur p{
+    text-align: center;
+    font-weight: bold;
+    color:black;
 }
 
 #drag-me::before {
@@ -94,6 +145,10 @@
 
 .color-blue{
     background-color: #0033cc;
+}
+
+.color-blue-claro{
+    background-color: #29e;
 }
 
 .color-green{
@@ -226,3 +281,11 @@
     background-color: #ffffff;
 }
 
+.object-selected{
+   border:3px solid #679403;
+}
+
+.object-selected-img{
+  width: 58px;
+  height: 58px;
+}

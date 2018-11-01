@@ -13,21 +13,23 @@
     <script src="js/imports/canvas2image.js"></script>
     <script src="js/imports/interact.js"></script>
     <script src="js/objects/liste-objects.js"></script>
+    <script src="js/functions-generales.js"></script> 
   	<script src="js/excercices.js"></script>
   </head>
   <body>
     <div class="row container actions">
       <div class="col-sm-8 outils">
         <div class="color-icons icons-soccer">
-          <div class="color-outil color-red" onclick="changerCouleurOutil('color-red');"></div>
-          <div class="color-outil color-blue" onclick="changerCouleurOutil('color-blue');"></div>
-          <div class="color-outil color-green" onclick="changerCouleurOutil('color-green');"></div>
-          <div class="color-outil color-yellow" onclick="changerCouleurOutil('color-yellow');"></div>
-          <div class="color-outil color-white" onclick="changerCouleurOutil('color-white');"></div>
-          <div class="color-outil color-black" onclick="changerCouleurOutil('color-black');"></div>
+          <div class="color-outil color-red" onclick="changerCouleurOutil('red');"></div>
+          <div class="color-outil color-blue" onclick="changerCouleurOutil('blue');"></div>
+          <div class="color-outil color-blue-claro" onclick="changerCouleurOutil('blue-claro');"></div>
+          <div class="color-outil color-green" onclick="changerCouleurOutil('green');"></div>
+          <div class="color-outil color-yellow" onclick="changerCouleurOutil('yellow');"></div>
+          <div class="color-outil color-white" onclick="changerCouleurOutil('white');"></div>
+          <div class="color-outil color-black" onclick="changerCouleurOutil('black');"></div>
         </div>
         <div class="actions-icons icons-soccer">
-          <i class="fa fa-font" data-toggle="modal" data-target="#modalAddText"></i>
+          <i class="fa fa-font" data-toggle="modal" id="btnAddText" data-target="#modalAddText"></i>
           <i class="fa fa-file-image-o" onclick="savePNG();"></i>
           <i class="fa fa-file-pdf-o"></i>
           <i class="fa fa-floppy-o"></i>

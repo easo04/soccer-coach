@@ -42,7 +42,15 @@ function initListeJoueurs() {
     var contenu = '';
 
     listeObjects.liste_joueurs.forEach(function (item) {
-        contenu += '<li class="list-group-item joueur-li"><div class="joueurs-li-div" onclick="ajouterJoueur(\'' + item.name + '\', \'' + item.image  + '\');">' + item.name + '</div></li>';
+        contenu += '<li class="list-group-item joueur-li">'
+        + '<div class="joueurs-li-div" onclick="ajouterJoueur(\'' + item.name + '\', \'' + item.image  + '\');">';
+        if(item.image === ''){
+          contenu += '<div class="drag-player-list"></div>';
+        }else{
+          contenu += '<div class="drag-player-list-img"><img src="images/joueurs/player-list/' + item.image + '"></div>';
+        }
+
+        contenu += '</div></li>';
     });
 
     $('#ul-liste-joueurs').html(contenu);
@@ -50,9 +58,17 @@ function initListeJoueurs() {
 
 function ajouterJoueur(joueurName, joueurImage) {
     var noJoueurs = $('.terrain-space')[0].children.length + 1;
-    var contenu = '<div id="drag-joueur-' + noJoueurs +  '" class="draggable drag" onclick="selectObject(\'drag-joueur-' + noJoueurs + '\')">' +
+    var contenu = '';
+    if(joueurImage === ''){
+      contenu += '<div id="drag-joueur-' + noJoueurs +  '" class="draggable drag" onclick="selectObject(\'drag-joueur-' + noJoueurs + '\')">' +
                   '<p>' + noJoueurs + 'J</p>' +
                   '</div>';
+    }else{
+      contenu += '<div id="drag-joueur-' + noJoueurs +  '" class="draggable drag-joueur" onclick="selectObject(\'drag-joueur-' + noJoueurs + '\')">' +
+                 '<img id="' + joueurName + '" src="images/joueurs/' + joueurImage + '">' +
+                 '</div>';
+    }
+  
     $('.terrain-space').append(contenu);
 }
 
@@ -104,24 +120,54 @@ function deleteAll(){
 
 function selectObject(dragId){
     objectSelected = $('#' + dragId);
-    $('.color-icons').show();
+    initButtons();
+    var lastObjectSelected = $('.object-selected');
+    if(lastObjectSelected !== undefined){
+      lastObjectSelected.removeClass('object-selected');
+    }else{
+      lastObjectSelected = $('.object-selected-img');
+      if(lastObjectSelected !== undefined){
+        lastObjectSelected.removeClass('object-selected-img');
+      }
+    }
+
+    if(objectSelected.hasClass('drag-joueur')){
+      objectSelected.addClass('object-selected-img');
+    }else{
+      objectSelected.addClass('object-selected');
+    }
 }
 
 function initButtons() {
-    $('.color-icons').hide();
+    if(objectSelected !== null){
+       $('.color-icons').show();
+       $('#btnAddText').show();
+    }else{
+       $('.color-icons').hide();
+       $('#btnAddText').hide();
+    }
 }
 
 function changerCouleurOutil(color){
   if(objectSelected !== null && objectSelected[0].id.startsWith('drag-joueur')){
-    objectSelected[0].className = '';
-    objectSelected.addClass('draggable drag ' + color);
+    if(objectSelected.hasClass('drag-joueur')){
+      var imgId = objectSelected[0].children[0].id;
+      objectSelected[0].innerHTML = '<img id="' + imgId + '" src="images/joueurs/' + imgId + '-' + color + '.png">';
+    }else{
+      objectSelected[0].className = '';
+      objectSelected.addClass('draggable drag ' + 'color-' + color);
+    }
   }
 }
 
 function changerPlayerName(){
   var nomPlayer = $("#nomJoueur").val();
   if(objectSelected !== null && objectSelected[0].id.startsWith('drag-joueur')){
-    objectSelected[0].innerHTML = '<p>' + nomPlayer + '</p>'
+    if(objectSelected.hasClass('drag-joueur')){
+      objectSelected[0].innerHTML += '<p>' + nomPlayer + '</p>';
+    }else{
+      objectSelected[0].innerHTML = '<p>' + nomPlayer + '</p>';
+    }
     $("#nomJoueur").val('');
   }
 }
