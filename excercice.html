@@ -20,19 +20,21 @@
     <div class="row container actions">
       <div class="col-sm-8 outils">
         <div class="color-icons icons-soccer">
-          <div class="color-outil color-red" onclick="changerCouleurOutil('red');"></div>
-          <div class="color-outil color-blue" onclick="changerCouleurOutil('blue');"></div>
-          <div class="color-outil color-blue-claro" onclick="changerCouleurOutil('blue-claro');"></div>
-          <div class="color-outil color-green" onclick="changerCouleurOutil('green');"></div>
-          <div class="color-outil color-yellow" onclick="changerCouleurOutil('yellow');"></div>
-          <div class="color-outil color-white" onclick="changerCouleurOutil('white');"></div>
-          <div class="color-outil color-black" onclick="changerCouleurOutil('black');"></div>
+          <div class="color-outil color-red" id="color-red" onclick="changerCouleurOutil('red');"></div>
+          <div class="color-outil color-blue" id="color-blue" onclick="changerCouleurOutil('blue');"></div>
+          <div class="color-outil color-blue-claro" id="color-blue-claro" onclick="changerCouleurOutil('blue-claro');"></div>
+          <div class="color-outil color-green" id="color-green" onclick="changerCouleurOutil('green');"></div>
+          <div class="color-outil color-yellow" id="color-yellow" onclick="changerCouleurOutil('yellow');"></div>
+          <div class="color-outil color-white" id="color-white" onclick="changerCouleurOutil('white');"></div>
+          <div class="color-outil color-black" id="color-black" onclick="changerCouleurOutil('black');"></div>
         </div>
         <div class="actions-icons icons-soccer">
+          <i class="fa fa-circle action" id="btnColor" onclick="setChangeBorderColor(false);selectedAction('btnColor')"></i>
+          <i class="fa fa-circle-o action" id="btnBorder" onclick="setChangeBorderColor(true);selectedAction('btnBorder')"></i>
           <i class="fa fa-font" data-toggle="modal" id="btnAddText" data-target="#modalAddText"></i>
-          <i class="fa fa-file-image-o" onclick="savePNG();"></i>
+          <!--<i class="fa fa-file-image-o" onclick="savePNG();"></i>
           <i class="fa fa-file-pdf-o"></i>
-          <i class="fa fa-floppy-o"></i>
+          <i class="fa fa-floppy-o"></i>-->
           <i class="fa fa-eraser" onclick="deleteObject();"></i>
           <i class="fa fa-trash" data-toggle="modal" data-target="#modalDeleteAll"></i>
         </div>
@@ -45,16 +47,16 @@
       <div class="col-sm-4 outils">
         <ul class="nav nav-tabs">
           <li class="nav-item">
-            <a class="nav-link active" data-toggle="tab" href="#terrainsDiv">Terrains</a>
+            <a class="nav-link active" data-toggle="tab" href="#terrainsDiv" onclick="initButtons(false);">Terrains</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" data-toggle="tab" href="#joueursDiv">Joueurs</a>
+            <a class="nav-link" data-toggle="tab" href="#joueursDiv" onclick="initButtons(true);">Joueurs</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" data-toggle="tab" href="#outilsDiv">Outils</a>
+            <a class="nav-link" data-toggle="tab" href="#outilsDiv" onclick="initButtons(false);">Outils</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" data-toggle="tab" href="#lignesDiv">Lignes</a>
+            <a class="nav-link" data-toggle="tab" href="#lignesDiv" onclick="initButtons(false);">Lignes</a>
           </li>
         </ul>
 

@@ -1,6 +1,6 @@
 .drag {
-  width: 30px;
-  height: 30px;
+  width: 25px;
+  height: 25px;
   /*min-height: 6.5em;*/
   margin: 1%;
   background-color: #1a1a1a;
@@ -13,7 +13,7 @@
 }
 
 .drag:hover{
-    border:3px solid #679403;
+    border:2px solid #679403;
 }
 
 .drag-player-list{
@@ -56,8 +56,8 @@
 }
 
 .drag-joueur{
-  width: 60px;
-  height: 60px;
+  width: 40x;
+  height: 40x;
   /*min-height: 6.5em;*/
   margin: 1%;
   -webkit-transform: translate(0px, 0px);
@@ -131,6 +131,10 @@
     cursor: pointer;
     float: left;
     margin-right: 10px;
+}
+
+.color-outil-selected{
+   border: 2px solid black;
 }
 
 .color-outil:hover{
@@ -282,10 +286,17 @@
 }
 
 .object-selected{
-   border:3px solid #679403;
+   /*border:3px solid #679403;*/
+   border:1px solid white;
 }
 
 .object-selected-img{
   width: 58px;
   height: 58px;
 }
+
+.action-selected{
+  color: red;
+}
+
+

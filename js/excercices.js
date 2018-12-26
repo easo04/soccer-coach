@@ -1,4 +1,6 @@
 var objectSelected = null;
+var lastColorSelected = null;
+var changeBorderColor = false;
 
 $(function() {
     initListeTerrains();
@@ -6,7 +8,7 @@ $(function() {
     initListeOutils();
     initListeLignes();
 
-    initButtons();
+    initButtons(false);
 });
 
 
@@ -59,15 +61,19 @@ function initListeJoueurs() {
 function ajouterJoueur(joueurName, joueurImage) {
     var noJoueurs = $('.terrain-space')[0].children.length + 1;
     var contenu = '';
+    var color = lastColorSelected != null ? lastColorSelected : 'color-black';
     if(joueurImage === ''){
-      contenu += '<div id="drag-joueur-' + noJoueurs +  '" class="draggable drag" onclick="selectObject(\'drag-joueur-' + noJoueurs + '\')">' +
-                  '<p>' + noJoueurs + 'J</p>' +
+      contenu += '<div id="drag-joueur-' + noJoueurs +  '" class="draggable drag color-' + color + '" onclick="selectObject(\'drag-joueur-' + noJoueurs + '\')">' +
+                  //'<p>' + noJoueurs + 'J</p>' +
                   '</div>';
     }else{
       contenu += '<div id="drag-joueur-' + noJoueurs +  '" class="draggable drag-joueur" onclick="selectObject(\'drag-joueur-' + noJoueurs + '\')">' +
                  '<img id="' + joueurName + '" src="images/joueurs/' + joueurImage + '">' +
                  '</div>';
     }
+
+    $('#btnBorder').removeClass('action-selected');
+    $('#btnColor').addClass('action-selected');
   
     $('.terrain-space').append(contenu);
 }
@@ -110,17 +116,18 @@ function ajouterLigne(ligneName, ligneImage) {
 
 function deleteObject() {
     objectSelected.remove();
-    initButtons();
+    initButtons(false);
 }
 
 function deleteAll(){
     $('.terrain-space').empty();
-    initButtons();
+    objectSelected = null;
+    initButtons(false);
 }
 
 function selectObject(dragId){
     objectSelected = $('#' + dragId);
-    initButtons();
+    initButtons(true);
     var lastObjectSelected = $('.object-selected');
     if(lastObjectSelected !== undefined){
       lastObjectSelected.removeClass('object-selected');
@@ -133,29 +140,45 @@ function selectObject(dragId){
 
     if(objectSelected.hasClass('drag-joueur')){
       objectSelected.addClass('object-selected-img');
-    }else{
+    }else if(!objectSelected.hasClass('drag-outil')){
       objectSelected.addClass('object-selected');
     }
 }
 
-function initButtons() {
-    if(objectSelected !== null){
+function initButtons(showColors) {
+    if(showColors || objectSelected !== null){
        $('.color-icons').show();
        $('#btnAddText').show();
+       $('#btnBorder').show();
     }else{
        $('.color-icons').hide();
        $('#btnAddText').hide();
+       $('#btnBorder').hide();
     }
 }
 
 function changerCouleurOutil(color){
+
+  if(lastColorSelected != null){
+    $('#color-' + lastColorSelected).removeClass('color-outil-selected');
+  }
+
+  $('#color-' + color).addClass('color-outil-selected');
+  lastColorSelected = color;
+  
   if(objectSelected !== null && objectSelected[0].id.startsWith('drag-joueur')){
     if(objectSelected.hasClass('drag-joueur')){
       var imgId = objectSelected[0].children[0].id;
       objectSelected[0].innerHTML = '<img id="' + imgId + '" src="images/joueurs/' + imgId + '-' + color + '.png">';
     }else{
-      objectSelected[0].className = '';
-      objectSelected.addClass('draggable drag ' + 'color-' + color);
+
+      if(changeBorderColor){
+        objectSelected[0].style.borderColor = color;
+      }else{
+        objectSelected[0].className = '';
+        objectSelected.addClass('draggable drag ' + 'color-' + color);
+        objectSelected.removeClass('object-selected');
+    }
     }
   }
 }
@@ -169,6 +192,27 @@ function changerPlayerName(){
       objectSelected[0].innerHTML = '<p>' + nomPlayer + '</p>';
     }
     $("#nomJoueur").val('');
+  }
+}
+
+function setChangeBorderColor(changeBorder){
+  changeBorderColor = changeBorder;
+}
+
+function selectedAction(idAction){
+  var actionSelected = $('.action-selected');
+  if(actionSelected.length !== 0){
+    if(actionSelected[0].id === idAction){
+      $('#'+idAction).removeClass('action-selected');
+      //NE PAS AFFICHER A SECTION DES COULEURS
+      $('.color-icons').hide();
+    }else{
+      actionSelected.removeClass('action-selected');
+      $('#'+idAction).addClass('action-selected');
+    }
+  }else{
+    $('.color-icons').show();
+    $('#'+idAction).addClass('action-selected');
   }
 }
 
