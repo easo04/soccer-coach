@@ -1,0 +1,39 @@
+.resize-drag {
+    color: white;
+    font-size: 20px;
+    font-family: sans-serif;
+    /*padding: 20px;*/
+    /*margin: 30px 20px;*/
+    touch-action: none;
+    /* This makes things *much* easier */
+    box-sizing: border-box;
+    z-index: 1;
+ }
+
+.square-form{
+    /*border-radius: 8px;*/
+    width: 200px;
+    height: 200px;
+}
+
+.circle-form{
+    border-radius: 50%;
+}
+
+.square-form-border{
+    border-style: dashed;
+    border-radius: 8px;
+}
+
+.circle-form-border{
+    border-style: dashed;
+    border-radius: 50%;
+}
+
+
+.resize-container {
+    display: inline-block;
+    width: 100%;
+    height: 240px;
+}
+

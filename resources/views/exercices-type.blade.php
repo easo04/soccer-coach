@@ -1,0 +1,69 @@
+@extends('template')
+
+@section('head')
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link href="../../css/themify-icons/themify-icons.css" rel="stylesheet">
+    <link rel="stylesheet" href="../../css/exercice.scss">
+@endsection
+
+@section('contenu')
+    <br>
+    <h3>Exercices</h3>
+    <div class="action-exercice">
+            <div class="btn-create-exercice">
+                <a class="btn btn-soccer-coach-action" href="/exercice/create">
+                    <i class="ti-plus"></i> Créer un exercice
+                </a>
+            </div>
+        </div>
+    <div class="actions">
+     
+        <div class="action-recherche">
+            <nav class="navbar navbar-expand-sm bg-info navbar-dark">    
+                <ul class="navbar-nav">
+                    <li class="nav-item">
+                        <a class="nav-link" href="/exercice">Tous</a>
+                    </li>
+                    @foreach ($types as $type)
+                        @if($type->selected)
+                            <li class="nav-item">
+                                <a class="nav-link selected-type" href="{{ $type->id }}"><i class="{{ $type->icon }}"></i> {!! $type->nom !!}</a>
+                            </li>
+                        @else
+                            <li class="nav-item">
+                                <a class="nav-link" href="{{ $type->id }}"><i class="{{ $type->icon }}"></i> {!! $type->nom !!}</a>
+                            </li>
+                        @endif              
+                    @endforeach
+                </ul>
+            </nav>
+        </div>
+    </div>
+    <div class="row lst-exercices">
+    	@if(session()->has('ok'))
+			<div class="alert alert-success alert-dismissible">{!! session('ok') !!}</div>
+        @endif
+        @foreach ($exercices as $exercice)
+            <div class="col-sm-4 card card-exercice">
+                <div class="card-exercice-image">
+                    <img class="card-img-top img-liste" src="../../images/uploaded/{{ $exercice->image }}">
+                    <a href="{{ $exercice->typeExercice->id }}">
+                        <span class="bought"><i class="{{$exercice->typeExercice->icon}}"></i> {{ $exercice->typeExercice->nom }}</span>
+                    </a>
+                </div>
+                <div class="card-body body-exercice">      
+                    <div class="card-title-principe">
+                        <h4 class="card-title">{!! $exercice->principe !!}</h4>
+                        <h6><i class="ti-timer color-soccer-coach"></i> Durée: {!! $exercice->time !!}</h6>
+                    </div>
+
+                    <p>{!! $exercice->description !!}</p>
+                </div>
+                <div class="card-footer footer-exercice">
+                    {!! link_to_route('exercice.show', 'Voir', [$exercice->id], ['class' => 'btn btn-block btn-soccer-coach']) !!}
+                </div>
+            </div>
+        @endforeach
+    </div>
+    {!! $links !!}
+@endsection

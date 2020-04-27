@@ -1,0 +1,102 @@
+.image-exercice{
+    width: inherit;
+    height: 530px;
+}
+
+.image-exercice img{
+    width: inherit;
+}
+
+.details-items-info{
+    background-color: #F3F3F3;
+    box-shadow: 0 2px 3px -1px #DCDCDC;
+}
+
+.details-items-info div{
+    border-right: 1px solid #ededed;
+    line-height: 2;
+}
+
+.details-items-info div p.text {
+    font-weight: 300;
+    font-size: 12px;
+    letter-spacing: 1px;
+    margin: 0;
+    color: #7D8693;
+    font-family: Roboto, sans-serif;
+    /*padding-bottom: 0;
+    border-bottom: 1px solid #b81752;*/
+}
+
+.details-items-info div p.value {
+    margin: 0;
+    font-size: 16px;
+    font-weight: 600;
+    color: #000;  
+}
+
+.detail{
+    height: 530px;
+}
+
+.p-flex{
+    padding: 10px; 
+    text-align: center;
+    width: 180px;
+    height: 80px;
+    /*border: 1px solid  #17a2b8;*/
+}
+
+.sous-principes{
+    font-size: 20px;
+    font-weight: 300;
+    color:black;
+}
+
+.sous-principes .titre{
+    font-weight: 600;
+}
+
+.details-exercice p{
+
+    font-size: 16px;
+}
+
+.description-exercice{
+    margin-top: 30px;
+    margin-bottom: 30px;
+}
+
+.bloc-info{
+    box-shadow: 0 2px 3px -1px #DCDCDC;
+    border-bottom: 2px solid #F3F3F3;
+}
+
+.bloc-info h5{
+    border-left: 5px solid #b81752;
+    padding-left: 9px;
+}
+
+.bloc-sm{
+    margin-top: 20px;
+    height: auto;
+}
+
+.video, .url{
+    margin-top: 20px;
+    width: inherit;
+}
+
+.video iframe{
+    width: inherit;
+}
+
+.actions-exercice-detail{
+    margin-bottom: 20px;
+    height: 80px;
+}
+
+.actions-exercice-detail .btns{
+    float: right;
+}
+

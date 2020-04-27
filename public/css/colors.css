@@ -1,0 +1,59 @@
+/** CSS POUR LES COULEURS **/
+
+.color-red{
+    background-color: red;
+}
+
+.color-blue{
+    background-color: #0033cc;
+}
+
+.color-blue-claro{
+    background-color: #29e;
+}
+
+.color-green{
+    background-color: #009933;
+}
+
+.color-yellow{
+    background-color: #ffcc00;
+}
+
+.color-white{
+    background-color: #f2f2f2;
+}
+
+.color-black{
+    background-color: #1a1a1a;
+}
+
+.color-border-red{
+    border:1px solid red;
+}
+
+.color-border-blue{
+    border:1px solid #0033cc;
+}
+
+.color-border-blue-claro{
+    border:1px solid #29e;
+}
+
+.color-border-green{
+    border:1px solid #009933;
+}
+
+.color-border-yellow{
+    border:1px solid #ffcc00;
+}
+
+.color-border-white{
+    border:1px solid #f2f2f2;
+}
+
+.color-border-black{
+    border:1px solid #1a1a1a;
+}
+
+

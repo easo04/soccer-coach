@@ -1,0 +1,67 @@
+@import '../../resources/sass/variables';
+@import 'exercice';
+@import 'detail-exercice';
+
+.add-variables{
+    margin-top: 20px;
+
+    h5{
+        margin-bottom: 20px;
+    }
+
+    .form-add-variable{
+        form{
+            button{
+                margin-top: 20px;
+                float: right;
+            }
+
+            textarea{
+                height: 318px!important;
+            }
+        }
+        .btn-annuler{
+            margin-left: 5px;
+        }
+        .lst-variables{
+            .variante-item{
+                margin-top: 10px;
+                border-radius:0!important;
+                height: auto;
+
+                .item-header{
+                    border-left: 8px solid $color-action;
+                    height: 50px;
+                    padding-left: 20px;
+                    background-color: #F3F3F3;
+                    padding-top: 14px;
+                    padding-right: 28px;
+                    &:first-child{
+                        border-radius: 0;
+                    }
+                    .btn-delete{
+                        float: right;
+                        border: 0;
+                    }
+                }
+
+                .item-body{
+                    height: 150px;
+                    border:1px solid #ced4da;
+                    padding: 20px;
+                    &.row{
+                        height: auto;
+                        margin-left: 0;
+                        margin-right: 0;
+                    }
+                    .img-variante{
+                        img{
+                            width: inherit;
+                            height: 318px;
+                        }
+                    }
+                }          
+            }
+        }
+    }
+}

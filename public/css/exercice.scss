@@ -1,0 +1,251 @@
+body{
+    background-color: #F3F3F3;
+}
+
+.container-soccer-coach{
+    background-color: white;
+}
+
+.container-soccer-coach h3{
+    border-bottom: 3px solid #17b87d;
+    padding-bottom: 10px;
+    margin-bottom: 30px;
+}
+
+.card-exercice-image{
+    height: 345px;
+    width: inherit;
+    margin: 0;
+    display: block;
+    position: relative;
+}
+
+.img-liste{
+    height: inherit;
+    width: inherit;
+}
+
+.card-body{
+    height: inherit;
+    width: inherit;
+}
+
+.card-exercice{
+    border:none;
+    padding: 5px;
+}
+
+.body-exercice{
+    padding: 0px;
+    border: 1px solid rgba(0,0,0,.125);
+    padding-bottom: 10px;
+}
+
+.body-exercice p{
+    margin-top: 10px;
+    margin-left: 18px;
+    height: 100px;
+    overflow: hidden;
+}
+
+.footer-exercice{
+    background-color: white;
+    border: 1px solid rgba(0,0,0,.125);
+}
+
+.actions{
+    padding-bottom: 20px;
+}
+
+.action-recherche .navbar-dark .navbar-nav .nav-link{
+    color:white;
+}
+
+.action-recherche .navbar-dark .navbar-nav .nav-item{
+    border-right: 1px solid white;
+}
+
+.action-exercice{
+    height: 60px;
+    padding-bottom: 30px;
+}
+
+.btn-create-exercice{
+    float:right
+}
+
+.selected-type{
+    color: black !important;
+    font-weight:bold;
+}
+
+.btn-soccer-coach-action{
+    background-color: #b81752!important;
+    color:white!important;
+    border-radius: 0;
+}
+
+.btn-soccer-coach-action:hover{
+    background-color: #740f34!important;
+    color:white;
+}
+
+.bought:hover{
+    background-color:  #744f0f!important;
+}
+
+.btn-soccer-coach{
+    /*background-color: #b87e17!important;*/
+    background-color: #17b87d!important;
+    color:white;
+    border-radius: 0;
+}
+
+.btn-soccer-coach:hover{
+    background-color: #118b5e!important;
+    color:white;
+}
+
+.card-title-principe{
+    border-left: 8px solid #b81752;
+    height: 80px;
+    padding-left: 9px;
+    display: block;
+    position: relative;
+}
+
+.card-title-principe h4{
+    font-size: 1.3rem;
+}
+
+.card-title-principe h6{
+    position: absolute;
+    bottom: 0;
+}
+
+.color-soccer-coach{
+    color: #17b87d;
+}
+
+.bought{
+    background-color: #b87e17;
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    /* z-index: 1; */
+    color: #FFF;
+    padding: 2px 15px;
+    font-size: 15px;
+}
+
+.pagination{
+    margin-top: 30px;
+    justify-content: center!important;
+}
+
+.action-recherche .nav-link:hover{
+    text-decoration: underline;
+}
+
+.modal-content{
+    border-radius: 0;
+}
+
+.modal-content .modal-body span{
+    font-weight:bold;
+}
+
+.form-control{
+    border-radius: 0;
+}
+
+label{
+    font-weight: 700;
+}
+
+.form-check{
+    padding-left: 0;
+}
+
+.form-check-input {
+    margin-top: 7px;
+    margin-left: 5px;
+}
+
+.container-label {
+    display: block;
+    position: relative;
+    margin-bottom: 12px;
+    cursor: pointer;
+    font-size: 1rem;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+  }
+  
+  /* Hide the browser's default checkbox */
+  .container-label input {
+    position: absolute;
+    opacity: 0;
+    cursor: pointer;
+    height: 0;
+    width: 0;
+  }
+
+/* Create a custom checkbox */
+.checkmark {
+    position: absolute;
+    top: 0;
+    height: 25px;
+    width: 25px;
+    background-color: #F3F3F3;
+    margin-left: 10px;
+    border:1px solid #17b87d;
+  }
+  
+  /* On mouse-over, add a grey background color */
+  .container:hover input ~ .checkmark {
+    background-color: #F3F3F3;
+  }
+  
+  /* When the checkbox is checked, add a blue background */
+  .container-label input:checked ~ .checkmark {
+    background-color: #17b87d;
+  }
+  
+  /* Create the checkmark/indicator (hidden when not checked) */
+  .checkmark:after {
+    content: "";
+    position: absolute;
+    display: none;
+  }
+  
+  /* Show the checkmark when checked */
+  .container-label input:checked ~ .checkmark:after {
+    display: block;
+  }
+  
+  /* Style the checkmark/indicator */
+  .container-label .checkmark:after {
+    left: 9px;
+    top: 5px;
+    width: 5px;
+    height: 10px;
+    border: solid white;
+    border-width: 0 3px 3px 0;
+    -webkit-transform: rotate(45deg);
+    -ms-transform: rotate(45deg);
+    transform: rotate(45deg);
+  }
+
+  textarea{
+      height: 250px!important;
+  }
+
+/** MEDIAS **/
+@media screen and (min-width: 900px) {
+    /*.btn-create-exercice{
+        float: right;
+    }*/
+}

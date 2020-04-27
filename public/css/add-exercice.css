@@ -1,0 +1,66 @@
+.list-btns, .btn-variante{
+    margin-left: 195px;
+}
+
+.variantes{
+    margin-top:15px;
+}
+
+
+.div-btn-creer-exercice{
+    margin-top: 15px;
+}
+
+.div-btn-creer-exercice .btn{
+    float: right;
+}
+
+.tr-description{
+    background-color: #4da6ff;
+
+}
+
+.tr-description th{
+    text-align: center;
+}
+
+.table{
+    margin-bottom: 0px;
+    width: 100%;
+}
+
+.image-exercice img{
+	width: 100%;
+	height: 350px;
+}
+
+.exercice-infos{
+	padding: 10px 100px;
+}
+
+.details-heading{
+	height: 40px;
+}
+
+.texte-panel-heading{
+	float: left;
+}
+
+.texte-panel-btns{
+	float: right;
+}
+
+.icons-soccer i{
+    cursor: pointer;
+    font-size: 20px;
+}
+
+.icons-soccer i:hover{
+    color: red;
+    font-size: 21px;
+}
+
+.actions-icons i{
+    padding-left: 10px;
+}
+    
