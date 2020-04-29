@@ -14,13 +14,12 @@ class VarianteRepository{
 		$this->variante = $variante;
     }
     
-    public function save(Variante $exercice, Array $inputs){
-		if($inputs['image'] != ''){
+    public function save(Variante $variante, Array $inputs){
+		/*if($inputs['image'] != '' && $inputs['image'] != NULL){
 			$variante->image =$inputs['image'];
-		}
-
+		}*/
 		$variante->description = $inputs['description'];
-        $variante->users_id =$inputs['exercice_id'];
+        $variante->exercice_id = $inputs['exercice_id'];
         $variante->time =$inputs['time'];
 
         $variante->save();

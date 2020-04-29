@@ -108,12 +108,13 @@ class ExerciceController extends Controller
         if($request->file('image') != null){
             $image = $photogestion->save($request->file('image'));
         }
+
         $requestArray = $request->all();
         $requestArray['image'] = $image;
         $requestArray['users_id'] = Auth::user()->id;
         $exercice = $this->exerciceRepository->store($requestArray);
 
-        $reponse = ['exercice' => $exercice, 'succes' => 'OK'];
+        $reponse = ['exerciceId' => $exercice->id, 'succes' => 'OK'];
         return response()->json($reponse, 200);
     }
 

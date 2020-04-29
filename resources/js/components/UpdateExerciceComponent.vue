@@ -56,13 +56,13 @@
             </div>
         </div>
         </form>
-        <add-variables/> 
+        <add-variables v-bind:variantes="variantes"/> 
     </div>
 </template>
 
 <script>
     export default {
-        props: ['exercice', 'types'],
+        props: ['exercice', 'types', 'variantes'],
         data() {
             return {
                 exerciceDTO:this.exercice,

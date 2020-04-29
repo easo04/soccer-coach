@@ -17,7 +17,7 @@
             }
 
             textarea{
-                height: 318px!important;
+                height: 234px!important;
             }
         }
         .btn-annuler{
@@ -31,10 +31,13 @@
 
                 .item-header{
                     border-left: 8px solid $color-action;
+                    border-top:1px solid $color-action;
+                    border-right: 1px solid $color-action;
+                    border-bottom: 1px solid $color-action;
                     height: 50px;
                     padding-left: 20px;
-                    background-color: #F3F3F3;
-                    padding-top: 14px;
+                    background-color: white;
+                    padding-top: 11px;
                     padding-right: 28px;
                     &:first-child{
                         border-radius: 0;
@@ -46,7 +49,7 @@
                 }
 
                 .item-body{
-                    height: 150px;
+                    height: auto;
                     border:1px solid #ced4da;
                     padding: 20px;
                     &.row{

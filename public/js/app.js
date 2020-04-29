@@ -1996,7 +1996,9 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       formData.append("nbJoueurs", exercice.nbJoueurs);
       formData.append("description", exercice.description);
       formData.append("typesexcercice_id", exercice.typesexcercice_id);
-      formData.append("lstVariables", this.lstVariantes);
+      this.lstVariantes.forEach(function (item) {
+        formData.append('lstVariables[]', JSON.stringify(item));
+      });
       formData.append("sousPrincipe", exercice.sousPrincipe ? exercice.sousPrincipe : '');
       formData.append("physique", exercice.physique ? exercice.physique : '');
       formData.append("observations", exercice.observations ? exercice.observations : '');
@@ -2007,8 +2009,8 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         }
       }).then(function (reponse) {
         console.log(reponse);
-        var exercice = reponse.data.exercice;
-        window.location.replace("/exercice/" + exercice.id);
+        var exerciceId = reponse.data.exerciceId;
+        window.location.replace("/exercice/" + exerciceId);
       })["catch"](function (error) {
         console.log(error);
       });
@@ -2086,6 +2088,11 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: ['variantes'],
@@ -2094,25 +2101,29 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       lstAddNewVariantes: [],
       variable: {
         description: '',
-        image: ''
+        image: '',
+        time: ''
       },
       showAddVariable: false,
+      showAnnulerBtn: true,
       nbVariantes: 0
     };
   },
   computed: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapState"])(['lstVariantes'])),
   methods: _objectSpread({
     addVariable: function addVariable() {
-      if (this.variable.description.trim() === '') {
+      if (!this.isFormValide()) {
         return;
       }
 
       this.nbVariantes++;
       var varianteItem = {
         description: this.variable.description,
-        image: this.variable.image
+        image: this.variable.image,
+        time: this.variable.time
       };
       this.variable.description = '';
+      this.variable.time = '';
       this.lstAddNewVariantes.push(varianteItem);
       this.addVariableToList(varianteItem);
 
@@ -2126,7 +2137,8 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     toutAnnuler: function toutAnnuler() {
       this.showAddVariable = false;
       this.lstAddNewVariantes = [];
-      this.variable.nom = '';
+      this.variable.description = '';
+      this.variable.time = '';
       this.variable.image = undefined;
       this.clearListVariantes();
     },
@@ -2141,17 +2153,25 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         $('#image-variante' + index)[0].src = srcFile;
       });
       FR.readAsDataURL(image);
+    },
+    isFormValide: function isFormValide() {
+      if (this.variable.description.trim() === '' && this.variable.description.trim() === '') {
+        return false;
+      }
+
+      return true;
     }
   }, Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapMutations"])(['addVariableToList', 'deleteVarianteToList', 'clearListVariantes'])),
   mounted: function mounted() {
-    //ajouter icon à chaque type de la liste
-    console.log(this.$store.state.lstVariables);
-    /*if(this.variantes !== undefined){
-        this.showAddVariable = this.variantes.length > 0;
-        this.variantes.forEach(variante => {
-            this.lstVariantes.push(variante);
-        });
-    }*/
+    var _this = this;
+
+    if (this.variantes && this.variantes.length > 0) {
+      this.showAddVariable = true;
+      this.showAnnulerBtn = false;
+      this.variantes.forEach(function (variante) {
+        _this.addVariableToList(variante);
+      });
+    }
   }
 });
 
@@ -2437,7 +2457,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 /* harmony default export */ __webpack_exports__["default"] = ({
-  props: ['exercice', 'types'],
+  props: ['exercice', 'types', 'variantes'],
   data: function data() {
     return {
       exerciceDTO: this.exercice
@@ -7022,7 +7042,7 @@ exports = module.exports = __webpack_require__(/*! ../../../node_modules/css-loa
 
 
 // module
-exports.push([module.i, "body[data-v-90683a7e] {\n  background-color: #F3F3F3;\n}\n.container-soccer-coach[data-v-90683a7e] {\n  background-color: white;\n}\n.container-soccer-coach h3[data-v-90683a7e] {\n  border-bottom: 3px solid #17b87d;\n  padding-bottom: 10px;\n  margin-bottom: 30px;\n}\n.card-exercice-image[data-v-90683a7e] {\n  height: 345px;\n  width: inherit;\n  margin: 0;\n  display: block;\n  position: relative;\n}\n.img-liste[data-v-90683a7e] {\n  height: inherit;\n  width: inherit;\n}\n.card-body[data-v-90683a7e] {\n  height: inherit;\n  width: inherit;\n}\n.card-exercice[data-v-90683a7e] {\n  border: none;\n  padding: 5px;\n}\n.body-exercice[data-v-90683a7e] {\n  padding: 0px;\n  border: 1px solid rgba(0, 0, 0, 0.125);\n  padding-bottom: 10px;\n}\n.body-exercice p[data-v-90683a7e] {\n  margin-top: 10px;\n  margin-left: 18px;\n  height: 100px;\n  overflow: hidden;\n}\n.footer-exercice[data-v-90683a7e] {\n  background-color: white;\n  border: 1px solid rgba(0, 0, 0, 0.125);\n}\n.actions[data-v-90683a7e] {\n  padding-bottom: 20px;\n}\n.action-recherche .navbar-dark .navbar-nav .nav-link[data-v-90683a7e] {\n  color: white;\n}\n.action-recherche .navbar-dark .navbar-nav .nav-item[data-v-90683a7e] {\n  border-right: 1px solid white;\n}\n.action-exercice[data-v-90683a7e] {\n  height: 60px;\n  padding-bottom: 30px;\n}\n.btn-create-exercice[data-v-90683a7e] {\n  float: right;\n}\n.selected-type[data-v-90683a7e] {\n  color: black !important;\n  font-weight: bold;\n}\n.btn-soccer-coach-action[data-v-90683a7e] {\n  background-color: #b81752 !important;\n  color: white !important;\n  border-radius: 0;\n}\n.btn-soccer-coach-action[data-v-90683a7e]:hover {\n  background-color: #740f34 !important;\n  color: white;\n}\n.bought[data-v-90683a7e]:hover {\n  background-color: #744f0f !important;\n}\n.btn-soccer-coach[data-v-90683a7e] {\n  /*background-color: #b87e17!important;*/\n  background-color: #17b87d !important;\n  color: white;\n  border-radius: 0;\n}\n.btn-soccer-coach[data-v-90683a7e]:hover {\n  background-color: #118b5e !important;\n  color: white;\n}\n.card-title-principe[data-v-90683a7e] {\n  border-left: 8px solid #b81752;\n  height: 80px;\n  padding-left: 9px;\n  display: block;\n  position: relative;\n}\n.card-title-principe h4[data-v-90683a7e] {\n  font-size: 1.3rem;\n}\n.card-title-principe h6[data-v-90683a7e] {\n  position: absolute;\n  bottom: 0;\n}\n.color-soccer-coach[data-v-90683a7e] {\n  color: #17b87d;\n}\n.bought[data-v-90683a7e] {\n  background-color: #b87e17;\n  position: absolute;\n  bottom: 0;\n  right: 0;\n  /* z-index: 1; */\n  color: #FFF;\n  padding: 2px 15px;\n  font-size: 15px;\n}\n.pagination[data-v-90683a7e] {\n  margin-top: 30px;\n  justify-content: center !important;\n}\n.action-recherche .nav-link[data-v-90683a7e]:hover {\n  text-decoration: underline;\n}\n.modal-content[data-v-90683a7e] {\n  border-radius: 0;\n}\n.modal-content .modal-body span[data-v-90683a7e] {\n  font-weight: bold;\n}\n.form-control[data-v-90683a7e] {\n  border-radius: 0;\n}\nlabel[data-v-90683a7e] {\n  font-weight: 700;\n}\n.form-check[data-v-90683a7e] {\n  padding-left: 0;\n}\n.form-check-input[data-v-90683a7e] {\n  margin-top: 7px;\n  margin-left: 5px;\n}\n.container-label[data-v-90683a7e] {\n  display: block;\n  position: relative;\n  margin-bottom: 12px;\n  cursor: pointer;\n  font-size: 1rem;\n  -webkit-user-select: none;\n  -moz-user-select: none;\n  -ms-user-select: none;\n  user-select: none;\n}\n\n/* Hide the browser's default checkbox */\n.container-label input[data-v-90683a7e] {\n  position: absolute;\n  opacity: 0;\n  cursor: pointer;\n  height: 0;\n  width: 0;\n}\n\n/* Create a custom checkbox */\n.checkmark[data-v-90683a7e] {\n  position: absolute;\n  top: 0;\n  height: 25px;\n  width: 25px;\n  background-color: #F3F3F3;\n  margin-left: 10px;\n  border: 1px solid #17b87d;\n}\n\n/* On mouse-over, add a grey background color */\n.container:hover input ~ .checkmark[data-v-90683a7e] {\n  background-color: #F3F3F3;\n}\n\n/* When the checkbox is checked, add a blue background */\n.container-label input:checked ~ .checkmark[data-v-90683a7e] {\n  background-color: #17b87d;\n}\n\n/* Create the checkmark/indicator (hidden when not checked) */\n.checkmark[data-v-90683a7e]:after {\n  content: \"\";\n  position: absolute;\n  display: none;\n}\n\n/* Show the checkmark when checked */\n.container-label input:checked ~ .checkmark[data-v-90683a7e]:after {\n  display: block;\n}\n\n/* Style the checkmark/indicator */\n.container-label .checkmark[data-v-90683a7e]:after {\n  left: 9px;\n  top: 5px;\n  width: 5px;\n  height: 10px;\n  border: solid white;\n  border-width: 0 3px 3px 0;\n  transform: rotate(45deg);\n}\ntextarea[data-v-90683a7e] {\n  height: 250px !important;\n}\n\n/** MEDIAS **/\n@media screen and (min-width: 900px) {\n  /*.btn-create-exercice{\n      float: right;\n  }*/\n}\n.image-exercice[data-v-90683a7e] {\n  width: inherit;\n  height: 530px;\n}\n.image-exercice img[data-v-90683a7e] {\n  width: inherit;\n}\n.details-items-info[data-v-90683a7e] {\n  background-color: #F3F3F3;\n  box-shadow: 0 2px 3px -1px #DCDCDC;\n}\n.details-items-info div[data-v-90683a7e] {\n  border-right: 1px solid #ededed;\n  line-height: 2;\n}\n.details-items-info div p.text[data-v-90683a7e] {\n  font-weight: 300;\n  font-size: 12px;\n  letter-spacing: 1px;\n  margin: 0;\n  color: #7D8693;\n  font-family: Roboto, sans-serif;\n  /*padding-bottom: 0;\n  border-bottom: 1px solid #b81752;*/\n}\n.details-items-info div p.value[data-v-90683a7e] {\n  margin: 0;\n  font-size: 16px;\n  font-weight: 600;\n  color: #000;\n}\n.detail[data-v-90683a7e] {\n  height: 530px;\n}\n.p-flex[data-v-90683a7e] {\n  padding: 10px;\n  text-align: center;\n  width: 180px;\n  height: 80px;\n  /*border: 1px solid  #17a2b8;*/\n}\n.sous-principes[data-v-90683a7e] {\n  font-size: 20px;\n  font-weight: 300;\n  color: black;\n}\n.sous-principes .titre[data-v-90683a7e] {\n  font-weight: 600;\n}\n.details-exercice p[data-v-90683a7e] {\n  font-size: 16px;\n}\n.description-exercice[data-v-90683a7e] {\n  margin-top: 30px;\n  margin-bottom: 30px;\n}\n.bloc-info[data-v-90683a7e] {\n  box-shadow: 0 2px 3px -1px #DCDCDC;\n  border-bottom: 2px solid #F3F3F3;\n}\n.bloc-info h5[data-v-90683a7e] {\n  border-left: 5px solid #b81752;\n  padding-left: 9px;\n}\n.bloc-sm[data-v-90683a7e] {\n  margin-top: 20px;\n  height: auto;\n}\n.video[data-v-90683a7e], .url[data-v-90683a7e] {\n  margin-top: 20px;\n  width: inherit;\n}\n.video iframe[data-v-90683a7e] {\n  width: inherit;\n}\n.actions-exercice-detail[data-v-90683a7e] {\n  margin-bottom: 20px;\n  height: 80px;\n}\n.actions-exercice-detail .btns[data-v-90683a7e] {\n  float: right;\n}\n.add-variables[data-v-90683a7e] {\n  margin-top: 20px;\n}\n.add-variables h5[data-v-90683a7e] {\n  margin-bottom: 20px;\n}\n.add-variables .form-add-variable form button[data-v-90683a7e] {\n  margin-top: 20px;\n  float: right;\n}\n.add-variables .form-add-variable form textarea[data-v-90683a7e] {\n  height: 318px !important;\n}\n.add-variables .form-add-variable .btn-annuler[data-v-90683a7e] {\n  margin-left: 5px;\n}\n.add-variables .form-add-variable .lst-variables .variante-item[data-v-90683a7e] {\n  margin-top: 10px;\n  border-radius: 0 !important;\n  height: auto;\n}\n.add-variables .form-add-variable .lst-variables .variante-item .item-header[data-v-90683a7e] {\n  border-left: 8px solid #b81752;\n  height: 50px;\n  padding-left: 20px;\n  background-color: #F3F3F3;\n  padding-top: 14px;\n  padding-right: 28px;\n}\n.add-variables .form-add-variable .lst-variables .variante-item .item-header[data-v-90683a7e]:first-child {\n  border-radius: 0;\n}\n.add-variables .form-add-variable .lst-variables .variante-item .item-header .btn-delete[data-v-90683a7e] {\n  float: right;\n  border: 0;\n}\n.add-variables .form-add-variable .lst-variables .variante-item .item-body[data-v-90683a7e] {\n  height: 150px;\n  border: 1px solid #ced4da;\n  padding: 20px;\n}\n.add-variables .form-add-variable .lst-variables .variante-item .item-body.row[data-v-90683a7e] {\n  height: auto;\n  margin-left: 0;\n  margin-right: 0;\n}\n.add-variables .form-add-variable .lst-variables .variante-item .item-body .img-variante img[data-v-90683a7e] {\n  width: inherit;\n  height: 318px;\n}", ""]);
+exports.push([module.i, "body[data-v-90683a7e] {\n  background-color: #F3F3F3;\n}\n.container-soccer-coach[data-v-90683a7e] {\n  background-color: white;\n}\n.container-soccer-coach h3[data-v-90683a7e] {\n  border-bottom: 1px solid #17b87d;\n  padding-bottom: 10px;\n  margin-bottom: 30px;\n}\n.card-exercice-image[data-v-90683a7e] {\n  height: 345px;\n  width: inherit;\n  margin: 0;\n  display: block;\n  position: relative;\n}\n.img-liste[data-v-90683a7e] {\n  height: inherit;\n  width: inherit;\n}\n.card-body[data-v-90683a7e] {\n  height: inherit;\n  width: inherit;\n}\n.card-exercice[data-v-90683a7e] {\n  border: none;\n  padding: 5px;\n}\n.body-exercice[data-v-90683a7e] {\n  padding: 0px;\n  border: 1px solid rgba(0, 0, 0, 0.125);\n  padding-bottom: 10px;\n}\n.body-exercice p[data-v-90683a7e] {\n  margin-top: 10px;\n  margin-left: 18px;\n  height: 100px;\n  overflow: hidden;\n}\n.footer-exercice[data-v-90683a7e] {\n  background-color: white;\n  border: 1px solid rgba(0, 0, 0, 0.125);\n}\n.actions[data-v-90683a7e] {\n  padding-bottom: 20px;\n}\n.action-recherche .navbar-dark .navbar-nav .nav-link[data-v-90683a7e] {\n  color: white;\n}\n.action-recherche .navbar-dark .navbar-nav .nav-item[data-v-90683a7e] {\n  border-right: 1px solid white;\n}\n.action-exercice[data-v-90683a7e] {\n  height: 60px;\n  padding-bottom: 30px;\n}\n.btn-create-exercice[data-v-90683a7e] {\n  float: right;\n}\n.selected-type[data-v-90683a7e] {\n  color: black !important;\n  font-weight: bold;\n}\n.btn-soccer-coach-action[data-v-90683a7e] {\n  background-color: #b81752 !important;\n  color: white !important;\n  border-radius: 0;\n}\n.btn-soccer-coach-action[data-v-90683a7e]:hover {\n  background-color: #740f34 !important;\n  color: white;\n}\n.bought[data-v-90683a7e]:hover {\n  background-color: #744f0f !important;\n}\n.btn-soccer-coach[data-v-90683a7e] {\n  /*background-color: #b87e17!important;*/\n  background-color: #17b87d !important;\n  color: white;\n  border-radius: 0;\n}\n.btn-soccer-coach[data-v-90683a7e]:hover {\n  background-color: #118b5e !important;\n  color: white;\n}\n.card-title-principe[data-v-90683a7e] {\n  border-left: 8px solid #b81752;\n  height: 80px;\n  padding-left: 9px;\n  display: block;\n  position: relative;\n}\n.card-title-principe h4[data-v-90683a7e] {\n  font-size: 1.3rem;\n}\n.card-title-principe h6[data-v-90683a7e] {\n  position: absolute;\n  bottom: 0;\n}\n.color-soccer-coach[data-v-90683a7e] {\n  color: #17b87d;\n}\n.bought[data-v-90683a7e] {\n  background-color: #b87e17;\n  position: absolute;\n  bottom: 0;\n  right: 0;\n  /* z-index: 1; */\n  color: #FFF;\n  padding: 2px 15px;\n  font-size: 15px;\n}\n.pagination[data-v-90683a7e] {\n  margin-top: 30px;\n  justify-content: center !important;\n}\n.action-recherche .nav-link[data-v-90683a7e]:hover {\n  text-decoration: underline;\n}\n.modal-content[data-v-90683a7e] {\n  border-radius: 0;\n}\n.modal-content .modal-body span[data-v-90683a7e] {\n  font-weight: bold;\n}\n.form-control[data-v-90683a7e] {\n  border-radius: 0;\n}\nlabel[data-v-90683a7e] {\n  font-weight: 700;\n}\n.form-check[data-v-90683a7e] {\n  padding-left: 0;\n}\n.form-check-input[data-v-90683a7e] {\n  margin-top: 7px;\n  margin-left: 5px;\n}\n.container-label[data-v-90683a7e] {\n  display: block;\n  position: relative;\n  margin-bottom: 12px;\n  cursor: pointer;\n  font-size: 1rem;\n  -webkit-user-select: none;\n  -moz-user-select: none;\n  -ms-user-select: none;\n  user-select: none;\n}\n\n/* Hide the browser's default checkbox */\n.container-label input[data-v-90683a7e] {\n  position: absolute;\n  opacity: 0;\n  cursor: pointer;\n  height: 0;\n  width: 0;\n}\n\n/* Create a custom checkbox */\n.checkmark[data-v-90683a7e] {\n  position: absolute;\n  top: 0;\n  height: 25px;\n  width: 25px;\n  background-color: #F3F3F3;\n  margin-left: 10px;\n  border: 1px solid #17b87d;\n}\n\n/* On mouse-over, add a grey background color */\n.container:hover input ~ .checkmark[data-v-90683a7e] {\n  background-color: #F3F3F3;\n}\n\n/* When the checkbox is checked, add a blue background */\n.container-label input:checked ~ .checkmark[data-v-90683a7e] {\n  background-color: #17b87d;\n}\n\n/* Create the checkmark/indicator (hidden when not checked) */\n.checkmark[data-v-90683a7e]:after {\n  content: \"\";\n  position: absolute;\n  display: none;\n}\n\n/* Show the checkmark when checked */\n.container-label input:checked ~ .checkmark[data-v-90683a7e]:after {\n  display: block;\n}\n\n/* Style the checkmark/indicator */\n.container-label .checkmark[data-v-90683a7e]:after {\n  left: 9px;\n  top: 5px;\n  width: 5px;\n  height: 10px;\n  border: solid white;\n  border-width: 0 3px 3px 0;\n  transform: rotate(45deg);\n}\ntextarea[data-v-90683a7e] {\n  height: 250px !important;\n}\n\n/** MEDIAS **/\n@media screen and (min-width: 900px) {\n  /*.btn-create-exercice{\n      float: right;\n  }*/\n}\n.image-exercice[data-v-90683a7e] {\n  width: inherit;\n  height: 530px;\n}\n.image-exercice img[data-v-90683a7e] {\n  width: inherit;\n}\n.details-items-info[data-v-90683a7e] {\n  background-color: #F3F3F3;\n  box-shadow: 0 2px 3px -1px #DCDCDC;\n}\n.details-items-info div[data-v-90683a7e] {\n  border-right: 1px solid #ededed;\n  line-height: 2;\n}\n.details-items-info div p.text[data-v-90683a7e] {\n  font-weight: 300;\n  font-size: 12px;\n  letter-spacing: 1px;\n  margin: 0;\n  color: #7D8693;\n  font-family: Roboto, sans-serif;\n  /*padding-bottom: 0;\n  border-bottom: 1px solid #b81752;*/\n}\n.details-items-info div p.value[data-v-90683a7e] {\n  margin: 0;\n  font-size: 16px;\n  font-weight: 600;\n  color: #000;\n}\n.detail[data-v-90683a7e] {\n  height: 530px;\n}\n.p-flex[data-v-90683a7e] {\n  padding: 10px;\n  text-align: center;\n  width: 180px;\n  height: 80px;\n  /*border: 1px solid  #17a2b8;*/\n}\n.sous-principes[data-v-90683a7e] {\n  font-size: 20px;\n  font-weight: 300;\n  color: black;\n}\n.sous-principes .titre[data-v-90683a7e] {\n  font-weight: 600;\n}\n.details-exercice p[data-v-90683a7e] {\n  font-size: 16px;\n}\n.description-exercice[data-v-90683a7e] {\n  margin-top: 30px;\n  margin-bottom: 30px;\n}\n.bloc-info[data-v-90683a7e] {\n  box-shadow: 0 2px 3px -1px #DCDCDC;\n  border-bottom: 2px solid #F3F3F3;\n}\n.bloc-info h5[data-v-90683a7e] {\n  border-left: 5px solid #b81752;\n  padding-left: 9px;\n}\n.bloc-sm[data-v-90683a7e] {\n  margin-top: 20px;\n  height: auto;\n}\n.video[data-v-90683a7e], .url[data-v-90683a7e] {\n  margin-top: 20px;\n  width: inherit;\n}\n.video iframe[data-v-90683a7e] {\n  width: inherit;\n}\n.actions-exercice-detail[data-v-90683a7e] {\n  margin-bottom: 20px;\n  height: 80px;\n}\n.actions-exercice-detail .btns[data-v-90683a7e] {\n  float: right;\n}\n.bloc-detail-md[data-v-90683a7e] {\n  margin-top: 20px;\n}\n.variantes[data-v-90683a7e] {\n  margin-top: 20px;\n}\n.variantes .variante[data-v-90683a7e] {\n  margin-bottom: 10px;\n}\n.variantes .variante-header[data-v-90683a7e] {\n  border-bottom: 1px solid #F3F3F3;\n  border-left: 2px solid #b81752;\n  padding-left: 9px;\n}\n.variantes .variante-header h5.time[data-v-90683a7e] {\n  margin-right: 11px;\n}\n.variantes .variante-body[data-v-90683a7e] {\n  box-shadow: 0 2px 3px -1px #DCDCDC;\n  padding-top: 16px;\n}\n.add-variables[data-v-90683a7e] {\n  margin-top: 20px;\n}\n.add-variables h5[data-v-90683a7e] {\n  margin-bottom: 20px;\n}\n.add-variables .form-add-variable form button[data-v-90683a7e] {\n  margin-top: 20px;\n  float: right;\n}\n.add-variables .form-add-variable form textarea[data-v-90683a7e] {\n  height: 234px !important;\n}\n.add-variables .form-add-variable .btn-annuler[data-v-90683a7e] {\n  margin-left: 5px;\n}\n.add-variables .form-add-variable .lst-variables .variante-item[data-v-90683a7e] {\n  margin-top: 10px;\n  border-radius: 0 !important;\n  height: auto;\n}\n.add-variables .form-add-variable .lst-variables .variante-item .item-header[data-v-90683a7e] {\n  border-left: 8px solid #b81752;\n  border-top: 1px solid #b81752;\n  border-right: 1px solid #b81752;\n  border-bottom: 1px solid #b81752;\n  height: 50px;\n  padding-left: 20px;\n  background-color: white;\n  padding-top: 11px;\n  padding-right: 28px;\n}\n.add-variables .form-add-variable .lst-variables .variante-item .item-header[data-v-90683a7e]:first-child {\n  border-radius: 0;\n}\n.add-variables .form-add-variable .lst-variables .variante-item .item-header .btn-delete[data-v-90683a7e] {\n  float: right;\n  border: 0;\n}\n.add-variables .form-add-variable .lst-variables .variante-item .item-body[data-v-90683a7e] {\n  height: auto;\n  border: 1px solid #ced4da;\n  padding: 20px;\n}\n.add-variables .form-add-variable .lst-variables .variante-item .item-body.row[data-v-90683a7e] {\n  height: auto;\n  margin-left: 0;\n  margin-right: 0;\n}\n.add-variables .form-add-variable .lst-variables .variante-item .item-body .img-variante img[data-v-90683a7e] {\n  width: inherit;\n  height: 318px;\n}", ""]);
 
 // exports
 
@@ -39337,8 +39357,6 @@ var render = function() {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c("div", { staticClass: "add-variables" }, [
-    _c("h5", [_vm._v("Variantes")]),
-    _vm._v(" "),
     _vm.showAddVariable
       ? _c("div", { staticClass: "form-add-variable" }, [
           _c(
@@ -39355,14 +39373,20 @@ var render = function() {
             [
               _c("div", { staticClass: "actions-exercice-detail" }, [
                 _c("div", { staticClass: "btns" }, [
-                  _c(
-                    "button",
-                    {
-                      staticClass: "btn btn-soccer-coach-action btn-annuler",
-                      on: { click: _vm.toutAnnuler }
-                    },
-                    [_c("i", { staticClass: "ti-close" }), _vm._v(" Annuler")]
-                  ),
+                  _vm.showAnnulerBtn
+                    ? _c(
+                        "button",
+                        {
+                          staticClass:
+                            "btn btn-soccer-coach-action btn-annuler",
+                          on: { click: _vm.toutAnnuler }
+                        },
+                        [
+                          _c("i", { staticClass: "ti-close" }),
+                          _vm._v(" Annuler")
+                        ]
+                      )
+                    : _vm._e(),
                   _vm._v(" "),
                   _vm._m(0)
                 ])
@@ -39372,6 +39396,32 @@ var render = function() {
                 _c("div", { staticClass: "col-sm-6 details-exercice-info" }, [
                   _c("div", { staticClass: "form-group" }, [
                     _vm._m(1),
+                    _vm._v(" "),
+                    _c("input", {
+                      directives: [
+                        {
+                          name: "model",
+                          rawName: "v-model",
+                          value: _vm.variable.time,
+                          expression: "variable.time"
+                        }
+                      ],
+                      staticClass: "form-control",
+                      attrs: { type: "text", placeholder: "Ex: 20min" },
+                      domProps: { value: _vm.variable.time },
+                      on: {
+                        input: function($event) {
+                          if ($event.target.composing) {
+                            return
+                          }
+                          _vm.$set(_vm.variable, "time", $event.target.value)
+                        }
+                      }
+                    })
+                  ]),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "form-group" }, [
+                    _vm._m(2),
                     _vm._v(" "),
                     _c("textarea", {
                       directives: [
@@ -39410,7 +39460,7 @@ var render = function() {
                   "div",
                   { staticClass: "col-sm-6 details-exercice-info" },
                   [
-                    _vm._m(2),
+                    _vm._m(3),
                     _vm._v(" "),
                     _c("image-upload", {
                       attrs: { "id-image": "2", "class-image": "sm-image" },
@@ -39430,50 +39480,61 @@ var render = function() {
           _c(
             "div",
             { staticClass: "lst-variables" },
-            _vm._l(_vm.lstVariantes, function(variante, index) {
-              return _c("div", { key: index, staticClass: "variante-item" }, [
-                _c("div", { staticClass: "item-header" }, [
-                  _vm._v(
-                    "                   \n                        Variante #" +
-                      _vm._s(index + 1) +
-                      "        \n                        "
-                  ),
-                  _c(
-                    "button",
-                    {
-                      staticClass: "btn-soccer-coach-action btn-delete",
-                      on: {
-                        click: function($event) {
-                          return _vm.deleteVariante(index)
+            [
+              _vm.lstVariantes.length > 0
+                ? _c("h5", [_vm._v("Variantes")])
+                : _vm._e(),
+              _vm._v(" "),
+              _vm._l(_vm.lstVariantes, function(variante, index) {
+                return _c("div", { key: index, staticClass: "variante-item" }, [
+                  _c("div", { staticClass: "item-header" }, [
+                    _vm._v(
+                      "                   \n                        Variante #" +
+                        _vm._s(index + 1) +
+                        " - \n                        "
+                    ),
+                    _c("span", [
+                      _c("i", { staticClass: "ti-timer color-soccer-coach" }),
+                      _vm._v(" Durée: " + _vm._s(variante.time))
+                    ]),
+                    _vm._v(" "),
+                    _c(
+                      "button",
+                      {
+                        staticClass: "btn-soccer-coach-action btn-delete",
+                        on: {
+                          click: function($event) {
+                            return _vm.deleteVariante(index)
+                          }
                         }
-                      }
-                    },
-                    [_c("i", { staticClass: "ti-trash" })]
-                  )
-                ]),
-                _vm._v(" "),
-                variante.image
-                  ? _c("div", { staticClass: "item-body row" }, [
-                      _c("div", { staticClass: "col-sm-6" }, [
-                        _vm._v(_vm._s(variante.description))
-                      ]),
-                      _vm._v(" "),
-                      _c("div", { staticClass: "col-sm-6 img-variante" }, [
-                        _c("img", {
-                          attrs: { id: "image-variante" + index, src: "" }
-                        })
+                      },
+                      [_c("i", { staticClass: "ti-trash" })]
+                    )
+                  ]),
+                  _vm._v(" "),
+                  variante.image
+                    ? _c("div", { staticClass: "item-body row" }, [
+                        _c("div", { staticClass: "col-sm-6" }, [
+                          _vm._v(_vm._s(variante.description))
+                        ]),
+                        _vm._v(" "),
+                        _c("div", { staticClass: "col-sm-6 img-variante" }, [
+                          _c("img", {
+                            attrs: { id: "image-variante" + index, src: "" }
+                          })
+                        ])
                       ])
-                    ])
-                  : _c("div", { staticClass: "item-body" }, [
-                      _vm._v(
-                        "\n                        " +
-                          _vm._s(variante.description) +
-                          "\n                    "
-                      )
-                    ])
-              ])
-            }),
-            0
+                    : _c("div", { staticClass: "item-body" }, [
+                        _vm._v(
+                          "\n                        " +
+                            _vm._s(variante.description) +
+                            "\n                    "
+                        )
+                      ])
+                ])
+              })
+            ],
+            2
           )
         ])
       : _c("div", { staticClass: "btn-show-form-variable" }, [
@@ -39499,8 +39560,17 @@ var staticRenderFns = [
     return _c(
       "button",
       { staticClass: "btn btn-soccer-coach-action", attrs: { type: "submit" } },
-      [_c("i", { staticClass: "ti-plus" }), _vm._v(" Ajouter")]
+      [_c("i", { staticClass: "ti-plus" }), _vm._v(" Ajouter variante")]
     )
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("label", { attrs: { for: "time" } }, [
+      _c("i", { staticClass: "ti-timer color-soccer-coach" }),
+      _vm._v(" Durée:")
+    ])
   },
   function() {
     var _vm = this
@@ -40116,7 +40186,7 @@ var render = function() {
         ]
       ),
       _vm._v(" "),
-      _c("add-variables")
+      _c("add-variables", { attrs: { variantes: _vm.variantes } })
     ],
     1
   )
@@ -54164,8 +54234,8 @@ __webpack_require__.r(__webpack_exports__);
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! C:\laragon\www\soccer-coach\resources\js\app.js */"./resources/js/app.js");
-module.exports = __webpack_require__(/*! C:\laragon\www\soccer-coach\resources\sass\app.scss */"./resources/sass/app.scss");
+__webpack_require__(/*! C:\Users\easo0\Documents\soccer-coach\resources\js\app.js */"./resources/js/app.js");
+module.exports = __webpack_require__(/*! C:\Users\easo0\Documents\soccer-coach\resources\sass\app.scss */"./resources/sass/app.scss");
 
 
 /***/ })

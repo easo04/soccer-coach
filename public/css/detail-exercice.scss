@@ -100,3 +100,32 @@
     float: right;
 }
 
+.bloc-detail-md{
+    margin-top: 20px;
+}
+
+.variantes{
+    margin-top: 20px;
+}
+
+.variantes .variante{
+    margin-bottom: 10px;
+}
+
+.variantes .variante-header{
+    border-bottom: 1px solid #F3F3F3;
+    border-left: 2px solid #b81752;
+    padding-left: 9px;
+}
+
+.variantes .variante-header h5.time{
+    margin-right: 11px;
+}
+
+
+.variantes .variante-body{
+    box-shadow: 0 2px 3px -1px #DCDCDC;
+    padding-top: 16px;
+}
+
+

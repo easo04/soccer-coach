@@ -15,31 +15,14 @@
                     <a class="btn btn-soccer-coach-action" href="{{ route('exercice.edit', [$exercice->id]) }}"><i class="ti-pencil"></i> Modifier</a>
                     <a class="btn btn-soccer-coach-action" data-toggle="modal" data-target="#modalDelete"><i class="ti-trash"></i> Supprimer</a>
                 @endif
-                @endauth
+            @endauth
         </div>
     </div>
     <div class="row details-exercice">
         <div class="col-sm-6 details-exercice-image">
             <div class="image-exercice">
                 <img class="img-responsive" src="../images/uploaded/{{ $exercice->image }}">
-            </div>                      
-            @if($exercice->observations != '')
-                <div class="observations-exercice bloc-info">
-                    <h5><i class="ti-eye color-soccer-coach"></i> Observations</h5>
-                    <p>{{ $exercice->observations }}</p>
-                </div>
-            @endif    
-            @if($exercice->idVideo != '')
-                <div class="video">
-                    <iframe width="560" height="315" src="https://www.youtube-nocookie.com/embed/{{$exercice->idVideo}}" 
-                    frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>     
-                </div>
-            @elseif($exercice->url != '')
-                <div class="url">
-                    <i class="ti-link color-soccer-coach"></i><a href="{{$exercice->url}}" target = "_blank"> {{$exercice->url}}</a>    
-                </div>        
-            @endif
-        
+            </div>                              
         </div>
         <div class="col-sm-6 details-exercice-info">
             <div class="detail bloc-info">
@@ -59,7 +42,35 @@
                         <p class="value"><i class="{{$exercice->typeExercice->icon}} color-soccer-coach"></i> {{ $exercice->typeExercice->nom }}</p>
                     </div>
                 </div>
-            </div> 
+            </div>     
+        </div>
+    </div>
+    <div class="row mt-3">
+            @if(count($exercice->variantes) > 0)   
+                <div class="variantes col-sm-6">
+                    @foreach ($exercice->variantes as $variante)
+                        <div class="variante">
+                            <div class="variante-header clearfix">
+                                <h5 class="float-left"><i class="ti-pin-alt color-soccer-coach"></i> Variante #{{$loop->index + 1}}</h5>
+                                <h5 class="float-right time"><i class="ti-timer color-soccer-coach"></i> {{$variante->time}}</h5>
+                            </div>
+                            <div class="variante-body">                   
+                                <p>{{$variante->description}}</p>
+                            </div>
+                        </div>
+                    @endforeach
+                </div>
+            @else
+                <div class="col-sm-6">
+                </div>
+            @endif
+        <div class="col-sm-6">
+            @if($exercice->observations != '')
+                <div class="observations-exercice bloc-sm bloc-info">
+                    <h5><i class="ti-eye color-soccer-coach"></i> Observations</h5>
+                    <p>{{ $exercice->observations }}</p>
+                </div>
+            @endif  
             @if($exercice->sousPrincipe != '')
                 <div class="bloc-sm bloc-info">
                     <h5><i class="ti-flag color-soccer-coach"></i> Sous-principes</h5>
@@ -71,9 +82,27 @@
                     <h5><i class="ti-heart color-soccer-coach"></i> Objectifs physiques</h5>
                     <p>{{ $exercice->physique }}</p>
                 </div>
-            @endif        
+            @endif 
+            @if($exercice->idVideo != '')
+                <div class="video">
+                    <iframe width="560" height="315" src="https://www.youtube-nocookie.com/embed/{{$exercice->idVideo}}" 
+                    frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>     
+                </div>
+            @elseif($exercice->url != '')
+                <div class="url">
+                    <i class="ti-link color-soccer-coach"></i><a href="{{$exercice->url}}" target = "_blank"> {{$exercice->url}}</a>    
+                </div>        
+            @endif
         </div>
-    </div>
+    </div>   
+    <div class="row mt-3">
+        <div class="col-sm-6">       
+   
+        </div>
+        <div class="col-sm-6">
+            
+        </div>
+    </div>  
     <div class="modal" id="modalDelete">
         <div class="modal-dialog">
             <div class="modal-content">

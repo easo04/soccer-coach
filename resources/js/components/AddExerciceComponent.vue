@@ -84,8 +84,9 @@
                 formData.append("nbJoueurs", exercice.nbJoueurs);
                 formData.append("description", exercice.description);
                 formData.append("typesexcercice_id", exercice.typesexcercice_id);
-                formData.append("lstVariables", this.lstVariantes);
-
+                this.lstVariantes.forEach((item) => {
+                    formData.append('lstVariables[]', JSON.stringify(item));
+                });
                 formData.append("sousPrincipe", exercice.sousPrincipe ? exercice.sousPrincipe : '');             
                 formData.append("physique", exercice.physique ? exercice.physique : '');
                 formData.append("observations", exercice.observations ? exercice.observations : '');      
@@ -94,8 +95,8 @@
                    
                 axios.post('/exercice/create', formData, {headers:{'Content-Type': 'multipart/form-data'}}).then(reponse =>{
                     console.log(reponse);
-                    let exercice =  reponse.data.exercice;
-                    window.location.replace("/exercice/" + exercice.id);
+                    let exerciceId =  reponse.data.exerciceId;
+                    window.location.replace("/exercice/" + exerciceId);
                 }).catch(error =>{
                     console.log(error);
                 });        

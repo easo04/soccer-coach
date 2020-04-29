@@ -60,14 +60,16 @@ class ExerciceRepository
 		$exercice = new Exercice;
 		$this->save($exercice, $inputs);
 
-		//créer variantes
+		//créer variantes 
 		$lstVariantes = $inputs['lstVariables'];
-		$lstVariantesAdded =  array();
+		$lstVariantesAdded =  collect();
 		foreach($lstVariantes as $variante){
-			$array = array('description' => $variante->description, 'time' => $variante->time,
-			 'exercice_id' => $exercice->id);
-			 array_add($lstVariantesAdded, 'variante', $exercice.$this->varianteRepository->store($array));
+			$variante = json_decode($variante, true);
+			$array = array('description' => $variante['description'], 'time' => $variante['time'], 'exercice_id' => $exercice->id);
+			$lstVariantesAdded->push($this->varianteRepository->store($array));
 		}
+		$exercice->lstVariantes = $lstVariantesAdded;
+
 		return $exercice;
 	}
 
@@ -80,7 +82,13 @@ class ExerciceRepository
 	}
 
 	public function destroy($id){
-		$this->getById($id)->delete();
+		$exercice = $this->getById($id);
+
+		foreach($exercice->variantes as $variante){
+			$this->varianteRepository->destroy($variante->id);
+		}
+
+		$exercice->delete();
 	}
 
 }
