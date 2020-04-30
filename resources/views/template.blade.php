@@ -66,7 +66,7 @@
 
                                 <div class="dropdown-menu dropdown-menu-right dropdown-custom" aria-labelledby="navbarDropdown">
 									<a class="dropdown-item" href="#"><i class="ti-face-smile"></i> Mon profil</a>
-									<a class="dropdown-item" href="#"><i class="ti-list"></i> Mes exercices</a>
+									<a class="dropdown-item" href="{{ route('user.exercices') }}"> <i class="ti-list"></i> Mes exercices</a>
 									<a class="dropdown-item" href="#"><i class="ti-map"></i> Mes séances</a>
                                     <a class="dropdown-item" href="{{ route('logout') }}"
                                        onclick="event.preventDefault();

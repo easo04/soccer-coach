@@ -51,6 +51,12 @@ class ExerciceRepository
 		->paginate($n);
 	}
 
+	public function getExercicesByUser($idUser, $n){
+		return $this->exercice->with('typeExercice')->where('exercice.users_id', $idUser)
+		->orderBy('exercice.created_at', 'desc')
+		->paginate($n);
+	}
+
 	public function getVariantesById($id){
 		$variantes = $this->exercice->find($id)->variantes;
 		return $variantes;

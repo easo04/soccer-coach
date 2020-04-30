@@ -18,16 +18,23 @@ Route::get('/', 'ExerciceController@index');
 Auth::routes();
 Route::get('/home', 'HomeController@index')->name('home');
 
-//ROUTES APP
-Route::resource('exercice', 'ExerciceController')->except(['store', 'update']);
-Route::resource('types-exercice', 'TypesExerciceController');
-
 //CUSTOM ROUTES APP
 Route::get('/types-exercices', 'TypesExerciceController@getAll');
 Route::get('exercice/type/{n}', 'ExerciceController@type');
-Route::get('/customer/print-pdf/{n}', 'ExerciceController@printPDF');
-Route::post('/exercice/update', 'ExerciceController@updateExercice')->middleware('auth');
-Route::post('/exercice/create', 'ExerciceController@createExercice')->middleware('auth');
+
+//ROUTES AVEC AUTH
+Route::middleware(['auth'])->group(function () {
+    Route::get('/customer/print-pdf/{n}', 'ExerciceController@printPDF');
+    Route::get('/exercice/create', 'ExerciceController@create')->name('exercice.create');
+    Route::get('/exercice/{exercice}/edit', 'ExerciceController@edit')->name('exercice.edit');
+    Route::post('/exercice/update', 'ExerciceController@updateExercice');
+    Route::post('/exercice/create', 'ExerciceController@createExercice');
+    Route::get('/user/exercices', 'UserController@getExercices')->name('user.exercices');
+});
+
+//ROUTES resource
+Route::resource('exercice', 'ExerciceController')->except(['store', 'update', 'edit', 'create']);
+Route::resource('types-exercice', 'TypesExerciceController');
 
 //TODO supprimer tout ça
 Route::get('/add-exercice', 'AddExercice@getPage');

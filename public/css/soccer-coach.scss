@@ -37,6 +37,17 @@ footer{
     background-color: #17b87d;
 }
 
+.page-item.active .page-link {
+    z-index: 3;
+    color: #fff;
+    background-color: #17b87d;
+    border-color: #17b87d;
+}
+
+.page-link{
+    color:#17b87d;
+}
+
 /** MEDIAS **/
 @media screen and (max-width: 500px) {
     .action-recherche .navbar-dark .navbar-nav .nav-item{
