@@ -6,25 +6,23 @@
 @endsection
 
 @section('contenu')
-    <br>
-    <h3>Exercices</h3>
-    <div class="actions">
-        
+    <div class="actions">      
         <div class="action-recherche">
             <nav class="navbar navbar-expand-sm bg-info navbar-dark">
                 <ul class="navbar-nav">
                     <li class="nav-item">
-                        <a class="nav-link selected-type" href="/exercice">Tous</a>
+                        <a class="nav-link selected-type" href="/exercice"><i class="ti-star"></i> Tous</a>
                     </li>
                     @foreach ($types as $type)
                         <li class="nav-item">
                             <a class="nav-link" href="exercice/type/{{ $type->id }}"><i class="{{ $type->icon }}"></i> {!! $type->nom !!}</a>
                         </li>
-                    @endforeach
+                    @endforeach       
                 </ul>
             </nav>
         </div>
     </div>
+    <h3>EXERCICES POPULAIRES</h3>
     <div class="row lst-exercices">
         @if(session()->has('ok'))
             <div class="alert alert-success alert-dismissible">{!! session('ok') !!}</div>
@@ -40,7 +38,7 @@
                 <div class="card-body body-exercice">      
                     <div class="card-title-principe">
                         <h4 class="card-title">{!! $exercice->principe !!}</h4>
-                        <h6><i class="ti-timer color-soccer-coach"></i> Durée: {!! $exercice->time !!}</h6>
+                        <h6><i class="ti-timer color-soccer-coach"></i> {!! $exercice->time !!}</h6>
                     </div>
 
                     <p>{!! $exercice->description !!}</p>

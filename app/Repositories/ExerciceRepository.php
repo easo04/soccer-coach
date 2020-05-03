@@ -36,11 +36,18 @@ class ExerciceRepository
 		$exercice->typesexcercice_id = $inputs['typesexcercice_id'];
 		$exercice->users_id =$inputs['users_id'];
 
+		if($inputs['private'] == 'true'){
+			$exercice->private = 1;
+		}else{
+			$exercice->private = 0;
+		}
+		
+
         $exercice->save();
 	}
 
 	public function getPaginate($n){
-		return $this->exercice->with('typeExercice')
+		return $this->exercice->with('typeExercice')->where('exercice.private', '0')
 		->orderBy('exercice.created_at', 'desc')
 		->paginate($n);
 	}
@@ -57,6 +64,11 @@ class ExerciceRepository
 		->paginate($n);
 	}
 
+	public function getExercicesByIdUser($idUser){
+		return $this->exercice->with('typeExercice')->where('exercice.users_id', $idUser)
+		->orderBy('exercice.created_at', 'desc')->get();
+	}
+
 	public function getVariantesById($id){
 		$variantes = $this->exercice->find($id)->variantes;
 		return $variantes;
@@ -67,14 +79,16 @@ class ExerciceRepository
 		$this->save($exercice, $inputs);
 
 		//créer variantes 
-		$lstVariantes = $inputs['lstVariables'];
-		$lstVariantesAdded =  collect();
-		foreach($lstVariantes as $variante){
-			$variante = json_decode($variante, true);
-			$array = array('description' => $variante['description'], 'time' => $variante['time'], 'exercice_id' => $exercice->id);
-			$lstVariantesAdded->push($this->varianteRepository->store($array));
-		}
-		$exercice->lstVariantes = $lstVariantesAdded;
+		if(isset($inputs['lstVariables'])){
+			$lstVariantes = $inputs['lstVariables'];
+			$lstVariantesAdded =  collect();
+			foreach($lstVariantes as $variante){
+				$variante = json_decode($variante, true);
+				$array = array('description' => $variante['description'], 'time' => $variante['time'], 'exercice_id' => $exercice->id);
+				$lstVariantesAdded->push($this->varianteRepository->store($array));
+			}
+			$exercice->lstVariantes = $lstVariantesAdded;
+		}	
 
 		return $exercice;
 	}

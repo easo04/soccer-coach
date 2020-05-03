@@ -68,7 +68,12 @@ class ExerciceController extends Controller
 
     public function show($id)
     {
+       
         $exercice = $this->exerciceRepository->getById($id);
+        if($exercice->private == 1 && (auth()->guest() || Auth::user()->id != $exercice->users_id)){
+            return redirect('/');
+        }
+
         $this->getTypeExerciceUpdated($exercice->typeExercice);
 
         if($exercice->url != '' && str_contains($exercice->url, 'youtu')){

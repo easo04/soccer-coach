@@ -84,7 +84,7 @@
                 </div>
             </div>
         </nav>
-		<div class="container p-3 my-3 border container-soccer-coach">
+		<div class="container p-3 my-1 border container-soccer-coach">
 			@yield('contenu')
 		</div>
 		<footer></footer>

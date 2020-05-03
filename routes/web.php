@@ -20,6 +20,7 @@ Route::get('/home', 'HomeController@index')->name('home');
 
 //CUSTOM ROUTES APP
 Route::get('/types-exercices', 'TypesExerciceController@getAll');
+Route::get('/exercices/get-exercices-by-user', 'UserController@getExercicesByUser');
 Route::get('exercice/type/{n}', 'ExerciceController@type');
 
 //ROUTES AVEC AUTH
@@ -37,8 +38,6 @@ Route::resource('exercice', 'ExerciceController')->except(['store', 'update', 'e
 Route::resource('types-exercice', 'TypesExerciceController');
 
 //TODO supprimer tout ça
-Route::get('/add-exercice', 'AddExercice@getPage');
-Route::post('/add-exercice', 'AddExercice@postInfos');
 Route::get('/create-exercice', 'CreateExercice@getPage');
 Route::get('/exercice/{n}', 'GetExercice@show')->where('n', '[0-9]+');
 Route::get('/pratique/{n}', function ($n) {

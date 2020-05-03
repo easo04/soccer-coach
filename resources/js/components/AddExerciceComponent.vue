@@ -27,7 +27,7 @@
                 </div> 
                 <div class="form-group form-check">                 
                     <label class="container-label">
-                        <i class="ti-lock color-soccer-coach"></i> Privée<input type="checkbox">  <span class="checkmark"></span>
+                        <i class="ti-key color-soccer-coach"></i> Privée<input type="checkbox" v-model="exerciceDTO.private">  <span class="checkmark"></span>
                     </label>
                 </div>
                 <div class="form-group">
@@ -91,6 +91,7 @@
                 formData.append("physique", exercice.physique ? exercice.physique : '');
                 formData.append("observations", exercice.observations ? exercice.observations : '');      
                 formData.append("url", exercice.url ? exercice.url : '');
+                formData.append("private", exercice.private);
                 
                    
                 axios.post('/exercice/create', formData, {headers:{'Content-Type': 'multipart/form-data'}}).then(reponse =>{

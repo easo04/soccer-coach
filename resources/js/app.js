@@ -4,6 +4,7 @@ window.Vue = require('vue');
 
 import Vuex from 'vuex';
 Vue.use(Vuex);
+Vue.use(require('vue-moment'));
 import storeData from "./store/index"
 
 const store = new Vuex.Store(
@@ -17,6 +18,7 @@ Vue.component('update-exercice-form', require('./components/UpdateExerciceCompon
 Vue.component('list-types-exercices', require('./components/ListTypesExercices.vue').default);
 Vue.component('list-objectifs', require('./components/ListObjectifs.vue').default);
 Vue.component('add-exercice-form', require('./components/AddExerciceComponent.vue').default);
+Vue.component('exercices-by-user', require('./components/ExercicesByUserComponent.vue').default);
 
 const app = new Vue({
     el: '#app',

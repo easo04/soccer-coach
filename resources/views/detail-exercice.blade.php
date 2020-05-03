@@ -8,15 +8,20 @@
 
 @section('contenu')
     <div class="actions-exercice-detail">
-        <div class="btns">
-            @auth
-                <a class="btn btn-soccer-coach-action" href="/customer/print-pdf/{{ $exercice->id }}"><i class="fa fa-file-pdf-o"></i> Télecharger</a>
-                @if(Auth::user()->id == $exercice->users_id)
-                    <a class="btn btn-soccer-coach-action" href="{{ route('exercice.edit', [$exercice->id]) }}"><i class="ti-pencil"></i> Modifier</a>
-                    <a class="btn btn-soccer-coach-action" data-toggle="modal" data-target="#modalDelete"><i class="ti-trash"></i> Supprimer</a>
-                @endif
-            @endauth
-        </div>
+        @auth
+            @if(Auth::user()->id == $exercice->users_id)
+                <div class="btn-mes-exercices">
+                    <a class="btn btn-soccer-coach-action" href="{{ route('user.exercices') }}"> <i class="ti-list"></i> Mes exercices</a>
+                </div>
+            @endif
+            <div class="btns">                
+                    <a class="btn btn-soccer-coach-action" href="/customer/print-pdf/{{ $exercice->id }}"><i class="fa fa-file-pdf-o"></i> Télecharger</a>
+                    @if(Auth::user()->id == $exercice->users_id)
+                        <a class="btn btn-soccer-coach-action" href="{{ route('exercice.edit', [$exercice->id]) }}"><i class="ti-pencil"></i> Modifier</a>
+                        <a class="btn btn-soccer-coach-action" data-toggle="modal" data-target="#modalDelete"><i class="ti-trash"></i> Supprimer</a>
+                    @endif       
+            </div>
+        @endauth
     </div>
     <div class="row details-exercice">
         <div class="col-sm-6 details-exercice-image">

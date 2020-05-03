@@ -9,20 +9,25 @@ body{
 .container-soccer-coach h3{
     border-bottom: 1px solid #17b87d;
     padding-bottom: 10px;
-    margin-bottom: 30px;
 }
 
 .card-exercice-image{
-    height: 345px;
+    height: 300px;
     width: inherit;
     margin: 0;
     display: block;
     position: relative;
 }
 
+.lst-exercices{
+    margin-left: 0;
+    margin-right: 0;
+}
+
 .img-liste{
     height: inherit;
     width: inherit;
+    border-radius: 0;
 }
 
 .card-body{
@@ -51,6 +56,7 @@ body{
 .footer-exercice{
     background-color: white;
     border: 1px solid rgba(0,0,0,.125);
+    border-radius: 0!important;
 }
 
 .actions{
@@ -62,6 +68,7 @@ body{
 }
 
 .action-recherche .navbar-dark .navbar-nav .nav-item{
+    background: #17b87d!important;
     border-right: 1px solid white;
 }
 
@@ -75,12 +82,13 @@ body{
 }
 
 .selected-type{
-    color: black !important;
-    font-weight:bold;
+    /*color: black !important;
+    font-weight:bold;*/
+    background-color: #0f744f!important;
 }
 
 .btn-soccer-coach-action{
-    background-color: #b81752!important;
+    background-color: #b81752;
     color:white!important;
     border-radius: 0;
 }
@@ -132,6 +140,17 @@ body{
     position: absolute;
     bottom: 0;
     right: 0;
+    /* z-index: 1; */
+    color: #FFF;
+    padding: 2px 15px;
+    font-size: 15px;
+}
+
+.bought-private{
+    background-color: #b87e17;
+    position: absolute;
+    top: 0;
+    left: 0;
     /* z-index: 1; */
     color: #FFF;
     padding: 2px 15px;
