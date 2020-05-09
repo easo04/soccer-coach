@@ -1,7 +1,8 @@
 <template>
     <div class="exercices-by-user">
         <div class="actions">
-            <div class="btn-group">
+            <h5>Filtrer par type</h5>
+            <div class="btn-group">              
                 <button type="button" class="btn btn-g btn-soccer-coach-action" id="btn-tous" :class="{'btn-g-selected' : lastTypeSelected === 'btn-tous'}" @click="filtrerParType(null)">
                     <i class="ti-star"></i> Tous
                 </button>
@@ -16,6 +17,11 @@
                 <a class="btn btn-soccer-coach-action" href="/exercice/create">
                     <i class="ti-plus"></i> Créer un exercice
                 </a>
+            </div>
+            <div class="mt-3">
+                    <filter-by-objectif v-bind:objectifs="objectifs"
+                    v-bind:set-filter="true" v-bind:show-btn-filter="true" class-custom="filter-action"
+                    :on-method-filter="filtrerParObjectifs"/>
             </div>
         </div>
         <h3>MES EXERCICES</h3>
@@ -59,12 +65,13 @@
 
 <script>
     export default {
-        props:['exercices', 'types'],
+        props:['exercices', 'types', 'objectifs'],
         data(){
             return{
                 typeSelected:'tous',
                 lstExercices:this.exercices,
                 lastTypeSelected: 'btn-tous',
+                lstObjectifsSelected:[],
                 page: 1,
                 perPage: 9,
                 pages: []
@@ -85,7 +92,8 @@
                 }else{
                     this.lastTypeSelected = 'btn-tous';
                     this.lstExercices =  this.exercices;
-                }       
+                }   
+                this.$root.$emit('filtredByType');
             },
             filtrerParPrivate(){
                 let lstExercicesPrivates = []; 
@@ -96,7 +104,57 @@
                     }
                 });
                 this.initPages();
-                this.lstExercices = lstExercicesPrivates;  
+                this.lstExercices = lstExercicesPrivates; 
+                this.$root.$emit('filtredByType'); 
+            },
+            filtrerParObjectifs(objectif){
+                let lstExercicesByObjectif = []; 
+
+
+                //vérifier si l'objectif est déjà dans la liste, si c'est le cas il faut le supprimer, l'ajouter sinon
+                if(this.lstObjectifsSelected.includes(objectif)){
+                    let index = this.lstObjectifsSelected.indexOf(objectif);
+                    this.lstObjectifsSelected.splice(index, 1);
+                }else{
+                    this.lstObjectifsSelected.push(objectif);
+                }
+
+                //il faut filtrer la liste d'exercices seuelement s'il y a des objestifs sélectionnés
+                if(this.lstObjectifsSelected.length > 0){ 
+                    let lstExercicesFiltred = this.getLstExercicesFiltredByType();                       
+                    lstExercicesFiltred.forEach(exe => {
+                        exe.objectifs.forEach(obj => {
+                            if(this.lstObjectifsSelected.includes(obj.id)){
+                                let isExeAdded = lstExercicesByObjectif.find(exercice => exercice.id === exe.id);
+                                if(!isExeAdded){
+                                    lstExercicesByObjectif.push(exe)
+                                }                          
+                            }
+                        });
+                    });
+
+                    this.initPages();               
+                    this.lstExercices = lstExercicesByObjectif; 
+                }else{
+                    if(this.lastTypeSelected === 'btn-private'){
+                        this.filtrerParPrivate();
+                    }else if(this.lastTypeSelected === 'btn-tous'){
+                        this.filtrerParType(null);
+                    }else{
+                        this.filtrerParType(this.lastTypeSelected);
+                    }
+                }
+            },
+            getLstExercicesFiltredByType(){
+                let retval = [];
+                if(this.lastTypeSelected === 'btn-private'){
+                    retval = this.exercices.filter(e => e.private === 1);       
+                }else if(this.lastTypeSelected === 'btn-tous'){
+                    retval = this.exercices;
+                }else{
+                    retval = this.exercices.filter(e => e.typesexcercice_id === this.lastTypeSelected);  
+                }
+                return retval;
             },
             initPages(){
                 this.page = 1;
@@ -133,14 +191,14 @@
             trimWords(value){
                 return value.split(" ").splice(0,20).join(" ") + '...';
             }
-         },
+        },
         mounted() {
             console.log(this.exercices);
             this.setPages();
             /*let mapTypes = new Map(this.lstIconsByType);
             axios.get('/exercices/get-exercices-by-user').then(reponse =>{
                 console.log(reponse);
-          
+
             }).catch(error =>{
                 console.log(error);
             });*/

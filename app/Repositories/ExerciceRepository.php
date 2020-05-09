@@ -65,7 +65,7 @@ class ExerciceRepository
 	}
 
 	public function getExercicesByIdUser($idUser){
-		return $this->exercice->with('typeExercice')->where('exercice.users_id', $idUser)
+		return $this->exercice->with('typeExercice', 'objectifs')->where('exercice.users_id', $idUser)
 		->orderBy('exercice.created_at', 'desc')->get();
 	}
 
@@ -90,6 +90,14 @@ class ExerciceRepository
 			$exercice->lstVariantes = $lstVariantesAdded;
 		}	
 
+		//créer les objectifs
+		if(isset($inputs['lstObjectifs'])){
+			$lstObjectifs = $inputs['lstObjectifs'];
+			foreach ($lstObjectifs as $key => $objectif) {
+				$exercice->objectifs()->attach($objectif);		
+			}
+		}
+
 		return $exercice;
 	}
 
@@ -108,7 +116,17 @@ class ExerciceRepository
 			$this->varianteRepository->destroy($variante->id);
 		}
 
+		$exercice->objectifs()->detach();
 		$exercice->delete();
+	}
+
+	public function getExercicesWithObjectifPaginate($objectif, $n){
+		return $this->exercice->with('typeExercice', 'objectifs')->where('exercice.private', '0')
+		->orderBy('exercice.created_at', 'desc')
+		->whereHas('objectifs', function($q) use ($objectif)
+		{
+			$q->where('objectifs.nom_url', $objectif);
+		})->paginate($n);	
 	}
 
 }

@@ -1,6 +1,6 @@
 <template>
     <div class="dropdown-menu dropdown-custom" :aria-labelledby="idArea">     
-        <a class="dropdown-item link-custom-2" :href="'exercice/type/'+type.id" v-for="type in lstTypesExercices" :key="type.id">
+        <a class="dropdown-item link-custom-2" :href="'/exercice/type/'+type.id" v-for="type in lstTypesExercices" :key="type.id">
             <i :class="type.icon"></i> {{type.nom}}
         </a>
     </div>

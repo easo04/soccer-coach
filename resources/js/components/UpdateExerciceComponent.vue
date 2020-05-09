@@ -1,6 +1,6 @@
 <template>
-  <div class="update-exercice-form">
-      <form class="form-horizontal panel" @submit.prevent="updateExercice(exerciceDTO)">
+    <div class="update-exercice-form">
+        <form class="form-horizontal panel" @submit.prevent="updateExercice(exerciceDTO)">
         <div class="actions-exercice-detail">
             <div class="btns">
                 <button class="btn btn-soccer-coach-action" @click="annuler"><i class="ti-close"></i> Annuler</button>
@@ -33,6 +33,10 @@
                 <div class="form-group">
                     <label for="type"><i class="ti-flag-alt-2 color-soccer-coach"></i> Type d'exercice</label>
                     <types-exercices-select v-bind:types="types" v-bind:id-type-selected="exerciceDTO.typesexcercice_id" v-model="exerciceDTO.typesexcercice_id"/>
+                </div>  
+                <div class="form-group">
+                    <label for="type"><i class="ti-tag color-soccer-coach"></i> Objectifs</label>
+                    <list-objectifs-exercices v-bind:objectifs="objectifs" v-bind:objectifsExercice="objectifsExercice" />
                 </div>     
             </div>
             <div class="col-sm-6 details-exercice-image">
@@ -62,15 +66,14 @@
 
 <script>
     export default {
-        props: ['exercice', 'types', 'variantes'],
+        props: ['exercice', 'types', 'variantes', 'objectifs', 'objectifsExercice'],
         data() {
             return {
                 exerciceDTO:this.exercice,
             }
         },
         methods: {
-            updateExercice(exercice){
-           
+            updateExercice(exercice){               
                 const formData = new FormData();
                 formData.append("image", exercice.image);
                 formData.append("id", exercice.id);
@@ -81,12 +84,11 @@
                 formData.append("typesexcercice_id", exercice.typesexcercice_id);
                 formData.append("lstVariables", []);
 
-                 formData.append("sousPrincipe", exercice.sousPrincipe ? exercice.sousPrincipe : '');             
+                formData.append("sousPrincipe", exercice.sousPrincipe ? exercice.sousPrincipe : '');             
                 formData.append("physique", exercice.physique ? exercice.physique : '');
                 formData.append("observations", exercice.observations ? exercice.observations : '');      
                 formData.append("url", exercice.url ? exercice.url : '');
-                formData.append("private", exercice.private);
-                   
+                formData.append("private", exercice.private);  
                 axios.post('/exercice/update', formData, {headers:{'Content-Type': 'multipart/form-data'}}).then(reponse =>{
                     console.log(reponse);
                     window.location.replace("/exercice/" + exercice.id);
@@ -100,6 +102,7 @@
         },
         mounted() {
             //ajouter icon à chaque type de la liste
+            console.log(this.objectifsExercice);
         }
     }
 </script>

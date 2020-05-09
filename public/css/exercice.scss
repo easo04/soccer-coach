@@ -19,6 +19,11 @@ body{
     position: relative;
 }
 
+.lien-image{
+    width: inherit;
+    height: inherit;
+}
+
 .lst-exercices{
     margin-left: 0;
     margin-right: 0;
@@ -70,6 +75,10 @@ body{
 .action-recherche .navbar-dark .navbar-nav .nav-item{
     background: #17b87d!important;
     border-right: 1px solid white;
+}
+
+.action-recherche h5{
+    margin-bottom: 0;
 }
 
 .action-exercice{
@@ -261,6 +270,7 @@ label{
   textarea{
       height: 250px!important;
   }
+
 
 /** MEDIAS **/
 @media screen and (min-width: 900px) {

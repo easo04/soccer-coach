@@ -1,6 +1,6 @@
 <template>
-  <div class="update-exercice-form">
-      <form class="form-horizontal panel" @submit.prevent="addExercice(exerciceDTO)">
+    <div class="update-exercice-form">
+        <form class="form-horizontal panel" @submit.prevent="addExercice(exerciceDTO)">
         <div class="actions-exercice-detail">
             <div class="btns">
                 <button class="btn btn-soccer-coach-action" @click="annuler"><i class="ti-close"></i> Annuler</button>
@@ -34,6 +34,10 @@
                     <label for="type"><i class="ti-flag-alt-2 color-soccer-coach"></i> Type d'exercice</label>
                     <types-exercices-select v-bind:types="types" v-bind:id-type-selected="exerciceDTO.typesexcercice_id" v-model="exerciceDTO.typesexcercice_id"/>
                 </div>     
+                <div class="form-group">
+                    <label for="type"><i class="ti-tag color-soccer-coach"></i> Objectifs</label>
+                    <list-objectifs-exercices v-bind:objectifs="objectifs" />
+                </div>  
             </div>
             <div class="col-sm-6 details-exercice-image">
                 <div class="form-group">
@@ -65,18 +69,18 @@
     import { mapState } from 'vuex'
 
     export default {
-        props: ['types'],
+        props: ['types', 'objectifs'],
         data() {
             return {
                 exerciceDTO:{},
             }
         },     
         computed:{
-            ...mapState(['lstVariantes'])                     
+            ...mapState(['lstVariantes', 'lstObjectifs'])                     
         },
         methods: {
             addExercice(exercice){
-           
+                
                 const formData = new FormData();
                 formData.append("image", exercice.image);
                 formData.append("principe", exercice.principe);              
@@ -87,13 +91,16 @@
                 this.lstVariantes.forEach((item) => {
                     formData.append('lstVariables[]', JSON.stringify(item));
                 });
+                this.lstObjectifs.forEach((item) => {
+                    formData.append('lstObjectifs[]', JSON.stringify(item));
+                });
                 formData.append("sousPrincipe", exercice.sousPrincipe ? exercice.sousPrincipe : '');             
                 formData.append("physique", exercice.physique ? exercice.physique : '');
                 formData.append("observations", exercice.observations ? exercice.observations : '');      
                 formData.append("url", exercice.url ? exercice.url : '');
                 formData.append("private", exercice.private);
                 
-                   
+                
                 axios.post('/exercice/create', formData, {headers:{'Content-Type': 'multipart/form-data'}}).then(reponse =>{
                     console.log(reponse);
                     let exerciceId =  reponse.data.exerciceId;

@@ -7,6 +7,7 @@ use App\Http\Requests\ExerciceRequest;
 use App\Http\Requests\UpdateExerciceRequest;
 use App\Repositories\ExerciceRepository;
 use App\Repositories\TypesExerciceRepository;
+use App\Repositories\ObjectifRepository;
 use App\Gestion\PhotoGestion;
 
 use PDF;
@@ -17,14 +18,21 @@ class ExerciceController extends Controller
 {
     protected $exerciceRepository;
     protected $typesExerciceRepository;
-    protected $nbPerPege = 6;
+    protected $nbPerPege = 9;
     protected $icons_type_exercice;
     protected $types;
+    protected $objectifRepository;
+    protected $objectifs;
+    protected $typeSelected;
 
-    public function __construct(ExerciceRepository $exerciceRepository, TypesExerciceRepository $typesExerciceRepository)
+    public function __construct(ExerciceRepository $exerciceRepository, TypesExerciceRepository $typesExerciceRepository, ObjectifRepository $objectifRepository)
     {
+        //$this->middleware('auth', ['except' => ['index', 'indexTag']]);
+        //$this->middleware('admin', ['only' => 'destroy']);
+        
         $this->exerciceRepository = $exerciceRepository;
         $this->typesExerciceRepository = $typesExerciceRepository;
+        $this->objectifRepository = $objectifRepository;
         $this->icons_type_exercice = array('principe-offensif' => 'ti-target', 'principe-defensif' => 'ti-hummer', 'rondos' => 'ti-cup', 'physique' => 'ti-heart');
         $this->types = $this->typesExerciceRepository->getAll();
     }
@@ -40,8 +48,10 @@ class ExerciceController extends Controller
         }
 
         $this->updateTypeExerciceList($types, null);
+
+        $objectifs = $this->objectifRepository->getAll();
         
-        return view('exercices', compact('exercices', 'links', 'types'));
+        return view('exercices', compact('exercices', 'links', 'types', 'objectifs'));
     }
 
     public function type($idType){
@@ -55,20 +65,23 @@ class ExerciceController extends Controller
 
         $this->updateTypeExerciceList($types, $idType);
 
-        return view('exercices-type', compact('exercices', 'links', 'types'));
+        $typeSelected = $this->typeSelected;
+
+        return view('exercices-type', compact('exercices', 'links', 'types', 'typeSelected'));
     }
 
     public function create()
     {
         $types = $this->types;
-        return view('add-exercice', compact('types'));
+        $objectifs = $this->objectifRepository->getAll();
+        return view('add-exercice', compact('types', 'objectifs'));
     }
 
     public function store(ExerciceRequest $request, PhotoGestion $photogestion){}
 
     public function show($id)
     {
-       
+        
         $exercice = $this->exerciceRepository->getById($id);
         if($exercice->private == 1 && (auth()->guest() || Auth::user()->id != $exercice->users_id)){
             return redirect('/');
@@ -87,10 +100,10 @@ class ExerciceController extends Controller
     {
         $exercice = $this->exerciceRepository->getById($id);
         $types = $this->types;
-        
-        return view('update-exercice',  compact('exercice', 'types'));
+        $objectifs = $this->objectifRepository->getAll();
+        return view('update-exercice',  compact('exercice', 'types', 'objectifs'));
     }
-  
+    
     public function update(UpdateExerciceRequest $request, $id){}
 
     public function updateExercice(Request $request, PhotoGestion $photogestion){
@@ -129,11 +142,28 @@ class ExerciceController extends Controller
         return redirect('exercice');
     }
 
+    public function getByObjectif($objectif){
+        $exercices = $this->exerciceRepository->getExercicesWithObjectifPaginate($objectif, $this->nbPerPege);
+        $links = $exercices->render();
+
+        foreach($exercices as $exercice){
+            $this->getTypeExerciceUpdated($exercice->typeExercice);
+        }
+
+        $objectifs = $this->objectifRepository->getAll();
+
+        $objectifSearch = $objectif;
+        $nomObjectifSearch = $this->getObjectifNameFormatted($objectif);
+        
+        return view('exercices', compact('exercices', 'links', 'objectifSearch', 'nomObjectifSearch', 'objectifs'));
+    }
+    
+
     /** CUSTOM FUNCTIONS */
     public function printPDF($id)
     {
-     $exercice = $this->exerciceRepository->getById($id);
-      $data = [
+        $exercice = $this->exerciceRepository->getById($id);
+        $data = [
         'principe' => $exercice->principe,
         'sousPrincipe' => $exercice->sousPrincipe,
         'image' => $exercice->image,
@@ -145,9 +175,9 @@ class ExerciceController extends Controller
         'observations' => $exercice->observations,
         'typeExercice' => $exercice->typeExercice,
         'description' => $exercice->description];
-      $pdfModel = new PDF;
-      $pdf =  PDF::loadView('pdf_view_exercice', $data);  
-      return $pdf->download('exercice_' . camel_case($exercice->principe)  . '.pdf');
+        $pdfModel = new PDF;
+        $pdf =  PDF::loadView('pdf_view_exercice', $data);  
+        return $pdf->download('exercice_' . camel_case($exercice->principe)  . '.pdf');
     }
 
     /** Function pour l'API */
@@ -173,6 +203,7 @@ class ExerciceController extends Controller
             $type->nom = $this->getTypeNameFormated($type->nom);
             if($type->id == $idType){
                 $type->selected = true;
+                $this->typeSelected = $type;
             }
         }
     }
@@ -185,6 +216,15 @@ class ExerciceController extends Controller
             $retval = $retval . $str . ' ' ;
         }
         return $retval;
+    }
+
+    private function getObjectifNameFormatted($nomUrl){
+        $retval = '';
+        $collect = Str::of($nomUrl)->explode('_');
+        foreach ($collect as $str) {
+            $retval = $retval . $str . ' ' ;
+        }
+        return Str::ucfirst($retval);
     }
 
 }

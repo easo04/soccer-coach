@@ -6,5 +6,5 @@
 @endsection
 
 @section('contenu')
-	<add-exercice-form v-bind:types="{{ $types }}"/>
+	<add-exercice-form v-bind:types="{{ $types }}" v-bind:objectifs="{{ $objectifs }}"/>
 @endsection

@@ -21,4 +21,9 @@ class Exercice extends Model
     public function variantes(){
         return $this->hasMany('App\Variante', 'exercice_id');
     }
+
+    public function objectifs()
+	{
+		return $this->belongsToMany('App\Objectifs');
+	} 
 }

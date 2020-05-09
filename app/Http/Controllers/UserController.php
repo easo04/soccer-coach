@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Repositories\UserRepository;
 use App\Repositories\ExerciceRepository;
 use App\Repositories\TypesExerciceRepository;
+use App\Repositories\ObjectifRepository;
 use Illuminate\Http\Request;
 
 use Str;
@@ -18,14 +19,17 @@ class UserController extends Controller
     protected $exerciceRepository;
     protected $typesExerciceRepository;
     protected $nbPerPege = 6;
+    protected $objectifRepository;
 
-    public function __construct(UserRepository $userRepository, ExerciceRepository $exerciceRepository, TypesExerciceRepository $typesExerciceRepository)
+    public function __construct(UserRepository $userRepository, ExerciceRepository $exerciceRepository, TypesExerciceRepository $typesExerciceRepository,
+        ObjectifRepository $objectifRepository)
     {
         $this->userRepository = $userRepository;
         $this->exerciceRepository = $exerciceRepository;
         $this->icons_type_exercice = array('principe-offensif' => 'ti-target', 'principe-defensif' => 'ti-hummer', 'rondos' => 'ti-cup', 'physique' => 'ti-heart');
         $this->typesExerciceRepository = $typesExerciceRepository;
         $this->types = $this->typesExerciceRepository->getAll();
+        $this->objectifRepository = $objectifRepository;
     }
 
     public function getExercices(){
@@ -39,7 +43,9 @@ class UserController extends Controller
 
             $this->updateTypeExerciceList($types, null);
 
-            return view('exercices-by-user',  compact('exercices', 'types')); 
+            $objectifs = $this->objectifRepository->getAll();
+
+            return view('exercices-by-user',  compact('exercices', 'types', 'objectifs')); 
         }
     }
 

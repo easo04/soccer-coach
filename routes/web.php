@@ -20,8 +20,10 @@ Route::get('/home', 'HomeController@index')->name('home');
 
 //CUSTOM ROUTES APP
 Route::get('/types-exercices', 'TypesExerciceController@getAll');
+Route::get('/objectifs', 'ObjectifController@getAll');
 Route::get('/exercices/get-exercices-by-user', 'UserController@getExercicesByUser');
-Route::get('exercice/type/{n}', 'ExerciceController@type');
+Route::get('/exercice/type/{n}', 'ExerciceController@type')->name('exercice.type');
+Route::get('/exercice/objectifs/{objectif}', 'ExerciceController@getByObjectif')->name('exercice.objectifs');;
 
 //ROUTES AVEC AUTH
 Route::middleware(['auth'])->group(function () {

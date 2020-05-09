@@ -2,7 +2,8 @@ export default {
 
 	state: {
 
-        lstVariantes: []
+		lstVariantes: [],
+		lstObjectifs: []
 
 	},
 
@@ -12,7 +13,6 @@ export default {
 	actions: {
 
 	},
-
 	mutations: {
 		addVariableToList(state, variante){
 			state.lstVariantes.push(variante);
@@ -22,6 +22,18 @@ export default {
 		},
 		clearListVariantes(state){
 			state.lstVariantes = [];
+		},
+		addObjectifToList(state, objectif){
+			state.lstObjectifs.push(objectif);
+		},
+		deleteObjectifToList(state, index){
+			state.lstObjectifs.splice(index, 1);
+		},
+		clearListObjectifs(state){
+			state.lstObjectifs = [];
+		},
+		initListObjectifs(state, objectifs){
+			state.lstObjectifs = objectifs;
 		}
 	}
 }

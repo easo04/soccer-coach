@@ -7,8 +7,8 @@
             <label :for="'control_'+type.id">
                 <div class="details-type">
                     <p class="value">{{type.nom}}</p>                
-                 </div>
-                 <div class="icon-exercice"><i :class="type.icon + ' color-soccer-coach'"></i></div>
+                </div>
+                <div class="icon-exercice"><i :class="type.icon + ' color-soccer-coach'"></i></div>
             </label>
         </div>    
     </div>
@@ -17,8 +17,8 @@
 <script>
     export default {
         model:{
-             prop: 'typeExercice',
-             event: 'change'
+            prop: 'typeExercice',
+            event: 'change'
         },
         props: ['types', 'idTypeSelected', 'typeExercice'],
         data() {

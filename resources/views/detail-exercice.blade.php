@@ -2,8 +2,8 @@
 
 @section('head')
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-    <link rel="stylesheet" href="../css/exercice.scss">
-    <link rel="stylesheet" href="../css/detail-exercice.scss">
+    <link rel="stylesheet" href="{{ asset('css/exercice.scss') }}">
+    <link rel="stylesheet" href="{{ asset('css/detail-exercice.scss') }}">
 @endsection
 
 @section('contenu')
@@ -100,14 +100,12 @@
             @endif
         </div>
     </div>   
-    <div class="row mt-3">
-        <div class="col-sm-6">       
-   
-        </div>
-        <div class="col-sm-6">
-            
-        </div>
-    </div>  
+    @if(count($exercice->objectifs) > 0)  
+        <div class="mt-3">
+            <h5><i class="ti-tag color-soccer-coach"></i> Objectifs</h5>   
+            <objectifs-by-exercice v-bind:objectifs="{{ $exercice->objectifs }}"/>
+        </div>  
+    @endif
     <div class="modal" id="modalDelete">
         <div class="modal-dialog">
             <div class="modal-content">

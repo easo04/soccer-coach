@@ -19,6 +19,9 @@ Vue.component('list-types-exercices', require('./components/ListTypesExercices.v
 Vue.component('list-objectifs', require('./components/ListObjectifs.vue').default);
 Vue.component('add-exercice-form', require('./components/AddExerciceComponent.vue').default);
 Vue.component('exercices-by-user', require('./components/ExercicesByUserComponent.vue').default);
+Vue.component('list-objectifs-exercices', require('./components/ObjectifsSelectComponent.vue').default);
+Vue.component('objectifs-by-exercice', require('./components/ListObjectifsByExercice.vue').default);
+Vue.component('filter-by-objectif', require('./components/FilterByObjectif.vue').default);
 
 const app = new Vue({
     el: '#app',

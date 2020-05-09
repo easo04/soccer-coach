@@ -9,6 +9,7 @@
 @section('contenu')
     <div class="actions">  
         <div class="action-recherche">
+            <h5>Filtrer par type</h5>
             <nav class="navbar navbar-expand-sm bg-info navbar-dark">    
                 <ul class="navbar-nav">
                     <li class="nav-item">
@@ -17,11 +18,11 @@
                     @foreach ($types as $type)
                         @if($type->selected)
                             <li class="nav-item">
-                                <a class="nav-link selected-type" href="{{ $type->id }}"><i class="{{ $type->icon }}"></i> {!! $type->nom !!}</a>
+                                <a class="nav-link selected-type" href="/exercice/type/{{ $type->id }}"><i class="{{ $type->icon }}"></i> {!! $type->nom !!}</a>
                             </li>
                         @else
                             <li class="nav-item">
-                                <a class="nav-link" href="{{ $type->id }}"><i class="{{ $type->icon }}"></i> {!! $type->nom !!}</a>
+                                <a class="nav-link" href="{{ route('exercice.type', [$type->id]) }}"><i class="{{ $type->icon }}"></i> {!! $type->nom !!}</a>
                             </li>
                         @endif              
                     @endforeach
@@ -29,7 +30,7 @@
             </nav>
         </div>
     </div>
-    <h3>EXERCICES</h3>
+    <h3>EXERCICES - {{ $typeSelected->nom }}</h3>
     <div class="row lst-exercices">
     	@if(session()->has('ok'))
 			<div class="alert alert-success alert-dismissible">{!! session('ok') !!}</div>
