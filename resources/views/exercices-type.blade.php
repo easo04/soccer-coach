@@ -1,16 +1,14 @@
 @extends('template')
 
 @section('head')
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-    <link href="../../css/themify-icons/themify-icons.css" rel="stylesheet">
-    <link rel="stylesheet" href="../../css/exercice.scss">
+    <link href="{{ asset('css/exercice.scss') }}" rel="stylesheet">
 @endsection
 
 @section('contenu')
     <div class="actions">  
         <div class="action-recherche">
             <h5>Filtrer par type</h5>
-            <nav class="navbar navbar-expand-sm bg-info navbar-dark">    
+            <nav class="navbar navbar-expand-sm bg-info navbar-dark nav-type-exercice">    
                 <ul class="navbar-nav">
                     <li class="nav-item">
                         <a class="nav-link" href="/exercice"><i class="ti-star"></i> Tous</a>

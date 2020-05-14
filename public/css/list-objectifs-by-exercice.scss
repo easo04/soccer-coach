@@ -21,6 +21,10 @@
     padding-bottom: 5px;
     margin: 0;
 
+    @media screen and (max-width: $screen-xs) {
+        margin-bottom: 20px;
+    }
+
     .filter-action{
         border: 1px solid $color-action !important;
         .categorie-nom{
@@ -60,6 +64,10 @@
         border: 1px solid $color-soccer-coach;
         margin-bottom: 10px;
         padding: 0;
+
+        @media screen and (max-width: $screen-xs) {
+            margin-right: 0;
+        }
 
         .categorie-nom{
             padding: 10px;

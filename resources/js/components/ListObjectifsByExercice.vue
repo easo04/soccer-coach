@@ -48,7 +48,7 @@
 
             this.$root.$on('filtredByType', () => {
                 this.lstLastObjectifSelected = [];
-            })
+            });
 
             let lstCategorieObjectifs = [];
             

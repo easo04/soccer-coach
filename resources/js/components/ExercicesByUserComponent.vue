@@ -13,15 +13,15 @@
                     <i class="ti-key"></i> Privées
                 </button>
             </div>
-            <div class="btn-create-exercice">
-                <a class="btn btn-soccer-coach-action" href="/exercice/create">
-                    <i class="ti-plus"></i> Créer un exercice
-                </a>
-            </div>
             <div class="mt-3">
                     <filter-by-objectif v-bind:objectifs="objectifs"
                     v-bind:set-filter="true" v-bind:show-btn-filter="true" class-custom="filter-action"
                     :on-method-filter="filtrerParObjectifs"/>
+            </div>
+            <div class="btn-create-exercice">
+                <a class="btn btn-soccer-coach-action" href="/exercice/create">
+                    <i class="ti-plus"></i> Créer un exercice
+                </a>
             </div>
         </div>
         <h3>MES EXERCICES</h3>
@@ -207,3 +207,7 @@
         }
     }
 </script>
+<style lang="scss" scoped>
+    @import '../../../public/css/exercices-by-user';
+</style>
+

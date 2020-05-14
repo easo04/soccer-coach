@@ -110,14 +110,17 @@ class ExerciceController extends Controller
         $image =  '';
         if($request->file('image') != null){
             $image = $photogestion->save($request->file('image'));
+        }else if(isset($request->image)){
+            $image = $request->image;
         }
+
         $exercice = $this->exerciceRepository->getById($request->id);
         $requestArray = $request->all();
         $requestArray['image'] = $image;
         $requestArray['users_id'] = Auth::user()->id;
         $this->exerciceRepository->update($exercice, $requestArray);
 
-        $reponse = ['image' => $image, 'succes' => 'OK'];
+        $reponse = ['message' => 'Exercice modifié', 'succes' => 'OK'];
         return response()->json($reponse, 200);
     }
 
@@ -125,6 +128,8 @@ class ExerciceController extends Controller
         $image =  '';
         if($request->file('image') != null){
             $image = $photogestion->save($request->file('image'));
+        }else if(isset($request->image)){
+            $image = $request->image;
         }
 
         $requestArray = $request->all();
@@ -133,6 +138,12 @@ class ExerciceController extends Controller
         $exercice = $this->exerciceRepository->store($requestArray);
 
         $reponse = ['exerciceId' => $exercice->id, 'succes' => 'OK'];
+        return response()->json($reponse, 200);
+    }
+
+    public function getImagesExerciceUser(){
+        $images = $this->exerciceRepository->getImagesByExercicesUser(Auth::user()->id);
+        $reponse = ['images' => $images, 'succes' => 'OK'];
         return response()->json($reponse, 200);
     }
 

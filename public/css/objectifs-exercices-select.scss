@@ -6,6 +6,11 @@
     align-items: center;
     width: 538px;
 
+    @media screen and (max-width: $screen-lg) {
+        width: 100%;
+    }
+
+
     ul {
         position: relative;
         display: flex;

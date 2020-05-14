@@ -23,7 +23,7 @@ Route::get('/types-exercices', 'TypesExerciceController@getAll');
 Route::get('/objectifs', 'ObjectifController@getAll');
 Route::get('/exercices/get-exercices-by-user', 'UserController@getExercicesByUser');
 Route::get('/exercice/type/{n}', 'ExerciceController@type')->name('exercice.type');
-Route::get('/exercice/objectifs/{objectif}', 'ExerciceController@getByObjectif')->name('exercice.objectifs');;
+Route::get('/exercice/objectifs/{objectif}', 'ExerciceController@getByObjectif')->name('exercice.objectifs');
 
 //ROUTES AVEC AUTH
 Route::middleware(['auth'])->group(function () {
@@ -33,6 +33,8 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/exercice/update', 'ExerciceController@updateExercice');
     Route::post('/exercice/create', 'ExerciceController@createExercice');
     Route::get('/user/exercices', 'UserController@getExercices')->name('user.exercices');
+    Route::get('/exercice/images', 'ExerciceController@getImagesExerciceUser')->name('exercice.images');
+    Route::get('/create-exercice', 'CreateExercice@getPage');
 });
 
 //ROUTES resource
@@ -40,7 +42,6 @@ Route::resource('exercice', 'ExerciceController')->except(['store', 'update', 'e
 Route::resource('types-exercice', 'TypesExerciceController');
 
 //TODO supprimer tout ça
-Route::get('/create-exercice', 'CreateExercice@getPage');
 Route::get('/exercice/{n}', 'GetExercice@show')->where('n', '[0-9]+');
 Route::get('/pratique/{n}', function ($n) {
     return view('pratique')->withNumero($n); 

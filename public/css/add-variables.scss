@@ -6,7 +6,7 @@
     margin-top: 20px;
 
     h5{
-        margin-bottom: 20px;
+        margin-bottom: 0;
     }
 
     .form-add-variable{
@@ -23,22 +23,39 @@
         .btn-annuler{
             margin-left: 5px;
         }
+
+        .titre-variantes{
+            font-size:0.9rem;
+            font-weight: 700;
+        }
+
         .lst-variables{
+            min-height: 409px;
+            padding: 0 10px 10px 10px;
+            border:1px solid #ced4da;  
+            margin-top: 7px;      
+
+            .aucune-variante{
+                text-align: center;
+                margin-top: 170px;
+                color: #ced4da;
+            }
+
             .variante-item{
-                margin-top: 10px;
+                margin-top: 7px;
                 border-radius:0!important;
                 height: auto;
 
                 .item-header{
-                    border-left: 8px solid $color-action;
-                    border-top:1px solid $color-action;
-                    border-right: 1px solid $color-action;
-                    border-bottom: 1px solid $color-action;
-                    height: 50px;
-                    padding-left: 20px;
+                    border-left: 8px solid $color-soccer-coach;
+                    border-top:1px solid $color-soccer-coach;
+                    border-right: 1px solid $color-soccer-coach;
+                    border-bottom: 1px solid $color-soccer-coach;
+                    height: 40px;
+                    padding-left: 10px;
                     background-color: white;
-                    padding-top: 11px;
-                    padding-right: 28px;
+                    padding-top: 6px;
+                    padding-right: 18px;
                     &:first-child{
                         border-radius: 0;
                     }
@@ -50,8 +67,10 @@
 
                 .item-body{
                     height: auto;
-                    border:1px solid #ced4da;
-                    padding: 20px;
+                    border-left:1px solid $color-soccer-coach;
+                    border-right:1px solid $color-soccer-coach;
+                    border-bottom:1px solid $color-soccer-coach;
+                    padding: 18px;
                     &.row{
                         height: auto;
                         margin-left: 0;

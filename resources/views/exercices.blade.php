@@ -14,7 +14,7 @@
         @else
             <div class="action-recherche">
                 <h5>Filtrer par type</h5>
-                <nav class="navbar navbar-expand-sm bg-info navbar-dark">
+                <nav class="navbar navbar-expand-sm bg-info navbar-dark nav-type-exercice">
                     <ul class="navbar-nav">
                         <li class="nav-item">
                             <a class="nav-link selected-type" href="/exercice"><i class="ti-star"></i> Tous</a>

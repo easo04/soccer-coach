@@ -1,0 +1,24 @@
+@import '../../resources/sass/variables';
+
+.exercices-by-user{
+    /** MEDIAS **/
+    @media screen and (max-width: $screen-xs) {
+        
+        .btn-group{
+            display: block;
+            .btn{
+                width: 100%;
+                margin-bottom: 2px;
+            }   
+
+        }
+
+        .btn-create-exercice{
+            margin-top: 0;
+        }
+        
+        h3{
+            margin-top: 30px;
+        }
+    }
+}

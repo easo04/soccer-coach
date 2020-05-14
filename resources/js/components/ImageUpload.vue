@@ -3,7 +3,7 @@
         <div :class="'card card-body view file-upload has-preview '+classImage">
             <div class="card-text file-upload-message">
                 <i class="ti-cloud-down"></i>
-                <p>Cliquer ici pour ajouter une image</p>
+                <p>Cliquer ici pour ajouter une nouvelle image</p>
             </div>
             <div class="mask rgba-stylish-slight" style="display: none;"></div>
             <input type="file" name="image" id="input-file" :class="'file-upload file-upload'+idImage" @change="readFile" accept=".png, .jpg"/>
@@ -31,7 +31,7 @@
         data() {
             return {
                 fileName:this.image,
-                srcFile:this.image !== undefined ?'../../images/uploaded/' + this.image : '',
+                srcFile:this.image !== undefined ? '../../images/uploaded/' + this.image : '',
                 file:''
             }
         },
@@ -57,6 +57,8 @@
                 }
             },
         },
+        created() {
+        },
         mounted() {
             const id = this.idImage;
             $('.file-upload'+id).hover(function(){
@@ -68,6 +70,13 @@
             if(this.image === undefined){
                 $('#file-upload-preview'+id)[0].style.zIndex = -1;
             }
+
+            this.$root.$on('imgSelected', (img) => {
+                this.srcFile = '../../images/uploaded/' + img;
+                this.fileName = img;
+                $('#file-upload-preview'+id)[0].style.zIndex = 1;
+                this.$emit('imageUploaded', img);
+            });
         }
     }
 </script>

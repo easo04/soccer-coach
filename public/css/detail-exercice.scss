@@ -108,17 +108,15 @@
     margin-top: 20px;
 }
 
-.variantes{
+
+.variantes .variante{
+    box-shadow: 0 2px 3px -1px #DCDCDC;
+    height: auto;
     margin-top: 20px;
 }
 
-.variantes .variante{
-    margin-bottom: 10px;
-}
-
-.variantes .variante-header{
-    border-bottom: 1px solid #F3F3F3;
-    border-left: 2px solid #b81752;
+.variantes .variante-header h5.float-left{
+    border-left: 5px solid #b81752;
     padding-left: 9px;
 }
 
@@ -127,9 +125,64 @@
 }
 
 
-.variantes .variante-body{
-    box-shadow: 0 2px 3px -1px #DCDCDC;
-    padding-top: 16px;
+.variantes .variante-body{  
+    padding-bottom: 2px;
 }
 
+.btn-action-sauvegarder{
+    display: none;
+}
+
+@media screen and (max-width: 480px) {
+    .actions-exercice-detail .btn-sauvegarder1{
+        display: none;
+    }
+
+    .btn-action-sauvegarder{
+        display: block;
+        margin-top: 60px;
+        height: 40px;
+    }
+
+    .btn-action-sauvegarder .btn-sauvegarder2{
+        float: right;
+    }
+
+    .actions-exercice-detail{
+        height: auto;
+    }
+
+    .actions-exercice-detail .btn-mes-exercices {
+        float: none;
+    }
+
+    .actions-exercice-detail .btns {
+        float: none;
+        margin-top: 10px;
+    }
+
+    .actions-exercice-detail .btns .btn-soccer-coach-action {
+        width: 100%;
+        margin-bottom: 2px;
+    }
+
+    .image-exercice{
+        margin-top: 10px;
+        height: auto;
+    }
+
+    .details-items-info div p.text {
+        font-size: 9px;
+    }
+
+    .details-items-info div p.value{
+        font-size: 13px;
+    }
+
+    .detail{
+        height: auto;
+    }
+
+
+}
 

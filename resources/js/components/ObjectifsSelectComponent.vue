@@ -49,7 +49,7 @@
                 lstIdObjectifs = this.objectifsExercice.map((obj) => { return obj.id; });
 
                 //initilaiser la liste dans le state
-                this.initListObjectifs(this.objectifsExercice);
+                this.initListObjectifs(lstIdObjectifs);
             }
 
             this.objectifs.forEach(obj => {            

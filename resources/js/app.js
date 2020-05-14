@@ -5,11 +5,13 @@ window.Vue = require('vue');
 import Vuex from 'vuex';
 Vue.use(Vuex);
 Vue.use(require('vue-moment'));
-import storeData from "./store/index"
+
+import storeData from "./store/index";
+import modelsData from "./store/models";
 
 const store = new Vuex.Store(
-   storeData
-)
+    storeData
+);
 
 Vue.component('types-exercices-select', require('./components/TypesExercicesSelect.vue').default);
 Vue.component('image-upload', require('./components/ImageUpload.vue').default);
@@ -23,7 +25,17 @@ Vue.component('list-objectifs-exercices', require('./components/ObjectifsSelectC
 Vue.component('objectifs-by-exercice', require('./components/ListObjectifsByExercice.vue').default);
 Vue.component('filter-by-objectif', require('./components/FilterByObjectif.vue').default);
 
+//Components forms
+Vue.component('input-text', require('./components/form/InputTextComponent.vue').default);
+Vue.component('text-area', require('./components/form/TextAreaComponent.vue').default);
+Vue.component('input-number', require('./components/form/InputNumberComponent.vue').default);
+
+//Components modal
+Vue.component('images-exercices-modal', require('./components/modals/ImagesExercicesComponent.vue').default);
+
+
+
 const app = new Vue({
     el: '#app',
-    store
+    store,
 });

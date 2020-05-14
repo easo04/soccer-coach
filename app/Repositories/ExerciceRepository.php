@@ -96,6 +96,8 @@ class ExerciceRepository
 			foreach ($lstObjectifs as $key => $objectif) {
 				$exercice->objectifs()->attach($objectif);		
 			}
+
+			$exercice->objectifs()->detach($objectif->id);
 		}
 
 		return $exercice;
@@ -106,6 +108,70 @@ class ExerciceRepository
 	}
 
 	public function update($exercice,  Array $inputs){
+
+		//update les variantes 
+		if(isset($inputs['lstVariables'])){
+			$lstVariantes = $inputs['lstVariables'];
+
+			$lstVariantesExercice = $exercice->variantes;
+			//supprimer les variantes
+			foreach ($lstVariantesExercice as $v) {
+				$varianteFind = false;
+				foreach ($lstVariantes as $item) {
+					$itemJson = json_decode($item, true);
+					if(isset($itemJson['id']) && $itemJson['id'] == $v->id){
+						$varianteFind = true;
+						break;
+					}
+				}
+				if(!$varianteFind){
+					$this->varianteRepository->destroy($v->id);
+				}				
+			}
+
+			//ajouter les nouvelles variantes
+			foreach($lstVariantes as $variante){
+				$variante = json_decode($variante, true);
+				if(!isset($variante['id'])){
+					$array = array('description' => $variante['description'], 'time' => $variante['time'], 'exercice_id' => $exercice->id);
+					$this->varianteRepository->store($array);
+				}			
+			}	
+		}	
+
+		//update les objectifs
+		if(isset($inputs['lstObjectifs'])){
+			$lstObjectifs = $inputs['lstObjectifs'];
+
+			$lstIdObjectifsByExercice = collect();
+
+			//detacher les objectifs liés
+			$lstObjectifsByExercice = $exercice->objectifs;
+			foreach ($lstObjectifsByExercice as $objectif) {
+				$lstIdObjectifsByExercice->push($objectif->id);
+				$objectifFind = false;
+				foreach ($lstObjectifs as $o) {
+					if($o == $objectif->id){
+						$objectifFind = true;
+						break;
+					}		
+				}
+
+				if(!$objectifFind){
+					$exercice->objectifs()->detach($objectif->id);
+				}
+
+			}
+
+			foreach ($lstObjectifs as $key => $objectif) {
+				if(!$lstIdObjectifsByExercice->contains($objectif)){
+					$exercice->objectifs()->attach($objectif);	
+				}				
+			}
+		}else{
+			$exercice->objectifs()->detach();
+		}
+
 		$this->save($exercice, $inputs);
 	}
 
@@ -127,6 +193,10 @@ class ExerciceRepository
 		{
 			$q->where('objectifs.nom_url', $objectif);
 		})->paginate($n);	
+	}
+
+	public function getImagesByExercicesUser($idUser){
+		return $this->exercice->select('image')->distinct()->where('exercice.users_id', $idUser)->get();
 	}
 
 }

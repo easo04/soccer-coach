@@ -1,3 +1,4 @@
+
 .nav-principal{
     height: 100px;
     background-color: #6cb2eb !important;
@@ -99,13 +100,18 @@ button.page-link:hover {
     color: #17b87d!important;
 }
 .offset{
-  width: 500px !important;
-  margin: 20px auto;  
+    width: 500px !important;
+    margin: 20px auto;  
 }
 
 .page-item:last-child .page-link{
     border-top-right-radius: 0;
     border-bottom-right-radius: 0;
+}
+
+.form-control:focus{
+    border-color: #17b87d;
+    box-shadow: 0 0 0 0.2rem rgba(23, 184, 125, 0.2);
 }
 
 /** MEDIAS **/

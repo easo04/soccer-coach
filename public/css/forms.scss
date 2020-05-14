@@ -1,0 +1,15 @@
+@import '../../resources/sass/variables';
+
+.error{
+    color:red;
+    font-weight: 600;
+}
+
+.input-error{
+    border:1px solid red;
+
+    &:focus{
+        border-color: red;
+        box-shadow: 0 0 0 0.2rem rgba(255, 0, 0, 0.2);
+    }
+}
