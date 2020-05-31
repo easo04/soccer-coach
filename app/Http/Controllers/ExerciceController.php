@@ -20,7 +20,6 @@ class ExerciceController extends Controller
     protected $typesExerciceRepository;
     protected $nbPerPege = 9;
     protected $icons_type_exercice;
-    protected $types;
     protected $objectifRepository;
     protected $objectifs;
     protected $typeSelected;
@@ -34,16 +33,15 @@ class ExerciceController extends Controller
         $this->typesExerciceRepository = $typesExerciceRepository;
         $this->objectifRepository = $objectifRepository;
         $this->icons_type_exercice = array('principe-offensif' => 'ti-target', 'principe-defensif' => 'ti-hummer', 'rondos' => 'ti-cup', 'physique' => 'ti-heart');
-        $this->types = $this->typesExerciceRepository->getAll();
     }
     
-    public function index()
-    {
+    public function index(){
         $exercices = $this->exerciceRepository->getPaginate($this->nbPerPege);
         $links = $exercices->render();
-        $types = $this->types;
+        $types = $this->typesExerciceRepository->getAll();
 
-        foreach($exercices as $exercice){
+        foreach($exercices as $exercice){   
+            $exercice->principeUrl = Str::slug($exercice->principe, '-');
             $this->getTypeExerciceUpdated($exercice->typeExercice);
         }
 
@@ -54,12 +52,14 @@ class ExerciceController extends Controller
         return view('exercices', compact('exercices', 'links', 'types', 'objectifs'));
     }
 
-    public function type($idType){
+    public function type($idType, $urlNom){
         $exercices = $this->exerciceRepository->getExercicesByType($idType, $this->nbPerPege);
         $links = $exercices->render();
-        $types = $this->types;
+        $types = $this->typesExerciceRepository->getAll();
+        $objectifs = $this->objectifRepository->getAll();
 
         foreach($exercices as $exercice){
+            $exercice->principeUrl = Str::slug($exercice->principe, '-');
             $this->getTypeExerciceUpdated($exercice->typeExercice);
         }
 
@@ -67,25 +67,24 @@ class ExerciceController extends Controller
 
         $typeSelected = $this->typeSelected;
 
-        return view('exercices-type', compact('exercices', 'links', 'types', 'typeSelected'));
+        return view('exercices-type', compact('exercices', 'links', 'types', 'objectifs', 'typeSelected'));
     }
 
-    public function create()
-    {
-        $types = $this->types;
-        $objectifs = $this->objectifRepository->getAll();
-        return view('add-exercice', compact('types', 'objectifs'));
+    public function create(){
+        return view('add-exercice');
     }
 
     public function store(ExerciceRequest $request, PhotoGestion $photogestion){}
 
-    public function show($id)
-    {
+    public function show($id, $nom){
         
         $exercice = $this->exerciceRepository->getById($id);
         if($exercice->private == 1 && (auth()->guest() || Auth::user()->id != $exercice->users_id)){
             return redirect('/');
         }
+
+        $types = $this->typesExerciceRepository->getAll();
+        $objectifs = $this->objectifRepository->getAll();
 
         $this->getTypeExerciceUpdated($exercice->typeExercice);
 
@@ -93,15 +92,12 @@ class ExerciceController extends Controller
             $exercice->idVideo =  substr($exercice->url, 17, 30);
         }
         
-        return view('detail-exercice',  compact('exercice'));
+        return view('detail-exercice',  compact('exercice', 'types', 'objectifs'));
     }
 
-    public function edit($id)
-    {
+    public function edit($id){
         $exercice = $this->exerciceRepository->getById($id);
-        $types = $this->types;
-        $objectifs = $this->objectifRepository->getAll();
-        return view('update-exercice',  compact('exercice', 'types', 'objectifs'));
+        return view('update-exercice',  compact('exercice'));
     }
     
     public function update(UpdateExerciceRequest $request, $id){}
@@ -118,9 +114,9 @@ class ExerciceController extends Controller
         $requestArray = $request->all();
         $requestArray['image'] = $image;
         $requestArray['users_id'] = Auth::user()->id;
-        $this->exerciceRepository->update($exercice, $requestArray);
+        $exercice = $this->exerciceRepository->update($exercice, $requestArray);
 
-        $reponse = ['message' => 'Exercice modifié', 'succes' => 'OK'];
+        $reponse = ['message' => 'Exercice modifié', 'exercice' => $exercice, 'succes' => 'OK'];
         return response()->json($reponse, 200);
     }
 
@@ -137,7 +133,7 @@ class ExerciceController extends Controller
         $requestArray['users_id'] = Auth::user()->id;
         $exercice = $this->exerciceRepository->store($requestArray);
 
-        $reponse = ['exerciceId' => $exercice->id, 'succes' => 'OK'];
+        $reponse = ['exerciceId' => $exercice->id, 'exercice' => $exercice, 'succes' => 'OK'];
         return response()->json($reponse, 200);
     }
 
@@ -147,10 +143,9 @@ class ExerciceController extends Controller
         return response()->json($reponse, 200);
     }
 
-    public function destroy($id)
-    {
+    public function destroy($id){
         $this->exerciceRepository->destroy($id);
-        return redirect('exercice');
+        return response()->json('exercice supprimé', 200);
     }
 
     public function getByObjectif($objectif){
@@ -161,18 +156,18 @@ class ExerciceController extends Controller
             $this->getTypeExerciceUpdated($exercice->typeExercice);
         }
 
+        $types = $this->typesExerciceRepository->getAll();
         $objectifs = $this->objectifRepository->getAll();
 
         $objectifSearch = $objectif;
         $nomObjectifSearch = $this->getObjectifNameFormatted($objectif);
         
-        return view('exercices', compact('exercices', 'links', 'objectifSearch', 'nomObjectifSearch', 'objectifs'));
+        return view('exercices', compact('exercices', 'links', 'objectifSearch', 'nomObjectifSearch', 'objectifs', 'types'));
     }
     
 
     /** CUSTOM FUNCTIONS */
-    public function printPDF($id)
-    {
+    public function printPDF($id){
         $exercice = $this->exerciceRepository->getById($id);
         $data = [
         'principe' => $exercice->principe,

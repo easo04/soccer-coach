@@ -1,0 +1,149 @@
+@import '../../../resources/sass/variables';
+
+.detail-seance{
+    .actions-seance-detail{
+        margin-bottom: 20px;
+        height: 80px;
+
+        .btns{
+            float: right;
+        }
+
+        .btn-mes-seances{
+            float: left;
+        }
+    }
+
+    .details-seance{
+        .infos-seance{
+            display: block;
+            position: relative;
+            border-bottom: 1px solid $gris-soccer-coach;
+
+            .bought{
+                font-size: 18px;
+                &:hover{
+                    background-color: $color-bougth;
+                }
+            }
+        }
+
+        h5{
+            margin-top: 40px;
+        }
+        span{
+            &.titre{
+                font-weight: bold;
+            }
+        }
+        
+        .row{
+            padding-top: 10px;
+            padding-bottom: 10px;
+            padding-right: 10px;
+        }
+
+        .info{
+            margin-top: 10px;
+        }
+
+        .lst-exercices{
+            height: auto;
+            padding: 0 10px 10px 10px;
+            border:1px solid #ced4da;  
+            margin-top: 7px;      
+
+            .item-exercice{
+                margin-top: 7px;
+                border-radius:0!important;
+                height: auto;
+                //border:1px solid #ced4da; 
+                border-top:1px solid #ced4da; 
+                border-bottom: 1px solid #ced4da; 
+
+                .variantes{
+                    .variante-titre{
+                        border-left: 8px solid $color-soccer-coach;
+                        //border-left: 8px solid $gris-soccer-coach;
+                        //border-top: 1px solid $gris-soccer-coach;
+                        //border-right: 1px solid $gris-soccer-coach;
+                        background-color: $gris-soccer-coach;
+                        padding: 8px;
+                        h6{
+                            margin: 0;
+                        }
+                    }
+
+                    .items-modifiables{
+                        display: flex;
+                        //border-top: 1px solid $color-soccer-coach;
+                        padding-top: 10px;
+
+                        .form-group{
+                            margin-right: 10px;
+                        }
+                    }
+                }
+
+                .exercice-match{
+                    .details-exe{
+                        .input-text{
+                            padding-right: 10px;
+                            textarea{
+                                height: 124px !important;
+                            }
+                        }
+                    }
+
+                    .description-match{
+                        padding-top: 10px;
+                    }
+                }
+
+                .actions{
+                    height: 50px;
+                    margin-top: 12px;
+                    button{
+                        float: right;
+                        margin-right: 12px;
+                    }
+                }
+
+                .details-exe{
+                    .principe-titre{
+                        border-left: 8px solid $color-action;
+                        padding: 8px;
+                        background-color: $gris-soccer-coach;
+                        h6{                        
+                            font-weight: bold;
+                            margin: 0;
+                            font-size: 16px;
+                        }
+                    }
+                    .items-modifiables{
+                        display: flex;
+                        //border-top: 1px solid $color-soccer-coach;
+                        padding-top: 10px;
+
+                        .separateur{
+                            margin-right: 10px;
+                        }
+
+                        .form-group{
+                            margin-right: 10px;
+                        }
+                    }
+                }
+
+                .image-exe{
+                    margin-top: 4px;
+                    img{
+                        width: inherit;
+                        height: 250px;
+                    }
+                }
+            }
+        }
+    }
+}
+

@@ -1,0 +1,38 @@
+@import '../../../resources/sass/variables';
+
+.details-exercice-modal{
+    padding-bottom: 2px;
+
+    .modal{
+        .modal-header{
+            border-bottom: 1px solid $color-soccer-coach;
+            .btn-close{
+                height: 66px;
+                background-color: $color-action;
+                opacity: 1;
+                color:white;
+                width: 60px;
+                &:focus{
+                    border-color: $color-soccer-coach !important;
+                    box-shadow: 0 0 0 0.2rem rgba(23, 184, 125, 0.2) !important;
+                }
+                &:hover{
+                    background-color: $color-action-selected;
+                    color:white;
+                }
+            }
+        }
+
+        
+        .modal-content{
+            .modal-body{
+                span{
+                    font-weight: normal;
+                    &.label{
+                        font-weight: bold;
+                    }
+                }
+            }
+        }
+    }
+}

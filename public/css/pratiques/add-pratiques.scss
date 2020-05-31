@@ -1,0 +1,110 @@
+@import '../../../resources/sass/variables';
+
+.add-seance-form{
+    .date-time-picker {
+        width: 25%;
+        margin: 0;
+        @media screen and (max-width: $screen-xs) {
+            width: 100%;
+        }
+    }
+
+    .exercices{
+        .btn-action-exercices{
+            height: 35px;
+            .btns{
+                float: right;
+            }
+        }
+        .details-exercice-modal{
+            float: right;
+            margin-right: 10px;
+        }
+        .lst-exercices{    
+            padding: 0 10px 10px 10px;
+            border:1px solid #ced4da;  
+            margin-top: 7px;   
+            height: auto;
+            
+            &.lst-vide{
+                min-height: 409px;
+            }
+        
+            .aucun-exercice{
+                text-align: center;
+                margin-top: 170px;
+                color: #ced4da;
+            }
+
+            .exercice-item{
+                margin-top: 7px;
+                border-radius:0!important;
+                height: auto;
+                //border:1px solid #ced4da; 
+                border-top:1px solid #ced4da; 
+                border-bottom: 1px solid #ced4da; ;
+
+                .exercice-match{
+                    .details-match{
+                        h5{
+                            padding-top: 10px;
+                        }
+                        .items-modifiables{
+                            display: flex;
+                            border-top: 1px solid $color-soccer-coach;
+                            padding-top: 10px;
+    
+                            .form-group{
+                                margin-right: 10px;
+                                .input-text{
+                                    padding-right: 10px;
+                                    textarea{
+                                        height: 124px !important;
+                                    }
+                                }
+                            }
+                        }   
+                    }
+
+                    .description-match{
+                        padding-top: 10px;
+                    }
+                }
+
+                .actions{
+                    height: 50px;
+                    margin-top: 12px;
+                    button{
+                        float: right;
+                        //margin-right: 12px;
+                    }
+                }
+
+                .details-exe{
+                    //padding-left: 25px;
+                    h5{
+                        padding-top: 10px;
+                    }
+                    .items-modifiables{
+                        display: flex;
+                        border-top: 1px solid $color-soccer-coach;
+                        padding-top: 10px;
+
+                        .form-group{
+                            margin-right: 10px;
+                        }
+                    }
+                }
+
+                .image-exe{
+                    margin-top: 4px;
+                    img{
+                        width: 300px;
+                        height: 220px;
+                        margin-left: 30px;
+                    }
+                }
+            }
+        }
+    }
+}

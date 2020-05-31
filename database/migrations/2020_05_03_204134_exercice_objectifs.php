@@ -18,9 +18,9 @@ class ExerciceObjectifs extends Migration
             $table->integer('exercice_id')->unsigned();
             $table->integer('objectifs_id')->unsigned();
             $table->foreign('exercice_id')
-				  ->references('id')
-                  ->on('exercice')->onDelete('restrict')
-                  ->onUpdate('restrict');
+				->references('id')
+                ->on('exercice')->onDelete('restrict')
+                ->onUpdate('restrict');
             $table->foreign('objectifs_id')
                 ->references('id')
                 ->on('objectifs')->onDelete('restrict')

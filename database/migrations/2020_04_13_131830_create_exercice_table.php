@@ -25,10 +25,11 @@ class CreateExerciceTable extends Migration
             $table->string('description', 900);
             $table->string('observations', 900);
             $table->boolean('private')->default(false);
+            $table->boolean('isMatch')->default(false);
             $table->integer('typesexcercice_id')->unsigned();
             $table->foreign('typesexcercice_id')
-				  ->references('id')
-                  ->on('typesexcercice');
+				->references('id')
+                ->on('typesexcercice');
             $table->integer('users_id')->unsigned();
             $table->foreign('users_id')
                 ->references('id')

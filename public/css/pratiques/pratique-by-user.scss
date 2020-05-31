@@ -1,0 +1,40 @@
+@import '../../../resources/sass/variables';
+
+.pratiques-by-user{
+
+    .actions{
+        .btn-group{
+            margin-bottom: 40px;
+        }
+        .btn-create-exercice{
+            margin-top: 80px;
+        }
+    }
+    .card-seance{
+        border:none;
+        padding: 5px;
+
+        .card-body-seance{
+            background-color: white;
+            border: 1px solid rgba(0,0,0,.125);
+            border-radius: 0!important;
+            display: block;
+            position: relative;
+            .card-title-theme{
+                height: 100px;
+            }
+
+            .bought{
+                &:hover{
+                    background-color: $color-bougth;
+                }
+            }
+        }
+
+        .footer-seance{
+            background-color: white;
+            border: 1px solid rgba(0,0,0,.125);
+            border-radius: 0!important;
+        }
+    }
+}

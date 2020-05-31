@@ -1,0 +1,126 @@
+@import '../../../resources/sass/variables';
+
+.images-modal{
+    padding-bottom: 2px;
+
+    .btn-soccer-coach-action{
+        @media screen and (max-width: $screen-xs) {
+            margin-top: 1px;
+        }
+    }
+
+    .create-exe-designer{
+        @media screen and (max-width: $screen-xs) {
+            display: none;
+        }
+    }
+
+    .modal{
+        .modal-header{
+            border-bottom: 1px solid $color-soccer-coach;
+            .btn-close{
+                height: 66px;
+                background-color: $color-action;
+                opacity: 1;
+                color:white;
+                width: 60px;
+                &:focus{
+                    border-color: $color-soccer-coach !important;
+                    box-shadow: 0 0 0 0.2rem rgba(23, 184, 125, 0.2) !important;
+                }
+                &:hover{
+                    background-color: $color-action-selected;
+                    color:white;
+                }
+            }
+        }
+
+        .image-exericie{
+            padding-top: 15px;
+            padding-bottom: 15px;
+            .img-select{
+                
+                z-index: 1;       
+                height: inherit;
+                width: inherit;
+
+                img{
+                    height: 200px;
+                    width: inherit;
+                    
+                }         
+            }       
+
+            .file-upload-infos-modal {                       
+                cursor: pointer;
+                position: absolute;
+                left: 0;
+                top: 0;
+                right: 0;
+                bottom: 0;
+                z-index: 2;
+                background: rgba(0, 0, 0, .7);
+                opacity: 0;
+                -webkit-transition: opacity .15s linear;
+                -o-transition: opacity .15s linear;
+                transition: opacity .15s linear;
+
+                .file-upload-infos-inner{
+                    position: absolute;
+                    top: 50%;
+                    -webkit-transform: translate(0, -40%);
+                    -ms-transform: translate(0, -40%);
+                    transform: translate(0, -40%);
+                    -webkit-backface-visibility: hidden;
+                    backface-visibility: hidden;
+                    width: 100%;
+                    padding: 0 20px;
+                    -webkit-transition: all .2s ease;
+                    -o-transition: all .2s ease;
+                    transition: all .2s ease;
+
+                    p{
+                        padding: 0;
+                        margin: 0;
+                        position: relative;
+                        width: 100%;
+                        white-space: nowrap;
+                        overflow: hidden;
+                        -o-text-overflow: ellipsis;
+                        text-overflow: ellipsis;
+                        color: #fff;
+                        text-align: center;
+                        line-height: 25px;
+                        font-weight: 700;
+
+                        &.file-upload-infos-message{
+                            margin-top: 15px;
+                            padding-top: 15px;
+                            font-size: 12px;
+                            position: relative;
+                            opacity: .5;
+                            color:#17a2b8;
+
+                            &::before{
+                                content: "";
+                                position: absolute;
+                                top: 0;
+                                left: 50%;
+                                -webkit-transform: translate(-50%, 0);
+                                -ms-transform: translate(-50%, 0);
+                                transform: translate(-50%, 0);
+                                background: #fff;
+                                width: 30px;
+                                height: 2px;
+                            }
+                        }
+                    }
+
+                    i{
+                        opacity: .5;
+                    }
+                }
+            }
+        }
+    }
+}

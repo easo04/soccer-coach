@@ -25,5 +25,10 @@ class Exercice extends Model
     public function objectifs()
 	{
 		return $this->belongsToMany('App\Objectifs');
+    } 
+    
+    public function pratiques()
+	{
+		return $this->belongsToMany('App\Pratique');
 	} 
 }

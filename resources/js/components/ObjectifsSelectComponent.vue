@@ -1,7 +1,7 @@
 <template>
     <div class="form-group objectifs-list-group">
         <ul>
-            <li v-for="objectif in lstObjectifsToShow" :key="objectif.id">
+            <li v-for="objectif in displayedLstObjectifs" :key="objectif.id">
             <label>
                 <input type="checkbox" :name="objectif.nom_url" @click="addObjectif(objectif.id)" :checked="objectif.selected">
                 <div class="icon-box">
@@ -14,18 +14,26 @@
 </template>
 
 <script>
-    import { mapState, mapMutations } from 'vuex'
+    import { mapState, mapMutations, mapActions } from 'vuex'
     
     export default {
-        props: ['objectifs', 'objectifsExercice'],
+        props: ['objectifsExercice'],
         data() {
             return {
-                lstObjectifsToShow: [],
                 mapCategorieObjectis: [],
+                lstIdObjectifs:[]
             }
         },       
-        computed:{
-            ...mapState(['lstObjectifs'])                     
+        computed:{     
+            displayedLstObjectifs(){
+                let lstObjectifsToShow = [];
+                this.lstAllObjectifs.forEach(obj => {            
+                    obj.selected = this.lstIdObjectifs.includes(obj.id);
+                    lstObjectifsToShow.push(obj);                 
+                });
+                return lstObjectifsToShow
+            },  
+            ...mapState(['lstObjectifs', 'lstAllObjectifs']),                         
         },
         methods: {
             addObjectif(name){
@@ -37,25 +45,24 @@
                     this.deleteObjectifToList(index);
                 }            
             },
-            ...mapMutations(['addObjectifToList', 'deleteObjectifToList', 'clearListObjectifs', 'initListObjectifs'])
+            ...mapMutations(['addObjectifToList', 'deleteObjectifToList', 'clearListObjectifs', 'initListObjectifs']),
+            ...mapActions(['loadAllObjectifs'])
         },
         mounted() {
-            let lstIdObjectifs = [];
+            //initialiser la liste d'objectifs
+            this.loadAllObjectifs();
 
             //initiliser la liste des objectifs si on la recoit en parametre
             if(this.objectifsExercice !== undefined && this.objectifsExercice.length > 0){
 
                 //vérifier s'il y a des objectifs qui doivent être sélectionnés
-                lstIdObjectifs = this.objectifsExercice.map((obj) => { return obj.id; });
+                this.lstIdObjectifs = this.objectifsExercice.map((obj) => { return obj.id; });
 
                 //initilaiser la liste dans le state
-                this.initListObjectifs(lstIdObjectifs);
+                this.initListObjectifs(this.lstIdObjectifs);
             }
-
-            this.objectifs.forEach(obj => {            
-                obj.selected = lstIdObjectifs.includes(obj.id);
-                this.lstObjectifsToShow.push(obj);                 
-            });
+        },
+        updated(){
         }
     }
 </script>

@@ -6,66 +6,84 @@ use App\Exercice;
 use App\Repositories\DB;
 use App\TypesExercice;
 use App\Repositories\VarianteRepository;
+use App\Repositories\PratiqueExerciceRepository;
 
 class ExerciceRepository
 {
 
 	protected $exercice;
 	protected $varianteRepository;
+	protected $pratiqueExerciceRepository;
 
-	public function __construct(Exercice $exercice, VarianteRepository $varianteRepository)
+	public function __construct(Exercice $exercice, VarianteRepository $varianteRepository, PratiqueExerciceRepository $pratiqueExerciceRepository)
 	{
 		$this->exercice = $exercice;
 		$this->varianteRepository = $varianteRepository;
+		$this->pratiqueExerciceRepository = $pratiqueExerciceRepository;
 	}
 
-	public function save(Exercice $exercice, Array $inputs)
-	{
-
+	public function save(Exercice $exercice, Array $inputs){
 		if($inputs['image'] != ''){
 			$exercice->image =$inputs['image'];
 		}
-		$exercice->principe =$inputs['principe'];
-		$exercice->sousPrincipe = $inputs['sousPrincipe'];
-		$exercice->physique = $inputs['physique'];
+		$exercice->principe = isset($inputs['principe']) ? $inputs['principe'] : '';
+		$exercice->sousPrincipe = isset($inputs['sousPrincipe']) ? $inputs['sousPrincipe'] : '';
+		$exercice->physique = isset($inputs['physique']) ? $inputs['physique'] : '';
 		$exercice->time = $inputs['time'];
 		$exercice->nbJoueurs = $inputs['nbJoueurs'];
 		$exercice->description = $inputs['description'];
-		$exercice->observations = $inputs['observations']; 
-		$exercice->url = $inputs['url']; 
-		$exercice->typesexcercice_id = $inputs['typesexcercice_id'];
-		$exercice->users_id =$inputs['users_id'];
+		$exercice->observations = isset($inputs['observations']) ? $inputs['observations'] : ''; 
+		$exercice->url = isset($inputs['url']) ? $inputs['url'] : ''; 
+		if(isset($inputs['typesexcercice_id'])){
+			$exercice->typesexcercice_id = $inputs['typesexcercice_id'];
+		}
+		$exercice->users_id = $inputs['users_id'];
 
-		if($inputs['private'] == 'true'){
+		if(isset($inputs['private']) && $inputs['private'] == 'true'){
 			$exercice->private = 1;
 		}else{
 			$exercice->private = 0;
 		}
-		
+
+		if(isset($inputs['isGame']) && $inputs['isGame'] == 'true'){
+			$exercice->isMatch = 1;
+		}else{
+			$exercice->isMatch = 0;
+		}
 
         $exercice->save();
 	}
 
 	public function getPaginate($n){
-		return $this->exercice->with('typeExercice')->where('exercice.private', '0')
+		return $this->exercice->with('typeExercice')->where('exercice.private', '0')->where('exercice.isMatch', '0')
 		->orderBy('exercice.created_at', 'desc')
 		->paginate($n);
 	}
 
 	public function getExercicesByType($idType, $n){
-		return $this->exercice->with('typeExercice')->where('exercice.typesexcercice_id', $idType)
+		return $this->exercice->with('typeExercice')->where('exercice.typesexcercice_id', $idType) 
+		->where('exercice.private', '0')
+		->where('exercice.isMatch', '0')
+		->orderBy('exercice.created_at', 'desc')
+		->paginate($n);
+	}
+
+	public function getExercicesByTypeUrlName($urlType, $n){
+		return $this->exercice->with('typeExercice')->where('typeExercice.urlNom', $urlType)
+		->where('exercice.private', '0')
+		->where('exercice.isMatch', '0')
 		->orderBy('exercice.created_at', 'desc')
 		->paginate($n);
 	}
 
 	public function getExercicesByUser($idUser, $n){
-		return $this->exercice->with('typeExercice')->where('exercice.users_id', $idUser)
+		return $this->exercice->with('typeExercice')->where('exercice.users_id', $idUser)->where('exercice.isMatch', '0')
 		->orderBy('exercice.created_at', 'desc')
 		->paginate($n);
 	}
 
 	public function getExercicesByIdUser($idUser){
-		return $this->exercice->with('typeExercice', 'objectifs')->where('exercice.users_id', $idUser)
+		return $this->exercice->with('typeExercice', 'objectifs', 'variantes')->where('exercice.users_id', $idUser)->where('exercice.isMatch', '0')
 		->orderBy('exercice.created_at', 'desc')->get();
 	}
 
@@ -96,8 +114,6 @@ class ExerciceRepository
 			foreach ($lstObjectifs as $key => $objectif) {
 				$exercice->objectifs()->attach($objectif);		
 			}
-
-			$exercice->objectifs()->detach($objectif->id);
 		}
 
 		return $exercice;
@@ -172,22 +188,30 @@ class ExerciceRepository
 			$exercice->objectifs()->detach();
 		}
 
-		$this->save($exercice, $inputs);
+		return $this->save($exercice, $inputs);
 	}
 
 	public function destroy($id){
 		$exercice = $this->getById($id);
 
+		//supprimer les variantes attachées à l'exercice
 		foreach($exercice->variantes as $variante){
 			$this->varianteRepository->destroy($variante->id);
 		}
 
+		//supprimer les dépendances avec les objectifs
 		$exercice->objectifs()->detach();
+
+		//supprimer les dépendances avec les pratiques
+		$this->pratiqueExerciceRepository->deleteByIdExercice($id);
+
+		//supprimer l'exercice
 		$exercice->delete();
 	}
 
 	public function getExercicesWithObjectifPaginate($objectif, $n){
 		return $this->exercice->with('typeExercice', 'objectifs')->where('exercice.private', '0')
+		->where('exercice.isMatch', '0')
 		->orderBy('exercice.created_at', 'desc')
 		->whereHas('objectifs', function($q) use ($objectif)
 		{

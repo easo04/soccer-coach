@@ -1,15 +1,4 @@
-body{
-    background-color: #F3F3F3;
-}
-
-.container-soccer-coach{
-    background-color: white;
-}
-
-.container-soccer-coach h3{
-    border-bottom: 1px solid #17b87d;
-    padding-bottom: 10px;
-}
+@import 'variables';
 
 .card-exercice-image{
     height: 250px;
@@ -49,13 +38,12 @@ body{
     padding: 0px;
     border: 1px solid rgba(0,0,0,.125);
     padding-bottom: 10px;
-}
-
-.body-exercice p{
-    margin-top: 10px;
-    margin-left: 18px;
-    height: 100px;
-    overflow: hidden;
+    p{
+        margin-top: 10px;
+        margin-left: 18px;
+        height: 100px;
+        overflow: hidden;
+    }
 }
 
 .footer-exercice{
@@ -65,88 +53,92 @@ body{
 }
 
 .actions{
+    height: auto;
     padding-bottom: 20px;
+
 }
 
-.action-recherche .navbar-dark .navbar-nav .nav-link{
-    color:white;
-}
-
-.action-recherche .navbar-dark .navbar-nav .nav-item{
-    background: #17b87d!important;
-    border-right: 1px solid white;
-}
-
-.action-recherche h5{
-    margin-bottom: 0;
-}
-
-.action-exercice{
-    height: 60px;
+.action-recherche {
+    height: auto;
     padding-bottom: 30px;
+
+    h5{
+        margin-bottom: 0;
+    }
+    .navbar-dark{
+        .navbar-nav{
+            .nav-link{
+                color:white;
+                &:hover{
+                    text-decoration: underline;
+                }
+            }
+            .nav-item{
+                background: $color-soccer-coach!important;
+                border-right: 1px solid white;
+            }     
+        }
+    }
 }
+
 
 .btn-create-exercice{
+
     float:right;
     margin-top: 5px;
+    @media screen and (max-width: $screen-xs) {
+        margin-top: 40px;
+    }
 }
 
 .selected-type{
     /*color: black !important;
     font-weight:bold;*/
-    background-color: #0f744f!important;
+    background-color: $color-soccer-coach-selected!important;
 }
 
 .btn-soccer-coach-action{
-    background-color: #b81752;
+    background-color: $color-action;
     color:white!important;
     border-radius: 0;
-}
-
-.btn-soccer-coach-action:hover{
-    background-color: #740f34!important;
-    color:white;
-}
-
-.bought:hover{
-    background-color:  #744f0f!important;
+    &:hover{
+        background-color: $color-action-selected!important;
+        color:white;
+    }
 }
 
 .btn-soccer-coach{
     /*background-color: #b87e17!important;*/
-    background-color: #17b87d!important;
+    background-color: $color-soccer-coach!important;
     color:white;
     border-radius: 0;
-}
-
-.btn-soccer-coach:hover{
-    background-color: #118b5e!important;
-    color:white;
+    &:hover{
+        background-color: $color-soccer-coach-selected!important;
+        color:white;
+    }
 }
 
 .card-title-principe{
-    border-left: 8px solid #b81752;
+    border-left: 8px solid $color-action;
     height: 80px;
     padding-left: 9px;
     display: block;
     position: relative;
-}
-
-.card-title-principe h4{
-    font-size: 1.3rem;
-}
-
-.card-title-principe h6{
-    position: absolute;
-    bottom: 0;
+    h4{
+        font-size: 1.3rem;
+    }
+    h6{
+        position: absolute;
+        bottom: 0;
+    }
 }
 
 .color-soccer-coach{
-    color: #17b87d;
+    color: $color-soccer-coach;
 }
 
 .bought{
-    background-color: #b87e17;
+    background-color: $color-bougth;
     position: absolute;
     bottom: 0;
     right: 0;
@@ -154,10 +146,13 @@ body{
     color: #FFF;
     padding: 2px 15px;
     font-size: 15px;
+    &:hover{
+        background-color:  $color-bougth-action;
+    }
 }
 
 .bought-private{
-    background-color: #b87e17;
+    background-color: $color-bougth;
     position: absolute;
     top: 0;
     left: 0;
@@ -172,16 +167,11 @@ body{
     justify-content: center!important;
 }
 
-.action-recherche .nav-link:hover{
-    text-decoration: underline;
-}
-
 .modal-content{
     border-radius: 0;
-}
-
-.modal-content .modal-body span{
-    font-weight:bold;
+    .modal-body span{
+        font-weight:bold;
+    }
 }
 
 .form-control{
@@ -211,15 +201,14 @@ label{
     -moz-user-select: none;
     -ms-user-select: none;
     user-select: none;
-}
 
-  /* Hide the browser's default checkbox */
-.container-label input {
-    position: absolute;
-    opacity: 0;
-    cursor: pointer;
-    height: 0;
-    width: 0;
+    input {
+        position: absolute;
+        opacity: 0;
+        cursor: pointer;
+        height: 0;
+        width: 0;
+    }
 }
 
 /* Create a custom checkbox */
@@ -230,7 +219,7 @@ label{
     width: 25px;
     background-color: #F3F3F3;
     margin-left: 10px;
-    border:1px solid #17b87d;
+    border:1px solid $color-soccer-coach;
 }
 
   /* On mouse-over, add a grey background color */
@@ -240,7 +229,7 @@ label{
 
   /* When the checkbox is checked, add a blue background */
 .container-label input:checked ~ .checkmark {
-    background-color: #17b87d;
+    background-color: $color-soccer-coach;
 }
 
   /* Create the checkmark/indicator (hidden when not checked) */
@@ -272,6 +261,10 @@ textarea{
     height: 250px!important;
 }
 
+.msg-required{
+    font-weight: normal!important;
+}
+
 
 /** MEDIAS **/
 @media screen and (min-width: 900px) {
@@ -280,17 +273,17 @@ textarea{
     }*/
 }
 
-@media screen and (max-width: 480px) {
-    .nav-type-exercice{       
+.nav-type-exercice{
+    @media screen and (max-width: $screen-xs) {
         padding-right: 0;
+        .navbar-nav{
+            width: 100%;
+            .nav-item{
+                text-align: center;
+                margin-bottom: 1px;
+                    
+            }
+        }
     }
 
-    .nav-type-exercice .navbar-nav{
-            width: 100%;
-    }
-    .nav-type-exercice .navbar-nav .nav-item{
-        text-align: center;
-        margin-bottom: 1px;
-            
-    }
 }

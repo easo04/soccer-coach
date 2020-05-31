@@ -1,6 +1,12 @@
 @import '../../resources/sass/variables';
 
 .exercices-by-user{
+    
+    padding:0;
+
+    .loading{
+        margin-left:0;
+    }
     /** MEDIAS **/
     @media screen and (max-width: $screen-xs) {
         

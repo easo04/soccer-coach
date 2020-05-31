@@ -1,0 +1,36 @@
+@import 'variables';
+
+.dashboard-soccer-coach{
+    
+    padding:0;
+
+    .wrapper-exercices{
+        display: flex;
+        width: 100%;
+        align-items: stretch !important;
+
+        .contenu-dashboard{  
+            width: 100%;
+            padding:10px;
+            @media screen and (max-width: $screen-xs) {
+                margin-top: 50px;
+            }
+            .menu-droite-search{          
+                height: auto;
+                background-color: white;
+
+                .search-div{
+                    border:1px solid $color-soccer-coach;  
+                    padding: 10px;
+                    margin-bottom: 20px;
+                }
+
+                .search-by-type{
+                    h4{
+                        border-bottom: 1px solid $color-soccer-coach;  
+                    }                 
+                }
+            }
+        }
+    }
+}

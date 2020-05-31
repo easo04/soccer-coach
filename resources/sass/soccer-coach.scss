@@ -1,0 +1,278 @@
+@import 'variables';
+
+body{
+    background-color: #F3F3F3;
+
+    .sous-nav{
+        height: 70px;
+        width: 100%;
+        background-color: white;
+        position: fixed;
+        top: 0;
+        z-index: 110;
+        display: flex;
+        padding-left: 20px;
+        padding-top: 10px;
+        a{
+            color:black;
+        }
+    }
+
+    .menu-top{
+        height: 50px;
+        position: fixed;
+        top: 0;
+        width: 100%;
+        z-index: 120;     
+        margin-top: 60px;
+        background-color: $color-soccer-coach !important;
+        a{          
+            &.link-custom{
+                border-bottom: 1px solid white;
+                padding-bottom: 0px;
+                margin-right: 10px;
+                color:white!important;
+                padding-top: 1px;
+                &:hover{
+                    color:rgba(0, 0, 0, 0.5)!important;
+                }
+            }
+        }
+
+        .link-custom-2{
+            border-bottom: 1px solid $color-soccer-coach;
+            padding-bottom: 0px;
+            color:black!important;
+            height: 35px;
+        }
+
+        .container{
+            @media (min-width: $screen-lg){
+                max-width: 100%;
+                margin-right: 0;
+                margin-left: 0;
+                padding-right: 0;
+                padding-left: 0;
+            }
+        }
+    }
+
+    .container-soccer-coach{
+        background-color: white;
+        margin-top: 118px;
+        margin-bottom: 10px;
+        margin-left: 10px;
+        margin-right: 10px;
+
+        .carre {
+            width: 80px;
+            height: 80px;
+            border-radius: 20px;
+            background: $color-soccer-coach;
+        }
+
+        h3{
+            border-bottom: 1px solid $color-soccer-coach;
+            padding-bottom: 10px;
+        }
+
+        .contenu-exercices{
+            
+            padding:10px;
+            .menu-droite-search{          
+                height: auto;
+
+                .search-div{
+                    border:1px solid $color-soccer-coach;  
+                    padding: 10px;
+                    margin-bottom: 20px;
+                }
+
+                .search-by-type{
+                    h4{
+                        border-bottom: 1px solid $color-soccer-coach;  
+                    }                 
+                }
+            }
+        }
+
+        .search-by-type {
+            .type-item{
+                a{
+                    color: black;
+                }
+                padding: 10px;
+                height: 40px;
+                border-bottom: 1px solid $gris-soccer-coach;
+            }
+        }
+
+        .search-objectifs{
+            
+            .objectif-item{
+                position: relative;
+                display: inline-block;
+                margin: 0 10px 10px 0;
+                padding: 0 20px 0 23px;
+                height: 26px;
+                border-radius: 3px 0 0 3px;
+                background: $color-soccer-coach;
+                text-decoration: none;
+                font-size: 14px;
+                line-height: 26px;
+                a{
+                    color: white;
+                }
+                &:before {
+                    position: absolute;
+                    top: 10px;
+                    left: 10px;
+                    width: 6px;
+                    height: 6px;
+                    border-radius: 10px;
+                    background: #fff;
+                    box-shadow: inset 0 1px rgba(0, 0, 0, 0.25);
+                    content: "";
+                }
+                &:after{
+                    position: absolute;
+                    top: 0;
+                    right: 0;
+                    border-top: 13px solid transparent;
+                    border-bottom: 13px solid transparent;
+                    border-left: 10px solid $color-soccer-coach;
+                    background: #fff;
+                    content: "";
+                }
+            }
+        }
+    }
+
+    .nav-principal{
+        height: 100px;
+        background-color: #6cb2eb !important;
+    }
+
+    .bg-info{
+        /*background-color: #17b87d!important;*/
+        background: white!important;
+        padding-left: 0;
+    }
+
+    .dropdown-custom{
+        border-radius:0;
+        margin-top: 10px;
+        border-top: none;
+        padding: 0;
+    }
+
+    footer{
+        height: 200px;
+        background-color: $color-soccer-coach;
+    }
+
+    .page-item.active{
+        .page-link {
+            z-index: 3;
+            color: #fff;
+            background-color: $color-soccer-coach;
+            border-color: $color-soccer-coach;
+        }
+    }
+
+    .page-link{
+        color:$color-soccer-coach;
+    }
+
+    .btn-g{
+        margin-right: 2px;
+    }
+
+    .btn-g-selected{
+        outline: 0;
+        background-color: $color-action-selected!important;
+        box-shadow: none;
+    }
+
+    .btn:focus, .btn.focus {
+        outline: 0;
+        background-color: $color-action-selected!important;
+        box-shadow: none;
+    }
+
+    .exercices-by-user{
+        h6{
+            font-style: italic;
+        }
+    }
+
+    .aucun-exercice{
+        font-style: italic;
+    }
+
+    .lst-vide{
+        height: 636px;
+    }
+
+    .date-creation{
+        font-size: 10px;
+        font-style: italic;
+    }
+
+    .exercices-by-user {
+        .bought:hover{
+            background-color: $color-bougth!important;
+        }
+    }
+
+    button.page-link {
+        display: inline-block;
+        font-size: 20px;
+        color: $color-soccer-coach;
+        font-weight: 500;
+    }
+
+    button.page-link:hover {
+        color: $color-soccer-coach!important;
+    }
+
+    .offset{
+        width: 500px !important;
+        margin: 20px auto;  
+    }
+
+    .page-item:last-child .page-link{
+        border-top-right-radius: 0;
+        border-bottom-right-radius: 0;
+    }
+
+    .form-control:focus{
+        border-color: $color-soccer-coach;
+        box-shadow: 0 0 0 0.2rem $box-shadow-color;
+    }
+
+    .field-input{
+        border-radius: 0 !important;
+    }
+
+    .field-input:focus{
+        border-color: $color-soccer-coach;
+        box-shadow: 0 0 0 0.2rem $box-shadow-color;
+    }
+
+    .datetimepicker .datepicker{
+        border-radius: 0 !important;
+    }
+
+    .datepicker-buttons-container .datepicker-button .datepicker-button-effect{
+        border-radius: 0 !important; 
+    }
+
+}
+
+/** MEDIAS **/
+@media screen and (max-width: $screen-xs) {
+    .action-recherche .navbar-dark .navbar-nav .nav-item{
+        border-right:none!important;
+    }
+}

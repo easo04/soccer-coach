@@ -1,17 +1,18 @@
 <template>
     <div class="images-modal">
-        <button type="button" class="btn btn-soccer-coach-action" data-toggle="modal" data-target="#myModal" @click="getImagesExercices()">Choisir dans mes images</button>
+        <button type="button" class="btn btn-soccer-coach-action" data-toggle="modal" data-target="#myModal" @click="getImagesExercices()" v-show="!isModal">Choisir dans mes images</button>
         <a class="btn btn-soccer-coach-action create-exe-designer"  href="/create-exercice" target = "_blank">SoccerCoach S3 Designer</a>
         <div id="myModal" class="modal fade" role="dialog">
             <div class="modal-dialog modal-lg">
                 <div class="modal-content">
                     <div class="modal-header">
                         <h4 class="modal-title">Mes images</h4>
-                        <button type="button" class= "close btn-close" id="closeModal" data-dismiss="modal">&times;</button>              
+                        <button type="button" class= "close btn-close" id="closeModalImg" @click="closeModal()">&times;</button>              
                     </div>
                     <div class="modal-body">
                         <p>Vous pouvez choisir une image que vous avez déjà enregistré!</p>
                         <div class="row">
+                            <bounce  color="17b87d" v-show="isLoading"></bounce>
                             <div class="col-sm-4 image-exericie" v-for="(image, index) in displayedImages" :key="index">
                                 <div class="img-select">
                                     <img :id="'img-exercice-modal'+index" :src="'../../../images/uploaded/'+image" :alt="image"/>
@@ -51,13 +52,14 @@
     import { mapState, mapMutations } from 'vuex'
     
     export default {
-        props: [],
+        props: ['isModal'],
         data() {
             return {
                 lstImages: [],
                 page: 1,
                 perPage: 9,
-                pages: []
+                pages: [],
+                isLoading:true
             }
         },       
         computed:{
@@ -77,11 +79,16 @@
             }
         },
         methods: {
+            closeModal(){
+                $("#myModal").modal("hide")
+            },
             getImagesExercices(){
                 if(this.lstImages.length === 0){
+                    this.isLoading = true;
                     axios.get('/exercice/images').then(reponse =>{
                         reponse.data.images.forEach(img => {
                             this.lstImages.push(img.image);
+                            this.isLoading = false;
                         });                
                     }).catch(error =>{
                         console.log(error);
@@ -90,7 +97,7 @@
             },
             selectImg(img){
                 this.$root.$emit('imgSelected', img); 
-                document.getElementById('closeModal').click();
+                document.getElementById('closeModalImg').click();
             },
             showInfos(index){     
                 $('.file-upload-infos-modal'+index)[0].style.opacity = 1;       
@@ -128,6 +135,6 @@
 </script>
 
 <style lang="scss" scoped>
-    @import '../../../../public/css/imagesModal';
+    @import '../../../../public/css/modals/imagesModal';
 </style>
 

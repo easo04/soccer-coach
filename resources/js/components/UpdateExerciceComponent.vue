@@ -3,8 +3,7 @@
         <form class="form-horizontal panel" @submit.prevent="updateExercice(exerciceDTO)">
         <div class="actions-exercice-detail">
             <div class="btns">
-                <button class="btn btn-soccer-coach-action" @click="annuler"><i class="ti-close"></i> Annuler</button>
-                <button type="submit" class="btn btn-soccer-coach-action"><i class="ti-pencil"></i> Sauvegarder l'exercice</button>
+                <a @click="annuler()" class="btn btn-soccer-coach-action"><i class="ti-close"></i> Annuler</a>
             </div>
             <span>* indique que le champ est obligatoire</span>
         </div>
@@ -39,11 +38,11 @@
                 </div>
                 <div class="form-group">
                     <label for="type"><i class="ti-flag-alt-2 color-soccer-coach"></i><span v-if="exerciceDTO.typesexcercice_id.validations.require"> * </span> Type d'exercice</label>
-                    <types-exercices-select v-bind:types="types" v-bind:id-type-selected="exerciceDTO.typesexcercice_id.value" v-model="exerciceDTO.typesexcercice_id.value"/>
+                    <types-exercices-select v-bind:id-type-selected="exerciceDTO.typesexcercice_id.value" v-model="exerciceDTO.typesexcercice_id.value"/>
                 </div>  
                 <div class="form-group">
                     <label for="type"><i class="ti-tag color-soccer-coach"></i> Objectifs</label>
-                    <list-objectifs-exercices v-bind:objectifs="objectifs" v-bind:objectifsExercice="objectifsExercice" />
+                    <list-objectifs-exercices :objectifsExercice="objectifsExercice" />
                 </div>     
             </div>
             <div class="col-sm-6 details-exercice-image">
@@ -74,15 +73,18 @@
             </div>
         </div>
         </form>
-        <add-variables v-bind:variantes="variantes"/> 
+        <add-variables v-bind:variantes="variantes"/>
+        <div class="btn-action-sauvegarder">
+            <button type="submit" class="btn btn-soccer-coach-action btn-sauvegarder"><i class="ti-pencil"></i> Sauvegarder l'exercice</button>
+        </div> 
     </div>
 </template>
 
 <script>
-    import { mapState } from 'vuex'
+    import { mapState, mapMutations } from 'vuex'
 
     export default {
-        props: ['exercice', 'types', 'variantes', 'objectifs', 'objectifsExercice'],
+        props: ['exercice', 'variantes', 'objectifsExercice'],
         data() {
             return {
                 exerciceDTO:{},
@@ -119,13 +121,17 @@
                 formData.append("private", exercice.private.value);  
                 axios.post('/exercice/update', formData, {headers:{'Content-Type': 'multipart/form-data'}}).then(reponse =>{
                     console.log(reponse);
-                    window.location.replace("/exercice/" + exercice.id.value);
+                    let exercice = reponse.data.exercice;
+                    this.$router.push({name: 'DetailExercice', params: { exercice }});
                 }).catch(error =>{
                     console.log(error);
                 });        
             },
             annuler(){
-                window.history.back();
+                this.setUpdateForm(false); //set the updateForm variable to false
+                this.initFormInputs();
+                let exercice = this.exercice;
+                this.$router.push({name: 'DetailExercice', params:{exercice}}); //go to detail exercice
             },
             isFormValide(){
                 let isImageValid = this.exerciceDTO.image.value;
@@ -149,6 +155,13 @@
                 }
                 return true;
             },
+            initFormInputs(){
+                this.initExerciceStoreDTO();
+                this.clearListObjectifs(); //clear list objectifs 
+                this.clearListVariantes(); //clear list variantes 
+                this.exerciceDTO = this.exerciceStoreDTO;
+            },
+            ...mapMutations(['setUpdateForm', 'clearListObjectifs', 'clearListVariantes', 'initExerciceStoreDTO']),
         },
         created() {
             this.exerciceDTO = this.exerciceStoreDTO;
@@ -180,7 +193,13 @@
             this.exerciceDTO.description.validate = true;
         },
         mounted() {
+            this.setUpdateForm(true);    
             
+            this.$root.$on('discardFormChanges', () =>{
+                this.initFormInputs();
+                this.setUpdateForm(false);
+                this.$root.$emit('goToLink');
+            });
         }
     }
 </script>

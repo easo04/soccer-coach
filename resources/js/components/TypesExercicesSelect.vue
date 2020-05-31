@@ -1,7 +1,7 @@
 <template>
     <div class="form-group type-exerice-group">
 
-        <div class="type-item" v-for="type in lstTypes" :key="type.id">
+        <div class="type-item" v-for="type in lstAllTypes" :key="type.id">
             <input type="radio" v-bind:id="'control_'+type.id" name="typeExercice" :value="type.id" v-on:change="$emit('change', type.id)" checked v-if="idTypeSelected == type.id">
             <input type="radio" v-bind:id="'control_'+type.id" name="typeExercice" :value="type.id" v-on:change="$emit('change', type.id)" v-else>
             <label :for="'control_'+type.id">
@@ -15,31 +15,24 @@
 </template>
 
 <script>
+    import { mapState, mapActions } from 'vuex';
     export default {
         model:{
             prop: 'typeExercice',
             event: 'change'
         },
-        props: ['types', 'idTypeSelected', 'typeExercice'],
-        data() {
-            return {
-                lstTypes: [],
-                lstIconsByType: [['principe-offensif', 'ti-target'], ['principe-defensif', 'ti-hummer'], ['rondos', 'ti-cup'], ['physique', 'ti-heart']]
-            }
+        props: ['idTypeSelected', 'typeExercice'],
+        computed:{     
+            ...mapState(['lstAllTypes']),                         
         },
         methods: {
             updateType: function (id){
                 this.$emit('typeSelectd', id);
-            }
+            },
+            ...mapActions(['loadAllTypes'])
         },
         mounted() {
-            //ajouter icon à chaque type de la liste
-            let mapTypes = new Map(this.lstIconsByType);
-            this.types.forEach(type => {
-                let icon = mapTypes.get(type.urlNom);
-                type.icon = icon;
-                this.lstTypes.push(type);
-            });
+            this.loadAllTypes();
         }
     }
 </script>

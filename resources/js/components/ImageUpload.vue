@@ -26,6 +26,7 @@
 </template>
 
 <script>
+    import { mapMutations } from 'vuex';
     export default {
         props: ['image', 'idImage', 'classImage'],
         data() {
@@ -48,14 +49,18 @@
 
                     this.$emit('imageUploaded', files[0]);
 
+                    let vm = this;
+
                     FR.addEventListener("load", function(e) {
-                        let srcFile = e.target.result;         
+                        let srcFile = e.target.result;    
+                        vm.setImgBase64(srcFile);     
                         $('#img-exercice'+idImage)[0].src = srcFile;
                         $('#file-upload-preview'+idImage)[0].style.zIndex = 1;
                     });
                     FR.readAsDataURL(files[0]);
                 }
             },
+            ...mapMutations(['setImgBase64'])
         },
         created() {
         },
@@ -76,6 +81,11 @@
                 this.fileName = img;
                 $('#file-upload-preview'+id)[0].style.zIndex = 1;
                 this.$emit('imageUploaded', img);
+            });
+
+            this.$root.$on('setExerciceDTO', () =>{
+                $('#img-exercice'+this.idImage)[0].src = '';
+                $('#file-upload-preview'+this.idImage)[0].style.zIndex = -1;
             });
         }
     }

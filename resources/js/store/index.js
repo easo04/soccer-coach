@@ -2,10 +2,20 @@ export default {
 
 	state: {
 
-		lstVariantes: [],
-		lstObjectifs: [],
-		errors:[],     
-		imgSelect:undefined,  
+		lstVariantes: [], //garde la liste des variantes ajoutées
+		lstObjectifs: [], //garde la liste des objectifs sélectionnés
+		lstExercices:[], //garde la liste d'exercices ajoutés
+		exerciceStore:{},
+		errors:[], //garde la liste d'erreurs
+		imgSelect:undefined,  //garde l'image sélectionnée dans le modal
+		lstAllObjectifs:[], //tous les types d'objectifs
+		lstAllTypes:[], //tous les types d'exercice
+		exerciceAdd:{},
+		imgBase64:undefined, //garde l'image en base64
+		lstIconsByType: [['principe-offensif', 'ti-target'], ['principe-defensif', 'ti-hummer'], ['rondos', 'ti-cup'], ['physique', 'ti-heart']],          
+		lstIconsByCategorie:[['Offensive', 'ti-target'], ['Défensive', 'ti-hummer'], ['Tactique', 'fa fa-puzzle-piece'], ['Technique', 'fa fa-rocket'],
+		['Organisation du jeu', 'fa fa-users'], ['Gardien de but', 'fa fa-sign-language']],
+		updateForm:false,
 		varianteDTO: {
             time:{
                 value:undefined,
@@ -113,16 +123,90 @@ export default {
                 },
                 validate:false
 			}
-        }
+		},
+		seanceStoreDTO:{
+			theme:{
+				value:undefined,
+				validations:{
+					require:true,
+					max:400
+				},
+				validate:false
+			},
+            endroit:{
+				value:undefined,
+				validations:{
+					require:false,
+					max:200
+				},
+				validate:false
+			},
+            time:{
+				value:undefined,
+				validations:{
+					require:false,
+				},
+				validate:false
+			},
+            context:{
+				value:undefined,
+				validations:{
+					require:false,
+					max:900
+				},
+				validate:true
+			}
+		}
 	},
-
 	getters: {
+		getNameTypeById: (state) => (id) =>{
+			return state.lstAllTypes.find(type => type.id === id).nom;
+		},
+		getIconByCategorie: (state) => (categorie) =>{
+            let mapCategories = new Map(state.lstIconsByCategorie);
+            return mapCategories.get(categorie);
+		},  
+		getCategorieNameByKey:(state)=>(key)=>{
+			let mapCategories = new Map(state.lstIconsByCategorie);
+            return mapCategories.get(categorie);
+		},
 	},
 
 	actions: {
-
+		loadAllObjectifs ({ commit, state }) {
+			if(state.lstAllObjectifs.length === 0){
+				axios.get('/objectifs').then(reponse =>{
+					commit('setAllObjectifs', reponse.data.objectifs);
+				}).catch(error =>{
+					console.log(error);
+				});  
+			}
+		},
+		loadAllTypes({ commit, state }) {
+			if(state.lstAllTypes.length === 0){			
+                let mapTypes = new Map(state.lstIconsByType);
+				axios.get('/types-exercices').then(reponse =>{	
+					reponse.data.types.forEach(type => {
+						type.icon = mapTypes.get(type.urlNom);
+						commit('addTypeToAllTypesList', type);
+					});
+				}).catch(error =>{
+					console.log(error);
+				});  
+			}
+		},
+		loadAllTypesWithTypes({ commit, state }, types){
+			let mapTypes = new Map(state.lstIconsByType);
+			types.forEach(type => {
+				type.icon = mapTypes.get(type.urlNom);
+				commit('addTypeToAllTypesList', type);
+			});
+		}
 	},
 	mutations: {
+		setUpdateForm(state, value){
+			state.updateForm = value;
+		},
 		addVariableToList(state, variante){
 			state.lstVariantes.push(variante);
 		},
@@ -152,6 +236,158 @@ export default {
 		},
 		clearErrors(state){
 			state.errors = [];
+		},
+		addExercice(state, exe){
+			state.lstExercices.push(exe);
+		},
+		deleteExercice(state, index){
+			state.lstExercices.splice(index, 1);
+		},
+		clearExercices(state){
+			state.lstExercices = [];
+		},
+		setExercice(state, exercice){
+			state.exerciceStore = exercice;
+		},
+		addObjectifToAllObjectifsList(state, objectif){
+			state.lstAllObjectifs.push(objectif);
+		},
+		addTypeToAllTypesList(state, type){
+			state.lstAllTypes.push(type);
+		},
+		setAllObjectifs(state, lstObjectifs){
+			state.lstAllObjectifs = lstObjectifs;
+		},
+		setAllTypes(state, lstTypes){
+			state.lstAllTypes = lstTypes;
+		},
+		setExerciceAdd(state, exercice){
+			state.exerciceAdd = exercice;
+		},
+		initSeanceStoreDTO(state){
+			state.seanceStoreDTO = {
+				theme:{
+					value:undefined,
+					validations:{
+						require:true,
+						max:400
+					},
+					validate:false
+				},
+				endroit:{
+					value:undefined,
+					validations:{
+						require:false,
+						max:200
+					},
+					validate:false
+				},
+				time:{
+					value:undefined,
+					validations:{
+						require:false,
+					},
+					validate:false
+				},
+				context:{
+					value:undefined,
+					validations:{
+						require:false,
+						max:900
+					},
+					validate:true
+				}
+			}
+		},
+		initExerciceStoreDTO(state){
+			state.exerciceStoreDTO = {
+				principe:{
+					value:undefined,
+					validations:{
+						require:true,
+						max:60,
+					},
+					validate:false
+				},
+				sousPrincipe:{
+					value:undefined,
+					validations:{
+						require:false,
+						max:60,
+					},
+					validate:true
+				},
+				description:{
+					value:undefined,
+					validations:{
+						require:true,
+						max:900,
+					},
+					validate:false
+				},
+				time:{
+					value:undefined,
+					validations:{
+						require:true,				
+						max:10
+					},
+					validate:false
+				},
+				physique:{
+					value:undefined,
+					validations:{
+						require:false,
+						max:60
+					},
+					validate:true
+				},
+				private:{
+					value:undefined,
+					validations:{
+						require:false,
+					},
+					validate:true
+				},
+				typesexcercice_id:{
+					value:undefined,
+					validations:{
+						require:true,
+					},
+					validate:false
+				},
+				nbJoueurs:{
+					value:undefined,
+					validations:{
+						require:true,
+					},
+					validate:false
+				},
+				observations:{
+					value:undefined,
+					validations:{
+						require:false,
+						max:900,
+					},
+					validate:true
+				},
+				url:{
+					value:undefined,
+					validations:{
+						require:false,
+					},
+					validate:true
+				},
+				image:{
+					value:undefined,
+					validations:{
+						require:true,
+					},
+					validate:false
+				}
+			};
+		},
+		setImgBase64(state, img){
+			state.imgBase64 = img;
 		}
 	}
 }

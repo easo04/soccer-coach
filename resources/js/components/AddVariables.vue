@@ -84,11 +84,6 @@
 
                 this.lstAddNewVariantes.push(varianteItem);
                 this.addVariableToList(varianteItem);
-
-                /*if(varianteItem.image != ''){
-                    this.uploadImg(varianteItem.image, this.nbVariantes-1);
-                }*/
-
             },
             showFormAddVariable(){
                 this.showAddVariable = true;

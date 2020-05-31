@@ -10882,3 +10882,571 @@ a.text-dark:focus {
   }
 }
 
+body {
+  background-color: #F3F3F3;
+}
+
+body .sous-nav {
+  height: 70px;
+  width: 100%;
+  background-color: white;
+  position: fixed;
+  top: 0;
+  z-index: 110;
+  display: flex;
+  padding-left: 20px;
+  padding-top: 10px;
+}
+
+body .sous-nav a {
+  color: black;
+}
+
+body .menu-top {
+  height: 50px;
+  position: fixed;
+  top: 0;
+  width: 100%;
+  z-index: 120;
+  margin-top: 60px;
+  background-color: #03aca4 !important;
+}
+
+body .menu-top a.link-custom {
+  border-bottom: 1px solid white;
+  padding-bottom: 0px;
+  margin-right: 10px;
+  color: white !important;
+  padding-top: 1px;
+}
+
+body .menu-top a.link-custom:hover {
+  color: rgba(0, 0, 0, 0.5) !important;
+}
+
+body .menu-top .link-custom-2 {
+  border-bottom: 1px solid #03aca4;
+  padding-bottom: 0px;
+  color: black !important;
+  height: 35px;
+}
+
+@media (min-width: 1200px) {
+  body .menu-top .container {
+    max-width: 100%;
+    margin-right: 0;
+    margin-left: 0;
+    padding-right: 0;
+    padding-left: 0;
+  }
+}
+
+body .container-soccer-coach {
+  background-color: white;
+  margin-top: 118px;
+  margin-bottom: 10px;
+  margin-left: 10px;
+  margin-right: 10px;
+}
+
+body .container-soccer-coach .carre {
+  width: 80px;
+  height: 80px;
+  border-radius: 20px;
+  background: #03aca4;
+}
+
+body .container-soccer-coach h3 {
+  border-bottom: 1px solid #03aca4;
+  padding-bottom: 10px;
+}
+
+body .container-soccer-coach .contenu-exercices {
+  padding: 10px;
+}
+
+body .container-soccer-coach .contenu-exercices .menu-droite-search {
+  height: auto;
+}
+
+body .container-soccer-coach .contenu-exercices .menu-droite-search .search-div {
+  border: 1px solid #03aca4;
+  padding: 10px;
+  margin-bottom: 20px;
+}
+
+body .container-soccer-coach .contenu-exercices .menu-droite-search .search-by-type h4 {
+  border-bottom: 1px solid #03aca4;
+}
+
+body .container-soccer-coach .search-by-type .type-item {
+  padding: 10px;
+  height: 40px;
+  border-bottom: 1px solid #F3F3F3;
+}
+
+body .container-soccer-coach .search-by-type .type-item a {
+  color: black;
+}
+
+body .container-soccer-coach .search-objectifs .objectif-item {
+  position: relative;
+  display: inline-block;
+  margin: 0 10px 10px 0;
+  padding: 0 20px 0 23px;
+  height: 26px;
+  border-radius: 3px 0 0 3px;
+  background: #03aca4;
+  text-decoration: none;
+  font-size: 14px;
+  line-height: 26px;
+}
+
+body .container-soccer-coach .search-objectifs .objectif-item a {
+  color: white;
+}
+
+body .container-soccer-coach .search-objectifs .objectif-item:before {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  width: 6px;
+  height: 6px;
+  border-radius: 10px;
+  background: #fff;
+  box-shadow: inset 0 1px rgba(0, 0, 0, 0.25);
+  content: "";
+}
+
+body .container-soccer-coach .search-objectifs .objectif-item:after {
+  position: absolute;
+  top: 0;
+  right: 0;
+  border-top: 13px solid transparent;
+  border-bottom: 13px solid transparent;
+  border-left: 10px solid #03aca4;
+  background: #fff;
+  content: "";
+}
+
+body .nav-principal {
+  height: 100px;
+  background-color: #6cb2eb !important;
+}
+
+body .bg-info {
+  /*background-color: #17b87d!important;*/
+  background: white !important;
+  padding-left: 0;
+}
+
+body .dropdown-custom {
+  border-radius: 0;
+  margin-top: 10px;
+  border-top: none;
+  padding: 0;
+}
+
+body footer {
+  height: 200px;
+  background-color: #03aca4;
+}
+
+body .page-item.active .page-link {
+  z-index: 3;
+  color: #fff;
+  background-color: #03aca4;
+  border-color: #03aca4;
+}
+
+body .page-link {
+  color: #03aca4;
+}
+
+body .btn-g {
+  margin-right: 2px;
+}
+
+body .btn-g-selected {
+  outline: 0;
+  background-color: #45191f !important;
+  box-shadow: none;
+}
+
+body .btn:focus,
+body .btn.focus {
+  outline: 0;
+  background-color: #45191f !important;
+  box-shadow: none;
+}
+
+body .exercices-by-user h6 {
+  font-style: italic;
+}
+
+body .aucun-exercice {
+  font-style: italic;
+}
+
+body .lst-vide {
+  height: 636px;
+}
+
+body .date-creation {
+  font-size: 10px;
+  font-style: italic;
+}
+
+body .exercices-by-user .bought:hover {
+  background-color: #370028 !important;
+}
+
+body button.page-link {
+  display: inline-block;
+  font-size: 20px;
+  color: #03aca4;
+  font-weight: 500;
+}
+
+body button.page-link:hover {
+  color: #03aca4 !important;
+}
+
+body .offset {
+  width: 500px !important;
+  margin: 20px auto;
+}
+
+body .page-item:last-child .page-link {
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
+}
+
+body .form-control:focus {
+  border-color: #03aca4;
+  box-shadow: 0 0 0 0.2rem rgba(23, 184, 125, 0.2);
+}
+
+body .field-input {
+  border-radius: 0 !important;
+}
+
+body .field-input:focus {
+  border-color: #03aca4;
+  box-shadow: 0 0 0 0.2rem rgba(23, 184, 125, 0.2);
+}
+
+body .datetimepicker .datepicker {
+  border-radius: 0 !important;
+}
+
+body .datepicker-buttons-container .datepicker-button .datepicker-button-effect {
+  border-radius: 0 !important;
+}
+
+/** MEDIAS **/
+
+@media screen and (max-width: 480px) {
+  .action-recherche .navbar-dark .navbar-nav .nav-item {
+    border-right: none !important;
+  }
+}
+
+.card-exercice-image {
+  height: 250px;
+  width: inherit;
+  margin: 0;
+  display: block;
+  position: relative;
+}
+
+.lien-image {
+  width: inherit;
+  height: inherit;
+}
+
+.lst-exercices {
+  margin-left: 0;
+  margin-right: 0;
+}
+
+.img-liste {
+  height: inherit;
+  width: inherit;
+  border-radius: 0;
+}
+
+.card-body {
+  height: inherit;
+  width: inherit;
+}
+
+.card-exercice {
+  border: none;
+  padding: 5px;
+}
+
+.body-exercice {
+  padding: 0px;
+  border: 1px solid rgba(0, 0, 0, 0.125);
+  padding-bottom: 10px;
+}
+
+.body-exercice p {
+  margin-top: 10px;
+  margin-left: 18px;
+  height: 100px;
+  overflow: hidden;
+}
+
+.footer-exercice {
+  background-color: white;
+  border: 1px solid rgba(0, 0, 0, 0.125);
+  border-radius: 0 !important;
+}
+
+.actions {
+  height: auto;
+  padding-bottom: 20px;
+}
+
+.action-recherche {
+  height: auto;
+  padding-bottom: 30px;
+}
+
+.action-recherche h5 {
+  margin-bottom: 0;
+}
+
+.action-recherche .navbar-dark .navbar-nav .nav-link {
+  color: white;
+}
+
+.action-recherche .navbar-dark .navbar-nav .nav-link:hover {
+  text-decoration: underline;
+}
+
+.action-recherche .navbar-dark .navbar-nav .nav-item {
+  background: #03aca4 !important;
+  border-right: 1px solid white;
+}
+
+.btn-create-exercice {
+  float: right;
+  margin-top: 5px;
+}
+
+@media screen and (max-width: 480px) {
+  .btn-create-exercice {
+    margin-top: 40px;
+  }
+}
+
+.selected-type {
+  /*color: black !important;
+  font-weight:bold;*/
+  background-color: #1b534f !important;
+}
+
+.btn-soccer-coach-action {
+  background-color: #8a2539;
+  color: white !important;
+  border-radius: 0;
+}
+
+.btn-soccer-coach-action:hover {
+  background-color: #45191f !important;
+  color: white;
+}
+
+.btn-soccer-coach {
+  /*background-color: #b87e17!important;*/
+  background-color: #03aca4 !important;
+  color: white;
+  border-radius: 0;
+}
+
+.btn-soccer-coach:hover {
+  background-color: #1b534f !important;
+  color: white;
+}
+
+.card-title-principe {
+  border-left: 8px solid #8a2539;
+  height: 80px;
+  padding-left: 9px;
+  display: block;
+  position: relative;
+}
+
+.card-title-principe h4 {
+  font-size: 1.3rem;
+}
+
+.card-title-principe h6 {
+  position: absolute;
+  bottom: 0;
+}
+
+.color-soccer-coach {
+  color: #03aca4;
+}
+
+.bought {
+  background-color: #370028;
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  /* z-index: 1; */
+  color: #FFF;
+  padding: 2px 15px;
+  font-size: 15px;
+}
+
+.bought:hover {
+  background-color: #572947;
+}
+
+.bought-private {
+  background-color: #370028;
+  position: absolute;
+  top: 0;
+  left: 0;
+  /* z-index: 1; */
+  color: #FFF;
+  padding: 2px 15px;
+  font-size: 15px;
+}
+
+.pagination {
+  margin-top: 30px;
+  justify-content: center !important;
+}
+
+.modal-content {
+  border-radius: 0;
+}
+
+.modal-content .modal-body span {
+  font-weight: bold;
+}
+
+.form-control {
+  border-radius: 0;
+}
+
+label {
+  font-weight: 700;
+}
+
+.form-check {
+  padding-left: 0;
+}
+
+.form-check-input {
+  margin-top: 7px;
+  margin-left: 5px;
+}
+
+.container-label {
+  display: block;
+  position: relative;
+  margin-bottom: 12px;
+  cursor: pointer;
+  font-size: 1rem;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+.container-label input {
+  position: absolute;
+  opacity: 0;
+  cursor: pointer;
+  height: 0;
+  width: 0;
+}
+
+/* Create a custom checkbox */
+
+.checkmark {
+  position: absolute;
+  top: 0;
+  height: 25px;
+  width: 25px;
+  background-color: #F3F3F3;
+  margin-left: 10px;
+  border: 1px solid #03aca4;
+}
+
+/* On mouse-over, add a grey background color */
+
+.container:hover input ~ .checkmark {
+  background-color: #F3F3F3;
+}
+
+/* When the checkbox is checked, add a blue background */
+
+.container-label input:checked ~ .checkmark {
+  background-color: #03aca4;
+}
+
+/* Create the checkmark/indicator (hidden when not checked) */
+
+.checkmark:after {
+  content: "";
+  position: absolute;
+  display: none;
+}
+
+/* Show the checkmark when checked */
+
+.container-label input:checked ~ .checkmark:after {
+  display: block;
+}
+
+/* Style the checkmark/indicator */
+
+.container-label .checkmark:after {
+  left: 9px;
+  top: 5px;
+  width: 5px;
+  height: 10px;
+  border: solid white;
+  border-width: 0 3px 3px 0;
+  transform: rotate(45deg);
+}
+
+textarea {
+  height: 250px !important;
+}
+
+.msg-required {
+  font-weight: normal !important;
+}
+
+/** MEDIAS **/
+
+@media screen and (min-width: 900px) {
+  /*.btn-create-exercice{
+      float: right;
+  }*/
+}
+
+@media screen and (max-width: 480px) {
+  .nav-type-exercice {
+    padding-right: 0;
+  }
+
+  .nav-type-exercice .navbar-nav {
+    width: 100%;
+  }
+
+  .nav-type-exercice .navbar-nav .nav-item {
+    text-align: center;
+    margin-bottom: 1px;
+  }
+}
+

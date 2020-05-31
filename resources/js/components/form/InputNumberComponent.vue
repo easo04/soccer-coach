@@ -33,7 +33,7 @@
                             vm.$emit('input', event.target.value)
                         },
                         blur : function (event) {
-                            let require = vm.model.validations.require;
+                            let require = vm.model.validations ? vm.model.validations.require : false;
                             let valide =  true;
                             if(require){
                                 if(event.target.value.trim() === ''){
@@ -60,7 +60,7 @@
         },       
         mounted() { 
             this.$root.$on('formInvalid', () => {
-                let require = this.model.validations.require;
+                let require = this.model.validations ? this.model.validations.require : false;
                 if(require && (!this.modelInput || this.modelInput.trim() === '')){
                     this.error.isError = true;
                     this.error.message = '* Ce champ est obligatoire';

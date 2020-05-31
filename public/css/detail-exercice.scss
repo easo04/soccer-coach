@@ -19,7 +19,7 @@
 
 .details-items-info div p.text {
     font-weight: 300;
-    font-size: 12px;
+    font-size: 10px;
     letter-spacing: 1px;
     margin: 0;
     color: #7D8693;
@@ -129,8 +129,25 @@
     padding-bottom: 2px;
 }
 
-.btn-action-sauvegarder{
-    display: none;
+.add-seance-form .btn-action-sauvegarder{
+    
+    margin-top: 60px;
+    height: 40px;
+    display: block !important;
+}
+
+.add-seance-form  .btn-action-sauvegarder .btn-sauvegarder{
+    float: right;
+}
+
+.update-exercice-form .btn-action-sauvegarder {
+    margin-top: 60px;
+    height: 40px;
+    display: block !important;
+}
+
+.update-exercice-form .btn-action-sauvegarder .btn-sauvegarder{
+    float: right;
 }
 
 @media screen and (max-width: 480px) {
@@ -142,10 +159,6 @@
         display: block;
         margin-top: 60px;
         height: 40px;
-    }
-
-    .btn-action-sauvegarder .btn-sauvegarder2{
-        float: right;
     }
 
     .actions-exercice-detail{

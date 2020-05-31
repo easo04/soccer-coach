@@ -33,7 +33,7 @@
                             vm.$emit('input', event.target.value)
                         },
                         blur : function (event) {
-                            let require = vm.model.validations.require;
+                            let require = vm.model.validations ? vm.model.validations.require : false;
                             let valide =  true;
                             if(require){
                                 if(event.target.value.trim() === ''){
@@ -48,7 +48,7 @@
                                     }
                                 }
                             }
-                            let max = vm.model.validations.max;
+                            let max = vm.model.validations ? vm.model.validations.max : undefined;
                             if(max){
                                 if(event.target.value && event.target.value.length > max){
                                     vm.error.isError = true;
@@ -74,13 +74,13 @@
         },       
         mounted() { 
             this.$root.$on('formInvalid', () => {
-                let require = this.model.validations.require;
+                let require = this.model.validations ? this.model.validations.require : false;
                 if(require && (!this.modelInput || this.modelInput.trim() === '')){
                     this.error.isError = true;
                     this.error.message = '* Ce champ est obligatoire';
                     this.$emit('validation', false);
                 }
-                let max = this.model.validations.max;
+                let max = this.model.validations ? this.model.validations.max : undefined;
                 if(max && (this.modelInput && this.modelInput.length > max)){
                     this.error.isError = true;
                     this.error.message = '* La valeur de ce champ ne doit pas dépasser ' + max + ' caractères';

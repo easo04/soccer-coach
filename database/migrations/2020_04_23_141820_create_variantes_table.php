@@ -20,8 +20,8 @@ class CreateVariantesTable extends Migration
             $table->string('time', 10);
             $table->integer('exercice_id')->unsigned();
             $table->foreign('exercice_id')
-				  ->references('id')
-                  ->on('exercice');
+				->references('id')
+                ->on('exercice');
             $table->timestamps();
         });
     }

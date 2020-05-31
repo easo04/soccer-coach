@@ -3,7 +3,6 @@
 @section('head')
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <link href="css/themify-icons/themify-icons.css" rel="stylesheet">
-    <link rel="stylesheet" href="css/exercice.css">
 @endsection
 
 @section('contenu')
@@ -11,7 +10,7 @@
 	<br>
 	<h3>Liste des types d'exercice</h3>
     <div class="col-sm-offset-4 col-sm-4">
-    	@if(session()->has('ok'))
+		@if(session()->has('ok'))
 			<div class="alert alert-success alert-dismissible">{!! session('ok') !!}</div>
 		@endif
 		<div class="panel panel-primary">

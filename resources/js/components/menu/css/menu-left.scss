@@ -1,0 +1,93 @@
+@import '../../../sass/variables';
+
+.menu-left { 
+    .sidebar{
+        min-width: 250px;
+        max-width: 250px;
+        background: $color-action;
+        color: white;
+        -webkit-transition: all 0.3s;
+        -o-transition: all 0.3s;
+        transition: all 0.3s;
+        position: relative;
+        height: 800px;
+        @media screen and (max-width: $screen-xs) {
+            margin-left: -250px;
+            &.active {
+                margin-left: 0;  
+                max-width: 340px;
+                min-width: 340px;
+                
+                .custom-menu {
+                    @media screen and (max-width: $screen-xs) {
+                        margin-right: 0px;
+                    }
+                }
+            }
+        }
+
+        .custom-menu {
+            display: none;
+            @media screen and (max-width: $screen-xs) {
+                display: inline-block;
+                position: absolute;
+                right: 0;
+                margin-right: -40px;
+                -webkit-transition: 0.3s;
+                -o-transition: 0.3s;
+                transition: 0.3s;
+                background-color: $color-action;
+                .btn{
+                    &.btn-primary{
+                        background: transparent;
+                        border-color: transparent;
+                        i{
+                            color: white;
+                            font-size: 24px;
+                        }
+                        &:hover, &:focus{
+                            background: transparent !important;
+                            border-color: transparent !important;
+                            box-shadow: none;
+                        }
+                    }
+                }
+            }
+            
+        }
+    }
+    
+    h4{
+        padding-top: 40px;
+        text-align: center;
+    }
+
+    ul{
+        &.components {
+            padding: 0;
+        }   
+
+        li{
+            font-size: 16px;
+            a{
+                padding: 15px 30px;
+                display: block;
+                color: white;
+                border-bottom: 1px solid rgba(255, 255, 255, 0.1); 
+                cursor: pointer;
+                &:hover{
+                    text-decoration: underline;
+                }
+            }
+        }
+    }
+
+    .list-unstyled {
+        padding-left: 0;
+        list-style: none;
+
+        .selected-link{
+            background-color: $color-action-selected;
+        }
+    }
+}

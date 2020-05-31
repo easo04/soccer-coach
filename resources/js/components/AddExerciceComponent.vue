@@ -1,12 +1,11 @@
 <template>
     <div class="update-exercice-form">
-        <form class="form-horizontal panel" @submit.prevent="addExercice(exerciceDTO)">
+        <form class="form-horizontal panel" @submit.prevent="addExerciceToList(exerciceDTO)">
         <div class="actions-exercice-detail">
-            <div class="btns">
-                <button class="btn btn-soccer-coach-action" @click="annuler"><i class="ti-close"></i> Annuler</button>
-                <button type="submit" class="btn btn-soccer-coach-action btn-sauvegarder1"><i class="ti-pencil"></i> Sauvegarder l'exercice</button>
+            <div class="btns" v-if="!isModal">
+                <a class="btn btn-soccer-coach-action" @click="annuler"><i class="ti-close"></i> Annuler</a>
             </div>
-            <span>* indique que le champ est obligatoire</span>
+            <span class="msg-required">* indique que le champ est obligatoire</span>
         </div>
         
         <div class="row details-exercice">        
@@ -39,11 +38,11 @@
                 </div>
                 <div class="form-group">
                     <label for="type"><i class="ti-flag-alt-2 color-soccer-coach"></i><span v-if="exerciceDTO.typesexcercice_id.validations.require"> * </span> Type d'exercice</label>
-                    <types-exercices-select v-bind:types="types" v-bind:id-type-selected="exerciceDTO.typesexcercice_id.value" v-model="exerciceDTO.typesexcercice_id.value"/>
+                    <types-exercices-select v-bind:id-type-selected="exerciceDTO.typesexcercice_id.value" v-model="exerciceDTO.typesexcercice_id.value"/>
                 </div>     
                 <div class="form-group">
                     <label for="type"><i class="ti-tag color-soccer-coach"></i> Objectifs</label>
-                    <list-objectifs-exercices v-bind:objectifs="objectifs" />
+                    <list-objectifs-exercices />
                 </div>  
             </div>
             <div class="col-sm-6 details-exercice-image">
@@ -69,23 +68,23 @@
                 </div>
                 <label for="image"><i class="ti-image color-soccer-coach"></i><span v-if="exerciceDTO.image.validations.require"> * </span> Image</label>
                 <br><span class="error" v-if="error.isError">{{error.message}}</span>   
-                <images-exercices-modal/>
+                <images-exercices-modal isModal="isModal"/>
                 <image-upload v-bind:image="exerciceDTO.image.value" id-image="1" @imageUploaded="exerciceDTO.image.value = $event"/>     
             </div>
         </div>
-        </form>
         <add-variables/> 
         <div class="btn-action-sauvegarder">
-            <button type="submit" class="btn btn-soccer-coach-action btn-sauvegarder2"><i class="ti-pencil"></i> Sauvegarder l'exercice</button>
+            <button type="submit" class="btn btn-soccer-coach-action btn-sauvegarder"><i class="ti-save"></i> Sauvegarder l'exercice</button>
         </div>
+        </form>
     </div>
 </template>
 
 <script>
-    import { mapState } from 'vuex'
+    import { mapState, mapMutations, mapGetters } from 'vuex';
 
     export default {
-        props: ['types', 'objectifs'],
+        props: ['isModal'],
         data() {
             return {
                 exerciceDTO:{},
@@ -93,44 +92,81 @@
             }
         },     
         computed:{
-            ...mapState(['lstVariantes', 'lstObjectifs', 'exerciceStoreDTO'])                     
+            ...mapState(['lstVariantes', 'lstObjectifs', 'exerciceStoreDTO', 'imgBase64']),
+            ...mapGetters(['getNameTypeById'])                  
         },
         methods: {
-            addExercice(exercice){
+            addExerciceToList(exercice){
                 if(!this.isFormValide()){
                     return;
                 }
-                
-                const formData = new FormData();
-                formData.append("image", exercice.image.value);
-                formData.append("principe", exercice.principe.value);              
-                formData.append("time", exercice.time.value.toLowerCase());
-                formData.append("nbJoueurs", exercice.nbJoueurs.value);
-                formData.append("description", exercice.description.value);
-                formData.append("typesexcercice_id", exercice.typesexcercice_id.value);
-                this.lstVariantes.forEach((item) => {
-                    formData.append('lstVariables[]', JSON.stringify(item));
-                });
-                this.lstObjectifs.forEach((item) => {
-                    formData.append('lstObjectifs[]', JSON.stringify(item));
-                });
-                formData.append("sousPrincipe", exercice.sousPrincipe.value ? exercice.sousPrincipe.value : '');             
-                formData.append("physique", exercice.physique.value ? exercice.physique.value : '');
-                formData.append("observations", exercice.observations.value ? exercice.observations.value : '');      
-                formData.append("url", exercice.url.value ? exercice.url.value : '');
-                formData.append("private", exercice.private.value);
-                
-                
-                axios.post('/exercice/create', formData, {headers:{'Content-Type': 'multipart/form-data'}}).then(reponse =>{
-                    console.log(reponse);
-                    let exerciceId =  reponse.data.exerciceId;
-                    window.location.replace("/exercice/" + exerciceId);
-                }).catch(error =>{
-                    console.log(error);
-                });        
+
+                if(!this.isModal){
+                    const formData = new FormData();
+                    formData.append("image", exercice.image.value);
+                    formData.append("principe", exercice.principe.value);              
+                    formData.append("time", exercice.time.value.toLowerCase());
+                    formData.append("nbJoueurs", exercice.nbJoueurs.value);
+                    formData.append("description", exercice.description.value);
+                    formData.append("typesexcercice_id", exercice.typesexcercice_id.value);
+                    this.lstVariantes.forEach((item) => {
+                        formData.append('lstVariables[]', JSON.stringify(item));
+                    });
+                    this.lstObjectifs.forEach((item) => {
+                        formData.append('lstObjectifs[]', JSON.stringify(item));
+                    });
+                    formData.append("sousPrincipe", exercice.sousPrincipe.value ? exercice.sousPrincipe.value : '');             
+                    formData.append("physique", exercice.physique.value ? exercice.physique.value : '');
+                    formData.append("observations", exercice.observations.value ? exercice.observations.value : '');      
+                    formData.append("url", exercice.url.value ? exercice.url.value : '');
+                    formData.append("private", exercice.private.value);
+                    
+                    
+                    axios.post('/exercice/create', formData, {headers:{'Content-Type': 'multipart/form-data'}}).then(reponse =>{
+                        console.log(reponse);
+                        let exercice = reponse.data.exercice;
+                        this.$router.push({name: 'DetailExercice', params: { exercice }});
+                    }).catch(error =>{
+                        console.log(error);
+                    }); 
+                }else{
+                    let exerciceAdd = {
+                        image:exercice.image.value,
+                        principe:exercice.principe.value,
+                        sousPrincipe:exercice.sousPrincipe.value ? exercice.sousPrincipe.value : '',
+                        time:exercice.time.value,
+                        nbJoueurs:exercice.nbJoueurs.value,
+                        description:exercice.description.value,
+                        observations:exercice.observations.value ? exercice.observations.value : '',
+                        url:exercice.url.value ? exercice.url.value : '',
+                        typesexcercice_id:exercice.typesexcercice_id.value,
+                        type_exercice : {
+                            nom:this.getNameTypeById(exercice.typesexcercice_id.value)
+                        },
+                        physique:exercice.physique.value ? exercice.physique.value : '',
+                        private:exercice.private.value,
+                        lstVariantes:this.lstVariantes,
+                        lstObjectifs:this.lstObjectifs,
+                        newAdded:true,
+                        imageBase64:this.imgBase64
+                    };
+                    this.addExercice(exerciceAdd);
+                    this.$root.$emit('closeModalCustom');
+                    this.setImgBase64(undefined);
+                }                     
             },
             annuler(){
+                this.setUpdateForm(false); //set the updateForm variable to false
+                this.initExerciceDTO(); 
                 window.history.back();
+            },
+            initExerciceDTO(){
+                this.initExerciceStoreDTO();
+                this.clearListObjectifs(); //clear list objectifs 
+                this.clearListVariantes(); //clear list variantes 
+                this.exerciceDTO = this.exerciceStoreDTO;
+                this.exerciceDTO.typesexcercice_id.value = 1;
+                this.exerciceDTO.typesexcercice_id.validate = true; 
             },
             isFormValide(){
                 let isImageValid = this.exerciceDTO.image.value;
@@ -154,16 +190,28 @@
                 }
                 return true;
             },
+            ...mapMutations(['addExercice', 'initExerciceStoreDTO', 'setImgBase64', 'setUpdateForm', 'clearListVariantes', 'clearListObjectifs'])  
         },
         beforeCreate(){
         },
         created() {
             this.exerciceDTO = this.exerciceStoreDTO;
-        },
-        mounted() {
             //setter le type par defaut
             this.exerciceDTO.typesexcercice_id.value = 1;
             this.exerciceDTO.typesexcercice_id.validate = true; 
+        },
+        mounted() {        
+            this.$root.$on('setExerciceDTO', () =>{
+                this.initExerciceDTO();
+            });
+
+            this.setUpdateForm(true);
+
+            this.$root.$on('discardFormChanges', () =>{
+                this.initExerciceDTO();
+                this.setUpdateForm(false);
+                this.$root.$emit('goToLink');
+            });
         }
     }
 </script>

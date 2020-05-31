@@ -1,0 +1,13 @@
+.modalUpdateForm{
+    .modal-content{
+        .modal-footer{
+            display: inline;
+            .btn-non{
+                float: left;
+            }
+            .btn-oui{
+                float: right;
+            }
+        }
+    }
+}
