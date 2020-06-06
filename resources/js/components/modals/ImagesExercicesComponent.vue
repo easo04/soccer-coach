@@ -1,7 +1,9 @@
 <template>
     <div class="images-modal">
-        <button type="button" class="btn btn-soccer-coach-action" data-toggle="modal" data-target="#myModal" @click="getImagesExercices()" v-show="!isModal">Choisir dans mes images</button>
-        <a class="btn btn-soccer-coach-action create-exe-designer"  href="/create-exercice" target = "_blank">SoccerCoach S3 Designer</a>
+        <div class="btns">
+            <a class="btn btn-soccer-coach-action create-exe-designer"  href="/create-exercice" target = "_blank">SoccerCoach S3 Designer</a>
+            <button type="button" class="btn btn-soccer-coach-action" data-toggle="modal" data-target="#myModal" @click="getImagesExercices()" v-show="!isModal">Choisir dans mes images</button>
+        </div> 
         <div id="myModal" class="modal fade" role="dialog">
             <div class="modal-dialog modal-lg">
                 <div class="modal-content">

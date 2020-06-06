@@ -33,7 +33,7 @@
                 <div class="col-md-4 card card-exercice" v-for="exercice in displayedExercices" :key="exercice.id">
                     <div class="card-exercice-image">
                         <img class="card-img-top img-liste" :src="'../../images/uploaded/' + exercice.image">               
-                        <span class="bought"><i :class="exercice.type_exercice.icon"></i> {{exercice.type_exercice.nom}}</span>                    
+                        <span class="bought"><i :class="exercice.typeExercice.icon"></i> {{exercice.typeExercice.nom}}</span>                    
                         <span class="bought-private" v-if="exercice.private === 1"><i class="ti-key"></i></span>                      
                     </div>
                     <div class="card-body body-exercice">      
@@ -41,7 +41,7 @@
                             <h4 class="card-title">{{exercice.principe}}</h4>
                             <h6><i class="ti-timer color-soccer-coach"></i> {{exercice.time}}</h6>                     
                         </div>
-                        <span class="date-creation">{{ exercice.created_at | moment('YYYY/MM/DD') }}</span>
+                        <span class="date-creation">Créé le {{ exercice.created_at | moment('YYYY-MM-DD') }}</span>
                         <p>{{exercice.description}}</p>
                     </div>
                     <div class="card-footer footer-exercice">
@@ -203,9 +203,7 @@
             //si la liste n'est pas passée dans les props, récupérer la liste d'exercices
             if(!this.exercices){
                 this.isLoading = true;
-                let mapTypes = new Map(this.lstIconsByType);
                 axios.get('/exercice/get-exercices-by-user').then(reponse =>{
-                    console.log(reponse);
                     this.exercicesByUser = reponse.data.exercices;
                     this.lstExercices = this.exercicesByUser;
                     this.lstTypes = reponse.data.types;

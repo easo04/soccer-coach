@@ -3,6 +3,13 @@
 .images-modal{
     padding-bottom: 2px;
 
+    .btns{
+        .btn{
+            float: right;
+            margin-left: 2px;
+        }
+    }
+
     .btn-soccer-coach-action{
         @media screen and (max-width: $screen-xs) {
             margin-top: 1px;

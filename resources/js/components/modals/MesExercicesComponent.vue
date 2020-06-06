@@ -16,7 +16,7 @@
                                 <div class="exe-select">
                                     <div class="exe-img">
                                         <img :id="'img-exercice-modal'+index" :src="'../../../images/uploaded/'+exercice.image" :alt="exercice.image"/>
-                                        <span class="bought">{{exercice.type_exercice.nom}}</span>                
+                                        <span class="bought">{{exercice.typeExercice.nom}}</span>                
                                     </div>
                                     <div class="infos-exercice">
                                         <div class="principe">

@@ -14,10 +14,4 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/exercice', 'ExerciceController@getExerices');
-
-//ROUTES AVEC AUTH
-//Route::middleware(['auth'])->group(function () {
-    //Route::post('/seance/update', 'PratiquesController@updateSeance');
-    //Route::post('/seance/create', 'PratiquesController@createSeance');
-//});
+//ROUTES EXERCICE

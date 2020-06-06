@@ -13,8 +13,8 @@ export default {
 		exerciceAdd:{},
 		imgBase64:undefined, //garde l'image en base64
 		lstIconsByType: [['principe-offensif', 'ti-target'], ['principe-defensif', 'ti-hummer'], ['rondos', 'ti-cup'], ['physique', 'ti-heart']],          
-		lstIconsByCategorie:[['Offensive', 'ti-target'], ['Défensive', 'ti-hummer'], ['Tactique', 'fa fa-puzzle-piece'], ['Technique', 'fa fa-rocket'],
-		['Organisation du jeu', 'fa fa-users'], ['Gardien de but', 'fa fa-sign-language']],
+		lstIconsByCategorie:[{ name:'Offensive', icon:'ti-target', id:'off'}, { name:'Défensive', icon:'ti-hummer', id:'def'}, { name:'Tactique', icon:'fa fa-puzzle-piece', id:'tact'}, { name:'Technique', icon:'fa fa-rocket', id:'tec'},
+		{ name:'Organisation du jeu', icon:'fa fa-users', id:'org-jeu'}, { name:'Gardien de but', icon:'fa fa-sign-language', id:'gar'}],
 		updateForm:false,
 		varianteDTO: {
             time:{
@@ -137,9 +137,8 @@ export default {
 				value:undefined,
 				validations:{
 					require:false,
-					max:200
 				},
-				validate:false
+				validate:true
 			},
             time:{
 				value:undefined,
@@ -155,7 +154,29 @@ export default {
 					max:900
 				},
 				validate:true
-			}
+			},
+			effectif:{
+				value:undefined,
+				validations:{
+					require:true,
+				},
+				validate:false
+			},
+			temps:{
+				value:undefined,
+				validations:{
+					require:true,
+					max:400
+				},
+				validate:false
+			},
+			categorie:{
+				value:undefined,
+				validations:{
+					require:true,
+				},
+				validate:false
+			},
 		}
 	},
 	getters: {
@@ -163,12 +184,8 @@ export default {
 			return state.lstAllTypes.find(type => type.id === id).nom;
 		},
 		getIconByCategorie: (state) => (categorie) =>{
-            let mapCategories = new Map(state.lstIconsByCategorie);
-            return mapCategories.get(categorie);
-		},  
-		getCategorieNameByKey:(state)=>(key)=>{
-			let mapCategories = new Map(state.lstIconsByCategorie);
-            return mapCategories.get(categorie);
+			let categorieFind = state.lstIconsByCategorie.find(c => c.name === categorie);
+            return state.lstIconsByCategorie.find(c => c.name === categorie).icon;
 		},
 	},
 
@@ -296,7 +313,31 @@ export default {
 						max:900
 					},
 					validate:true
-				}
+				},
+				effectif:{
+					value:undefined,
+					validations:{
+						require:true,
+						max:400
+					},
+					validate:false
+				},
+				temps:{
+					value:undefined,
+					validations:{
+						require:true,
+						max:400
+					},
+					validate:false
+				},
+				categorie:{
+					value:undefined,
+					validations:{
+						require:true,
+						max:400
+					},
+					validate:false
+				},
 			}
 		},
 		initExerciceStoreDTO(state){

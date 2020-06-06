@@ -3,7 +3,7 @@
         <form class="form-horizontal panel" @submit.prevent="addSeance(seanceDTO)">
             <div class="actions-exercice-detail">
                 <div class="btns">
-                    <button class="btn btn-soccer-coach-action" @click="annuler"><i class="ti-close"></i> Annuler</button>
+                    <a class="btn btn-soccer-coach-action" @click="annuler"><i class="ti-close"></i> Annuler</a>
                 </div>
                 <span>* indique que le champ est obligatoire</span>
             </div>
@@ -14,15 +14,49 @@
                     <input-text placeholder="Ex: Conservation 4vs4 plus joker" v-model="seanceDTO.theme.value" name="theme"
                         :model="seanceDTO.theme" @validation="seanceDTO.theme.validate = $event"/>
                 </div>
+                <div class="form-group input-sm">
+                    <label for="temps"><i class="ti-time color-soccer-coach"></i><span v-if="seanceDTO.temps.validations.require"> * </span> Durée:</label>
+                    <div class="temps-input">
+                        <input-number placeholder="Ex: 20" v-model="seanceDTO.temps.value" name="time" 
+                            :model="seanceDTO.temps" @validation="seanceDTO.temps.validate = $event"/>
+                        <div class="temps-chexbox">
+                            <div class="type-item">
+                                <input type="radio" id="control_min_p" name="typeTempsP" value="min" v-model="seanceDTO.typeTemps.value">
+                                <label for="control_min_p">
+                                    <div class="details-type">
+                                        <p class="value">min</p>                
+                                    </div>
+                                </label>
+                            </div>
+                            <div class="type-item">
+                                <input type="radio" id="control_h_p" name="typeTempsP" value="h" v-model="seanceDTO.typeTemps.value">
+                                <label for="control_h_p">
+                                    <div class="details-type">
+                                        <p class="value">h</p>                
+                                    </div>
+                                </label>
+                            </div>
+                        </div>
+                    </div>   
+                </div>
+                <div class="form-group input-sm">
+                    <label for="effectif"><i class="fa fa-group color-soccer-coach"></i><span v-if="seanceDTO.effectif.validations.require"> * </span> Effectif:</label>
+                    <input-number placeholder="Ex: 15" v-model="seanceDTO.effectif.value" name="effectif"
+                        :model="seanceDTO.effectif" @validation="seanceDTO.effectif.validate = $event"/>
+                </div>
+                <div class="form-group">
+                    <label for="type"><i class="ti-flag-alt-2 color-soccer-coach"></i><span v-if="seanceDTO.categorie.validations.require"> * </span> Type de séance:</label>
+                    <types-seances-select v-model="seanceDTO.categorie.value"/>
+                </div>     
                 <div class="form-group">
                     <label for="endroit"><i class="ti-map-alt color-soccer-coach"></i><span v-if="seanceDTO.endroit.validations.require"> * </span> Endroit:</label>
                     <input-text placeholder="Ex: Terrain A" v-model="seanceDTO.endroit.value" name="theme"
                         :model="seanceDTO.endroit" @validation="seanceDTO.endroit.validate = $event"/>
                 </div>
-                <div class="form-group">
-                    <label for="time"><i class="ti-time color-soccer-coach"></i><span v-if="seanceDTO.time.validations.require"> * </span> Date:</label>
+                <div class="form-group input-sm">
+                    <label for="time"><i class="fa fa-calendar-o color-soccer-coach"></i><span v-if="seanceDTO.time.validations.require"> * </span> Date:</label>
                     <VueCtkDateTimePicker v-model="seanceDTO.time.value" locale="fr" format="YYYY-MM-DD" formatted="ll"
-                        color="#17b87d" label="Sélectionner une date" button-color="#17b87d"
+                        color="#03aca4" label="Sélectionner une date" button-color="#03aca4"
                         button-now-translation="Aujourd'hui" :right="true" :auto-close="true" :only-date="true" id="dateSeance"/>
                 </div>
                 <div class="form-group">
@@ -30,10 +64,6 @@
                     <text-area placeholder="Ex: Préaparation du match contre équipe X" name="context" v-model="seanceDTO.context.value" 
                                 :model="seanceDTO.context" @validation="seanceDTO.context.validate = $event"/>
                 </div>
-                <div class="form-group">
-                    <label for="type"><i class="ti-tag color-soccer-coach"></i> Objectifs</label>
-                    <list-objectifs-exercices />
-                </div> 
                 <div class="exercices">
                     <label for="time"><i class="ti-star color-soccer-coach"></i> * Exercices:</label>
                     <br><span class="error" v-if="error.isError">{{error.message}}</span>   
@@ -127,9 +157,12 @@
                 
                 const formData = new FormData();
                 formData.append("theme", seance.theme.value);
-                formData.append("endroit", seance.endroit.value);              
-                formData.append("time", seance.time.value.toLowerCase());
+                formData.append("endroit", seance.endroit.value ? seance.endroit.value : '');              
+                formData.append("time", seance.time.value ? seance.time.value.toLowerCase() : '');
                 formData.append("context", seance.context.value ? seance.context.value : '');
+                formData.append("temps", seance.temps.value ? seance.temps.value + seance.typeTemps.value : '');  
+                formData.append("effectif", seance.effectif.value ? seance.effectif.value : '');  
+                formData.append("categorie", seance.categorie.value);  
                 this.lstExercices.forEach((item, index) => {
                     formData.append("image_" + index, item.image);
                     item.index = index;
@@ -191,6 +224,7 @@
                 this.addExercice(match);
             },
             initFormInputs(){
+                this.setUpdateForm(false);
                 this.initSeanceStoreDTO();
                 this.clearExercices();
                 this.seanceDTO = this.seanceStoreDTO;
@@ -201,6 +235,13 @@
         },
         created() {
             this.seanceDTO = this.seanceStoreDTO;
+            //setter le type par defaut
+            this.seanceDTO.categorie.value = 'Offensive';
+            this.seanceDTO.categorie.validate = true; 
+            this.seanceDTO.typeTemps = {
+                value : 'min',
+                validate:true,
+            };
         },
         mounted() {
             this.setUpdateForm(true);

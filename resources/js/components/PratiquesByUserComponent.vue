@@ -1,7 +1,7 @@
 <template>
     <div class="pratiques-by-user">
         <div class="loading">
-            <bounce  color="17b87d" v-show="isLoading"></bounce>
+            <bounce  color="#17b87d" v-show="isLoading"></bounce>
         </div>
         <div v-if="!isLoading">
             <div class="actions">
@@ -10,8 +10,8 @@
                     <button type="button" class="btn btn-g btn-soccer-coach-action" id="btn-tous" :class="{'btn-g-selected' : lastTypeSelected === 'btn-tous'}" @click="filtrerParType(null)">
                         <i class="ti-star"></i> Tous
                     </button>
-                    <button type="button" class="btn btn-g btn-soccer-coach-action" :class="{'btn-g-selected' : lastTypeSelected === type}" @click="filtrerParType(type[0])" v-for="(type, index) in lstIconsByCategorie" :key="index" :id="'type-'+type.id">
-                        <i :class="type[1]"></i> {{type[0]}}
+                    <button type="button" class="btn btn-g btn-soccer-coach-action" :class="{'btn-g-selected' : lastTypeSelected === type}" @click="filtrerParType(type.name)" v-for="(type, index) in lstIconsByCategorie" :key="index" :id="'type-'+type.id">
+                        <i :class="type.icon"></i> {{type.name}}
                     </button>
                 </div>
                 <div class="btn-create-exercice">
@@ -31,13 +31,13 @@
                             <span class="titre"> Effectif:</span>
                             <span>{{seance.effectif}}</span> 
                         </div>
-                        <span class="date-creation">{{ seance.created_at | moment('YYYY/MM/DD') }}</span>
-                        <span class="bought" v-show="seance.categorie !== 'None'">
+                        <div class="categorie" v-if="seance.categorie !== 'None'">
                             <i :class="getIconByCategorie(seance.categorie)"></i>
                             {{seance.categorie}}
-                        </span>
+                        </div>
+                        <span class="date-creation"> Créé le {{ seance.created_at | moment('YYYY-MM-DD') }}</span>                
                     </div>
-                    <div class="card-footer footer-exercice">
+                    <div class="card-footer footer-seance">
                         <router-link :to="{ name: 'DetailSeance', params: { seance } }" class="btn btn-block btn-soccer-coach">Voir</router-link>
                     </div>
                 </div>
@@ -150,5 +150,4 @@
 </script>
 <style lang="scss" scoped>
     @import '../../../public/css/pratiques/pratique-by-user';
-</style>
-
+</style>         

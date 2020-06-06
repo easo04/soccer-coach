@@ -38,37 +38,11 @@ class UserController extends Controller
         return view('services');
     }
 
-    public function getExercices(){
-        if(auth()->check()){
-            $exercices = $this->exerciceRepository->getExercicesByIdUser(Auth::user()->id);   
-            $types = $this->typesExerciceRepository->getAll();
-
-            foreach($exercices as $exercice){
-                $this->getTypeExerciceUpdated($exercice->typeExercice);
-            }
-
-            $this->updateTypeExerciceList($types, null);
-
-            $objectifs = $this->objectifRepository->getAll();
-
-            return view('exercices-by-user',  compact('exercices', 'types', 'objectifs')); 
-        }
-    }
-
     public function getSeancesByUser(){
         $reponse = array('message' => 'USAGER NON CONNECTÉ');
         $reponseNo = 500;
         if(auth()->check()){
             $pratiques = $this->pratiqueRepository->getPratiquesByIdUser(Auth::user()->id);
-            foreach ($pratiques as $key => $pratique) {
-                //récupérer les exercices par pratique
-                $pratique->exercices = $this->pratiqueRepository->getExercicesByPratiqueId($pratique->id);
-                //récupérer les variantes de chaque exercice
-                foreach($pratique->exercices as $exercice){
-                    $exercice->variantes = $this->exerciceRepository->getVariantesById($exercice->id);
-                }
-
-            }
             $reponse = ['seances' => $pratiques,  'succes' => 'OK'];
             $reponseNo = 200;
         }
@@ -84,16 +58,19 @@ class UserController extends Controller
             $objectifs = $this->objectifRepository->getAll();
 
             foreach($exercices as $exercice){
+                //setter le type d'exercice
+                $typeExercice = (object) array('id' => $exercice->typeId, 'nom' => $exercice->typeNom, 'urlNom' => $exercice->typeUrlNom);
+                $exercice->typeExercice = $typeExercice;
                 $this->getTypeExerciceUpdated($exercice->typeExercice);
-            }
 
-            $this->updateTypeExerciceList($types, null);
-
-            foreach ($exercices as $exercice) {
+                //setter url
                 if($exercice->url != '' && str_contains($exercice->url, 'youtu')){
                     $exercice->idVideo =  substr($exercice->url, 17, 30);
                 }
             }
+
+            //setter la liste de types d'exercice
+            $this->updateTypeExerciceList($types, null);
                 
             $reponse = ['exercices' => $exercices, 'objectifs'=> $objectifs, 'types'=> $types, 'succes' => 'OK'];
             $reponseNo = 200;

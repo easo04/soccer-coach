@@ -2,8 +2,14 @@
 
 .add-seance-form{
     .date-time-picker {
-        width: 25%;
+        //width: 25%;
         margin: 0;
+        border-bottom: 2px solid $color-soccer-coach;
+        .field{
+            .field-input{
+                border:none!important;
+            }
+        }    
         @media screen and (max-width: $screen-xs) {
             width: 100%;
         }
@@ -41,17 +47,23 @@
                 border-radius:0!important;
                 height: auto;
                 //border:1px solid #ced4da; 
-                border-top:1px solid #ced4da; 
+                //border-top:1px solid #ced4da; 
                 border-bottom: 1px solid #ced4da; ;
 
                 .exercice-match{
                     .details-match{
-                        h5{
-                            padding-top: 10px;
+                        .principe-exe{
+                            border-left: 8px solid $color-soccer-coach;
+                            background-color: $gris-soccer-coach;
+                            padding: 8px;
+                            min-height: 40px;
+                            h5{
+                                margin-top: 2px;
+                            }
                         }
                         .items-modifiables{
                             display: flex;
-                            border-top: 1px solid $color-soccer-coach;
+                            //border-top: 1px solid $color-soccer-coach;
                             padding-top: 10px;
     
                             .form-group{
@@ -82,12 +94,19 @@
 
                 .details-exe{
                     //padding-left: 25px;
-                    h5{
-                        padding-top: 10px;
+                    .principe-exe{
+                        border-left: 8px solid $color-soccer-coach;
+                        background-color: $gris-soccer-coach;
+                        padding: 8px;
+                        min-height: 40px;
+                        h5{
+                            margin-top: 2px;
+                        }
                     }
+                    
                     .items-modifiables{
                         display: flex;
-                        border-top: 1px solid $color-soccer-coach;
+                        //border-top: 1px solid $color-soccer-coach;
                         padding-top: 10px;
 
                         .form-group{
@@ -99,9 +118,10 @@
                 .image-exe{
                     margin-top: 4px;
                     img{
-                        width: 300px;
+                        //width: 300px;
+                        width: 100%;
                         height: 220px;
-                        margin-left: 30px;
+                        //margin-left: 30px;
                     }
                 }
             }

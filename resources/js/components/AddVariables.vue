@@ -9,10 +9,30 @@
             <div class="row">           
                 <div class="col-sm-6 details-exercice-info">
                     <form @submit.prevent="addVariable" class="form-horizontal panel">
-                        <div class="form-group">
+                        <div class="form-group input-sm">
                             <label for="time"> <i class="ti-timer color-soccer-coach"></i><span v-if="variable.time.validations.require"> * </span> Durée:</label>
-                            <input-text placeholder="Ex: 10min" v-model="variable.time.value" name="time"
-                            :model="variable.time" @validation="variable.time.validate = $event"/>
+                            <div class="temps-input">
+                                <input-number placeholder="Ex: 20" v-model="variable.time.value" name="time" 
+                                    :model="variable.time" @validation="variable.time.validate = $event"/>
+                                <div class="temps-chexbox">
+                                    <div class="type-item">
+                                        <input type="radio" id="control_min_v" name="typeTempsV" value="min" v-model="variable.typeTemps.value">
+                                        <label for="control_min_v">
+                                            <div class="details-type">
+                                                <p class="value">min</p>                
+                                            </div>
+                                        </label>
+                                    </div>
+                                    <div class="type-item">
+                                        <input type="radio" id="control_h_v" name="typeTempsV" value="h" v-model="variable.typeTemps.value">
+                                        <label for="control_h_v">
+                                            <div class="details-type">
+                                                <p class="value">h</p>                
+                                            </div>
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
                         </div>    
                         <div class="form-group"> 
                             <label for="description"><i class="ti-pin-alt color-soccer-coach"></i><span v-if="variable.description.validations.require"> * </span> Description de la variante</label>                  
@@ -77,7 +97,7 @@
                 let varianteItem = {
                     description:this.variable.description.value,
                     image:this.variable.image.value,
-                    time:this.variable.time.value,
+                    time:this.variable.time.value + this.variable.typeTemps.value, 
                 };
 
                 this.initVariableDTO();
@@ -129,6 +149,10 @@
         },
         mounted() {
             this.variable = this.varianteDTO;
+            this.variable.typeTemps = {
+                value : 'min',
+                validate:true,
+            };
             if(this.variantes && this.variantes.length > 0){
                 this.showAddVariable = true;
                 this.showAnnulerBtn = false;
@@ -136,12 +160,14 @@
                     this.addVariableToList(variante);
                 });
             }   
+            console.log('lst variantes');
             console.log(this.variantes);
         }
     }
 </script>
 
 <style lang="scss" scoped>
+    @import '../../../public/css/forms';
     @import '../../../public/css/add-variables';
 </style>
 

@@ -1,16 +1,23 @@
 .drag {
-  width: 22px;
-  height: 22px;
-  /*min-height: 6.5em;*/
-  margin: 1%;
-  background-color: #1a1a1a;
-  color: white;
-  border-radius: 50%;
-  margin:3px;
-  /*border:1px solid #679403;*/
-  -webkit-transform: translate(0px, 0px);
-          transform: translate(0px, 0px);
-  z-index: 3;
+    width: 22px;
+    height: 22px;
+    /*min-height: 6.5em;*/
+    margin: 1%;
+    background-color: #1a1a1a;
+    color: white;
+    border-radius: 50%;
+    margin:3px;
+    /*border:1px solid #679403;*/
+    -webkit-transform: translate(0px, 0px);
+            transform: translate(0px, 0px);
+    z-index: 3;
+}
+
+#star-demo {
+    display: block;
+    margin: auto;
+    touch-action: none;
+    max-height: 100%;
 }
 
 .drag:hover{
@@ -18,59 +25,60 @@
 }
 
 .drag-player-list{
-  width: 40px;
-  height: 40px;
-  /*min-height: 6.5em;*/
-  margin: 1%;
-  background-color: #1a1a1a;
-  color: white;
-  border-radius: 2em;
-  margin-top: 23px;
-  margin-left: auto;
-  margin-right: auto;
-  /*border:1px solid #679403; */
-  -webkit-transform: translate(0px, 0px);
-          transform: translate(0px, 0px);
+    width: 40px;
+    height: 40px;
+    /*min-height: 6.5em;*/
+    margin: 1%;
+    background-color: #1a1a1a;
+    color: white;
+    border-radius: 2em;
+    margin-top: 23px;
+    margin-left: auto;
+    margin-right: auto;
+    /*border:1px solid #679403; */
+    -webkit-transform: translate(0px, 0px);
+            transform: translate(0px, 0px);
 }
 
 .drag-player-list-img{
-  width: 80px;
-  height: 80px;
-  margin-top: 16px;
-  margin-left: auto;
-  margin-right: auto;
-  color:red;
+    width: 80px;
+    height: 80px;
+    margin-top: 16px;
+    margin-left: auto;
+    margin-right: auto;
+    color:red;
 }
 
-.drag-outil{
-    height: 80px;
-    width: 100px;
-  /*width: auto;
-  height: max-content;*/
-  -webkit-transform: translate(0px, 0px);
-  transform: translate(0px, 0px);
-  z-index: 2;
+.drag-outil{ 
+    position: absolute;
+    /*height: 80px;
+    width: 100px;*/
+    /*width: auto;
+    height: max-content;*/
+    -webkit-transform: translate(0px, 0px);
+    transform: translate(0px, 0px);
+    z-index: 2;
 }
 
 .drag-joueur{
-  width: auto;
-  height: max-content;
-  /*min-height: 6.5em;*/
-  /*margin: 1%;*/
-  -webkit-transform: translate(0px, 0px);
-          transform: translate(0px, 0px);
-  z-index: 3;
+    position: absolute;
+    /*height: max-content;*/
+    /*min-height: 6.5em;*/
+    /*margin: 1%;*/
+    -webkit-transform: translate(0px, 0px);
+            transform: translate(0px, 0px);
+    z-index: 3;
 }
 
 
 .max-taille img{
-  width: 60px;
-  height: 60px;
+    width: 60px;
+    height: 60px;
 }
 
 .drag-joueur img:hover{
-  width: inherit + 1;
-  height: inherit + 1;
+    width: inherit + 1;
+    height: inherit + 1;
 }
 
 .drag-joueur p{
@@ -80,8 +88,8 @@
 }
 
 #drag-me::before {
-  content: "#" attr(id);
-  font-weight: bold;
+    content: "#" attr(id);
+    font-weight: bold;
 }
 
 .terrain{
@@ -132,7 +140,7 @@
 }
 
 .color-outil-selected{
-   border: 2px solid black;
+    border: 2px solid black;
 }
 
 .color-outil:hover{
@@ -159,6 +167,7 @@
 }
 
 .terrain-space{
+    position: relative;
     height: 400px;
     border: 1px solid black;
     width: 99%;
@@ -208,12 +217,12 @@
 }
 
 .drag-outil-list{
-  width: 30%;
-  height: 50px;
-  margin: 1%;
-  margin-top: 15px;
-  margin-left: auto;
-  margin-right: auto;
+    width: 30%;
+    height: 50px;
+    margin: 1%;
+    margin-top: 15px;
+    margin-left: auto;
+    margin-right: auto;
 }
 
 .drag-forme-list{
@@ -254,20 +263,20 @@
 }
 
 .object-selected{
-   border:1px solid white;
+    border:1px solid white;
 }
 
 .object-selected-img{
-  width: auto;
-  height: 58px;
+    width: auto;
+    height: 58px;
 }
 
 .object-selected-outil img{
-  border: 1px dashed black;
+    border: 1px dashed black;
 }
 
 .action-selected{
-  color: red;
+    color: red;
 }
 
 .action-selected-form{

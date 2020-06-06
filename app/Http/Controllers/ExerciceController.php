@@ -115,6 +115,8 @@ class ExerciceController extends Controller
         $requestArray['image'] = $image;
         $requestArray['users_id'] = Auth::user()->id;
         $exercice = $this->exerciceRepository->update($exercice, $requestArray);
+        //setter le type de l'exercice
+        $exercice->typeExercice = $this->exerciceRepository->getTypeExerciceByExe($exercice->id);
 
         $reponse = ['message' => 'Exercice modifié', 'exercice' => $exercice, 'succes' => 'OK'];
         return response()->json($reponse, 200);
@@ -132,6 +134,8 @@ class ExerciceController extends Controller
         $requestArray['image'] = $image;
         $requestArray['users_id'] = Auth::user()->id;
         $exercice = $this->exerciceRepository->store($requestArray);
+        //setter le type de l'exercice
+        $exercice->typeExercice = $this->exerciceRepository->getTypeExerciceByExe($exercice->id);
 
         $reponse = ['exerciceId' => $exercice->id, 'exercice' => $exercice, 'succes' => 'OK'];
         return response()->json($reponse, 200);
@@ -141,6 +145,21 @@ class ExerciceController extends Controller
         $images = $this->exerciceRepository->getImagesByExercicesUser(Auth::user()->id);
         $reponse = ['images' => $images, 'succes' => 'OK'];
         return response()->json($reponse, 200);
+    }
+
+    public function getVariantesAndObjectifsByExe($id){
+        $reponse = array('message' => 'USAGER NON CONNECTÉ');
+        $reponseNo = 500;
+        if(auth()->check()){
+            //get variantes
+            $lstVariantes = $this->exerciceRepository->getVariantesById($id);
+            //get objectifs
+            $lstObjectifs = $this->exerciceRepository->getObjectifsById($id);
+
+            $reponse = ['variantes' => $lstVariantes, 'objectifs' => $lstObjectifs];
+            $reponseNo = 200;
+        }
+        return response()->json($reponse, $reponseNo);
     }
 
     public function destroy($id){

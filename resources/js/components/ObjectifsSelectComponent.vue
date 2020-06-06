@@ -2,12 +2,12 @@
     <div class="form-group objectifs-list-group">
         <ul>
             <li v-for="objectif in displayedLstObjectifs" :key="objectif.id">
-            <label>
-                <input type="checkbox" :name="objectif.nom_url" @click="addObjectif(objectif.id)" :checked="objectif.selected">
-                <div class="icon-box">
-                    {{objectif.nom}}
-                </div>
-            </label>
+                <label>
+                    <input type="checkbox" :name="objectif.nom_url" @click="addObjectif(objectif.id)" :checked="objectif.selected">
+                    <div class="icon-box">
+                        {{objectif.nom}}
+                    </div>
+                </label>
             </li>
         </ul> 
     </div>

@@ -1,77 +1,97 @@
 <template>
     <div class="update-exercice-form">
         <form class="form-horizontal panel" @submit.prevent="updateExercice(exerciceDTO)">
-        <div class="actions-exercice-detail">
-            <div class="btns">
-                <a @click="annuler()" class="btn btn-soccer-coach-action"><i class="ti-close"></i> Annuler</a>
+            <div class="actions-exercice-detail">
+                <div class="btns">
+                    <a @click="annuler" class="btn btn-soccer-coach-action"><i class="ti-close"></i> Annuler</a>
+                </div>
+                <span>* indique que le champ est obligatoire</span>
             </div>
-            <span>* indique que le champ est obligatoire</span>
-        </div>
-        <div class="row details-exercice">
-            <div class="col-sm-6 details-exercice-info">
-                <div class="form-group">
-                    <label for="principe"><i class="ti-flag-alt color-soccer-coach"></i><span v-if="exerciceDTO.principe.validations.require"> * </span> Principe:</label>
-                    <input-text placeholder="Ex: Conservation 4vs4 plus joker" v-model="exerciceDTO.principe.value" name="principe"
-                            :model="exerciceDTO.principe" @validation="exerciceDTO.principe.validate = $event"/>
+            <div class="row details-exercice">
+                <div class="col-sm-6 details-exercice-info">
+                    <div class="form-group">
+                        <label for="principe"><i class="ti-flag-alt color-soccer-coach"></i><span v-if="exerciceDTO.principe.validations.require"> * </span> Principe:</label>
+                        <input-text placeholder="Ex: Conservation 4vs4 plus joker" v-model="exerciceDTO.principe.value" name="principe"
+                                :model="exerciceDTO.principe" @validation="exerciceDTO.principe.validate = $event"/>
+                    </div>
+                    <div class="form-group">
+                        <label for="sousPrincipe"> <i class="ti-flag color-soccer-coach"></i> Sous-principes:</label>
+                        <label for="sousPrincipe"> <i class="ti-flag color-soccer-coach"></i><span v-if="exerciceDTO.sousPrincipe.validations.require"> * </span> Sous-principes:</label>
+                        <input-text placeholder="Ex: Contrôle du ballon, Orientation du corps" v-model="exerciceDTO.sousPrincipe.value" name="sousPrincipe"
+                                :model="exerciceDTO.sousPrincipe" @validation="exerciceDTO.sousPrincipe.validate = $event"/>
+                    </div>
+                    <div class="form-group">
+                        <label for="description"> <i class="ti-direction color-soccer-coach"></i><span v-if="exerciceDTO.description.validations.require"> * </span> Description:</label>
+                        <text-area placeholder="Description" name="description" v-model="exerciceDTO.description.value" 
+                                    :model="exerciceDTO.description" @validation="exerciceDTO.description.validate = $event"/>
+                    </div>
+                    <div class="form-group">
+                        <label for="physique"><i class="ti-heart color-soccer-coach"></i><span v-if="exerciceDTO.physique.validations.require"> * </span> Physique:</label>
+                        <input-text placeholder="Ex: Resistance, rapidité, cardio" v-model="exerciceDTO.physique.value" name="physique"
+                                :model="exerciceDTO.physique" @validation="exerciceDTO.physique.validate = $event"/>
+                    </div> 
+                    <div class="form-group form-check">                 
+                        <label class="container-label">
+                            <i class="ti-key color-soccer-coach"></i><span v-if="exerciceDTO.private.validations.require"> * </span> Privée
+                            <input type="checkbox" v-model="exerciceDTO.private.value">  <span class="checkmark"></span>
+                        </label>
+                    </div>
+                    <div class="form-group">
+                        <label for="type"><i class="ti-flag-alt-2 color-soccer-coach"></i><span v-if="exerciceDTO.typesexcercice_id.validations.require"> * </span> Type d'exercice</label>
+                        <types-exercices-select v-bind:id-type-selected="exerciceDTO.typesexcercice_id.value" v-model="exerciceDTO.typesexcercice_id.value"/>
+                    </div>  
+                    <div class="form-group">
+                        <label for="type"><i class="ti-tag color-soccer-coach"></i> Objectifs</label>
+                        <list-objectifs-exercices :objectifsExercice="objectifsExercice" />
+                    </div>     
                 </div>
-                <div class="form-group">
-                    <label for="sousPrincipe"> <i class="ti-flag color-soccer-coach"></i> Sous-principes:</label>
-                    <label for="sousPrincipe"> <i class="ti-flag color-soccer-coach"></i><span v-if="exerciceDTO.sousPrincipe.validations.require"> * </span> Sous-principes:</label>
-                    <input-text placeholder="Ex: Contrôle du ballon, Orientation du corps" v-model="exerciceDTO.sousPrincipe.value" name="sousPrincipe"
-                            :model="exerciceDTO.sousPrincipe" @validation="exerciceDTO.sousPrincipe.validate = $event"/>
-                </div>
-                <div class="form-group">
-                    <label for="description"> <i class="ti-direction color-soccer-coach"></i><span v-if="exerciceDTO.description.validations.require"> * </span> Description:</label>
-                    <text-area placeholder="Description" name="description" v-model="exerciceDTO.description.value" 
-                                :model="exerciceDTO.description" @validation="exerciceDTO.description.validate = $event"/>
-                </div>
-                <div class="form-group">
-                    <label for="physique"><i class="ti-heart color-soccer-coach"></i><span v-if="exerciceDTO.physique.validations.require"> * </span> Physique:</label>
-                    <input-text placeholder="Ex: Resistance, rapidité, cardio" v-model="exerciceDTO.physique.value" name="physique"
-                            :model="exerciceDTO.physique" @validation="exerciceDTO.physique.validate = $event"/>
-                </div> 
-                <div class="form-group form-check">                 
-                    <label class="container-label">
-                        <i class="ti-key color-soccer-coach"></i><span v-if="exerciceDTO.private.validations.require"> * </span> Privée
-                        <input type="checkbox" v-model="exerciceDTO.private.value">  <span class="checkmark"></span>
-                    </label>
-                </div>
-                <div class="form-group">
-                    <label for="type"><i class="ti-flag-alt-2 color-soccer-coach"></i><span v-if="exerciceDTO.typesexcercice_id.validations.require"> * </span> Type d'exercice</label>
-                    <types-exercices-select v-bind:id-type-selected="exerciceDTO.typesexcercice_id.value" v-model="exerciceDTO.typesexcercice_id.value"/>
-                </div>  
-                <div class="form-group">
-                    <label for="type"><i class="ti-tag color-soccer-coach"></i> Objectifs</label>
-                    <list-objectifs-exercices :objectifsExercice="objectifsExercice" />
-                </div>     
-            </div>
-            <div class="col-sm-6 details-exercice-image">
-                <div class="form-group">
+                <div class="col-sm-6 details-exercice-image">
+                    <div class="form-group input-sm">
                         <label for="time"> <i class="ti-timer color-soccer-coach"></i><span v-if="exerciceDTO.time.validations.require"> * </span> Durée:</label>
-                        <input-text placeholder="Ex: 20min" v-model="exerciceDTO.time.value" name="time"
-                            :model="exerciceDTO.time" @validation="exerciceDTO.time.validate = $event"/>
-                </div>    
-                <div class="form-group">
-                        <label for="nbJoueurs"> <i class="ti-user color-soccer-coach"></i><span v-if="exerciceDTO.nbJoueurs.validations.require"> * </span> Nombre de joueurs:</label>
-                        <input-number placeholder="Ex: 15" v-model="exerciceDTO.nbJoueurs.value" name="number"
-                            :model="exerciceDTO.nbJoueurs" @validation="exerciceDTO.nbJoueurs.validate = $event"/>
-                </div>  
-                <div class="form-group">
-                        <label for="observations"><i class="ti-eye color-soccer-coach"></i><span v-if="exerciceDTO.observations.validations.require"> * </span> Observations:</label>
-                        <text-area placeholder="Observations" name="observations" v-model="exerciceDTO.observations.value" 
-                                :model="exerciceDTO.observations" @validation="exerciceDTO.observations.validate = $event"/>
-                </div> 
-                <div class="form-group">
-                        <label for="url"><i class="ti-link color-soccer-coach"></i><span v-if="exerciceDTO.url.validations.require"> * </span> URL: <a href="#" data-toggle="popover" title="Popover Header" data-content="Some content inside the popover"><i class="ti-help-alt"></i></a></label>
-                        <input-text placeholder="Ex: http:/youtube.com" v-model="exerciceDTO.url.value" name="url"
-                            :model="exerciceDTO.url" @validation="exerciceDTO.url.validate = $event"/>
+                        <div class="temps-input">
+                            <input-number placeholder="Ex: 20" v-model="exerciceDTO.time.value" name="time" 
+                                :model="exerciceDTO.time" @validation="exerciceDTO.time.validate = $event"/>
+                            <div class="temps-chexbox">
+                                <div class="type-item">
+                                    <input type="radio" id="control_min_em" name="typeTempsEm" value="min" v-model="exerciceDTO.typeTemps.value">
+                                    <label for="control_min_em">
+                                        <div class="details-type">
+                                            <p class="value">min</p>                
+                                        </div>
+                                    </label>
+                                </div>
+                                <div class="type-item">
+                                    <input type="radio" id="control_h_em" name="typeTempsEm" value="h" v-model="exerciceDTO.typeTemps.value">
+                                    <label for="control_h_em">
+                                        <div class="details-type">
+                                            <p class="value">h</p>                
+                                        </div>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>    
+                    <div class="form-group">
+                            <label for="nbJoueurs"> <i class="ti-user color-soccer-coach"></i><span v-if="exerciceDTO.nbJoueurs.validations.require"> * </span> Nombre de joueurs:</label>
+                            <input-number placeholder="Ex: 15" v-model="exerciceDTO.nbJoueurs.value" name="number"
+                                :model="exerciceDTO.nbJoueurs" @validation="exerciceDTO.nbJoueurs.validate = $event"/>
+                    </div>  
+                    <div class="form-group">
+                            <label for="observations"><i class="ti-eye color-soccer-coach"></i><span v-if="exerciceDTO.observations.validations.require"> * </span> Observations:</label>
+                            <text-area placeholder="Observations" name="observations" v-model="exerciceDTO.observations.value" 
+                                    :model="exerciceDTO.observations" @validation="exerciceDTO.observations.validate = $event"/>
+                    </div> 
+                    <div class="form-group">
+                            <label for="url"><i class="ti-link color-soccer-coach"></i><span v-if="exerciceDTO.url.validations.require"> * </span> URL: <a href="#" data-toggle="popover" title="Popover Header" data-content="Some content inside the popover"><i class="ti-help-alt"></i></a></label>
+                            <input-text placeholder="Ex: http:/youtube.com" v-model="exerciceDTO.url.value" name="url"
+                                :model="exerciceDTO.url" @validation="exerciceDTO.url.validate = $event"/>
+                    </div>
+                    <label for="image"><i class="ti-image color-soccer-coach"></i><span v-if="exerciceDTO.image.validations.require"> * </span> Image</label>
+                    <br><span class="error" v-if="error.isError">{{error.message}}</span>   
+                    <images-exercices-modal/>
+                    <image-upload v-bind:image="exerciceDTO.image.value" id-image="1" @imageUploaded="exerciceDTO.image.value = $event"/>    
                 </div>
-                <label for="image"><i class="ti-image color-soccer-coach"></i><span v-if="exerciceDTO.image.validations.require"> * </span> Image</label>
-                <br><span class="error" v-if="error.isError">{{error.message}}</span>   
-                <images-exercices-modal/>
-                <image-upload v-bind:image="exerciceDTO.image.value" id-image="1" @imageUploaded="exerciceDTO.image.value = $event"/>    
             </div>
-        </div>
         </form>
         <add-variables v-bind:variantes="variantes"/>
         <div class="btn-action-sauvegarder">
@@ -88,7 +108,7 @@
         data() {
             return {
                 exerciceDTO:{},
-                error:{isError:false, message:''}
+                error:{isError:false, message:''},
             }
         },           
         computed:{
@@ -104,7 +124,7 @@
                 formData.append("image", exercice.image.value);
                 formData.append("id", exercice.id.value);
                 formData.append("principe", exercice.principe.value);
-                formData.append("time", exercice.time.value);
+                formData.append("time", exercice.time.value.toLowerCase() + exercice.typeTemps.value);
                 formData.append("nbJoueurs", exercice.nbJoueurs.value);
                 formData.append("description", exercice.description.value);
                 formData.append("typesexcercice_id", exercice.typesexcercice_id.value);
@@ -168,7 +188,6 @@
             //init values du DTO
             this.exerciceDTO.principe.value = this.exercice.principe;
             this.exerciceDTO.sousPrincipe.value = this.exercice.sousPrincipe;
-            this.exerciceDTO.time.value = this.exercice.time;
             this.exerciceDTO.physique.value = this.exercice.physique;
             this.exerciceDTO.observations.value = this.exercice.observations;
             this.exerciceDTO.typesexcercice_id.value = this.exercice.typesexcercice_id;
@@ -179,6 +198,22 @@
             this.exerciceDTO.id = {
                 value:this.exercice.id,
                 validate:true
+            };
+            //setter le temps
+            let timeNumber = this.exercice.time;
+            let timeType = 'min';
+            if(this.exercice.time.includes('min')){
+                let indexOfMin = this.exercice.time.lastIndexOf('min');
+                timeNumber = this.exercice.time.substr(0, indexOfMin);
+            }else if(this.exercice.time.includes('h')){
+                let indexOfH = this.exercice.time.lastIndexOf('h');
+                timeNumber = this.exercice.time.substr(0, indexOfH);
+                timeType = 'h';
+            }
+            this.exerciceDTO.time.value = timeNumber;
+            this.exerciceDTO.typeTemps = {
+                value : timeType,
+                validate:true,
             };
             //init tous les validations à true
             this.exerciceDTO.principe.validate = true;
@@ -205,5 +240,6 @@
 </script>
 
 <style lang="scss" scoped>
+    @import '../../../public/css/forms';
 </style>
 

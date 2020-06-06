@@ -12,7 +12,8 @@
     <link rel="stylesheet" href="css/colors.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
     <script src="js/imports/bootstrap/bootstrap.min.js"></script>
-    <script src="js/imports/interact.js"></script>
+    <script src="js/imports/interact.js"></script> 
+    <!-- <script src="https://cdn.jsdelivr.net/npm/interactjs/dist/interact.min.js"></script>-->
     <script src="js/imports/jspdf.min.js"></script>
     <script src="js/imports/canvas2image.js"></script>
     <script src="js/imports/html2canvas.js"></script>
@@ -63,10 +64,8 @@
     <div class="row container conteneur">
       <div class="col-sm-8 terrain">
         <div class="row terrain-space" id="terrainSoccer">
-          <!--<svg width="400" height="180">
-            <rect x="50" y="50" rx="20" ry="20" width="150" height="150" style="fill:red;stroke:black;stroke-width:5;opacity:0.5"/>
-          </svg> -->
-          <!--<canvas id="myCanvas"></canvas>-->
+            <img src="images/imageA.svg"/>
+            <!-- <object id="star-demos" type="image/svg+xml" data="/images/imageA.svg" alt="embedded svg"></object>-->
         </div>
       </div>
       <div class="col-sm-4 outils">
@@ -119,8 +118,8 @@
               <button type="button" class="close" data-dismiss="modal">&times;</button>
             </div>
             <div class="modal-body">
-               <label for="nomJoueur">Nom joueur:</label>
-               <input type="text" class="form-control" id="nomJoueur">
+                <label for="nomJoueur">Nom joueur:</label>
+                <input type="text" class="form-control" id="nomJoueur">
             </div>
             <div class="modal-footer">
               <button type="button" class="btn btn-default" data-dismiss="modal" onclick="changerPlayerName()">Ok</button>

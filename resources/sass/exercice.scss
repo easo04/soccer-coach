@@ -36,7 +36,8 @@
 
 .body-exercice{
     padding: 0px;
-    border: 1px solid rgba(0,0,0,.125);
+    //border: 1px solid rgba(0,0,0,.125);
+    background-color: $gris-soccer-coach ;
     padding-bottom: 10px;
     p{
         margin-top: 10px;
@@ -47,8 +48,8 @@
 }
 
 .footer-exercice{
-    background-color: white;
-    border: 1px solid rgba(0,0,0,.125);
+    background-color: $gris-soccer-coach ;
+    //border: 1px solid rgba(0,0,0,.125);
     border-radius: 0!important;
 }
 

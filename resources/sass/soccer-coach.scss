@@ -196,7 +196,7 @@ body{
 
     .btn:focus, .btn.focus {
         outline: 0;
-        background-color: $color-action-selected!important;
+        //background-color: $color-action-selected!important;
         box-shadow: none;
     }
 
@@ -225,15 +225,16 @@ body{
         }
     }
 
-    button.page-link {
-        display: inline-block;
-        font-size: 20px;
-        color: $color-soccer-coach;
-        font-weight: 500;
-    }
-
-    button.page-link:hover {
-        color: $color-soccer-coach!important;
+    button{
+        &.page-link {
+            display: inline-block;
+            font-size: 20px;
+            color: $color-soccer-coach;
+            font-weight: 500;
+            &:hover {
+                color: $color-soccer-coach!important;
+            }
+        }
     }
 
     .offset{
@@ -246,26 +247,41 @@ body{
         border-bottom-right-radius: 0;
     }
 
-    .form-control:focus{
-        border-color: $color-soccer-coach;
-        box-shadow: 0 0 0 0.2rem $box-shadow-color;
+    .form-control{
+        &:focus{
+            border-color: $color-soccer-coach;
+            box-shadow: 0 0 0 0.2rem $box-shadow-color;
+        }
     }
 
     .field-input{
-        border-radius: 0 !important;
+        border-radius: 0 !important;      
+        &:focus{
+            border-color: $color-soccer-coach;
+            box-shadow: 0 0 0 0.2rem $box-shadow-color;
+        }
     }
 
-    .field-input:focus{
-        border-color: $color-soccer-coach;
-        box-shadow: 0 0 0 0.2rem $box-shadow-color;
+    .date-time-picker{
+        .field-input{
+            border:none;
+        }
+    }
+    .datetimepicker{
+        .datepicker{
+            border-radius: 0 !important;
+        }
+        &.visible{
+            z-index: 10!important;
+        }
     }
 
-    .datetimepicker .datepicker{
-        border-radius: 0 !important;
-    }
-
-    .datepicker-buttons-container .datepicker-button .datepicker-button-effect{
-        border-radius: 0 !important; 
+    .datepicker-buttons-container {
+        .datepicker-button{
+            .datepicker-button-effect{
+                border-radius: 0 !important; 
+            }
+        }
     }
 
 }

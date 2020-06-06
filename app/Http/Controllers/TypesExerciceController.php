@@ -19,7 +19,7 @@ class TypesExerciceController extends Controller
 		$this->typesExerciceRepository = $typesExerciceRepository;
     }
 
-   
+    
     public function index()
     {
         $typesExercice = $this->typesExerciceRepository->getPaginate($this->nbPerPege);
@@ -47,13 +47,13 @@ class TypesExerciceController extends Controller
         }
         return $retval;
     }
- 
+
     public function create()
     {
         return view('create-types-exercice');
     }
 
-   
+
     public function store(TypesExerciceRequest $request)
     {
         $requestArray = $request->all();

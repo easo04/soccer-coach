@@ -28,6 +28,9 @@ class PratiqueRepository
 		$pratique->theme = $inputs['theme']; 
 		$pratique->endroit = $inputs['endroit'];
 		$pratique->context = $inputs['context'];
+		$pratique->effectif = $inputs['effectif'];
+		$pratique->temps = $inputs['temps'];
+		$pratique->categorie = $inputs['categorie'];
 		$pratique->users_id = $inputs['users_id'];
         $pratique->save();
 	}

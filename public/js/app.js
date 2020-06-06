@@ -2112,6 +2112,26 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: ['isModal'],
@@ -2137,7 +2157,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         var formData = new FormData();
         formData.append("image", exercice.image.value);
         formData.append("principe", exercice.principe.value);
-        formData.append("time", exercice.time.value.toLowerCase());
+        formData.append("time", exercice.time.value.toLowerCase() + exercice.typeTemps.value);
         formData.append("nbJoueurs", exercice.nbJoueurs.value);
         formData.append("description", exercice.description.value);
         formData.append("typesexcercice_id", exercice.typesexcercice_id.value);
@@ -2210,6 +2230,10 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       this.exerciceDTO = this.exerciceStoreDTO;
       this.exerciceDTO.typesexcercice_id.value = 1;
       this.exerciceDTO.typesexcercice_id.validate = true;
+      this.exerciceDTO.typeTemps = {
+        value: 'min',
+        validate: true
+      };
     },
     isFormValide: function isFormValide() {
       var isImageValid = this.exerciceDTO.image.value;
@@ -2234,7 +2258,8 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       }
 
       return true;
-    }
+    },
+    calculateTemps: function calculateTemps() {}
   }, Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapMutations"])(['addExercice', 'initExerciceStoreDTO', 'setImgBase64', 'setUpdateForm', 'clearListVariantes', 'clearListObjectifs'])),
   beforeCreate: function beforeCreate() {},
   created: function created() {
@@ -2242,6 +2267,10 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
     this.exerciceDTO.typesexcercice_id.value = 1;
     this.exerciceDTO.typesexcercice_id.validate = true;
+    this.exerciceDTO.typeTemps = {
+      value: 'min',
+      validate: true
+    };
   },
   mounted: function mounted() {
     var _this2 = this;
@@ -2262,6 +2291,51 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
 /***/ }),
 
+/***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/AddFavorisComponent.vue?vue&type=script&lang=js&":
+/*!******************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/AddFavorisComponent.vue?vue&type=script&lang=js& ***!
+  \******************************************************************************************************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+/* harmony default export */ __webpack_exports__["default"] = ({
+  props: ['idExercice', 'isAdded'],
+  data: function data() {
+    return {
+      isAddedToFavoris: false
+    };
+  },
+  methods: {
+    addFavoris: function addFavoris() {
+      var _this = this;
+
+      var params = {
+        'exericeId': this.idExercice
+      };
+      axios.post('/favoris/add-favoris', params).then(function (response) {
+        _this.isAddedToFavoris = true;
+      })["catch"](function (error) {
+        console.log(error);
+      });
+    }
+  },
+  mounted: function mounted() {}
+});
+
+/***/ }),
+
 /***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/AddPratiquesComponent.vue?vue&type=script&lang=js&":
 /*!********************************************************************************************************************************************************************************!*\
   !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/AddPratiquesComponent.vue?vue&type=script&lang=js& ***!
@@ -2278,6 +2352,36 @@ function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { va
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 //
 //
 //
@@ -2408,9 +2512,12 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
       var formData = new FormData();
       formData.append("theme", seance.theme.value);
-      formData.append("endroit", seance.endroit.value);
-      formData.append("time", seance.time.value.toLowerCase());
+      formData.append("endroit", seance.endroit.value ? seance.endroit.value : '');
+      formData.append("time", seance.time.value ? seance.time.value.toLowerCase() : '');
       formData.append("context", seance.context.value ? seance.context.value : '');
+      formData.append("temps", seance.temps.value ? seance.temps.value + seance.typeTemps.value : '');
+      formData.append("effectif", seance.effectif.value ? seance.effectif.value : '');
+      formData.append("categorie", seance.categorie.value);
       this.lstExercices.forEach(function (item, index) {
         formData.append("image_" + index, item.image);
         item.index = index;
@@ -2487,6 +2594,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       this.addExercice(match);
     },
     initFormInputs: function initFormInputs() {
+      this.setUpdateForm(false);
       this.initSeanceStoreDTO();
       this.clearExercices();
       this.seanceDTO = this.seanceStoreDTO;
@@ -2494,7 +2602,14 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
   }, Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapMutations"])(['deleteExercice', 'addExercice', 'setUpdateForm', 'initSeanceStoreDTO', 'clearExercices'])),
   beforeCreate: function beforeCreate() {},
   created: function created() {
-    this.seanceDTO = this.seanceStoreDTO;
+    this.seanceDTO = this.seanceStoreDTO; //setter le type par defaut
+
+    this.seanceDTO.categorie.value = 'Offensive';
+    this.seanceDTO.categorie.validate = true;
+    this.seanceDTO.typeTemps = {
+      value: 'min',
+      validate: true
+    };
   },
   mounted: function mounted() {
     var _this2 = this;
@@ -2580,6 +2695,26 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: ['variantes'],
@@ -2603,7 +2738,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       var varianteItem = {
         description: this.variable.description.value,
         image: this.variable.image.value,
-        time: this.variable.time.value
+        time: this.variable.time.value + this.variable.typeTemps.value
       };
       this.initVariableDTO();
       this.lstAddNewVariantes.push(varianteItem);
@@ -2657,6 +2792,10 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     var _this = this;
 
     this.variable = this.varianteDTO;
+    this.variable.typeTemps = {
+      value: 'min',
+      validate: true
+    };
 
     if (this.variantes && this.variantes.length > 0) {
       this.showAddVariable = true;
@@ -2666,6 +2805,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       });
     }
 
+    console.log('lst variantes');
     console.log(this.variantes);
   }
 });
@@ -2924,9 +3064,7 @@ __webpack_require__.r(__webpack_exports__);
     //si la liste n'est pas passée dans les props, récupérer la liste d'exercices
     if (!this.exercices) {
       this.isLoading = true;
-      var mapTypes = new Map(this.lstIconsByType);
       axios.get('/exercice/get-exercices-by-user').then(function (reponse) {
-        console.log(reponse);
         _this3.exercicesByUser = reponse.data.exercices;
         _this3.lstExercices = _this3.exercicesByUser;
         _this3.lstTypes = reponse.data.types;
@@ -3588,6 +3726,67 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
 /***/ }),
 
+/***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/TypesSeancesSelect.vue?vue&type=script&lang=js&":
+/*!*****************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/TypesSeancesSelect.vue?vue&type=script&lang=js& ***!
+  \*****************************************************************************************************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm.js");
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
+
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+  model: {
+    prop: 'typeSeance',
+    event: 'change'
+  },
+  data: function data() {
+    return {};
+  },
+  props: ['idTypeSelected', 'typeSeance'],
+  computed: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapState"])(['lstIconsByCategorie'])),
+  methods: {
+    isTypeSelect: function isTypeSelect(index, name) {
+      if (this.idTypeSelected) {
+        if (this.idTypeSelected === type.name) {
+          return true;
+        }
+      } else if (index === 0) {
+        return true;
+      }
+
+      return false;
+    }
+  },
+  mounted: function mounted() {}
+});
+
+/***/ }),
+
 /***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/UpdateExerciceComponent.vue?vue&type=script&lang=js&":
 /*!**********************************************************************************************************************************************************************************!*\
   !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/UpdateExerciceComponent.vue?vue&type=script&lang=js& ***!
@@ -3604,6 +3803,26 @@ function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { va
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 //
 //
 //
@@ -3711,7 +3930,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       formData.append("image", exercice.image.value);
       formData.append("id", exercice.id.value);
       formData.append("principe", exercice.principe.value);
-      formData.append("time", exercice.time.value);
+      formData.append("time", exercice.time.value.toLowerCase() + exercice.typeTemps.value);
       formData.append("nbJoueurs", exercice.nbJoueurs.value);
       formData.append("description", exercice.description.value);
       formData.append("typesexcercice_id", exercice.typesexcercice_id.value);
@@ -3794,7 +4013,6 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
     this.exerciceDTO.principe.value = this.exercice.principe;
     this.exerciceDTO.sousPrincipe.value = this.exercice.sousPrincipe;
-    this.exerciceDTO.time.value = this.exercice.time;
     this.exerciceDTO.physique.value = this.exercice.physique;
     this.exerciceDTO.observations.value = this.exercice.observations;
     this.exerciceDTO.typesexcercice_id.value = this.exercice.typesexcercice_id;
@@ -3804,6 +4022,24 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     this.exerciceDTO.description.value = this.exercice.description;
     this.exerciceDTO.id = {
       value: this.exercice.id,
+      validate: true
+    }; //setter le temps
+
+    var timeNumber = this.exercice.time;
+    var timeType = 'min';
+
+    if (this.exercice.time.includes('min')) {
+      var indexOfMin = this.exercice.time.lastIndexOf('min');
+      timeNumber = this.exercice.time.substr(0, indexOfMin);
+    } else if (this.exercice.time.includes('h')) {
+      var indexOfH = this.exercice.time.lastIndexOf('h');
+      timeNumber = this.exercice.time.substr(0, indexOfH);
+      timeType = 'h';
+    }
+
+    this.exerciceDTO.time.value = timeNumber;
+    this.exerciceDTO.typeTemps = {
+      value: timeType,
       validate: true
     }; //init tous les validations à true
 
@@ -3956,6 +4192,40 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: ['seance'],
@@ -3981,9 +4251,12 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       var formData = new FormData();
       formData.append("id", seance.id.value);
       formData.append("theme", seance.theme.value);
-      formData.append("endroit", seance.endroit.value);
-      formData.append("time", seance.time.value.toLowerCase());
+      formData.append("endroit", seance.endroit.value ? seance.endroit.value : '');
+      formData.append("time", seance.time.value ? seance.time.value.toLowerCase() : '');
       formData.append("context", seance.context.value ? seance.context.value : '');
+      formData.append("temps", seance.temps.value ? seance.temps.value + seance.typeTemps.value : '');
+      formData.append("effectif", seance.effectif.value ? seance.effectif.value : '');
+      formData.append("categorie", seance.categorie.value);
       this.lstExercices.forEach(function (item, index) {
         formData.append("image_" + index, item.image);
         item.index = index;
@@ -4085,6 +4358,27 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     this.seanceDTO.time.value = this.seance.time;
     this.seanceDTO.context.value = this.seance.context;
     this.seanceDTO.endroit.value = this.seance.endroit;
+    this.seanceDTO.effectif.value = this.seance.effectif;
+    this.seanceDTO.categorie.value = this.seance.categorie; //setter le temps
+
+    var timeNumber = this.seance.temps;
+    var timeType = 'min';
+
+    if (this.seance.temps.includes('min')) {
+      var indexOfMin = this.seance.temps.lastIndexOf('min');
+      timeNumber = this.seance.temps.substr(0, indexOfMin);
+    } else if (this.seance.temps.includes('h')) {
+      var indexOfH = this.seance.temps.lastIndexOf('h');
+      timeNumber = this.seance.temps.substr(0, indexOfH);
+      timeType = 'h';
+    }
+
+    this.seanceDTO.typeTemps = {
+      value: timeType,
+      validate: true
+    };
+    this.seanceDTO.temps.value = timeNumber; //set id
+
     this.seanceDTO.id = {
       value: this.seance.id,
       validate: true
@@ -4093,7 +4387,10 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     this.seanceDTO.theme.validate = true;
     this.seanceDTO.time.validate = true;
     this.seanceDTO.context.validate = true;
-    this.seanceDTO.endroit.validate = true; //init exercice list
+    this.seanceDTO.endroit.validate = true;
+    this.seanceDTO.effectif.validate = true;
+    this.seanceDTO.categorie.validate = true;
+    this.seanceDTO.temps.validate = true; //init exercice list
 
     this.seance.exercices.forEach(function (exercice) {
       exercice.isGame = exercice.isMatch === 1;
@@ -4527,7 +4824,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       selected: false,
       nomFr: 'Mes favoris',
       icon: 'fa fa-star',
-      url: ''
+      url: 'mes-favoris'
     }, {
       name: 'mes_activites',
       selected: false,
@@ -4702,6 +4999,8 @@ function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { va
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
+//
+//
 //
 //
 //
@@ -9582,7 +9881,7 @@ exports = module.exports = __webpack_require__(/*! ../../../node_modules/css-loa
 
 
 // module
-exports.push([module.i, ".error[data-v-4b59463f] {\n  color: red;\n  font-weight: 600;\n}\n.input-error[data-v-4b59463f] {\n  border: 1px solid red;\n}\n.input-error[data-v-4b59463f]:focus {\n  border-color: red;\n  box-shadow: 0 0 0 0.2rem rgba(255, 0, 0, 0.2);\n}", ""]);
+exports.push([module.i, ".form-control[data-v-4b59463f] {\n  border: none;\n  border-bottom: 2px solid #03aca4;\n  border-right: 1px solid #F3F3F3;\n}\n.form-group.input-sm .input-text[data-v-4b59463f], .form-group.input-sm .date-time-picker[data-v-4b59463f] {\n  width: 100%;\n}\n@media screen and (min-width: 768px) {\n.form-group.input-sm .input-text[data-v-4b59463f], .form-group.input-sm .date-time-picker[data-v-4b59463f] {\n    width: 33.3%;\n}\n}\n.form-group .temps-input[data-v-4b59463f] {\n  display: flex;\n}\n.temps-chexbox > div[data-v-4b59463f] {\n  flex: 1;\n  padding-left: 5px;\n}\n.temps-chexbox[data-v-4b59463f] {\n  display: flex;\n  flex-flow: row wrap;\n}\n.temps-chexbox .type-item[data-v-4b59463f] {\n  height: auto;\n}\n.temps-chexbox .type-item .icon-exercice[data-v-4b59463f] {\n  bottom: 0;\n  position: absolute;\n}\n.temps-chexbox .type-item input[type=radio][data-v-4b59463f] {\n  display: none;\n}\n.temps-chexbox .type-item input[type=radio]:not(:disabled) ~ label[data-v-4b59463f] {\n  cursor: pointer;\n}\n.temps-chexbox .type-item input[type=radio]:disabled ~ label[data-v-4b59463f] {\n  color: #bcc2bf;\n  border-color: #bcc2bf;\n  box-shadow: none;\n  cursor: not-allowed;\n}\n.temps-chexbox .type-item label[data-v-4b59463f] {\n  height: 2.4rem;\n  width: 2.4rem;\n  display: block;\n  background: white;\n  border: 1px solid #03aca4;\n  border-radius: 0;\n  padding: 2px;\n  text-align: center;\n  margin-bottom: 0 !important;\n  box-shadow: 0px 3px 10px -2px rgba(161, 170, 166, 0.5);\n  position: relative;\n}\n.temps-chexbox .type-item label .details-type[data-v-4b59463f] {\n  margin-top: 5px;\n}\n.temps-chexbox .type-item input[type=radio]:checked + label[data-v-4b59463f] {\n  background: #03aca4;\n  color: white;\n  box-shadow: 0px 0px 20px #F3F3F3;\n}\n.temps-chexbox .type-item input[type=radio]:checked + label i[data-v-4b59463f] {\n  color: white;\n}\n.temps-chexbox .type-item p[data-v-4b59463f] {\n  font-weight: 900;\n  margin-bottom: 0 !important;\n}\n.error[data-v-4b59463f] {\n  color: red;\n  font-weight: 600;\n}\n.input-error[data-v-4b59463f] {\n  border-bottom: 2px solid red;\n}\n.input-error[data-v-4b59463f]:focus {\n  border-color: red;\n  box-shadow: 0 0 0 0.2rem rgba(255, 0, 0, 0.2);\n}", ""]);
 
 // exports
 
@@ -9601,7 +9900,7 @@ exports = module.exports = __webpack_require__(/*! ../../../node_modules/css-loa
 
 
 // module
-exports.push([module.i, ".error[data-v-e33628c6] {\n  color: red;\n  font-weight: 600;\n}\n.input-error[data-v-e33628c6] {\n  border: 1px solid red;\n}\n.input-error[data-v-e33628c6]:focus {\n  border-color: red;\n  box-shadow: 0 0 0 0.2rem rgba(255, 0, 0, 0.2);\n}\n.add-seance-form .date-time-picker[data-v-e33628c6] {\n  width: 25%;\n  margin: 0;\n}\n@media screen and (max-width: 480px) {\n.add-seance-form .date-time-picker[data-v-e33628c6] {\n    width: 100%;\n}\n}\n.add-seance-form .exercices .btn-action-exercices[data-v-e33628c6] {\n  height: 35px;\n}\n.add-seance-form .exercices .btn-action-exercices .btns[data-v-e33628c6] {\n  float: right;\n}\n.add-seance-form .exercices .details-exercice-modal[data-v-e33628c6] {\n  float: right;\n  margin-right: 10px;\n}\n.add-seance-form .exercices .lst-exercices[data-v-e33628c6] {\n  padding: 0 10px 10px 10px;\n  border: 1px solid #ced4da;\n  margin-top: 7px;\n  height: auto;\n}\n.add-seance-form .exercices .lst-exercices.lst-vide[data-v-e33628c6] {\n  min-height: 409px;\n}\n.add-seance-form .exercices .lst-exercices .aucun-exercice[data-v-e33628c6] {\n  text-align: center;\n  margin-top: 170px;\n  color: #ced4da;\n}\n.add-seance-form .exercices .lst-exercices .exercice-item[data-v-e33628c6] {\n  margin-top: 7px;\n  border-radius: 0 !important;\n  height: auto;\n  border-top: 1px solid #ced4da;\n  border-bottom: 1px solid #ced4da;\n}\n.add-seance-form .exercices .lst-exercices .exercice-item .exercice-match .details-match h5[data-v-e33628c6] {\n  padding-top: 10px;\n}\n.add-seance-form .exercices .lst-exercices .exercice-item .exercice-match .details-match .items-modifiables[data-v-e33628c6] {\n  display: flex;\n  border-top: 1px solid #03aca4;\n  padding-top: 10px;\n}\n.add-seance-form .exercices .lst-exercices .exercice-item .exercice-match .details-match .items-modifiables .form-group[data-v-e33628c6] {\n  margin-right: 10px;\n}\n.add-seance-form .exercices .lst-exercices .exercice-item .exercice-match .details-match .items-modifiables .form-group .input-text[data-v-e33628c6] {\n  padding-right: 10px;\n}\n.add-seance-form .exercices .lst-exercices .exercice-item .exercice-match .details-match .items-modifiables .form-group .input-text textarea[data-v-e33628c6] {\n  height: 124px !important;\n}\n.add-seance-form .exercices .lst-exercices .exercice-item .exercice-match .description-match[data-v-e33628c6] {\n  padding-top: 10px;\n}\n.add-seance-form .exercices .lst-exercices .exercice-item .actions[data-v-e33628c6] {\n  height: 50px;\n  margin-top: 12px;\n}\n.add-seance-form .exercices .lst-exercices .exercice-item .actions button[data-v-e33628c6] {\n  float: right;\n}\n.add-seance-form .exercices .lst-exercices .exercice-item .details-exe h5[data-v-e33628c6] {\n  padding-top: 10px;\n}\n.add-seance-form .exercices .lst-exercices .exercice-item .details-exe .items-modifiables[data-v-e33628c6] {\n  display: flex;\n  border-top: 1px solid #03aca4;\n  padding-top: 10px;\n}\n.add-seance-form .exercices .lst-exercices .exercice-item .details-exe .items-modifiables .form-group[data-v-e33628c6] {\n  margin-right: 10px;\n}\n.add-seance-form .exercices .lst-exercices .exercice-item .image-exe[data-v-e33628c6] {\n  margin-top: 4px;\n}\n.add-seance-form .exercices .lst-exercices .exercice-item .image-exe img[data-v-e33628c6] {\n  width: 300px;\n  height: 220px;\n  margin-left: 30px;\n}", ""]);
+exports.push([module.i, ".form-control[data-v-e33628c6] {\n  border: none;\n  border-bottom: 2px solid #03aca4;\n  border-right: 1px solid #F3F3F3;\n}\n.form-group.input-sm .input-text[data-v-e33628c6], .form-group.input-sm .date-time-picker[data-v-e33628c6] {\n  width: 100%;\n}\n@media screen and (min-width: 768px) {\n.form-group.input-sm .input-text[data-v-e33628c6], .form-group.input-sm .date-time-picker[data-v-e33628c6] {\n    width: 33.3%;\n}\n}\n.form-group .temps-input[data-v-e33628c6] {\n  display: flex;\n}\n.temps-chexbox > div[data-v-e33628c6] {\n  flex: 1;\n  padding-left: 5px;\n}\n.temps-chexbox[data-v-e33628c6] {\n  display: flex;\n  flex-flow: row wrap;\n}\n.temps-chexbox .type-item[data-v-e33628c6] {\n  height: auto;\n}\n.temps-chexbox .type-item .icon-exercice[data-v-e33628c6] {\n  bottom: 0;\n  position: absolute;\n}\n.temps-chexbox .type-item input[type=radio][data-v-e33628c6] {\n  display: none;\n}\n.temps-chexbox .type-item input[type=radio]:not(:disabled) ~ label[data-v-e33628c6] {\n  cursor: pointer;\n}\n.temps-chexbox .type-item input[type=radio]:disabled ~ label[data-v-e33628c6] {\n  color: #bcc2bf;\n  border-color: #bcc2bf;\n  box-shadow: none;\n  cursor: not-allowed;\n}\n.temps-chexbox .type-item label[data-v-e33628c6] {\n  height: 2.4rem;\n  width: 2.4rem;\n  display: block;\n  background: white;\n  border: 1px solid #03aca4;\n  border-radius: 0;\n  padding: 2px;\n  text-align: center;\n  margin-bottom: 0 !important;\n  box-shadow: 0px 3px 10px -2px rgba(161, 170, 166, 0.5);\n  position: relative;\n}\n.temps-chexbox .type-item label .details-type[data-v-e33628c6] {\n  margin-top: 5px;\n}\n.temps-chexbox .type-item input[type=radio]:checked + label[data-v-e33628c6] {\n  background: #03aca4;\n  color: white;\n  box-shadow: 0px 0px 20px #F3F3F3;\n}\n.temps-chexbox .type-item input[type=radio]:checked + label i[data-v-e33628c6] {\n  color: white;\n}\n.temps-chexbox .type-item p[data-v-e33628c6] {\n  font-weight: 900;\n  margin-bottom: 0 !important;\n}\n.error[data-v-e33628c6] {\n  color: red;\n  font-weight: 600;\n}\n.input-error[data-v-e33628c6] {\n  border-bottom: 2px solid red;\n}\n.input-error[data-v-e33628c6]:focus {\n  border-color: red;\n  box-shadow: 0 0 0 0.2rem rgba(255, 0, 0, 0.2);\n}\n.add-seance-form .date-time-picker[data-v-e33628c6] {\n  margin: 0;\n  border-bottom: 2px solid #03aca4;\n}\n.add-seance-form .date-time-picker .field .field-input[data-v-e33628c6] {\n  border: none !important;\n}\n@media screen and (max-width: 480px) {\n.add-seance-form .date-time-picker[data-v-e33628c6] {\n    width: 100%;\n}\n}\n.add-seance-form .exercices .btn-action-exercices[data-v-e33628c6] {\n  height: 35px;\n}\n.add-seance-form .exercices .btn-action-exercices .btns[data-v-e33628c6] {\n  float: right;\n}\n.add-seance-form .exercices .details-exercice-modal[data-v-e33628c6] {\n  float: right;\n  margin-right: 10px;\n}\n.add-seance-form .exercices .lst-exercices[data-v-e33628c6] {\n  padding: 0 10px 10px 10px;\n  border: 1px solid #ced4da;\n  margin-top: 7px;\n  height: auto;\n}\n.add-seance-form .exercices .lst-exercices.lst-vide[data-v-e33628c6] {\n  min-height: 409px;\n}\n.add-seance-form .exercices .lst-exercices .aucun-exercice[data-v-e33628c6] {\n  text-align: center;\n  margin-top: 170px;\n  color: #ced4da;\n}\n.add-seance-form .exercices .lst-exercices .exercice-item[data-v-e33628c6] {\n  margin-top: 7px;\n  border-radius: 0 !important;\n  height: auto;\n  border-bottom: 1px solid #ced4da;\n}\n.add-seance-form .exercices .lst-exercices .exercice-item .exercice-match .details-match .principe-exe[data-v-e33628c6] {\n  border-left: 8px solid #03aca4;\n  background-color: #F3F3F3;\n  padding: 8px;\n  min-height: 40px;\n}\n.add-seance-form .exercices .lst-exercices .exercice-item .exercice-match .details-match .principe-exe h5[data-v-e33628c6] {\n  margin-top: 2px;\n}\n.add-seance-form .exercices .lst-exercices .exercice-item .exercice-match .details-match .items-modifiables[data-v-e33628c6] {\n  display: flex;\n  padding-top: 10px;\n}\n.add-seance-form .exercices .lst-exercices .exercice-item .exercice-match .details-match .items-modifiables .form-group[data-v-e33628c6] {\n  margin-right: 10px;\n}\n.add-seance-form .exercices .lst-exercices .exercice-item .exercice-match .details-match .items-modifiables .form-group .input-text[data-v-e33628c6] {\n  padding-right: 10px;\n}\n.add-seance-form .exercices .lst-exercices .exercice-item .exercice-match .details-match .items-modifiables .form-group .input-text textarea[data-v-e33628c6] {\n  height: 124px !important;\n}\n.add-seance-form .exercices .lst-exercices .exercice-item .exercice-match .description-match[data-v-e33628c6] {\n  padding-top: 10px;\n}\n.add-seance-form .exercices .lst-exercices .exercice-item .actions[data-v-e33628c6] {\n  height: 50px;\n  margin-top: 12px;\n}\n.add-seance-form .exercices .lst-exercices .exercice-item .actions button[data-v-e33628c6] {\n  float: right;\n}\n.add-seance-form .exercices .lst-exercices .exercice-item .details-exe .principe-exe[data-v-e33628c6] {\n  border-left: 8px solid #03aca4;\n  background-color: #F3F3F3;\n  padding: 8px;\n  min-height: 40px;\n}\n.add-seance-form .exercices .lst-exercices .exercice-item .details-exe .principe-exe h5[data-v-e33628c6] {\n  margin-top: 2px;\n}\n.add-seance-form .exercices .lst-exercices .exercice-item .details-exe .items-modifiables[data-v-e33628c6] {\n  display: flex;\n  padding-top: 10px;\n}\n.add-seance-form .exercices .lst-exercices .exercice-item .details-exe .items-modifiables .form-group[data-v-e33628c6] {\n  margin-right: 10px;\n}\n.add-seance-form .exercices .lst-exercices .exercice-item .image-exe[data-v-e33628c6] {\n  margin-top: 4px;\n}\n.add-seance-form .exercices .lst-exercices .exercice-item .image-exe img[data-v-e33628c6] {\n  width: 100%;\n  height: 220px;\n}", ""]);
 
 // exports
 
@@ -9620,7 +9919,7 @@ exports = module.exports = __webpack_require__(/*! ../../../node_modules/css-loa
 
 
 // module
-exports.push([module.i, ".image-exercice[data-v-90683a7e] {\n  width: inherit;\n  height: 530px;\n}\n.image-exercice img[data-v-90683a7e] {\n  width: inherit;\n}\n.details-items-info[data-v-90683a7e] {\n  background-color: #F3F3F3;\n  box-shadow: 0 2px 3px -1px #DCDCDC;\n}\n.details-items-info div[data-v-90683a7e] {\n  border-right: 1px solid #ededed;\n  line-height: 2;\n}\n.details-items-info div p.text[data-v-90683a7e] {\n  font-weight: 300;\n  font-size: 10px;\n  letter-spacing: 1px;\n  margin: 0;\n  color: #7D8693;\n  font-family: Roboto, sans-serif;\n  /*padding-bottom: 0;\n  border-bottom: 1px solid #b81752;*/\n}\n.details-items-info div p.value[data-v-90683a7e] {\n  margin: 0;\n  font-size: 16px;\n  font-weight: 600;\n  color: #000;\n}\n.detail[data-v-90683a7e] {\n  height: 530px;\n}\n.p-flex[data-v-90683a7e] {\n  padding: 10px;\n  text-align: center;\n  width: 180px;\n  height: 80px;\n  /*border: 1px solid  #17a2b8;*/\n}\n.sous-principes[data-v-90683a7e] {\n  font-size: 20px;\n  font-weight: 300;\n  color: black;\n}\n.sous-principes .titre[data-v-90683a7e] {\n  font-weight: 600;\n}\n.details-exercice p[data-v-90683a7e] {\n  font-size: 16px;\n}\n.description-exercice[data-v-90683a7e] {\n  margin-top: 30px;\n  margin-bottom: 30px;\n}\n.bloc-info[data-v-90683a7e] {\n  box-shadow: 0 2px 3px -1px #DCDCDC;\n  border-bottom: 2px solid #F3F3F3;\n}\n.bloc-info h5[data-v-90683a7e] {\n  border-left: 5px solid #b81752;\n  padding-left: 9px;\n}\n.bloc-sm[data-v-90683a7e] {\n  margin-top: 20px;\n  height: auto;\n}\n.video[data-v-90683a7e], .url[data-v-90683a7e] {\n  margin-top: 20px;\n  width: inherit;\n}\n.video iframe[data-v-90683a7e] {\n  width: inherit;\n}\n.actions-exercice-detail[data-v-90683a7e] {\n  margin-bottom: 20px;\n  height: 80px;\n}\n.actions-exercice-detail .btns[data-v-90683a7e] {\n  float: right;\n}\n.actions-exercice-detail .btn-mes-exercices[data-v-90683a7e] {\n  float: left;\n}\n.bloc-detail-md[data-v-90683a7e] {\n  margin-top: 20px;\n}\n.variantes .variante[data-v-90683a7e] {\n  box-shadow: 0 2px 3px -1px #DCDCDC;\n  height: auto;\n  margin-top: 20px;\n}\n.variantes .variante-header h5.float-left[data-v-90683a7e] {\n  border-left: 5px solid #b81752;\n  padding-left: 9px;\n}\n.variantes .variante-header h5.time[data-v-90683a7e] {\n  margin-right: 11px;\n}\n.variantes .variante-body[data-v-90683a7e] {\n  padding-bottom: 2px;\n}\n.add-seance-form .btn-action-sauvegarder[data-v-90683a7e] {\n  margin-top: 60px;\n  height: 40px;\n  display: block !important;\n}\n.add-seance-form .btn-action-sauvegarder .btn-sauvegarder[data-v-90683a7e] {\n  float: right;\n}\n.update-exercice-form .btn-action-sauvegarder[data-v-90683a7e] {\n  margin-top: 60px;\n  height: 40px;\n  display: block !important;\n}\n.update-exercice-form .btn-action-sauvegarder .btn-sauvegarder[data-v-90683a7e] {\n  float: right;\n}\n@media screen and (max-width: 480px) {\n.actions-exercice-detail .btn-sauvegarder1[data-v-90683a7e] {\n    display: none;\n}\n.btn-action-sauvegarder[data-v-90683a7e] {\n    display: block;\n    margin-top: 60px;\n    height: 40px;\n}\n.actions-exercice-detail[data-v-90683a7e] {\n    height: auto;\n}\n.actions-exercice-detail .btn-mes-exercices[data-v-90683a7e] {\n    float: none;\n}\n.actions-exercice-detail .btns[data-v-90683a7e] {\n    float: none;\n    margin-top: 10px;\n}\n.actions-exercice-detail .btns .btn-soccer-coach-action[data-v-90683a7e] {\n    width: 100%;\n    margin-bottom: 2px;\n}\n.image-exercice[data-v-90683a7e] {\n    margin-top: 10px;\n    height: auto;\n}\n.details-items-info div p.text[data-v-90683a7e] {\n    font-size: 9px;\n}\n.details-items-info div p.value[data-v-90683a7e] {\n    font-size: 13px;\n}\n.detail[data-v-90683a7e] {\n    height: auto;\n}\n}\n.add-variables[data-v-90683a7e] {\n  margin-top: 20px;\n}\n.add-variables h5[data-v-90683a7e] {\n  margin-bottom: 0;\n}\n.add-variables .form-add-variable form button[data-v-90683a7e] {\n  margin-top: 20px;\n  float: right;\n}\n.add-variables .form-add-variable form textarea[data-v-90683a7e] {\n  height: 234px !important;\n}\n.add-variables .form-add-variable .btn-annuler[data-v-90683a7e] {\n  margin-left: 5px;\n}\n.add-variables .form-add-variable .titre-variantes[data-v-90683a7e] {\n  font-size: 0.9rem;\n  font-weight: 700;\n}\n.add-variables .form-add-variable .lst-variables[data-v-90683a7e] {\n  min-height: 409px;\n  padding: 0 10px 10px 10px;\n  border: 1px solid #ced4da;\n  margin-top: 7px;\n}\n.add-variables .form-add-variable .lst-variables .aucune-variante[data-v-90683a7e] {\n  text-align: center;\n  margin-top: 170px;\n  color: #ced4da;\n}\n.add-variables .form-add-variable .lst-variables .variante-item[data-v-90683a7e] {\n  margin-top: 7px;\n  border-radius: 0 !important;\n  height: auto;\n}\n.add-variables .form-add-variable .lst-variables .variante-item .item-header[data-v-90683a7e] {\n  border-left: 8px solid #03aca4;\n  border-top: 1px solid #03aca4;\n  border-right: 1px solid #03aca4;\n  border-bottom: 1px solid #03aca4;\n  height: 40px;\n  padding-left: 10px;\n  background-color: white;\n  padding-top: 6px;\n  padding-right: 18px;\n}\n.add-variables .form-add-variable .lst-variables .variante-item .item-header[data-v-90683a7e]:first-child {\n  border-radius: 0;\n}\n.add-variables .form-add-variable .lst-variables .variante-item .item-header .btn-delete[data-v-90683a7e] {\n  float: right;\n  border: 0;\n}\n.add-variables .form-add-variable .lst-variables .variante-item .item-body[data-v-90683a7e] {\n  height: auto;\n  border-left: 1px solid #03aca4;\n  border-right: 1px solid #03aca4;\n  border-bottom: 1px solid #03aca4;\n  padding: 18px;\n}\n.add-variables .form-add-variable .lst-variables .variante-item .item-body.row[data-v-90683a7e] {\n  height: auto;\n  margin-left: 0;\n  margin-right: 0;\n}\n.add-variables .form-add-variable .lst-variables .variante-item .item-body .img-variante img[data-v-90683a7e] {\n  width: inherit;\n  height: 318px;\n}", ""]);
+exports.push([module.i, ".form-control[data-v-90683a7e] {\n  border: none;\n  border-bottom: 2px solid #03aca4;\n  border-right: 1px solid #F3F3F3;\n}\n.form-group.input-sm .input-text[data-v-90683a7e], .form-group.input-sm .date-time-picker[data-v-90683a7e] {\n  width: 100%;\n}\n@media screen and (min-width: 768px) {\n.form-group.input-sm .input-text[data-v-90683a7e], .form-group.input-sm .date-time-picker[data-v-90683a7e] {\n    width: 33.3%;\n}\n}\n.form-group .temps-input[data-v-90683a7e] {\n  display: flex;\n}\n.temps-chexbox > div[data-v-90683a7e] {\n  flex: 1;\n  padding-left: 5px;\n}\n.temps-chexbox[data-v-90683a7e] {\n  display: flex;\n  flex-flow: row wrap;\n}\n.temps-chexbox .type-item[data-v-90683a7e] {\n  height: auto;\n}\n.temps-chexbox .type-item .icon-exercice[data-v-90683a7e] {\n  bottom: 0;\n  position: absolute;\n}\n.temps-chexbox .type-item input[type=radio][data-v-90683a7e] {\n  display: none;\n}\n.temps-chexbox .type-item input[type=radio]:not(:disabled) ~ label[data-v-90683a7e] {\n  cursor: pointer;\n}\n.temps-chexbox .type-item input[type=radio]:disabled ~ label[data-v-90683a7e] {\n  color: #bcc2bf;\n  border-color: #bcc2bf;\n  box-shadow: none;\n  cursor: not-allowed;\n}\n.temps-chexbox .type-item label[data-v-90683a7e] {\n  height: 2.4rem;\n  width: 2.4rem;\n  display: block;\n  background: white;\n  border: 1px solid #03aca4;\n  border-radius: 0;\n  padding: 2px;\n  text-align: center;\n  margin-bottom: 0 !important;\n  box-shadow: 0px 3px 10px -2px rgba(161, 170, 166, 0.5);\n  position: relative;\n}\n.temps-chexbox .type-item label .details-type[data-v-90683a7e] {\n  margin-top: 5px;\n}\n.temps-chexbox .type-item input[type=radio]:checked + label[data-v-90683a7e] {\n  background: #03aca4;\n  color: white;\n  box-shadow: 0px 0px 20px #F3F3F3;\n}\n.temps-chexbox .type-item input[type=radio]:checked + label i[data-v-90683a7e] {\n  color: white;\n}\n.temps-chexbox .type-item p[data-v-90683a7e] {\n  font-weight: 900;\n  margin-bottom: 0 !important;\n}\n.error[data-v-90683a7e] {\n  color: red;\n  font-weight: 600;\n}\n.input-error[data-v-90683a7e] {\n  border-bottom: 2px solid red;\n}\n.input-error[data-v-90683a7e]:focus {\n  border-color: red;\n  box-shadow: 0 0 0 0.2rem rgba(255, 0, 0, 0.2);\n}\n.image-exercice[data-v-90683a7e] {\n  width: inherit;\n  height: 530px;\n}\n.image-exercice img[data-v-90683a7e] {\n  width: inherit;\n}\n.details-items-info[data-v-90683a7e] {\n  background-color: #F3F3F3;\n  box-shadow: 0 2px 3px -1px #DCDCDC;\n}\n.details-items-info div[data-v-90683a7e] {\n  border-right: 1px solid #ededed;\n  line-height: 2;\n}\n.details-items-info div p.text[data-v-90683a7e] {\n  font-weight: 300;\n  font-size: 10px;\n  letter-spacing: 1px;\n  margin: 0;\n  color: #7D8693;\n  font-family: Roboto, sans-serif;\n  /*padding-bottom: 0;\n  border-bottom: 1px solid #b81752;*/\n}\n.details-items-info div p.value[data-v-90683a7e] {\n  margin: 0;\n  font-size: 16px;\n  font-weight: 600;\n  color: #000;\n}\n.detail[data-v-90683a7e] {\n  height: 530px;\n}\n.p-flex[data-v-90683a7e] {\n  padding: 10px;\n  text-align: center;\n  width: 180px;\n  height: 80px;\n  /*border: 1px solid  #17a2b8;*/\n}\n.sous-principes[data-v-90683a7e] {\n  font-size: 20px;\n  font-weight: 300;\n  color: black;\n}\n.sous-principes .titre[data-v-90683a7e] {\n  font-weight: 600;\n}\n.details-exercice p[data-v-90683a7e] {\n  font-size: 16px;\n}\n.description-exercice[data-v-90683a7e] {\n  margin-top: 30px;\n  margin-bottom: 30px;\n}\n.bloc-info[data-v-90683a7e] {\n  box-shadow: 0 2px 3px -1px #DCDCDC;\n  border-bottom: 2px solid #F3F3F3;\n}\n.bloc-info h5[data-v-90683a7e] {\n  border-left: 5px solid #b81752;\n  padding-left: 9px;\n}\n.bloc-sm[data-v-90683a7e] {\n  margin-top: 20px;\n  height: auto;\n}\n.video[data-v-90683a7e], .url[data-v-90683a7e] {\n  margin-top: 20px;\n  width: inherit;\n}\n.video iframe[data-v-90683a7e] {\n  width: inherit;\n}\n.actions-exercice-detail[data-v-90683a7e] {\n  margin-bottom: 20px;\n  height: 80px;\n}\n.actions-exercice-detail .btns[data-v-90683a7e] {\n  float: right;\n}\n.actions-exercice-detail .btn-mes-exercices[data-v-90683a7e] {\n  float: left;\n}\n.bloc-detail-md[data-v-90683a7e] {\n  margin-top: 20px;\n}\n.variantes .variante[data-v-90683a7e] {\n  box-shadow: 0 2px 3px -1px #DCDCDC;\n  height: auto;\n  margin-top: 20px;\n}\n.variantes .variante-header h5.float-left[data-v-90683a7e] {\n  border-left: 5px solid #b81752;\n  padding-left: 9px;\n}\n.variantes .variante-header h5.time[data-v-90683a7e] {\n  margin-right: 11px;\n}\n.variantes .variante-body[data-v-90683a7e] {\n  padding-bottom: 2px;\n}\n.add-seance-form .btn-action-sauvegarder[data-v-90683a7e] {\n  margin-top: 60px;\n  height: 40px;\n  display: block !important;\n}\n.add-seance-form .btn-action-sauvegarder .btn-sauvegarder[data-v-90683a7e] {\n  float: right;\n}\n.update-exercice-form .btn-action-sauvegarder[data-v-90683a7e] {\n  margin-top: 60px;\n  height: 40px;\n  display: block !important;\n}\n.update-exercice-form .btn-action-sauvegarder .btn-sauvegarder[data-v-90683a7e] {\n  float: right;\n}\n@media screen and (max-width: 480px) {\n.actions-exercice-detail .btn-sauvegarder1[data-v-90683a7e] {\n    display: none;\n}\n.btn-action-sauvegarder[data-v-90683a7e] {\n    display: block;\n    margin-top: 60px;\n    height: 40px;\n}\n.actions-exercice-detail[data-v-90683a7e] {\n    height: auto;\n}\n.actions-exercice-detail .btn-mes-exercices[data-v-90683a7e] {\n    float: none;\n}\n.actions-exercice-detail .btns[data-v-90683a7e] {\n    float: none;\n    margin-top: 10px;\n}\n.actions-exercice-detail .btns .btn-soccer-coach-action[data-v-90683a7e] {\n    width: 100%;\n    margin-bottom: 2px;\n}\n.image-exercice[data-v-90683a7e] {\n    margin-top: 10px;\n    height: auto;\n}\n.details-items-info div p.text[data-v-90683a7e] {\n    font-size: 9px;\n}\n.details-items-info div p.value[data-v-90683a7e] {\n    font-size: 13px;\n}\n.detail[data-v-90683a7e] {\n    height: auto;\n}\n}\n.add-variables[data-v-90683a7e] {\n  margin-top: 20px;\n}\n.add-variables h5[data-v-90683a7e] {\n  margin-bottom: 0;\n}\n.add-variables .form-add-variable form button[data-v-90683a7e] {\n  margin-top: 20px;\n  float: right;\n}\n.add-variables .form-add-variable form textarea[data-v-90683a7e] {\n  height: 234px !important;\n}\n.add-variables .form-add-variable .btn-annuler[data-v-90683a7e] {\n  margin-left: 5px;\n}\n.add-variables .form-add-variable .titre-variantes[data-v-90683a7e] {\n  font-size: 0.9rem;\n  font-weight: 700;\n}\n.add-variables .form-add-variable .lst-variables[data-v-90683a7e] {\n  min-height: 409px;\n  padding: 0 10px 10px 10px;\n  border: 1px solid #ced4da;\n  margin-top: 7px;\n}\n.add-variables .form-add-variable .lst-variables .aucune-variante[data-v-90683a7e] {\n  text-align: center;\n  margin-top: 170px;\n  color: #ced4da;\n}\n.add-variables .form-add-variable .lst-variables .variante-item[data-v-90683a7e] {\n  margin-top: 7px;\n  border-radius: 0 !important;\n  height: auto;\n}\n.add-variables .form-add-variable .lst-variables .variante-item .item-header[data-v-90683a7e] {\n  border-left: 8px solid #03aca4;\n  border-top: 1px solid #03aca4;\n  border-right: 1px solid #03aca4;\n  border-bottom: 1px solid #03aca4;\n  height: 40px;\n  padding-left: 10px;\n  background-color: white;\n  padding-top: 6px;\n  padding-right: 18px;\n}\n.add-variables .form-add-variable .lst-variables .variante-item .item-header[data-v-90683a7e]:first-child {\n  border-radius: 0;\n}\n.add-variables .form-add-variable .lst-variables .variante-item .item-header .btn-delete[data-v-90683a7e] {\n  float: right;\n  border: 0;\n}\n.add-variables .form-add-variable .lst-variables .variante-item .item-body[data-v-90683a7e] {\n  height: auto;\n  border-left: 1px solid #03aca4;\n  border-right: 1px solid #03aca4;\n  border-bottom: 1px solid #03aca4;\n  padding: 18px;\n}\n.add-variables .form-add-variable .lst-variables .variante-item .item-body.row[data-v-90683a7e] {\n  height: auto;\n  margin-left: 0;\n  margin-right: 0;\n}\n.add-variables .form-add-variable .lst-variables .variante-item .item-body .img-variante img[data-v-90683a7e] {\n  width: inherit;\n  height: 318px;\n}", ""]);
 
 // exports
 
@@ -9753,7 +10052,7 @@ exports = module.exports = __webpack_require__(/*! ../../../node_modules/css-loa
 
 
 // module
-exports.push([module.i, ".pratiques-by-user .actions .btn-group[data-v-41bef580] {\n  margin-bottom: 40px;\n}\n.pratiques-by-user .actions .btn-create-exercice[data-v-41bef580] {\n  margin-top: 80px;\n}\n.pratiques-by-user .card-seance[data-v-41bef580] {\n  border: none;\n  padding: 5px;\n}\n.pratiques-by-user .card-seance .card-body-seance[data-v-41bef580] {\n  background-color: white;\n  border: 1px solid rgba(0, 0, 0, 0.125);\n  border-radius: 0 !important;\n  display: block;\n  position: relative;\n}\n.pratiques-by-user .card-seance .card-body-seance .card-title-theme[data-v-41bef580] {\n  height: 100px;\n}\n.pratiques-by-user .card-seance .card-body-seance .bought[data-v-41bef580]:hover {\n  background-color: #370028;\n}\n.pratiques-by-user .card-seance .footer-seance[data-v-41bef580] {\n  background-color: white;\n  border: 1px solid rgba(0, 0, 0, 0.125);\n  border-radius: 0 !important;\n}", ""]);
+exports.push([module.i, ".pratiques-by-user .actions .btn-group[data-v-41bef580] {\n  margin-bottom: 40px;\n}\n.pratiques-by-user .actions .btn-create-exercice[data-v-41bef580] {\n  margin-top: 80px;\n}\n.pratiques-by-user .card-seance[data-v-41bef580] {\n  border: none;\n  padding: 5px;\n}\n.pratiques-by-user .card-seance .card-body-seance[data-v-41bef580] {\n  background-color: #F3F3F3;\n  border-radius: 0 !important;\n  display: block;\n  position: relative;\n}\n.pratiques-by-user .card-seance .card-body-seance .card-title-theme[data-v-41bef580] {\n  height: 100px;\n}\n.pratiques-by-user .card-seance .card-body-seance .bought[data-v-41bef580]:hover {\n  background-color: #370028;\n}\n.pratiques-by-user .card-seance .footer-seance[data-v-41bef580] {\n  background-color: #F3F3F3;\n  border-radius: 0 !important;\n}", ""]);
 
 // exports
 
@@ -9772,7 +10071,45 @@ exports = module.exports = __webpack_require__(/*! ../../../node_modules/css-loa
 
 
 // module
-exports.push([module.i, "@charset \"UTF-8\";\n.type-exerice-group[data-v-15143299] {\n  display: flex;\n  flex-flow: row wrap;\n  margin-top: 10px;\n}\n.type-exerice-group > div[data-v-15143299] {\n  flex: 1;\n  padding: 0.5rem;\n}\n.type-exerice-group .type-item[data-v-15143299] {\n  height: 130px;\n}\n.type-exerice-group .type-item .details-type[data-v-15143299] {\n  margin-top: 10px;\n}\n.type-exerice-group .type-item .icon-exercice[data-v-15143299] {\n  bottom: 0;\n  position: absolute;\n}\n.type-exerice-group .type-item input[type=radio][data-v-15143299] {\n  display: none;\n}\n.type-exerice-group .type-item input[type=radio]:not(:disabled) ~ label[data-v-15143299] {\n  cursor: pointer;\n}\n.type-exerice-group .type-item input[type=radio]:disabled ~ label[data-v-15143299] {\n  color: #bcc2bf;\n  border-color: #bcc2bf;\n  box-shadow: none;\n  cursor: not-allowed;\n}\n.type-exerice-group .type-item label[data-v-15143299] {\n  height: 100%;\n  display: block;\n  background: white;\n  border: 1px solid #03aca4;\n  border-radius: 0;\n  padding: 1rem;\n  margin-bottom: 1rem;\n  text-align: center;\n  box-shadow: 0px 3px 10px -2px rgba(161, 170, 166, 0.5);\n  position: relative;\n}\n.type-exerice-group .type-item input[type=radio]:checked + label[data-v-15143299] {\n  background: #03aca4;\n  color: white;\n  box-shadow: 0px 0px 20px #F3F3F3;\n}\n.type-exerice-group .type-item input[type=radio]:checked + label[data-v-15143299]::after {\n  color: #3d3f43;\n  font-family: FontAwesome;\n  border: 2px solid #03aca4;\n  content: \"\\F00C\";\n  font-size: 24px;\n  position: absolute;\n  top: -25px;\n  left: 50%;\n  transform: translateX(-50%);\n  height: 50px;\n  width: 50px;\n  line-height: 50px;\n  text-align: center;\n  border-radius: 50%;\n  background: white;\n  box-shadow: 0px 2px 5px -2px rgba(0, 0, 0, 0.25);\n}\n.type-exerice-group .type-item input[type=radio]:checked + label i[data-v-15143299] {\n  color: white;\n}\n.type-exerice-group .type-item p[data-v-15143299] {\n  font-weight: 900;\n}\n@media only screen and (max-width: 700px) {\nsection[data-v-15143299] {\n    flex-direction: column;\n}\n}", ""]);
+exports.push([module.i, "@charset \"UTF-8\";\n.type-exerice-group > div[data-v-15143299] {\n  flex: 1;\n  padding: 0.5rem;\n}\n.type-exerice-group[data-v-15143299] {\n  display: flex;\n  flex-flow: row wrap;\n  margin-top: 10px;\n}\n.type-exerice-group .type-item[data-v-15143299] {\n  height: 130px;\n}\n.type-exerice-group .type-item .details-type[data-v-15143299] {\n  margin-top: 10px;\n}\n.type-exerice-group .type-item .icon-exercice[data-v-15143299] {\n  bottom: 0;\n  position: absolute;\n}\n.type-exerice-group .type-item input[type=radio][data-v-15143299] {\n  display: none;\n}\n.type-exerice-group .type-item input[type=radio]:not(:disabled) ~ label[data-v-15143299] {\n  cursor: pointer;\n}\n.type-exerice-group .type-item input[type=radio]:disabled ~ label[data-v-15143299] {\n  color: #bcc2bf;\n  border-color: #bcc2bf;\n  box-shadow: none;\n  cursor: not-allowed;\n}\n.type-exerice-group .type-item label[data-v-15143299] {\n  height: 100%;\n  display: block;\n  background: white;\n  border: 1px solid #03aca4;\n  border-radius: 0;\n  padding: 1rem;\n  margin-bottom: 1rem;\n  text-align: center;\n  box-shadow: 0px 3px 10px -2px rgba(161, 170, 166, 0.5);\n  position: relative;\n}\n.type-exerice-group .type-item input[type=radio]:checked + label[data-v-15143299] {\n  background: #03aca4;\n  color: white;\n  box-shadow: 0px 0px 20px #F3F3F3;\n}\n.type-exerice-group .type-item input[type=radio]:checked + label[data-v-15143299]::after {\n  color: #3d3f43;\n  font-family: FontAwesome;\n  border: 2px solid #03aca4;\n  content: \"\\F00C\";\n  font-size: 24px;\n  position: absolute;\n  top: -25px;\n  left: 50%;\n  transform: translateX(-50%);\n  height: 50px;\n  width: 50px;\n  line-height: 50px;\n  text-align: center;\n  border-radius: 50%;\n  background: white;\n  box-shadow: 0px 2px 5px -2px rgba(0, 0, 0, 0.25);\n}\n.type-exerice-group .type-item input[type=radio]:checked + label i[data-v-15143299] {\n  color: white;\n}\n.type-exerice-group .type-item p[data-v-15143299] {\n  font-weight: 900;\n}\n@media only screen and (max-width: 700px) {\nsection[data-v-15143299] {\n    flex-direction: column;\n}\n}", ""]);
+
+// exports
+
+
+/***/ }),
+
+/***/ "./node_modules/css-loader/index.js!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src/index.js?!./node_modules/sass-loader/dist/cjs.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/TypesSeancesSelect.vue?vue&type=style&index=0&id=8789c680&lang=scss&scoped=true&":
+/*!****************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/css-loader!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src??ref--7-2!./node_modules/sass-loader/dist/cjs.js??ref--7-3!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/TypesSeancesSelect.vue?vue&type=style&index=0&id=8789c680&lang=scss&scoped=true& ***!
+  \****************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__(/*! ../../../node_modules/css-loader/lib/css-base.js */ "./node_modules/css-loader/lib/css-base.js")(false);
+// imports
+
+
+// module
+exports.push([module.i, "@charset \"UTF-8\";\n.type-exerice-group > div[data-v-8789c680] {\n  flex: 1;\n  padding: 0.5rem;\n}\n.type-exerice-group[data-v-8789c680] {\n  display: flex;\n  flex-flow: row wrap;\n  margin-top: 10px;\n}\n.type-exerice-group .type-item[data-v-8789c680] {\n  height: 130px;\n}\n.type-exerice-group .type-item .details-type[data-v-8789c680] {\n  margin-top: 10px;\n}\n.type-exerice-group .type-item .icon-exercice[data-v-8789c680] {\n  bottom: 0;\n  position: absolute;\n}\n.type-exerice-group .type-item input[type=radio][data-v-8789c680] {\n  display: none;\n}\n.type-exerice-group .type-item input[type=radio]:not(:disabled) ~ label[data-v-8789c680] {\n  cursor: pointer;\n}\n.type-exerice-group .type-item input[type=radio]:disabled ~ label[data-v-8789c680] {\n  color: #bcc2bf;\n  border-color: #bcc2bf;\n  box-shadow: none;\n  cursor: not-allowed;\n}\n.type-exerice-group .type-item label[data-v-8789c680] {\n  height: 100%;\n  display: block;\n  background: white;\n  border: 1px solid #03aca4;\n  border-radius: 0;\n  padding: 1rem;\n  margin-bottom: 1rem;\n  text-align: center;\n  box-shadow: 0px 3px 10px -2px rgba(161, 170, 166, 0.5);\n  position: relative;\n}\n.type-exerice-group .type-item input[type=radio]:checked + label[data-v-8789c680] {\n  background: #03aca4;\n  color: white;\n  box-shadow: 0px 0px 20px #F3F3F3;\n}\n.type-exerice-group .type-item input[type=radio]:checked + label[data-v-8789c680]::after {\n  color: #3d3f43;\n  font-family: FontAwesome;\n  border: 2px solid #03aca4;\n  content: \"\\F00C\";\n  font-size: 24px;\n  position: absolute;\n  top: -25px;\n  left: 50%;\n  transform: translateX(-50%);\n  height: 50px;\n  width: 50px;\n  line-height: 50px;\n  text-align: center;\n  border-radius: 50%;\n  background: white;\n  box-shadow: 0px 2px 5px -2px rgba(0, 0, 0, 0.25);\n}\n.type-exerice-group .type-item input[type=radio]:checked + label i[data-v-8789c680] {\n  color: white;\n}\n.type-exerice-group .type-item p[data-v-8789c680] {\n  font-weight: 900;\n}\n@media only screen and (max-width: 700px) {\nsection[data-v-8789c680] {\n    flex-direction: column;\n}\n}", ""]);
+
+// exports
+
+
+/***/ }),
+
+/***/ "./node_modules/css-loader/index.js!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src/index.js?!./node_modules/sass-loader/dist/cjs.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/UpdateExerciceComponent.vue?vue&type=style&index=0&id=ffb5a4de&lang=scss&scoped=true&":
+/*!*********************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/css-loader!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src??ref--7-2!./node_modules/sass-loader/dist/cjs.js??ref--7-3!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/UpdateExerciceComponent.vue?vue&type=style&index=0&id=ffb5a4de&lang=scss&scoped=true& ***!
+  \*********************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__(/*! ../../../node_modules/css-loader/lib/css-base.js */ "./node_modules/css-loader/lib/css-base.js")(false);
+// imports
+
+
+// module
+exports.push([module.i, ".form-control[data-v-ffb5a4de] {\n  border: none;\n  border-bottom: 2px solid #03aca4;\n  border-right: 1px solid #F3F3F3;\n}\n.form-group.input-sm .input-text[data-v-ffb5a4de], .form-group.input-sm .date-time-picker[data-v-ffb5a4de] {\n  width: 100%;\n}\n@media screen and (min-width: 768px) {\n.form-group.input-sm .input-text[data-v-ffb5a4de], .form-group.input-sm .date-time-picker[data-v-ffb5a4de] {\n    width: 33.3%;\n}\n}\n.form-group .temps-input[data-v-ffb5a4de] {\n  display: flex;\n}\n.temps-chexbox > div[data-v-ffb5a4de] {\n  flex: 1;\n  padding-left: 5px;\n}\n.temps-chexbox[data-v-ffb5a4de] {\n  display: flex;\n  flex-flow: row wrap;\n}\n.temps-chexbox .type-item[data-v-ffb5a4de] {\n  height: auto;\n}\n.temps-chexbox .type-item .icon-exercice[data-v-ffb5a4de] {\n  bottom: 0;\n  position: absolute;\n}\n.temps-chexbox .type-item input[type=radio][data-v-ffb5a4de] {\n  display: none;\n}\n.temps-chexbox .type-item input[type=radio]:not(:disabled) ~ label[data-v-ffb5a4de] {\n  cursor: pointer;\n}\n.temps-chexbox .type-item input[type=radio]:disabled ~ label[data-v-ffb5a4de] {\n  color: #bcc2bf;\n  border-color: #bcc2bf;\n  box-shadow: none;\n  cursor: not-allowed;\n}\n.temps-chexbox .type-item label[data-v-ffb5a4de] {\n  height: 2.4rem;\n  width: 2.4rem;\n  display: block;\n  background: white;\n  border: 1px solid #03aca4;\n  border-radius: 0;\n  padding: 2px;\n  text-align: center;\n  margin-bottom: 0 !important;\n  box-shadow: 0px 3px 10px -2px rgba(161, 170, 166, 0.5);\n  position: relative;\n}\n.temps-chexbox .type-item label .details-type[data-v-ffb5a4de] {\n  margin-top: 5px;\n}\n.temps-chexbox .type-item input[type=radio]:checked + label[data-v-ffb5a4de] {\n  background: #03aca4;\n  color: white;\n  box-shadow: 0px 0px 20px #F3F3F3;\n}\n.temps-chexbox .type-item input[type=radio]:checked + label i[data-v-ffb5a4de] {\n  color: white;\n}\n.temps-chexbox .type-item p[data-v-ffb5a4de] {\n  font-weight: 900;\n  margin-bottom: 0 !important;\n}\n.error[data-v-ffb5a4de] {\n  color: red;\n  font-weight: 600;\n}\n.input-error[data-v-ffb5a4de] {\n  border-bottom: 2px solid red;\n}\n.input-error[data-v-ffb5a4de]:focus {\n  border-color: red;\n  box-shadow: 0 0 0 0.2rem rgba(255, 0, 0, 0.2);\n}", ""]);
 
 // exports
 
@@ -9791,7 +10128,7 @@ exports = module.exports = __webpack_require__(/*! ../../../node_modules/css-loa
 
 
 // module
-exports.push([module.i, ".error[data-v-19d422ea] {\n  color: red;\n  font-weight: 600;\n}\n.input-error[data-v-19d422ea] {\n  border: 1px solid red;\n}\n.input-error[data-v-19d422ea]:focus {\n  border-color: red;\n  box-shadow: 0 0 0 0.2rem rgba(255, 0, 0, 0.2);\n}\n.add-seance-form .date-time-picker[data-v-19d422ea] {\n  width: 25%;\n  margin: 0;\n}\n@media screen and (max-width: 480px) {\n.add-seance-form .date-time-picker[data-v-19d422ea] {\n    width: 100%;\n}\n}\n.add-seance-form .exercices .btn-action-exercices[data-v-19d422ea] {\n  height: 35px;\n}\n.add-seance-form .exercices .btn-action-exercices .btns[data-v-19d422ea] {\n  float: right;\n}\n.add-seance-form .exercices .details-exercice-modal[data-v-19d422ea] {\n  float: right;\n  margin-right: 10px;\n}\n.add-seance-form .exercices .lst-exercices[data-v-19d422ea] {\n  padding: 0 10px 10px 10px;\n  border: 1px solid #ced4da;\n  margin-top: 7px;\n  height: auto;\n}\n.add-seance-form .exercices .lst-exercices.lst-vide[data-v-19d422ea] {\n  min-height: 409px;\n}\n.add-seance-form .exercices .lst-exercices .aucun-exercice[data-v-19d422ea] {\n  text-align: center;\n  margin-top: 170px;\n  color: #ced4da;\n}\n.add-seance-form .exercices .lst-exercices .exercice-item[data-v-19d422ea] {\n  margin-top: 7px;\n  border-radius: 0 !important;\n  height: auto;\n  border-top: 1px solid #ced4da;\n  border-bottom: 1px solid #ced4da;\n}\n.add-seance-form .exercices .lst-exercices .exercice-item .exercice-match .details-match h5[data-v-19d422ea] {\n  padding-top: 10px;\n}\n.add-seance-form .exercices .lst-exercices .exercice-item .exercice-match .details-match .items-modifiables[data-v-19d422ea] {\n  display: flex;\n  border-top: 1px solid #03aca4;\n  padding-top: 10px;\n}\n.add-seance-form .exercices .lst-exercices .exercice-item .exercice-match .details-match .items-modifiables .form-group[data-v-19d422ea] {\n  margin-right: 10px;\n}\n.add-seance-form .exercices .lst-exercices .exercice-item .exercice-match .details-match .items-modifiables .form-group .input-text[data-v-19d422ea] {\n  padding-right: 10px;\n}\n.add-seance-form .exercices .lst-exercices .exercice-item .exercice-match .details-match .items-modifiables .form-group .input-text textarea[data-v-19d422ea] {\n  height: 124px !important;\n}\n.add-seance-form .exercices .lst-exercices .exercice-item .exercice-match .description-match[data-v-19d422ea] {\n  padding-top: 10px;\n}\n.add-seance-form .exercices .lst-exercices .exercice-item .actions[data-v-19d422ea] {\n  height: 50px;\n  margin-top: 12px;\n}\n.add-seance-form .exercices .lst-exercices .exercice-item .actions button[data-v-19d422ea] {\n  float: right;\n}\n.add-seance-form .exercices .lst-exercices .exercice-item .details-exe h5[data-v-19d422ea] {\n  padding-top: 10px;\n}\n.add-seance-form .exercices .lst-exercices .exercice-item .details-exe .items-modifiables[data-v-19d422ea] {\n  display: flex;\n  border-top: 1px solid #03aca4;\n  padding-top: 10px;\n}\n.add-seance-form .exercices .lst-exercices .exercice-item .details-exe .items-modifiables .form-group[data-v-19d422ea] {\n  margin-right: 10px;\n}\n.add-seance-form .exercices .lst-exercices .exercice-item .image-exe[data-v-19d422ea] {\n  margin-top: 4px;\n}\n.add-seance-form .exercices .lst-exercices .exercice-item .image-exe img[data-v-19d422ea] {\n  width: 300px;\n  height: 220px;\n  margin-left: 30px;\n}", ""]);
+exports.push([module.i, ".form-control[data-v-19d422ea] {\n  border: none;\n  border-bottom: 2px solid #03aca4;\n  border-right: 1px solid #F3F3F3;\n}\n.form-group.input-sm .input-text[data-v-19d422ea], .form-group.input-sm .date-time-picker[data-v-19d422ea] {\n  width: 100%;\n}\n@media screen and (min-width: 768px) {\n.form-group.input-sm .input-text[data-v-19d422ea], .form-group.input-sm .date-time-picker[data-v-19d422ea] {\n    width: 33.3%;\n}\n}\n.form-group .temps-input[data-v-19d422ea] {\n  display: flex;\n}\n.temps-chexbox > div[data-v-19d422ea] {\n  flex: 1;\n  padding-left: 5px;\n}\n.temps-chexbox[data-v-19d422ea] {\n  display: flex;\n  flex-flow: row wrap;\n}\n.temps-chexbox .type-item[data-v-19d422ea] {\n  height: auto;\n}\n.temps-chexbox .type-item .icon-exercice[data-v-19d422ea] {\n  bottom: 0;\n  position: absolute;\n}\n.temps-chexbox .type-item input[type=radio][data-v-19d422ea] {\n  display: none;\n}\n.temps-chexbox .type-item input[type=radio]:not(:disabled) ~ label[data-v-19d422ea] {\n  cursor: pointer;\n}\n.temps-chexbox .type-item input[type=radio]:disabled ~ label[data-v-19d422ea] {\n  color: #bcc2bf;\n  border-color: #bcc2bf;\n  box-shadow: none;\n  cursor: not-allowed;\n}\n.temps-chexbox .type-item label[data-v-19d422ea] {\n  height: 2.4rem;\n  width: 2.4rem;\n  display: block;\n  background: white;\n  border: 1px solid #03aca4;\n  border-radius: 0;\n  padding: 2px;\n  text-align: center;\n  margin-bottom: 0 !important;\n  box-shadow: 0px 3px 10px -2px rgba(161, 170, 166, 0.5);\n  position: relative;\n}\n.temps-chexbox .type-item label .details-type[data-v-19d422ea] {\n  margin-top: 5px;\n}\n.temps-chexbox .type-item input[type=radio]:checked + label[data-v-19d422ea] {\n  background: #03aca4;\n  color: white;\n  box-shadow: 0px 0px 20px #F3F3F3;\n}\n.temps-chexbox .type-item input[type=radio]:checked + label i[data-v-19d422ea] {\n  color: white;\n}\n.temps-chexbox .type-item p[data-v-19d422ea] {\n  font-weight: 900;\n  margin-bottom: 0 !important;\n}\n.error[data-v-19d422ea] {\n  color: red;\n  font-weight: 600;\n}\n.input-error[data-v-19d422ea] {\n  border-bottom: 2px solid red;\n}\n.input-error[data-v-19d422ea]:focus {\n  border-color: red;\n  box-shadow: 0 0 0 0.2rem rgba(255, 0, 0, 0.2);\n}\n.add-seance-form .date-time-picker[data-v-19d422ea] {\n  margin: 0;\n  border-bottom: 2px solid #03aca4;\n}\n.add-seance-form .date-time-picker .field .field-input[data-v-19d422ea] {\n  border: none !important;\n}\n@media screen and (max-width: 480px) {\n.add-seance-form .date-time-picker[data-v-19d422ea] {\n    width: 100%;\n}\n}\n.add-seance-form .exercices .btn-action-exercices[data-v-19d422ea] {\n  height: 35px;\n}\n.add-seance-form .exercices .btn-action-exercices .btns[data-v-19d422ea] {\n  float: right;\n}\n.add-seance-form .exercices .details-exercice-modal[data-v-19d422ea] {\n  float: right;\n  margin-right: 10px;\n}\n.add-seance-form .exercices .lst-exercices[data-v-19d422ea] {\n  padding: 0 10px 10px 10px;\n  border: 1px solid #ced4da;\n  margin-top: 7px;\n  height: auto;\n}\n.add-seance-form .exercices .lst-exercices.lst-vide[data-v-19d422ea] {\n  min-height: 409px;\n}\n.add-seance-form .exercices .lst-exercices .aucun-exercice[data-v-19d422ea] {\n  text-align: center;\n  margin-top: 170px;\n  color: #ced4da;\n}\n.add-seance-form .exercices .lst-exercices .exercice-item[data-v-19d422ea] {\n  margin-top: 7px;\n  border-radius: 0 !important;\n  height: auto;\n  border-bottom: 1px solid #ced4da;\n}\n.add-seance-form .exercices .lst-exercices .exercice-item .exercice-match .details-match .principe-exe[data-v-19d422ea] {\n  border-left: 8px solid #03aca4;\n  background-color: #F3F3F3;\n  padding: 8px;\n  min-height: 40px;\n}\n.add-seance-form .exercices .lst-exercices .exercice-item .exercice-match .details-match .principe-exe h5[data-v-19d422ea] {\n  margin-top: 2px;\n}\n.add-seance-form .exercices .lst-exercices .exercice-item .exercice-match .details-match .items-modifiables[data-v-19d422ea] {\n  display: flex;\n  padding-top: 10px;\n}\n.add-seance-form .exercices .lst-exercices .exercice-item .exercice-match .details-match .items-modifiables .form-group[data-v-19d422ea] {\n  margin-right: 10px;\n}\n.add-seance-form .exercices .lst-exercices .exercice-item .exercice-match .details-match .items-modifiables .form-group .input-text[data-v-19d422ea] {\n  padding-right: 10px;\n}\n.add-seance-form .exercices .lst-exercices .exercice-item .exercice-match .details-match .items-modifiables .form-group .input-text textarea[data-v-19d422ea] {\n  height: 124px !important;\n}\n.add-seance-form .exercices .lst-exercices .exercice-item .exercice-match .description-match[data-v-19d422ea] {\n  padding-top: 10px;\n}\n.add-seance-form .exercices .lst-exercices .exercice-item .actions[data-v-19d422ea] {\n  height: 50px;\n  margin-top: 12px;\n}\n.add-seance-form .exercices .lst-exercices .exercice-item .actions button[data-v-19d422ea] {\n  float: right;\n}\n.add-seance-form .exercices .lst-exercices .exercice-item .details-exe .principe-exe[data-v-19d422ea] {\n  border-left: 8px solid #03aca4;\n  background-color: #F3F3F3;\n  padding: 8px;\n  min-height: 40px;\n}\n.add-seance-form .exercices .lst-exercices .exercice-item .details-exe .principe-exe h5[data-v-19d422ea] {\n  margin-top: 2px;\n}\n.add-seance-form .exercices .lst-exercices .exercice-item .details-exe .items-modifiables[data-v-19d422ea] {\n  display: flex;\n  padding-top: 10px;\n}\n.add-seance-form .exercices .lst-exercices .exercice-item .details-exe .items-modifiables .form-group[data-v-19d422ea] {\n  margin-right: 10px;\n}\n.add-seance-form .exercices .lst-exercices .exercice-item .image-exe[data-v-19d422ea] {\n  margin-top: 4px;\n}\n.add-seance-form .exercices .lst-exercices .exercice-item .image-exe img[data-v-19d422ea] {\n  width: 100%;\n  height: 220px;\n}", ""]);
 
 // exports
 
@@ -9810,7 +10147,7 @@ exports = module.exports = __webpack_require__(/*! ../../../../node_modules/css-
 
 
 // module
-exports.push([module.i, ".error[data-v-495b20da] {\n  color: red;\n  font-weight: 600;\n}\n.input-error[data-v-495b20da] {\n  border: 1px solid red;\n}\n.input-error[data-v-495b20da]:focus {\n  border-color: red;\n  box-shadow: 0 0 0 0.2rem rgba(255, 0, 0, 0.2);\n}", ""]);
+exports.push([module.i, ".form-control[data-v-495b20da] {\n  border: none;\n  border-bottom: 2px solid #03aca4;\n  border-right: 1px solid #F3F3F3;\n}\n.form-group.input-sm .input-text[data-v-495b20da], .form-group.input-sm .date-time-picker[data-v-495b20da] {\n  width: 100%;\n}\n@media screen and (min-width: 768px) {\n.form-group.input-sm .input-text[data-v-495b20da], .form-group.input-sm .date-time-picker[data-v-495b20da] {\n    width: 33.3%;\n}\n}\n.form-group .temps-input[data-v-495b20da] {\n  display: flex;\n}\n.temps-chexbox > div[data-v-495b20da] {\n  flex: 1;\n  padding-left: 5px;\n}\n.temps-chexbox[data-v-495b20da] {\n  display: flex;\n  flex-flow: row wrap;\n}\n.temps-chexbox .type-item[data-v-495b20da] {\n  height: auto;\n}\n.temps-chexbox .type-item .icon-exercice[data-v-495b20da] {\n  bottom: 0;\n  position: absolute;\n}\n.temps-chexbox .type-item input[type=radio][data-v-495b20da] {\n  display: none;\n}\n.temps-chexbox .type-item input[type=radio]:not(:disabled) ~ label[data-v-495b20da] {\n  cursor: pointer;\n}\n.temps-chexbox .type-item input[type=radio]:disabled ~ label[data-v-495b20da] {\n  color: #bcc2bf;\n  border-color: #bcc2bf;\n  box-shadow: none;\n  cursor: not-allowed;\n}\n.temps-chexbox .type-item label[data-v-495b20da] {\n  height: 2.4rem;\n  width: 2.4rem;\n  display: block;\n  background: white;\n  border: 1px solid #03aca4;\n  border-radius: 0;\n  padding: 2px;\n  text-align: center;\n  margin-bottom: 0 !important;\n  box-shadow: 0px 3px 10px -2px rgba(161, 170, 166, 0.5);\n  position: relative;\n}\n.temps-chexbox .type-item label .details-type[data-v-495b20da] {\n  margin-top: 5px;\n}\n.temps-chexbox .type-item input[type=radio]:checked + label[data-v-495b20da] {\n  background: #03aca4;\n  color: white;\n  box-shadow: 0px 0px 20px #F3F3F3;\n}\n.temps-chexbox .type-item input[type=radio]:checked + label i[data-v-495b20da] {\n  color: white;\n}\n.temps-chexbox .type-item p[data-v-495b20da] {\n  font-weight: 900;\n  margin-bottom: 0 !important;\n}\n.error[data-v-495b20da] {\n  color: red;\n  font-weight: 600;\n}\n.input-error[data-v-495b20da] {\n  border-bottom: 2px solid red;\n}\n.input-error[data-v-495b20da]:focus {\n  border-color: red;\n  box-shadow: 0 0 0 0.2rem rgba(255, 0, 0, 0.2);\n}", ""]);
 
 // exports
 
@@ -9829,7 +10166,7 @@ exports = module.exports = __webpack_require__(/*! ../../../../node_modules/css-
 
 
 // module
-exports.push([module.i, ".error[data-v-2763b4f6] {\n  color: red;\n  font-weight: 600;\n}\n.input-error[data-v-2763b4f6] {\n  border: 1px solid red;\n}\n.input-error[data-v-2763b4f6]:focus {\n  border-color: red;\n  box-shadow: 0 0 0 0.2rem rgba(255, 0, 0, 0.2);\n}", ""]);
+exports.push([module.i, ".form-control[data-v-2763b4f6] {\n  border: none;\n  border-bottom: 2px solid #03aca4;\n  border-right: 1px solid #F3F3F3;\n}\n.form-group.input-sm .input-text[data-v-2763b4f6], .form-group.input-sm .date-time-picker[data-v-2763b4f6] {\n  width: 100%;\n}\n@media screen and (min-width: 768px) {\n.form-group.input-sm .input-text[data-v-2763b4f6], .form-group.input-sm .date-time-picker[data-v-2763b4f6] {\n    width: 33.3%;\n}\n}\n.form-group .temps-input[data-v-2763b4f6] {\n  display: flex;\n}\n.temps-chexbox > div[data-v-2763b4f6] {\n  flex: 1;\n  padding-left: 5px;\n}\n.temps-chexbox[data-v-2763b4f6] {\n  display: flex;\n  flex-flow: row wrap;\n}\n.temps-chexbox .type-item[data-v-2763b4f6] {\n  height: auto;\n}\n.temps-chexbox .type-item .icon-exercice[data-v-2763b4f6] {\n  bottom: 0;\n  position: absolute;\n}\n.temps-chexbox .type-item input[type=radio][data-v-2763b4f6] {\n  display: none;\n}\n.temps-chexbox .type-item input[type=radio]:not(:disabled) ~ label[data-v-2763b4f6] {\n  cursor: pointer;\n}\n.temps-chexbox .type-item input[type=radio]:disabled ~ label[data-v-2763b4f6] {\n  color: #bcc2bf;\n  border-color: #bcc2bf;\n  box-shadow: none;\n  cursor: not-allowed;\n}\n.temps-chexbox .type-item label[data-v-2763b4f6] {\n  height: 2.4rem;\n  width: 2.4rem;\n  display: block;\n  background: white;\n  border: 1px solid #03aca4;\n  border-radius: 0;\n  padding: 2px;\n  text-align: center;\n  margin-bottom: 0 !important;\n  box-shadow: 0px 3px 10px -2px rgba(161, 170, 166, 0.5);\n  position: relative;\n}\n.temps-chexbox .type-item label .details-type[data-v-2763b4f6] {\n  margin-top: 5px;\n}\n.temps-chexbox .type-item input[type=radio]:checked + label[data-v-2763b4f6] {\n  background: #03aca4;\n  color: white;\n  box-shadow: 0px 0px 20px #F3F3F3;\n}\n.temps-chexbox .type-item input[type=radio]:checked + label i[data-v-2763b4f6] {\n  color: white;\n}\n.temps-chexbox .type-item p[data-v-2763b4f6] {\n  font-weight: 900;\n  margin-bottom: 0 !important;\n}\n.error[data-v-2763b4f6] {\n  color: red;\n  font-weight: 600;\n}\n.input-error[data-v-2763b4f6] {\n  border-bottom: 2px solid red;\n}\n.input-error[data-v-2763b4f6]:focus {\n  border-color: red;\n  box-shadow: 0 0 0 0.2rem rgba(255, 0, 0, 0.2);\n}", ""]);
 
 // exports
 
@@ -9848,7 +10185,7 @@ exports = module.exports = __webpack_require__(/*! ../../../../node_modules/css-
 
 
 // module
-exports.push([module.i, ".error[data-v-e266c3ba] {\n  color: red;\n  font-weight: 600;\n}\n.input-error[data-v-e266c3ba] {\n  border: 1px solid red;\n}\n.input-error[data-v-e266c3ba]:focus {\n  border-color: red;\n  box-shadow: 0 0 0 0.2rem rgba(255, 0, 0, 0.2);\n}", ""]);
+exports.push([module.i, ".form-control[data-v-e266c3ba] {\n  border: none;\n  border-bottom: 2px solid #03aca4;\n  border-right: 1px solid #F3F3F3;\n}\n.form-group.input-sm .input-text[data-v-e266c3ba], .form-group.input-sm .date-time-picker[data-v-e266c3ba] {\n  width: 100%;\n}\n@media screen and (min-width: 768px) {\n.form-group.input-sm .input-text[data-v-e266c3ba], .form-group.input-sm .date-time-picker[data-v-e266c3ba] {\n    width: 33.3%;\n}\n}\n.form-group .temps-input[data-v-e266c3ba] {\n  display: flex;\n}\n.temps-chexbox > div[data-v-e266c3ba] {\n  flex: 1;\n  padding-left: 5px;\n}\n.temps-chexbox[data-v-e266c3ba] {\n  display: flex;\n  flex-flow: row wrap;\n}\n.temps-chexbox .type-item[data-v-e266c3ba] {\n  height: auto;\n}\n.temps-chexbox .type-item .icon-exercice[data-v-e266c3ba] {\n  bottom: 0;\n  position: absolute;\n}\n.temps-chexbox .type-item input[type=radio][data-v-e266c3ba] {\n  display: none;\n}\n.temps-chexbox .type-item input[type=radio]:not(:disabled) ~ label[data-v-e266c3ba] {\n  cursor: pointer;\n}\n.temps-chexbox .type-item input[type=radio]:disabled ~ label[data-v-e266c3ba] {\n  color: #bcc2bf;\n  border-color: #bcc2bf;\n  box-shadow: none;\n  cursor: not-allowed;\n}\n.temps-chexbox .type-item label[data-v-e266c3ba] {\n  height: 2.4rem;\n  width: 2.4rem;\n  display: block;\n  background: white;\n  border: 1px solid #03aca4;\n  border-radius: 0;\n  padding: 2px;\n  text-align: center;\n  margin-bottom: 0 !important;\n  box-shadow: 0px 3px 10px -2px rgba(161, 170, 166, 0.5);\n  position: relative;\n}\n.temps-chexbox .type-item label .details-type[data-v-e266c3ba] {\n  margin-top: 5px;\n}\n.temps-chexbox .type-item input[type=radio]:checked + label[data-v-e266c3ba] {\n  background: #03aca4;\n  color: white;\n  box-shadow: 0px 0px 20px #F3F3F3;\n}\n.temps-chexbox .type-item input[type=radio]:checked + label i[data-v-e266c3ba] {\n  color: white;\n}\n.temps-chexbox .type-item p[data-v-e266c3ba] {\n  font-weight: 900;\n  margin-bottom: 0 !important;\n}\n.error[data-v-e266c3ba] {\n  color: red;\n  font-weight: 600;\n}\n.input-error[data-v-e266c3ba] {\n  border-bottom: 2px solid red;\n}\n.input-error[data-v-e266c3ba]:focus {\n  border-color: red;\n  box-shadow: 0 0 0 0.2rem rgba(255, 0, 0, 0.2);\n}", ""]);
 
 // exports
 
@@ -9924,7 +10261,7 @@ exports = module.exports = __webpack_require__(/*! ../../../../node_modules/css-
 
 
 // module
-exports.push([module.i, ".images-modal[data-v-0fcd4010] {\n  padding-bottom: 2px;\n}\n@media screen and (max-width: 480px) {\n.images-modal .btn-soccer-coach-action[data-v-0fcd4010] {\n    margin-top: 1px;\n}\n}\n@media screen and (max-width: 480px) {\n.images-modal .create-exe-designer[data-v-0fcd4010] {\n    display: none;\n}\n}\n.images-modal .modal .modal-header[data-v-0fcd4010] {\n  border-bottom: 1px solid #03aca4;\n}\n.images-modal .modal .modal-header .btn-close[data-v-0fcd4010] {\n  height: 66px;\n  background-color: #8a2539;\n  opacity: 1;\n  color: white;\n  width: 60px;\n}\n.images-modal .modal .modal-header .btn-close[data-v-0fcd4010]:focus {\n  border-color: #03aca4 !important;\n  box-shadow: 0 0 0 0.2rem rgba(23, 184, 125, 0.2) !important;\n}\n.images-modal .modal .modal-header .btn-close[data-v-0fcd4010]:hover {\n  background-color: #45191f;\n  color: white;\n}\n.images-modal .modal .image-exericie[data-v-0fcd4010] {\n  padding-top: 15px;\n  padding-bottom: 15px;\n}\n.images-modal .modal .image-exericie .img-select[data-v-0fcd4010] {\n  z-index: 1;\n  height: inherit;\n  width: inherit;\n}\n.images-modal .modal .image-exericie .img-select img[data-v-0fcd4010] {\n  height: 200px;\n  width: inherit;\n}\n.images-modal .modal .image-exericie .file-upload-infos-modal[data-v-0fcd4010] {\n  cursor: pointer;\n  position: absolute;\n  left: 0;\n  top: 0;\n  right: 0;\n  bottom: 0;\n  z-index: 2;\n  background: rgba(0, 0, 0, 0.7);\n  opacity: 0;\n  transition: opacity 0.15s linear;\n}\n.images-modal .modal .image-exericie .file-upload-infos-modal .file-upload-infos-inner[data-v-0fcd4010] {\n  position: absolute;\n  top: 50%;\n  transform: translate(0, -40%);\n  -webkit-backface-visibility: hidden;\n  backface-visibility: hidden;\n  width: 100%;\n  padding: 0 20px;\n  transition: all 0.2s ease;\n}\n.images-modal .modal .image-exericie .file-upload-infos-modal .file-upload-infos-inner p[data-v-0fcd4010] {\n  padding: 0;\n  margin: 0;\n  position: relative;\n  width: 100%;\n  white-space: nowrap;\n  overflow: hidden;\n  text-overflow: ellipsis;\n  color: #fff;\n  text-align: center;\n  line-height: 25px;\n  font-weight: 700;\n}\n.images-modal .modal .image-exericie .file-upload-infos-modal .file-upload-infos-inner p.file-upload-infos-message[data-v-0fcd4010] {\n  margin-top: 15px;\n  padding-top: 15px;\n  font-size: 12px;\n  position: relative;\n  opacity: 0.5;\n  color: #17a2b8;\n}\n.images-modal .modal .image-exericie .file-upload-infos-modal .file-upload-infos-inner p.file-upload-infos-message[data-v-0fcd4010]::before {\n  content: \"\";\n  position: absolute;\n  top: 0;\n  left: 50%;\n  transform: translate(-50%, 0);\n  background: #fff;\n  width: 30px;\n  height: 2px;\n}\n.images-modal .modal .image-exericie .file-upload-infos-modal .file-upload-infos-inner i[data-v-0fcd4010] {\n  opacity: 0.5;\n}", ""]);
+exports.push([module.i, ".images-modal[data-v-0fcd4010] {\n  padding-bottom: 2px;\n}\n.images-modal .btns .btn[data-v-0fcd4010] {\n  float: right;\n  margin-left: 2px;\n}\n@media screen and (max-width: 480px) {\n.images-modal .btn-soccer-coach-action[data-v-0fcd4010] {\n    margin-top: 1px;\n}\n}\n@media screen and (max-width: 480px) {\n.images-modal .create-exe-designer[data-v-0fcd4010] {\n    display: none;\n}\n}\n.images-modal .modal .modal-header[data-v-0fcd4010] {\n  border-bottom: 1px solid #03aca4;\n}\n.images-modal .modal .modal-header .btn-close[data-v-0fcd4010] {\n  height: 66px;\n  background-color: #8a2539;\n  opacity: 1;\n  color: white;\n  width: 60px;\n}\n.images-modal .modal .modal-header .btn-close[data-v-0fcd4010]:focus {\n  border-color: #03aca4 !important;\n  box-shadow: 0 0 0 0.2rem rgba(23, 184, 125, 0.2) !important;\n}\n.images-modal .modal .modal-header .btn-close[data-v-0fcd4010]:hover {\n  background-color: #45191f;\n  color: white;\n}\n.images-modal .modal .image-exericie[data-v-0fcd4010] {\n  padding-top: 15px;\n  padding-bottom: 15px;\n}\n.images-modal .modal .image-exericie .img-select[data-v-0fcd4010] {\n  z-index: 1;\n  height: inherit;\n  width: inherit;\n}\n.images-modal .modal .image-exericie .img-select img[data-v-0fcd4010] {\n  height: 200px;\n  width: inherit;\n}\n.images-modal .modal .image-exericie .file-upload-infos-modal[data-v-0fcd4010] {\n  cursor: pointer;\n  position: absolute;\n  left: 0;\n  top: 0;\n  right: 0;\n  bottom: 0;\n  z-index: 2;\n  background: rgba(0, 0, 0, 0.7);\n  opacity: 0;\n  transition: opacity 0.15s linear;\n}\n.images-modal .modal .image-exericie .file-upload-infos-modal .file-upload-infos-inner[data-v-0fcd4010] {\n  position: absolute;\n  top: 50%;\n  transform: translate(0, -40%);\n  -webkit-backface-visibility: hidden;\n  backface-visibility: hidden;\n  width: 100%;\n  padding: 0 20px;\n  transition: all 0.2s ease;\n}\n.images-modal .modal .image-exericie .file-upload-infos-modal .file-upload-infos-inner p[data-v-0fcd4010] {\n  padding: 0;\n  margin: 0;\n  position: relative;\n  width: 100%;\n  white-space: nowrap;\n  overflow: hidden;\n  text-overflow: ellipsis;\n  color: #fff;\n  text-align: center;\n  line-height: 25px;\n  font-weight: 700;\n}\n.images-modal .modal .image-exericie .file-upload-infos-modal .file-upload-infos-inner p.file-upload-infos-message[data-v-0fcd4010] {\n  margin-top: 15px;\n  padding-top: 15px;\n  font-size: 12px;\n  position: relative;\n  opacity: 0.5;\n  color: #17a2b8;\n}\n.images-modal .modal .image-exericie .file-upload-infos-modal .file-upload-infos-inner p.file-upload-infos-message[data-v-0fcd4010]::before {\n  content: \"\";\n  position: absolute;\n  top: 0;\n  left: 50%;\n  transform: translate(-50%, 0);\n  background: #fff;\n  width: 30px;\n  height: 2px;\n}\n.images-modal .modal .image-exericie .file-upload-infos-modal .file-upload-infos-inner i[data-v-0fcd4010] {\n  opacity: 0.5;\n}", ""]);
 
 // exports
 
@@ -41447,6 +41784,66 @@ if(false) {}
 
 /***/ }),
 
+/***/ "./node_modules/style-loader/index.js!./node_modules/css-loader/index.js!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src/index.js?!./node_modules/sass-loader/dist/cjs.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/TypesSeancesSelect.vue?vue&type=style&index=0&id=8789c680&lang=scss&scoped=true&":
+/*!********************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/style-loader!./node_modules/css-loader!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src??ref--7-2!./node_modules/sass-loader/dist/cjs.js??ref--7-3!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/TypesSeancesSelect.vue?vue&type=style&index=0&id=8789c680&lang=scss&scoped=true& ***!
+  \********************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+
+var content = __webpack_require__(/*! !../../../node_modules/css-loader!../../../node_modules/vue-loader/lib/loaders/stylePostLoader.js!../../../node_modules/postcss-loader/src??ref--7-2!../../../node_modules/sass-loader/dist/cjs.js??ref--7-3!../../../node_modules/vue-loader/lib??vue-loader-options!./TypesSeancesSelect.vue?vue&type=style&index=0&id=8789c680&lang=scss&scoped=true& */ "./node_modules/css-loader/index.js!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src/index.js?!./node_modules/sass-loader/dist/cjs.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/TypesSeancesSelect.vue?vue&type=style&index=0&id=8789c680&lang=scss&scoped=true&");
+
+if(typeof content === 'string') content = [[module.i, content, '']];
+
+var transform;
+var insertInto;
+
+
+
+var options = {"hmr":true}
+
+options.transform = transform
+options.insertInto = undefined;
+
+var update = __webpack_require__(/*! ../../../node_modules/style-loader/lib/addStyles.js */ "./node_modules/style-loader/lib/addStyles.js")(content, options);
+
+if(content.locals) module.exports = content.locals;
+
+if(false) {}
+
+/***/ }),
+
+/***/ "./node_modules/style-loader/index.js!./node_modules/css-loader/index.js!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src/index.js?!./node_modules/sass-loader/dist/cjs.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/UpdateExerciceComponent.vue?vue&type=style&index=0&id=ffb5a4de&lang=scss&scoped=true&":
+/*!*************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/style-loader!./node_modules/css-loader!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src??ref--7-2!./node_modules/sass-loader/dist/cjs.js??ref--7-3!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/UpdateExerciceComponent.vue?vue&type=style&index=0&id=ffb5a4de&lang=scss&scoped=true& ***!
+  \*************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+
+var content = __webpack_require__(/*! !../../../node_modules/css-loader!../../../node_modules/vue-loader/lib/loaders/stylePostLoader.js!../../../node_modules/postcss-loader/src??ref--7-2!../../../node_modules/sass-loader/dist/cjs.js??ref--7-3!../../../node_modules/vue-loader/lib??vue-loader-options!./UpdateExerciceComponent.vue?vue&type=style&index=0&id=ffb5a4de&lang=scss&scoped=true& */ "./node_modules/css-loader/index.js!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src/index.js?!./node_modules/sass-loader/dist/cjs.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/UpdateExerciceComponent.vue?vue&type=style&index=0&id=ffb5a4de&lang=scss&scoped=true&");
+
+if(typeof content === 'string') content = [[module.i, content, '']];
+
+var transform;
+var insertInto;
+
+
+
+var options = {"hmr":true}
+
+options.transform = transform
+options.insertInto = undefined;
+
+var update = __webpack_require__(/*! ../../../node_modules/style-loader/lib/addStyles.js */ "./node_modules/style-loader/lib/addStyles.js")(content, options);
+
+if(content.locals) module.exports = content.locals;
+
+if(false) {}
+
+/***/ }),
+
 /***/ "./node_modules/style-loader/index.js!./node_modules/css-loader/index.js!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src/index.js?!./node_modules/sass-loader/dist/cjs.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/UpdatePratiquesComponent.vue?vue&type=style&index=0&id=19d422ea&lang=scss&scoped=true&":
 /*!**************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
   !*** ./node_modules/style-loader!./node_modules/css-loader!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src??ref--7-2!./node_modules/sass-loader/dist/cjs.js??ref--7-3!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/UpdatePratiquesComponent.vue?vue&type=style&index=0&id=19d422ea&lang=scss&scoped=true& ***!
@@ -67392,7 +67789,7 @@ var render = function() {
                 _vm.exerciceDTO.private.validations.require
                   ? _c("span", [_vm._v(" * ")])
                   : _vm._e(),
-                _vm._v(" Privée\n                    "),
+                _vm._v(" Privée\n                        "),
                 _c("input", {
                   directives: [
                     {
@@ -67482,40 +67879,116 @@ var render = function() {
             "div",
             { staticClass: "col-sm-6 details-exercice-image" },
             [
-              _c(
-                "div",
-                { staticClass: "form-group" },
-                [
-                  _c("label", { attrs: { for: "time" } }, [
-                    _c("i", { staticClass: "ti-timer color-soccer-coach" }),
-                    _vm.exerciceDTO.time.validations.require
-                      ? _c("span", [_vm._v(" * ")])
-                      : _vm._e(),
-                    _vm._v(" Durée:")
-                  ]),
-                  _vm._v(" "),
-                  _c("input-text", {
-                    attrs: {
-                      placeholder: "Ex: 20min",
-                      name: "time",
-                      model: _vm.exerciceDTO.time
-                    },
-                    on: {
-                      validation: function($event) {
-                        _vm.exerciceDTO.time.validate = $event
-                      }
-                    },
-                    model: {
-                      value: _vm.exerciceDTO.time.value,
-                      callback: function($$v) {
-                        _vm.$set(_vm.exerciceDTO.time, "value", $$v)
+              _c("div", { staticClass: "form-group input-sm" }, [
+                _c("label", { attrs: { for: "time" } }, [
+                  _c("i", { staticClass: "ti-timer color-soccer-coach" }),
+                  _vm.exerciceDTO.time.validations.require
+                    ? _c("span", [_vm._v(" * ")])
+                    : _vm._e(),
+                  _vm._v(" Durée:")
+                ]),
+                _vm._v(" "),
+                _c(
+                  "div",
+                  { staticClass: "temps-input" },
+                  [
+                    _c("input-number", {
+                      attrs: {
+                        placeholder: "Ex: 20",
+                        name: "time",
+                        model: _vm.exerciceDTO.time
                       },
-                      expression: "exerciceDTO.time.value"
-                    }
-                  })
-                ],
-                1
-              ),
+                      on: {
+                        validation: function($event) {
+                          _vm.exerciceDTO.time.validate = $event
+                        }
+                      },
+                      model: {
+                        value: _vm.exerciceDTO.time.value,
+                        callback: function($$v) {
+                          _vm.$set(_vm.exerciceDTO.time, "value", $$v)
+                        },
+                        expression: "exerciceDTO.time.value"
+                      }
+                    }),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "temps-chexbox" }, [
+                      _c("div", { staticClass: "type-item" }, [
+                        _c("input", {
+                          directives: [
+                            {
+                              name: "model",
+                              rawName: "v-model",
+                              value: _vm.exerciceDTO.typeTemps.value,
+                              expression: "exerciceDTO.typeTemps.value"
+                            }
+                          ],
+                          attrs: {
+                            type: "radio",
+                            id: "control_min",
+                            name: "typeTemps",
+                            value: "min"
+                          },
+                          domProps: {
+                            checked: _vm._q(
+                              _vm.exerciceDTO.typeTemps.value,
+                              "min"
+                            )
+                          },
+                          on: {
+                            change: function($event) {
+                              return _vm.$set(
+                                _vm.exerciceDTO.typeTemps,
+                                "value",
+                                "min"
+                              )
+                            }
+                          }
+                        }),
+                        _vm._v(" "),
+                        _vm._m(1)
+                      ]),
+                      _vm._v(" "),
+                      _c("div", { staticClass: "type-item" }, [
+                        _c("input", {
+                          directives: [
+                            {
+                              name: "model",
+                              rawName: "v-model",
+                              value: _vm.exerciceDTO.typeTemps.value,
+                              expression: "exerciceDTO.typeTemps.value"
+                            }
+                          ],
+                          attrs: {
+                            type: "radio",
+                            id: "control_h",
+                            name: "typeTemps",
+                            value: "h"
+                          },
+                          domProps: {
+                            checked: _vm._q(
+                              _vm.exerciceDTO.typeTemps.value,
+                              "h"
+                            )
+                          },
+                          on: {
+                            change: function($event) {
+                              return _vm.$set(
+                                _vm.exerciceDTO.typeTemps,
+                                "value",
+                                "h"
+                              )
+                            }
+                          }
+                        }),
+                        _vm._v(" "),
+                        _vm._m(2)
+                      ])
+                    ])
+                  ],
+                  1
+                )
+              ]),
               _vm._v(" "),
               _c(
                 "div",
@@ -67597,7 +68070,7 @@ var render = function() {
                       ? _c("span", [_vm._v(" * ")])
                       : _vm._e(),
                     _vm._v(" URL: "),
-                    _vm._m(1)
+                    _vm._m(3)
                   ]),
                   _vm._v(" "),
                   _c("input-text", {
@@ -67638,7 +68111,7 @@ var render = function() {
                   ])
                 : _vm._e(),
               _vm._v(" "),
-              _c("images-exercices-modal", { attrs: { isModal: "isModal" } }),
+              _c("images-exercices-modal", { attrs: { isModal: _vm.isModal } }),
               _vm._v(" "),
               _c("image-upload", {
                 attrs: { image: _vm.exerciceDTO.image.value, "id-image": "1" },
@@ -67655,7 +68128,7 @@ var render = function() {
         _vm._v(" "),
         _c("add-variables"),
         _vm._v(" "),
-        _vm._m(2)
+        _vm._m(4)
       ],
       1
     )
@@ -67669,6 +68142,26 @@ var staticRenderFns = [
     return _c("label", { attrs: { for: "type" } }, [
       _c("i", { staticClass: "ti-tag color-soccer-coach" }),
       _vm._v(" Objectifs")
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("label", { attrs: { for: "control_min" } }, [
+      _c("div", { staticClass: "details-type" }, [
+        _c("p", { staticClass: "value" }, [_vm._v("min")])
+      ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("label", { attrs: { for: "control_h" } }, [
+      _c("div", { staticClass: "details-type" }, [
+        _c("p", { staticClass: "value" }, [_vm._v("h")])
+      ])
     ])
   },
   function() {
@@ -67710,6 +68203,44 @@ render._withStripped = true
 
 /***/ }),
 
+/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/AddFavorisComponent.vue?vue&type=template&id=1dcfdb9b&scoped=true&":
+/*!**********************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/AddFavorisComponent.vue?vue&type=template&id=1dcfdb9b&scoped=true& ***!
+  \**********************************************************************************************************************************************************************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "render", function() { return render; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return staticRenderFns; });
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c("div", { staticClass: "add-favoris" }, [
+    !_vm.isAddedToFavoris
+      ? _c(
+          "a",
+          {
+            staticClass: "btn btn-soccer-coach-action",
+            on: { click: _vm.addFavoris }
+          },
+          [_c("i", { staticClass: "ti-star" }), _vm._v(" Favoris\n    ")]
+        )
+      : _c("a", { staticClass: "btn" }, [
+          _c("i", { staticClass: "ti-star" }),
+          _vm._v(" Favoris\n    ")
+        ])
+  ])
+}
+var staticRenderFns = []
+render._withStripped = true
+
+
+
+/***/ }),
+
 /***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/AddPratiquesComponent.vue?vue&type=template&id=e33628c6&scoped=true&":
 /*!************************************************************************************************************************************************************************************************************************************!*\
   !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/AddPratiquesComponent.vue?vue&type=template&id=e33628c6&scoped=true& ***!
@@ -67741,7 +68272,7 @@ var render = function() {
         _c("div", { staticClass: "actions-exercice-detail" }, [
           _c("div", { staticClass: "btns" }, [
             _c(
-              "button",
+              "a",
               {
                 staticClass: "btn btn-soccer-coach-action",
                 on: { click: _vm.annuler }
@@ -67789,6 +68320,167 @@ var render = function() {
             1
           ),
           _vm._v(" "),
+          _c("div", { staticClass: "form-group input-sm" }, [
+            _c("label", { attrs: { for: "temps" } }, [
+              _c("i", { staticClass: "ti-time color-soccer-coach" }),
+              _vm.seanceDTO.temps.validations.require
+                ? _c("span", [_vm._v(" * ")])
+                : _vm._e(),
+              _vm._v(" Durée:")
+            ]),
+            _vm._v(" "),
+            _c(
+              "div",
+              { staticClass: "temps-input" },
+              [
+                _c("input-number", {
+                  attrs: {
+                    placeholder: "Ex: 20",
+                    name: "time",
+                    model: _vm.seanceDTO.temps
+                  },
+                  on: {
+                    validation: function($event) {
+                      _vm.seanceDTO.temps.validate = $event
+                    }
+                  },
+                  model: {
+                    value: _vm.seanceDTO.temps.value,
+                    callback: function($$v) {
+                      _vm.$set(_vm.seanceDTO.temps, "value", $$v)
+                    },
+                    expression: "seanceDTO.temps.value"
+                  }
+                }),
+                _vm._v(" "),
+                _c("div", { staticClass: "temps-chexbox" }, [
+                  _c("div", { staticClass: "type-item" }, [
+                    _c("input", {
+                      directives: [
+                        {
+                          name: "model",
+                          rawName: "v-model",
+                          value: _vm.seanceDTO.typeTemps.value,
+                          expression: "seanceDTO.typeTemps.value"
+                        }
+                      ],
+                      attrs: {
+                        type: "radio",
+                        id: "control_min_p",
+                        name: "typeTempsP",
+                        value: "min"
+                      },
+                      domProps: {
+                        checked: _vm._q(_vm.seanceDTO.typeTemps.value, "min")
+                      },
+                      on: {
+                        change: function($event) {
+                          return _vm.$set(
+                            _vm.seanceDTO.typeTemps,
+                            "value",
+                            "min"
+                          )
+                        }
+                      }
+                    }),
+                    _vm._v(" "),
+                    _vm._m(0)
+                  ]),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "type-item" }, [
+                    _c("input", {
+                      directives: [
+                        {
+                          name: "model",
+                          rawName: "v-model",
+                          value: _vm.seanceDTO.typeTemps.value,
+                          expression: "seanceDTO.typeTemps.value"
+                        }
+                      ],
+                      attrs: {
+                        type: "radio",
+                        id: "control_h_p",
+                        name: "typeTempsP",
+                        value: "h"
+                      },
+                      domProps: {
+                        checked: _vm._q(_vm.seanceDTO.typeTemps.value, "h")
+                      },
+                      on: {
+                        change: function($event) {
+                          return _vm.$set(_vm.seanceDTO.typeTemps, "value", "h")
+                        }
+                      }
+                    }),
+                    _vm._v(" "),
+                    _vm._m(1)
+                  ])
+                ])
+              ],
+              1
+            )
+          ]),
+          _vm._v(" "),
+          _c(
+            "div",
+            { staticClass: "form-group input-sm" },
+            [
+              _c("label", { attrs: { for: "effectif" } }, [
+                _c("i", { staticClass: "fa fa-group color-soccer-coach" }),
+                _vm.seanceDTO.effectif.validations.require
+                  ? _c("span", [_vm._v(" * ")])
+                  : _vm._e(),
+                _vm._v(" Effectif:")
+              ]),
+              _vm._v(" "),
+              _c("input-number", {
+                attrs: {
+                  placeholder: "Ex: 15",
+                  name: "effectif",
+                  model: _vm.seanceDTO.effectif
+                },
+                on: {
+                  validation: function($event) {
+                    _vm.seanceDTO.effectif.validate = $event
+                  }
+                },
+                model: {
+                  value: _vm.seanceDTO.effectif.value,
+                  callback: function($$v) {
+                    _vm.$set(_vm.seanceDTO.effectif, "value", $$v)
+                  },
+                  expression: "seanceDTO.effectif.value"
+                }
+              })
+            ],
+            1
+          ),
+          _vm._v(" "),
+          _c(
+            "div",
+            { staticClass: "form-group" },
+            [
+              _c("label", { attrs: { for: "type" } }, [
+                _c("i", { staticClass: "ti-flag-alt-2 color-soccer-coach" }),
+                _vm.seanceDTO.categorie.validations.require
+                  ? _c("span", [_vm._v(" * ")])
+                  : _vm._e(),
+                _vm._v(" Type de séance:")
+              ]),
+              _vm._v(" "),
+              _c("types-seances-select", {
+                model: {
+                  value: _vm.seanceDTO.categorie.value,
+                  callback: function($$v) {
+                    _vm.$set(_vm.seanceDTO.categorie, "value", $$v)
+                  },
+                  expression: "seanceDTO.categorie.value"
+                }
+              })
+            ],
+            1
+          ),
+          _vm._v(" "),
           _c(
             "div",
             { staticClass: "form-group" },
@@ -67826,10 +68518,10 @@ var render = function() {
           _vm._v(" "),
           _c(
             "div",
-            { staticClass: "form-group" },
+            { staticClass: "form-group input-sm" },
             [
               _c("label", { attrs: { for: "time" } }, [
-                _c("i", { staticClass: "ti-time color-soccer-coach" }),
+                _c("i", { staticClass: "fa fa-calendar-o color-soccer-coach" }),
                 _vm.seanceDTO.time.validations.require
                   ? _c("span", [_vm._v(" * ")])
                   : _vm._e(),
@@ -67841,9 +68533,9 @@ var render = function() {
                   locale: "fr",
                   format: "YYYY-MM-DD",
                   formatted: "ll",
-                  color: "#17b87d",
+                  color: "#03aca4",
                   label: "Sélectionner une date",
-                  "button-color": "#17b87d",
+                  "button-color": "#03aca4",
                   "button-now-translation": "Aujourd'hui",
                   right: true,
                   "auto-close": true,
@@ -67897,15 +68589,8 @@ var render = function() {
             1
           ),
           _vm._v(" "),
-          _c(
-            "div",
-            { staticClass: "form-group" },
-            [_vm._m(0), _vm._v(" "), _c("list-objectifs-exercices")],
-            1
-          ),
-          _vm._v(" "),
           _c("div", { staticClass: "exercices" }, [
-            _vm._m(1),
+            _vm._m(2),
             _vm._v(" "),
             _c("br"),
             _vm.error.isError
@@ -67921,7 +68606,7 @@ var render = function() {
                 [
                   _c("mes-exercices-modal"),
                   _vm._v(" "),
-                  _vm._m(2),
+                  _vm._m(3),
                   _vm._v(" "),
                   _c("create-exercice-modal"),
                   _vm._v(" "),
@@ -67980,7 +68665,7 @@ var render = function() {
                                   "div",
                                   { staticClass: "form-group" },
                                   [
-                                    _vm._m(3, true),
+                                    _vm._m(4, true),
                                     _vm._v(" "),
                                     _c("input-text", {
                                       attrs: {
@@ -68057,7 +68742,7 @@ var render = function() {
                                   "div",
                                   { staticClass: "form-group" },
                                   [
-                                    _vm._m(4, true),
+                                    _vm._m(5, true),
                                     _vm._v(" "),
                                     _c("input-text", {
                                       attrs: {
@@ -68180,7 +68865,7 @@ var render = function() {
           ])
         ]),
         _vm._v(" "),
-        _vm._m(5)
+        _vm._m(6)
       ]
     )
   ])
@@ -68190,9 +68875,20 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("label", { attrs: { for: "type" } }, [
-      _c("i", { staticClass: "ti-tag color-soccer-coach" }),
-      _vm._v(" Objectifs")
+    return _c("label", { attrs: { for: "control_min_p" } }, [
+      _c("div", { staticClass: "details-type" }, [
+        _c("p", { staticClass: "value" }, [_vm._v("min")])
+      ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("label", { attrs: { for: "control_h_p" } }, [
+      _c("div", { staticClass: "details-type" }, [
+        _c("p", { staticClass: "value" }, [_vm._v("h")])
+      ])
     ])
   },
   function() {
@@ -68300,40 +68996,116 @@ var render = function() {
                   }
                 },
                 [
-                  _c(
-                    "div",
-                    { staticClass: "form-group" },
-                    [
-                      _c("label", { attrs: { for: "time" } }, [
-                        _c("i", { staticClass: "ti-timer color-soccer-coach" }),
-                        _vm.variable.time.validations.require
-                          ? _c("span", [_vm._v(" * ")])
-                          : _vm._e(),
-                        _vm._v(" Durée:")
-                      ]),
-                      _vm._v(" "),
-                      _c("input-text", {
-                        attrs: {
-                          placeholder: "Ex: 10min",
-                          name: "time",
-                          model: _vm.variable.time
-                        },
-                        on: {
-                          validation: function($event) {
-                            _vm.variable.time.validate = $event
-                          }
-                        },
-                        model: {
-                          value: _vm.variable.time.value,
-                          callback: function($$v) {
-                            _vm.$set(_vm.variable.time, "value", $$v)
+                  _c("div", { staticClass: "form-group input-sm" }, [
+                    _c("label", { attrs: { for: "time" } }, [
+                      _c("i", { staticClass: "ti-timer color-soccer-coach" }),
+                      _vm.variable.time.validations.require
+                        ? _c("span", [_vm._v(" * ")])
+                        : _vm._e(),
+                      _vm._v(" Durée:")
+                    ]),
+                    _vm._v(" "),
+                    _c(
+                      "div",
+                      { staticClass: "temps-input" },
+                      [
+                        _c("input-number", {
+                          attrs: {
+                            placeholder: "Ex: 20",
+                            name: "time",
+                            model: _vm.variable.time
                           },
-                          expression: "variable.time.value"
-                        }
-                      })
-                    ],
-                    1
-                  ),
+                          on: {
+                            validation: function($event) {
+                              _vm.variable.time.validate = $event
+                            }
+                          },
+                          model: {
+                            value: _vm.variable.time.value,
+                            callback: function($$v) {
+                              _vm.$set(_vm.variable.time, "value", $$v)
+                            },
+                            expression: "variable.time.value"
+                          }
+                        }),
+                        _vm._v(" "),
+                        _c("div", { staticClass: "temps-chexbox" }, [
+                          _c("div", { staticClass: "type-item" }, [
+                            _c("input", {
+                              directives: [
+                                {
+                                  name: "model",
+                                  rawName: "v-model",
+                                  value: _vm.variable.typeTemps.value,
+                                  expression: "variable.typeTemps.value"
+                                }
+                              ],
+                              attrs: {
+                                type: "radio",
+                                id: "control_min_v",
+                                name: "typeTempsV",
+                                value: "min"
+                              },
+                              domProps: {
+                                checked: _vm._q(
+                                  _vm.variable.typeTemps.value,
+                                  "min"
+                                )
+                              },
+                              on: {
+                                change: function($event) {
+                                  return _vm.$set(
+                                    _vm.variable.typeTemps,
+                                    "value",
+                                    "min"
+                                  )
+                                }
+                              }
+                            }),
+                            _vm._v(" "),
+                            _vm._m(0)
+                          ]),
+                          _vm._v(" "),
+                          _c("div", { staticClass: "type-item" }, [
+                            _c("input", {
+                              directives: [
+                                {
+                                  name: "model",
+                                  rawName: "v-model",
+                                  value: _vm.variable.typeTemps.value,
+                                  expression: "variable.typeTemps.value"
+                                }
+                              ],
+                              attrs: {
+                                type: "radio",
+                                id: "control_h_v",
+                                name: "typeTempsV",
+                                value: "h"
+                              },
+                              domProps: {
+                                checked: _vm._q(
+                                  _vm.variable.typeTemps.value,
+                                  "h"
+                                )
+                              },
+                              on: {
+                                change: function($event) {
+                                  return _vm.$set(
+                                    _vm.variable.typeTemps,
+                                    "value",
+                                    "h"
+                                  )
+                                }
+                              }
+                            }),
+                            _vm._v(" "),
+                            _vm._m(1)
+                          ])
+                        ])
+                      ],
+                      1
+                    )
+                  ]),
                   _vm._v(" "),
                   _c(
                     "div",
@@ -68373,13 +69145,13 @@ var render = function() {
                     1
                   ),
                   _vm._v(" "),
-                  _vm._m(0)
+                  _vm._m(2)
                 ]
               )
             ]),
             _vm._v(" "),
             _c("div", { staticClass: "col-sm-6" }, [
-              _vm._m(1),
+              _vm._m(3),
               _c("br"),
               _vm._v(" "),
               _c(
@@ -68475,6 +69247,26 @@ var render = function() {
   ])
 }
 var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("label", { attrs: { for: "control_min_v" } }, [
+      _c("div", { staticClass: "details-type" }, [
+        _c("p", { staticClass: "value" }, [_vm._v("min")])
+      ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("label", { attrs: { for: "control_h_v" } }, [
+      _c("div", { staticClass: "details-type" }, [
+        _c("p", { staticClass: "value" }, [_vm._v("h")])
+      ])
+    ])
+  },
   function() {
     var _vm = this
     var _h = _vm.$createElement
@@ -68719,8 +69511,8 @@ var render = function() {
                       }),
                       _vm._v(" "),
                       _c("span", { staticClass: "bought" }, [
-                        _c("i", { class: exercice.type_exercice.icon }),
-                        _vm._v(" " + _vm._s(exercice.type_exercice.nom))
+                        _c("i", { class: exercice.typeExercice.icon }),
+                        _vm._v(" " + _vm._s(exercice.typeExercice.nom))
                       ]),
                       _vm._v(" "),
                       exercice.private === 1
@@ -68746,9 +69538,13 @@ var render = function() {
                       _vm._v(" "),
                       _c("span", { staticClass: "date-creation" }, [
                         _vm._v(
-                          _vm._s(
-                            _vm._f("moment")(exercice.created_at, "YYYY/MM/DD")
-                          )
+                          "Créé le " +
+                            _vm._s(
+                              _vm._f("moment")(
+                                exercice.created_at,
+                                "YYYY-MM-DD"
+                              )
+                            )
                         )
                       ]),
                       _vm._v(" "),
@@ -69307,7 +70103,9 @@ var render = function() {
             _vm._v(" "),
             _c("div", { staticClass: "icon-box" }, [
               _vm._v(
-                "\n                " + _vm._s(objectif.nom) + "\n            "
+                "\n                    " +
+                  _vm._s(objectif.nom) +
+                  "\n                "
               )
             ])
           ])
@@ -69353,7 +70151,7 @@ var render = function() {
               expression: "isLoading"
             }
           ],
-          attrs: { color: "17b87d" }
+          attrs: { color: "#17b87d" }
         })
       ],
       1
@@ -69400,13 +70198,13 @@ var render = function() {
                       attrs: { type: "button", id: "type-" + type.id },
                       on: {
                         click: function($event) {
-                          return _vm.filtrerParType(type[0])
+                          return _vm.filtrerParType(type.name)
                         }
                       }
                     },
                     [
-                      _c("i", { class: type[1] }),
-                      _vm._v(" " + _vm._s(type[0]) + "\n                ")
+                      _c("i", { class: type.icon }),
+                      _vm._v(" " + _vm._s(type.name) + "\n                ")
                     ]
                   )
                 })
@@ -69482,43 +70280,32 @@ var render = function() {
                         _c("span", [_vm._v(_vm._s(seance.effectif))])
                       ]),
                       _vm._v(" "),
+                      seance.categorie !== "None"
+                        ? _c("div", { staticClass: "categorie" }, [
+                            _c("i", {
+                              class: _vm.getIconByCategorie(seance.categorie)
+                            }),
+                            _vm._v(
+                              "\n                        " +
+                                _vm._s(seance.categorie) +
+                                "\n                    "
+                            )
+                          ])
+                        : _vm._e(),
+                      _vm._v(" "),
                       _c("span", { staticClass: "date-creation" }, [
                         _vm._v(
-                          _vm._s(
-                            _vm._f("moment")(seance.created_at, "YYYY/MM/DD")
-                          )
+                          " Créé le " +
+                            _vm._s(
+                              _vm._f("moment")(seance.created_at, "YYYY-MM-DD")
+                            )
                         )
-                      ]),
-                      _vm._v(" "),
-                      _c(
-                        "span",
-                        {
-                          directives: [
-                            {
-                              name: "show",
-                              rawName: "v-show",
-                              value: seance.categorie !== "None",
-                              expression: "seance.categorie !== 'None'"
-                            }
-                          ],
-                          staticClass: "bought"
-                        },
-                        [
-                          _c("i", {
-                            class: _vm.getIconByCategorie(seance.categorie)
-                          }),
-                          _vm._v(
-                            "\n                        " +
-                              _vm._s(seance.categorie) +
-                              "\n                    "
-                          )
-                        ]
-                      )
+                      ])
                     ]),
                     _vm._v(" "),
                     _c(
                       "div",
-                      { staticClass: "card-footer footer-exercice" },
+                      { staticClass: "card-footer footer-seance" },
                       [
                         _c(
                           "router-link",
@@ -69687,6 +70474,76 @@ render._withStripped = true
 
 /***/ }),
 
+/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/TypesSeancesSelect.vue?vue&type=template&id=8789c680&scoped=true&":
+/*!*********************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/TypesSeancesSelect.vue?vue&type=template&id=8789c680&scoped=true& ***!
+  \*********************************************************************************************************************************************************************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "render", function() { return render; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return staticRenderFns; });
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c(
+    "div",
+    { staticClass: "form-group type-exerice-group" },
+    _vm._l(_vm.lstIconsByCategorie, function(type, index) {
+      return _c("div", { key: index, staticClass: "type-item" }, [
+        _vm.isTypeSelect(index, type.name)
+          ? _c("input", {
+              attrs: {
+                type: "radio",
+                id: "control_" + type.id,
+                name: "typeSeance",
+                checked: ""
+              },
+              domProps: { value: type.name },
+              on: {
+                change: function($event) {
+                  return _vm.$emit("change", type.name)
+                }
+              }
+            })
+          : _c("input", {
+              attrs: {
+                type: "radio",
+                id: "control_" + type.id,
+                name: "typeSeance"
+              },
+              domProps: { value: type.name },
+              on: {
+                change: function($event) {
+                  return _vm.$emit("change", type.name)
+                }
+              }
+            }),
+        _vm._v(" "),
+        _c("label", { attrs: { for: "control_" + type.id } }, [
+          _c("div", { staticClass: "details-type" }, [
+            _c("p", { staticClass: "value" }, [_vm._v(_vm._s(type.name))])
+          ]),
+          _vm._v(" "),
+          _c("div", { staticClass: "icon-exercice" }, [
+            _c("i", { class: type.icon + " color-soccer-coach" })
+          ])
+        ])
+      ])
+    }),
+    0
+  )
+}
+var staticRenderFns = []
+render._withStripped = true
+
+
+
+/***/ }),
+
 /***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/UpdateExerciceComponent.vue?vue&type=template&id=ffb5a4de&scoped=true&":
 /*!**************************************************************************************************************************************************************************************************************************************!*\
   !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/UpdateExerciceComponent.vue?vue&type=template&id=ffb5a4de&scoped=true& ***!
@@ -69724,11 +70581,7 @@ var render = function() {
                 "a",
                 {
                   staticClass: "btn btn-soccer-coach-action",
-                  on: {
-                    click: function($event) {
-                      return _vm.annuler()
-                    }
-                  }
+                  on: { click: _vm.annuler }
                 },
                 [_c("i", { staticClass: "ti-close" }), _vm._v(" Annuler")]
               )
@@ -69888,7 +70741,7 @@ var render = function() {
                   _vm.exerciceDTO.private.validations.require
                     ? _c("span", [_vm._v(" * ")])
                     : _vm._e(),
-                  _vm._v(" Privée\n                    "),
+                  _vm._v(" Privée\n                        "),
                   _c("input", {
                     directives: [
                       {
@@ -69991,40 +70844,116 @@ var render = function() {
               "div",
               { staticClass: "col-sm-6 details-exercice-image" },
               [
-                _c(
-                  "div",
-                  { staticClass: "form-group" },
-                  [
-                    _c("label", { attrs: { for: "time" } }, [
-                      _c("i", { staticClass: "ti-timer color-soccer-coach" }),
-                      _vm.exerciceDTO.time.validations.require
-                        ? _c("span", [_vm._v(" * ")])
-                        : _vm._e(),
-                      _vm._v(" Durée:")
-                    ]),
-                    _vm._v(" "),
-                    _c("input-text", {
-                      attrs: {
-                        placeholder: "Ex: 20min",
-                        name: "time",
-                        model: _vm.exerciceDTO.time
-                      },
-                      on: {
-                        validation: function($event) {
-                          _vm.exerciceDTO.time.validate = $event
-                        }
-                      },
-                      model: {
-                        value: _vm.exerciceDTO.time.value,
-                        callback: function($$v) {
-                          _vm.$set(_vm.exerciceDTO.time, "value", $$v)
+                _c("div", { staticClass: "form-group input-sm" }, [
+                  _c("label", { attrs: { for: "time" } }, [
+                    _c("i", { staticClass: "ti-timer color-soccer-coach" }),
+                    _vm.exerciceDTO.time.validations.require
+                      ? _c("span", [_vm._v(" * ")])
+                      : _vm._e(),
+                    _vm._v(" Durée:")
+                  ]),
+                  _vm._v(" "),
+                  _c(
+                    "div",
+                    { staticClass: "temps-input" },
+                    [
+                      _c("input-number", {
+                        attrs: {
+                          placeholder: "Ex: 20",
+                          name: "time",
+                          model: _vm.exerciceDTO.time
                         },
-                        expression: "exerciceDTO.time.value"
-                      }
-                    })
-                  ],
-                  1
-                ),
+                        on: {
+                          validation: function($event) {
+                            _vm.exerciceDTO.time.validate = $event
+                          }
+                        },
+                        model: {
+                          value: _vm.exerciceDTO.time.value,
+                          callback: function($$v) {
+                            _vm.$set(_vm.exerciceDTO.time, "value", $$v)
+                          },
+                          expression: "exerciceDTO.time.value"
+                        }
+                      }),
+                      _vm._v(" "),
+                      _c("div", { staticClass: "temps-chexbox" }, [
+                        _c("div", { staticClass: "type-item" }, [
+                          _c("input", {
+                            directives: [
+                              {
+                                name: "model",
+                                rawName: "v-model",
+                                value: _vm.exerciceDTO.typeTemps.value,
+                                expression: "exerciceDTO.typeTemps.value"
+                              }
+                            ],
+                            attrs: {
+                              type: "radio",
+                              id: "control_min_em",
+                              name: "typeTempsEm",
+                              value: "min"
+                            },
+                            domProps: {
+                              checked: _vm._q(
+                                _vm.exerciceDTO.typeTemps.value,
+                                "min"
+                              )
+                            },
+                            on: {
+                              change: function($event) {
+                                return _vm.$set(
+                                  _vm.exerciceDTO.typeTemps,
+                                  "value",
+                                  "min"
+                                )
+                              }
+                            }
+                          }),
+                          _vm._v(" "),
+                          _vm._m(2)
+                        ]),
+                        _vm._v(" "),
+                        _c("div", { staticClass: "type-item" }, [
+                          _c("input", {
+                            directives: [
+                              {
+                                name: "model",
+                                rawName: "v-model",
+                                value: _vm.exerciceDTO.typeTemps.value,
+                                expression: "exerciceDTO.typeTemps.value"
+                              }
+                            ],
+                            attrs: {
+                              type: "radio",
+                              id: "control_h_em",
+                              name: "typeTempsEm",
+                              value: "h"
+                            },
+                            domProps: {
+                              checked: _vm._q(
+                                _vm.exerciceDTO.typeTemps.value,
+                                "h"
+                              )
+                            },
+                            on: {
+                              change: function($event) {
+                                return _vm.$set(
+                                  _vm.exerciceDTO.typeTemps,
+                                  "value",
+                                  "h"
+                                )
+                              }
+                            }
+                          }),
+                          _vm._v(" "),
+                          _vm._m(3)
+                        ])
+                      ])
+                    ],
+                    1
+                  )
+                ]),
                 _vm._v(" "),
                 _c(
                   "div",
@@ -70106,7 +71035,7 @@ var render = function() {
                         ? _c("span", [_vm._v(" * ")])
                         : _vm._e(),
                       _vm._v(" URL: "),
-                      _vm._m(2)
+                      _vm._m(4)
                     ]),
                     _vm._v(" "),
                     _c("input-text", {
@@ -70169,7 +71098,7 @@ var render = function() {
       _vm._v(" "),
       _c("add-variables", { attrs: { variantes: _vm.variantes } }),
       _vm._v(" "),
-      _vm._m(3)
+      _vm._m(5)
     ],
     1
   )
@@ -70191,6 +71120,26 @@ var staticRenderFns = [
     return _c("label", { attrs: { for: "type" } }, [
       _c("i", { staticClass: "ti-tag color-soccer-coach" }),
       _vm._v(" Objectifs")
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("label", { attrs: { for: "control_min_em" } }, [
+      _c("div", { staticClass: "details-type" }, [
+        _c("p", { staticClass: "value" }, [_vm._v("min")])
+      ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("label", { attrs: { for: "control_h_em" } }, [
+      _c("div", { staticClass: "details-type" }, [
+        _c("p", { staticClass: "value" }, [_vm._v("h")])
+      ])
     ])
   },
   function() {
@@ -70318,6 +71267,167 @@ var render = function() {
             1
           ),
           _vm._v(" "),
+          _c("div", { staticClass: "form-group input-sm" }, [
+            _c("label", { attrs: { for: "temps" } }, [
+              _c("i", { staticClass: "ti-time color-soccer-coach" }),
+              _vm.seanceDTO.temps.validations.require
+                ? _c("span", [_vm._v(" * ")])
+                : _vm._e(),
+              _vm._v(" Durée:")
+            ]),
+            _vm._v(" "),
+            _c(
+              "div",
+              { staticClass: "temps-input" },
+              [
+                _c("input-number", {
+                  attrs: {
+                    placeholder: "Ex: 20",
+                    name: "temps",
+                    model: _vm.seanceDTO.temps
+                  },
+                  on: {
+                    validation: function($event) {
+                      _vm.seanceDTO.temps.validate = $event
+                    }
+                  },
+                  model: {
+                    value: _vm.seanceDTO.temps.value,
+                    callback: function($$v) {
+                      _vm.$set(_vm.seanceDTO.temps, "value", $$v)
+                    },
+                    expression: "seanceDTO.temps.value"
+                  }
+                }),
+                _vm._v(" "),
+                _c("div", { staticClass: "temps-chexbox" }, [
+                  _c("div", { staticClass: "type-item" }, [
+                    _c("input", {
+                      directives: [
+                        {
+                          name: "model",
+                          rawName: "v-model",
+                          value: _vm.seanceDTO.typeTemps.value,
+                          expression: "seanceDTO.typeTemps.value"
+                        }
+                      ],
+                      attrs: {
+                        type: "radio",
+                        id: "control_min_p_m",
+                        name: "typeTempsPM",
+                        value: "min"
+                      },
+                      domProps: {
+                        checked: _vm._q(_vm.seanceDTO.typeTemps.value, "min")
+                      },
+                      on: {
+                        change: function($event) {
+                          return _vm.$set(
+                            _vm.seanceDTO.typeTemps,
+                            "value",
+                            "min"
+                          )
+                        }
+                      }
+                    }),
+                    _vm._v(" "),
+                    _vm._m(0)
+                  ]),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "type-item" }, [
+                    _c("input", {
+                      directives: [
+                        {
+                          name: "model",
+                          rawName: "v-model",
+                          value: _vm.seanceDTO.typeTemps.value,
+                          expression: "seanceDTO.typeTemps.value"
+                        }
+                      ],
+                      attrs: {
+                        type: "radio",
+                        id: "control_h_p_m",
+                        name: "typeTempsPM",
+                        value: "h"
+                      },
+                      domProps: {
+                        checked: _vm._q(_vm.seanceDTO.typeTemps.value, "h")
+                      },
+                      on: {
+                        change: function($event) {
+                          return _vm.$set(_vm.seanceDTO.typeTemps, "value", "h")
+                        }
+                      }
+                    }),
+                    _vm._v(" "),
+                    _vm._m(1)
+                  ])
+                ])
+              ],
+              1
+            )
+          ]),
+          _vm._v(" "),
+          _c(
+            "div",
+            { staticClass: "form-group input-sm" },
+            [
+              _c("label", { attrs: { for: "effectif" } }, [
+                _c("i", { staticClass: "fa fa-group color-soccer-coach" }),
+                _vm.seanceDTO.effectif.validations.require
+                  ? _c("span", [_vm._v(" * ")])
+                  : _vm._e(),
+                _vm._v(" Effectif:")
+              ]),
+              _vm._v(" "),
+              _c("input-number", {
+                attrs: {
+                  placeholder: "Ex: 15",
+                  name: "temps",
+                  model: _vm.seanceDTO.effectif
+                },
+                on: {
+                  validation: function($event) {
+                    _vm.seanceDTO.effectif.validate = $event
+                  }
+                },
+                model: {
+                  value: _vm.seanceDTO.effectif.value,
+                  callback: function($$v) {
+                    _vm.$set(_vm.seanceDTO.effectif, "value", $$v)
+                  },
+                  expression: "seanceDTO.effectif.value"
+                }
+              })
+            ],
+            1
+          ),
+          _vm._v(" "),
+          _c(
+            "div",
+            { staticClass: "form-group" },
+            [
+              _c("label", { attrs: { for: "type" } }, [
+                _c("i", { staticClass: "ti-flag-alt-2 color-soccer-coach" }),
+                _vm.seanceDTO.categorie.validations.require
+                  ? _c("span", [_vm._v(" * ")])
+                  : _vm._e(),
+                _vm._v(" Type de séance:")
+              ]),
+              _vm._v(" "),
+              _c("types-seances-select", {
+                model: {
+                  value: _vm.seanceDTO.categorie.value,
+                  callback: function($$v) {
+                    _vm.$set(_vm.seanceDTO.categorie, "value", $$v)
+                  },
+                  expression: "seanceDTO.categorie.value"
+                }
+              })
+            ],
+            1
+          ),
+          _vm._v(" "),
           _c(
             "div",
             { staticClass: "form-group" },
@@ -70426,15 +71536,8 @@ var render = function() {
             1
           ),
           _vm._v(" "),
-          _c(
-            "div",
-            { staticClass: "form-group" },
-            [_vm._m(0), _vm._v(" "), _c("list-objectifs-exercices")],
-            1
-          ),
-          _vm._v(" "),
           _c("div", { staticClass: "exercices" }, [
-            _vm._m(1),
+            _vm._m(2),
             _vm._v(" "),
             _c("br"),
             _vm.error.isError
@@ -70450,7 +71553,7 @@ var render = function() {
                 [
                   _c("mes-exercices-modal"),
                   _vm._v(" "),
-                  _vm._m(2),
+                  _vm._m(3),
                   _vm._v(" "),
                   _c("create-exercice-modal"),
                   _vm._v(" "),
@@ -70495,13 +71598,15 @@ var render = function() {
                       !exercice.isGame
                         ? _c("div", { staticClass: "row" }, [
                             _c("div", { staticClass: "col-sm-8 details-exe" }, [
-                              _c("h5", [
-                                _vm._v(
-                                  "Exercice #" +
-                                    _vm._s(index + 1) +
-                                    " - " +
-                                    _vm._s(exercice.principe)
-                                )
+                              _c("div", { staticClass: "principe-exe" }, [
+                                _c("h5", [
+                                  _vm._v(
+                                    "Exercice #" +
+                                      _vm._s(index + 1) +
+                                      " - " +
+                                      _vm._s(exercice.principe)
+                                  )
+                                ])
                               ]),
                               _vm._v(" "),
                               _c("div", { staticClass: "items-modifiables" }, [
@@ -70509,7 +71614,7 @@ var render = function() {
                                   "div",
                                   { staticClass: "form-group" },
                                   [
-                                    _vm._m(3, true),
+                                    _vm._m(4, true),
                                     _vm._v(" "),
                                     _c("input-text", {
                                       attrs: {
@@ -70579,14 +71684,14 @@ var render = function() {
                           ])
                         : _c("div", { staticClass: "exercice-match" }, [
                             _c("div", { staticClass: "details-match" }, [
-                              _c("h5", [_vm._v("Match")]),
+                              _vm._m(5, true),
                               _vm._v(" "),
                               _c("div", { staticClass: "items-modifiables" }, [
                                 _c(
                                   "div",
                                   { staticClass: "form-group" },
                                   [
-                                    _vm._m(4, true),
+                                    _vm._m(6, true),
                                     _vm._v(" "),
                                     _c("input-text", {
                                       attrs: {
@@ -70709,7 +71814,7 @@ var render = function() {
           ])
         ]),
         _vm._v(" "),
-        _vm._m(5)
+        _vm._m(7)
       ]
     )
   ])
@@ -70719,9 +71824,20 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("label", { attrs: { for: "type" } }, [
-      _c("i", { staticClass: "ti-tag color-soccer-coach" }),
-      _vm._v(" Objectifs")
+    return _c("label", { attrs: { for: "control_min_p_m" } }, [
+      _c("div", { staticClass: "details-type" }, [
+        _c("p", { staticClass: "value" }, [_vm._v("min")])
+      ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("label", { attrs: { for: "control_h_p_m" } }, [
+      _c("div", { staticClass: "details-type" }, [
+        _c("p", { staticClass: "value" }, [_vm._v("h")])
+      ])
     ])
   },
   function() {
@@ -70749,6 +71865,14 @@ var staticRenderFns = [
     return _c("label", { attrs: { for: "time" } }, [
       _c("i", { staticClass: "ti-timer color-soccer-coach" }),
       _vm._v(" Durée:")
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "principe-exe" }, [
+      _c("h5", [_vm._v("Match")])
     ])
   },
   function() {
@@ -71298,40 +72422,42 @@ var render = function() {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c("div", { staticClass: "images-modal" }, [
-    _c(
-      "button",
-      {
-        directives: [
-          {
-            name: "show",
-            rawName: "v-show",
-            value: !_vm.isModal,
-            expression: "!isModal"
-          }
-        ],
-        staticClass: "btn btn-soccer-coach-action",
-        attrs: {
-          type: "button",
-          "data-toggle": "modal",
-          "data-target": "#myModal"
+    _c("div", { staticClass: "btns" }, [
+      _c(
+        "a",
+        {
+          staticClass: "btn btn-soccer-coach-action create-exe-designer",
+          attrs: { href: "/create-exercice", target: "_blank" }
         },
-        on: {
-          click: function($event) {
-            return _vm.getImagesExercices()
+        [_vm._v("SoccerCoach S3 Designer")]
+      ),
+      _vm._v(" "),
+      _c(
+        "button",
+        {
+          directives: [
+            {
+              name: "show",
+              rawName: "v-show",
+              value: !_vm.isModal,
+              expression: "!isModal"
+            }
+          ],
+          staticClass: "btn btn-soccer-coach-action",
+          attrs: {
+            type: "button",
+            "data-toggle": "modal",
+            "data-target": "#myModal"
+          },
+          on: {
+            click: function($event) {
+              return _vm.getImagesExercices()
+            }
           }
-        }
-      },
-      [_vm._v("Choisir dans mes images")]
-    ),
-    _vm._v(" "),
-    _c(
-      "a",
-      {
-        staticClass: "btn btn-soccer-coach-action create-exe-designer",
-        attrs: { href: "/create-exercice", target: "_blank" }
-      },
-      [_vm._v("SoccerCoach S3 Designer")]
-    ),
+        },
+        [_vm._v("Choisir dans mes images")]
+      )
+    ]),
     _vm._v(" "),
     _c(
       "div",
@@ -71608,7 +72734,7 @@ var render = function() {
                             }),
                             _vm._v(" "),
                             _c("span", { staticClass: "bought" }, [
-                              _vm._v(_vm._s(exercice.type_exercice.nom))
+                              _vm._v(_vm._s(exercice.typeExercice.nom))
                             ])
                           ]),
                           _vm._v(" "),
@@ -92991,7 +94117,9 @@ Vue.component('filter-by-objectif', __webpack_require__(/*! ./components/FilterB
 Vue.component('pratiques-by-user', __webpack_require__(/*! ./components/PratiquesByUserComponent.vue */ "./resources/js/components/PratiquesByUserComponent.vue")["default"]);
 Vue.component('add-pratique', __webpack_require__(/*! ./components/AddPratiquesComponent.vue */ "./resources/js/components/AddPratiquesComponent.vue")["default"]);
 Vue.component('dashboard-soccer-coach', __webpack_require__(/*! ./components/DashboardSoccerCoach.vue */ "./resources/js/components/DashboardSoccerCoach.vue")["default"]);
-Vue.component('update-pratique', __webpack_require__(/*! ./components/UpdatePratiquesComponent.vue */ "./resources/js/components/UpdatePratiquesComponent.vue")["default"]); //Components forms
+Vue.component('update-pratique', __webpack_require__(/*! ./components/UpdatePratiquesComponent.vue */ "./resources/js/components/UpdatePratiquesComponent.vue")["default"]);
+Vue.component('types-seances-select', __webpack_require__(/*! ./components/TypesSeancesSelect.vue */ "./resources/js/components/TypesSeancesSelect.vue")["default"]);
+Vue.component('add-favoris', __webpack_require__(/*! ./components/AddFavorisComponent.vue */ "./resources/js/components/AddFavorisComponent.vue")["default"]); //Components forms
 
 Vue.component('input-text', __webpack_require__(/*! ./components/form/InputTextComponent.vue */ "./resources/js/components/form/InputTextComponent.vue")["default"]);
 Vue.component('text-area', __webpack_require__(/*! ./components/form/TextAreaComponent.vue */ "./resources/js/components/form/TextAreaComponent.vue")["default"]);
@@ -93140,6 +94268,75 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_AddExerciceComponent_vue_vue_type_template_id_4b59463f_scoped_true___WEBPACK_IMPORTED_MODULE_0__["render"]; });
 
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_AddExerciceComponent_vue_vue_type_template_id_4b59463f_scoped_true___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
+
+
+
+/***/ }),
+
+/***/ "./resources/js/components/AddFavorisComponent.vue":
+/*!*********************************************************!*\
+  !*** ./resources/js/components/AddFavorisComponent.vue ***!
+  \*********************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _AddFavorisComponent_vue_vue_type_template_id_1dcfdb9b_scoped_true___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./AddFavorisComponent.vue?vue&type=template&id=1dcfdb9b&scoped=true& */ "./resources/js/components/AddFavorisComponent.vue?vue&type=template&id=1dcfdb9b&scoped=true&");
+/* harmony import */ var _AddFavorisComponent_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./AddFavorisComponent.vue?vue&type=script&lang=js& */ "./resources/js/components/AddFavorisComponent.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport *//* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+
+
+
+
+
+/* normalize component */
+
+var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__["default"])(
+  _AddFavorisComponent_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
+  _AddFavorisComponent_vue_vue_type_template_id_1dcfdb9b_scoped_true___WEBPACK_IMPORTED_MODULE_0__["render"],
+  _AddFavorisComponent_vue_vue_type_template_id_1dcfdb9b_scoped_true___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"],
+  false,
+  null,
+  "1dcfdb9b",
+  null
+  
+)
+
+/* hot reload */
+if (false) { var api; }
+component.options.__file = "resources/js/components/AddFavorisComponent.vue"
+/* harmony default export */ __webpack_exports__["default"] = (component.exports);
+
+/***/ }),
+
+/***/ "./resources/js/components/AddFavorisComponent.vue?vue&type=script&lang=js&":
+/*!**********************************************************************************!*\
+  !*** ./resources/js/components/AddFavorisComponent.vue?vue&type=script&lang=js& ***!
+  \**********************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_AddFavorisComponent_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/babel-loader/lib??ref--4-0!../../../node_modules/vue-loader/lib??vue-loader-options!./AddFavorisComponent.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/AddFavorisComponent.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport */ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_AddFavorisComponent_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
+
+/***/ }),
+
+/***/ "./resources/js/components/AddFavorisComponent.vue?vue&type=template&id=1dcfdb9b&scoped=true&":
+/*!****************************************************************************************************!*\
+  !*** ./resources/js/components/AddFavorisComponent.vue?vue&type=template&id=1dcfdb9b&scoped=true& ***!
+  \****************************************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_AddFavorisComponent_vue_vue_type_template_id_1dcfdb9b_scoped_true___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../node_modules/vue-loader/lib??vue-loader-options!./AddFavorisComponent.vue?vue&type=template&id=1dcfdb9b&scoped=true& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/AddFavorisComponent.vue?vue&type=template&id=1dcfdb9b&scoped=true&");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_AddFavorisComponent_vue_vue_type_template_id_1dcfdb9b_scoped_true___WEBPACK_IMPORTED_MODULE_0__["render"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_AddFavorisComponent_vue_vue_type_template_id_1dcfdb9b_scoped_true___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
 
 
 
@@ -94153,6 +95350,93 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
+/***/ "./resources/js/components/TypesSeancesSelect.vue":
+/*!********************************************************!*\
+  !*** ./resources/js/components/TypesSeancesSelect.vue ***!
+  \********************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _TypesSeancesSelect_vue_vue_type_template_id_8789c680_scoped_true___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./TypesSeancesSelect.vue?vue&type=template&id=8789c680&scoped=true& */ "./resources/js/components/TypesSeancesSelect.vue?vue&type=template&id=8789c680&scoped=true&");
+/* harmony import */ var _TypesSeancesSelect_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./TypesSeancesSelect.vue?vue&type=script&lang=js& */ "./resources/js/components/TypesSeancesSelect.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport *//* harmony import */ var _TypesSeancesSelect_vue_vue_type_style_index_0_id_8789c680_lang_scss_scoped_true___WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./TypesSeancesSelect.vue?vue&type=style&index=0&id=8789c680&lang=scss&scoped=true& */ "./resources/js/components/TypesSeancesSelect.vue?vue&type=style&index=0&id=8789c680&lang=scss&scoped=true&");
+/* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+
+
+
+
+
+
+/* normalize component */
+
+var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_3__["default"])(
+  _TypesSeancesSelect_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
+  _TypesSeancesSelect_vue_vue_type_template_id_8789c680_scoped_true___WEBPACK_IMPORTED_MODULE_0__["render"],
+  _TypesSeancesSelect_vue_vue_type_template_id_8789c680_scoped_true___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"],
+  false,
+  null,
+  "8789c680",
+  null
+  
+)
+
+/* hot reload */
+if (false) { var api; }
+component.options.__file = "resources/js/components/TypesSeancesSelect.vue"
+/* harmony default export */ __webpack_exports__["default"] = (component.exports);
+
+/***/ }),
+
+/***/ "./resources/js/components/TypesSeancesSelect.vue?vue&type=script&lang=js&":
+/*!*********************************************************************************!*\
+  !*** ./resources/js/components/TypesSeancesSelect.vue?vue&type=script&lang=js& ***!
+  \*********************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_TypesSeancesSelect_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/babel-loader/lib??ref--4-0!../../../node_modules/vue-loader/lib??vue-loader-options!./TypesSeancesSelect.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/TypesSeancesSelect.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport */ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_TypesSeancesSelect_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
+
+/***/ }),
+
+/***/ "./resources/js/components/TypesSeancesSelect.vue?vue&type=style&index=0&id=8789c680&lang=scss&scoped=true&":
+/*!******************************************************************************************************************!*\
+  !*** ./resources/js/components/TypesSeancesSelect.vue?vue&type=style&index=0&id=8789c680&lang=scss&scoped=true& ***!
+  \******************************************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_style_loader_index_js_node_modules_css_loader_index_js_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_7_2_node_modules_sass_loader_dist_cjs_js_ref_7_3_node_modules_vue_loader_lib_index_js_vue_loader_options_TypesSeancesSelect_vue_vue_type_style_index_0_id_8789c680_lang_scss_scoped_true___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/style-loader!../../../node_modules/css-loader!../../../node_modules/vue-loader/lib/loaders/stylePostLoader.js!../../../node_modules/postcss-loader/src??ref--7-2!../../../node_modules/sass-loader/dist/cjs.js??ref--7-3!../../../node_modules/vue-loader/lib??vue-loader-options!./TypesSeancesSelect.vue?vue&type=style&index=0&id=8789c680&lang=scss&scoped=true& */ "./node_modules/style-loader/index.js!./node_modules/css-loader/index.js!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src/index.js?!./node_modules/sass-loader/dist/cjs.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/TypesSeancesSelect.vue?vue&type=style&index=0&id=8789c680&lang=scss&scoped=true&");
+/* harmony import */ var _node_modules_style_loader_index_js_node_modules_css_loader_index_js_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_7_2_node_modules_sass_loader_dist_cjs_js_ref_7_3_node_modules_vue_loader_lib_index_js_vue_loader_options_TypesSeancesSelect_vue_vue_type_style_index_0_id_8789c680_lang_scss_scoped_true___WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_index_js_node_modules_css_loader_index_js_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_7_2_node_modules_sass_loader_dist_cjs_js_ref_7_3_node_modules_vue_loader_lib_index_js_vue_loader_options_TypesSeancesSelect_vue_vue_type_style_index_0_id_8789c680_lang_scss_scoped_true___WEBPACK_IMPORTED_MODULE_0__);
+/* harmony reexport (unknown) */ for(var __WEBPACK_IMPORT_KEY__ in _node_modules_style_loader_index_js_node_modules_css_loader_index_js_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_7_2_node_modules_sass_loader_dist_cjs_js_ref_7_3_node_modules_vue_loader_lib_index_js_vue_loader_options_TypesSeancesSelect_vue_vue_type_style_index_0_id_8789c680_lang_scss_scoped_true___WEBPACK_IMPORTED_MODULE_0__) if(__WEBPACK_IMPORT_KEY__ !== 'default') (function(key) { __webpack_require__.d(__webpack_exports__, key, function() { return _node_modules_style_loader_index_js_node_modules_css_loader_index_js_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_7_2_node_modules_sass_loader_dist_cjs_js_ref_7_3_node_modules_vue_loader_lib_index_js_vue_loader_options_TypesSeancesSelect_vue_vue_type_style_index_0_id_8789c680_lang_scss_scoped_true___WEBPACK_IMPORTED_MODULE_0__[key]; }) }(__WEBPACK_IMPORT_KEY__));
+ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_style_loader_index_js_node_modules_css_loader_index_js_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_7_2_node_modules_sass_loader_dist_cjs_js_ref_7_3_node_modules_vue_loader_lib_index_js_vue_loader_options_TypesSeancesSelect_vue_vue_type_style_index_0_id_8789c680_lang_scss_scoped_true___WEBPACK_IMPORTED_MODULE_0___default.a); 
+
+/***/ }),
+
+/***/ "./resources/js/components/TypesSeancesSelect.vue?vue&type=template&id=8789c680&scoped=true&":
+/*!***************************************************************************************************!*\
+  !*** ./resources/js/components/TypesSeancesSelect.vue?vue&type=template&id=8789c680&scoped=true& ***!
+  \***************************************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_TypesSeancesSelect_vue_vue_type_template_id_8789c680_scoped_true___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../node_modules/vue-loader/lib??vue-loader-options!./TypesSeancesSelect.vue?vue&type=template&id=8789c680&scoped=true& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/TypesSeancesSelect.vue?vue&type=template&id=8789c680&scoped=true&");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_TypesSeancesSelect_vue_vue_type_template_id_8789c680_scoped_true___WEBPACK_IMPORTED_MODULE_0__["render"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_TypesSeancesSelect_vue_vue_type_template_id_8789c680_scoped_true___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
+
+
+
+/***/ }),
+
 /***/ "./resources/js/components/UpdateExerciceComponent.vue":
 /*!*************************************************************!*\
   !*** ./resources/js/components/UpdateExerciceComponent.vue ***!
@@ -94164,7 +95448,9 @@ __webpack_require__.r(__webpack_exports__);
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _UpdateExerciceComponent_vue_vue_type_template_id_ffb5a4de_scoped_true___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./UpdateExerciceComponent.vue?vue&type=template&id=ffb5a4de&scoped=true& */ "./resources/js/components/UpdateExerciceComponent.vue?vue&type=template&id=ffb5a4de&scoped=true&");
 /* harmony import */ var _UpdateExerciceComponent_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./UpdateExerciceComponent.vue?vue&type=script&lang=js& */ "./resources/js/components/UpdateExerciceComponent.vue?vue&type=script&lang=js&");
-/* empty/unused harmony star reexport *//* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+/* empty/unused harmony star reexport *//* harmony import */ var _UpdateExerciceComponent_vue_vue_type_style_index_0_id_ffb5a4de_lang_scss_scoped_true___WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./UpdateExerciceComponent.vue?vue&type=style&index=0&id=ffb5a4de&lang=scss&scoped=true& */ "./resources/js/components/UpdateExerciceComponent.vue?vue&type=style&index=0&id=ffb5a4de&lang=scss&scoped=true&");
+/* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+
 
 
 
@@ -94172,7 +95458,7 @@ __webpack_require__.r(__webpack_exports__);
 
 /* normalize component */
 
-var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__["default"])(
+var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_3__["default"])(
   _UpdateExerciceComponent_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
   _UpdateExerciceComponent_vue_vue_type_template_id_ffb5a4de_scoped_true___WEBPACK_IMPORTED_MODULE_0__["render"],
   _UpdateExerciceComponent_vue_vue_type_template_id_ffb5a4de_scoped_true___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"],
@@ -94201,6 +95487,22 @@ component.options.__file = "resources/js/components/UpdateExerciceComponent.vue"
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_UpdateExerciceComponent_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/babel-loader/lib??ref--4-0!../../../node_modules/vue-loader/lib??vue-loader-options!./UpdateExerciceComponent.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/UpdateExerciceComponent.vue?vue&type=script&lang=js&");
 /* empty/unused harmony star reexport */ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_UpdateExerciceComponent_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
+
+/***/ }),
+
+/***/ "./resources/js/components/UpdateExerciceComponent.vue?vue&type=style&index=0&id=ffb5a4de&lang=scss&scoped=true&":
+/*!***********************************************************************************************************************!*\
+  !*** ./resources/js/components/UpdateExerciceComponent.vue?vue&type=style&index=0&id=ffb5a4de&lang=scss&scoped=true& ***!
+  \***********************************************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_style_loader_index_js_node_modules_css_loader_index_js_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_7_2_node_modules_sass_loader_dist_cjs_js_ref_7_3_node_modules_vue_loader_lib_index_js_vue_loader_options_UpdateExerciceComponent_vue_vue_type_style_index_0_id_ffb5a4de_lang_scss_scoped_true___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/style-loader!../../../node_modules/css-loader!../../../node_modules/vue-loader/lib/loaders/stylePostLoader.js!../../../node_modules/postcss-loader/src??ref--7-2!../../../node_modules/sass-loader/dist/cjs.js??ref--7-3!../../../node_modules/vue-loader/lib??vue-loader-options!./UpdateExerciceComponent.vue?vue&type=style&index=0&id=ffb5a4de&lang=scss&scoped=true& */ "./node_modules/style-loader/index.js!./node_modules/css-loader/index.js!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src/index.js?!./node_modules/sass-loader/dist/cjs.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/UpdateExerciceComponent.vue?vue&type=style&index=0&id=ffb5a4de&lang=scss&scoped=true&");
+/* harmony import */ var _node_modules_style_loader_index_js_node_modules_css_loader_index_js_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_7_2_node_modules_sass_loader_dist_cjs_js_ref_7_3_node_modules_vue_loader_lib_index_js_vue_loader_options_UpdateExerciceComponent_vue_vue_type_style_index_0_id_ffb5a4de_lang_scss_scoped_true___WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_index_js_node_modules_css_loader_index_js_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_7_2_node_modules_sass_loader_dist_cjs_js_ref_7_3_node_modules_vue_loader_lib_index_js_vue_loader_options_UpdateExerciceComponent_vue_vue_type_style_index_0_id_ffb5a4de_lang_scss_scoped_true___WEBPACK_IMPORTED_MODULE_0__);
+/* harmony reexport (unknown) */ for(var __WEBPACK_IMPORT_KEY__ in _node_modules_style_loader_index_js_node_modules_css_loader_index_js_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_7_2_node_modules_sass_loader_dist_cjs_js_ref_7_3_node_modules_vue_loader_lib_index_js_vue_loader_options_UpdateExerciceComponent_vue_vue_type_style_index_0_id_ffb5a4de_lang_scss_scoped_true___WEBPACK_IMPORTED_MODULE_0__) if(__WEBPACK_IMPORT_KEY__ !== 'default') (function(key) { __webpack_require__.d(__webpack_exports__, key, function() { return _node_modules_style_loader_index_js_node_modules_css_loader_index_js_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_7_2_node_modules_sass_loader_dist_cjs_js_ref_7_3_node_modules_vue_loader_lib_index_js_vue_loader_options_UpdateExerciceComponent_vue_vue_type_style_index_0_id_ffb5a4de_lang_scss_scoped_true___WEBPACK_IMPORTED_MODULE_0__[key]; }) }(__WEBPACK_IMPORT_KEY__));
+ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_style_loader_index_js_node_modules_css_loader_index_js_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_7_2_node_modules_sass_loader_dist_cjs_js_ref_7_3_node_modules_vue_loader_lib_index_js_vue_loader_options_UpdateExerciceComponent_vue_vue_type_style_index_0_id_ffb5a4de_lang_scss_scoped_true___WEBPACK_IMPORTED_MODULE_0___default.a); 
 
 /***/ }),
 
@@ -95143,20 +96445,20 @@ vue__WEBPACK_IMPORTED_MODULE_0___default.a.use(vue_router__WEBPACK_IMPORTED_MODU
   routes: [{
     path: '/',
     component: function component() {
-      return __webpack_require__.e(/*! import() */ 3).then(__webpack_require__.bind(null, /*! ./views/MonDashboard.vue */ "./resources/js/views/MonDashboard.vue"));
+      return __webpack_require__.e(/*! import() */ 4).then(__webpack_require__.bind(null, /*! ./views/MonDashboard.vue */ "./resources/js/views/MonDashboard.vue"));
     },
     children: []
   }, {
     path: '/mes-exercices',
     component: function component() {
-      return __webpack_require__.e(/*! import() */ 5).then(__webpack_require__.bind(null, /*! ./views/exercice/MesExercices.vue */ "./resources/js/views/exercice/MesExercices.vue"));
+      return __webpack_require__.e(/*! import() */ 6).then(__webpack_require__.bind(null, /*! ./views/exercice/MesExercices.vue */ "./resources/js/views/exercice/MesExercices.vue"));
     },
     children: []
   }, {
     path: '/create-exercice',
     name: 'createExercice',
     component: function component() {
-      return __webpack_require__.e(/*! import() */ 4).then(__webpack_require__.bind(null, /*! ./views/exercice/CreateExercice.vue */ "./resources/js/views/exercice/CreateExercice.vue"));
+      return __webpack_require__.e(/*! import() */ 5).then(__webpack_require__.bind(null, /*! ./views/exercice/CreateExercice.vue */ "./resources/js/views/exercice/CreateExercice.vue"));
     }
   }, {
     path: '/update-exercice',
@@ -95175,7 +96477,7 @@ vue__WEBPACK_IMPORTED_MODULE_0___default.a.use(vue_router__WEBPACK_IMPORTED_MODU
   }, {
     path: '/mes-seances',
     component: function component() {
-      return __webpack_require__.e(/*! import() */ 6).then(__webpack_require__.bind(null, /*! ./views/seance/MesSeances.vue */ "./resources/js/views/seance/MesSeances.vue"));
+      return __webpack_require__.e(/*! import() */ 8).then(__webpack_require__.bind(null, /*! ./views/seance/MesSeances.vue */ "./resources/js/views/seance/MesSeances.vue"));
     },
     children: []
   }, {
@@ -95195,9 +96497,15 @@ vue__WEBPACK_IMPORTED_MODULE_0___default.a.use(vue_router__WEBPACK_IMPORTED_MODU
     path: '/update-seance',
     name: 'UpdateSeance',
     component: function component() {
-      return __webpack_require__.e(/*! import() */ 8).then(__webpack_require__.bind(null, /*! ./views/seance/UpdateSeance.vue */ "./resources/js/views/seance/UpdateSeance.vue"));
+      return __webpack_require__.e(/*! import() */ 3).then(__webpack_require__.bind(null, /*! ./views/seance/UpdateSeance.vue */ "./resources/js/views/seance/UpdateSeance.vue"));
     },
     props: true
+  }, {
+    path: '/mes-favoris',
+    name: 'MesFavoris',
+    component: function component() {
+      return __webpack_require__.e(/*! import() */ 10).then(__webpack_require__.bind(null, /*! ./views/favoris/FavorisComponent.vue */ "./resources/js/views/favoris/FavorisComponent.vue"));
+    }
   }]
 }));
 
@@ -95233,7 +96541,31 @@ __webpack_require__.r(__webpack_exports__);
     imgBase64: undefined,
     //garde l'image en base64
     lstIconsByType: [['principe-offensif', 'ti-target'], ['principe-defensif', 'ti-hummer'], ['rondos', 'ti-cup'], ['physique', 'ti-heart']],
-    lstIconsByCategorie: [['Offensive', 'ti-target'], ['Défensive', 'ti-hummer'], ['Tactique', 'fa fa-puzzle-piece'], ['Technique', 'fa fa-rocket'], ['Organisation du jeu', 'fa fa-users'], ['Gardien de but', 'fa fa-sign-language']],
+    lstIconsByCategorie: [{
+      name: 'Offensive',
+      icon: 'ti-target',
+      id: 'off'
+    }, {
+      name: 'Défensive',
+      icon: 'ti-hummer',
+      id: 'def'
+    }, {
+      name: 'Tactique',
+      icon: 'fa fa-puzzle-piece',
+      id: 'tact'
+    }, {
+      name: 'Technique',
+      icon: 'fa fa-rocket',
+      id: 'tec'
+    }, {
+      name: 'Organisation du jeu',
+      icon: 'fa fa-users',
+      id: 'org-jeu'
+    }, {
+      name: 'Gardien de but',
+      icon: 'fa fa-sign-language',
+      id: 'gar'
+    }],
     updateForm: false,
     varianteDTO: {
       time: {
@@ -95355,10 +96687,9 @@ __webpack_require__.r(__webpack_exports__);
       endroit: {
         value: undefined,
         validations: {
-          require: false,
-          max: 200
+          require: false
         },
-        validate: false
+        validate: true
       },
       time: {
         value: undefined,
@@ -95374,6 +96705,28 @@ __webpack_require__.r(__webpack_exports__);
           max: 900
         },
         validate: true
+      },
+      effectif: {
+        value: undefined,
+        validations: {
+          require: true
+        },
+        validate: false
+      },
+      temps: {
+        value: undefined,
+        validations: {
+          require: true,
+          max: 400
+        },
+        validate: false
+      },
+      categorie: {
+        value: undefined,
+        validations: {
+          require: true
+        },
+        validate: false
       }
     }
   },
@@ -95387,14 +96740,12 @@ __webpack_require__.r(__webpack_exports__);
     },
     getIconByCategorie: function getIconByCategorie(state) {
       return function (categorie) {
-        var mapCategories = new Map(state.lstIconsByCategorie);
-        return mapCategories.get(categorie);
-      };
-    },
-    getCategorieNameByKey: function getCategorieNameByKey(state) {
-      return function (key) {
-        var mapCategories = new Map(state.lstIconsByCategorie);
-        return mapCategories.get(categorie);
+        var categorieFind = state.lstIconsByCategorie.find(function (c) {
+          return c.name === categorie;
+        });
+        return state.lstIconsByCategorie.find(function (c) {
+          return c.name === categorie;
+        }).icon;
       };
     }
   },
@@ -95530,6 +96881,30 @@ __webpack_require__.r(__webpack_exports__);
             max: 900
           },
           validate: true
+        },
+        effectif: {
+          value: undefined,
+          validations: {
+            require: true,
+            max: 400
+          },
+          validate: false
+        },
+        temps: {
+          value: undefined,
+          validations: {
+            require: true,
+            max: 400
+          },
+          validate: false
+        },
+        categorie: {
+          value: undefined,
+          validations: {
+            require: true,
+            max: 400
+          },
+          validate: false
         }
       };
     },

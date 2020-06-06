@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 use App\Gestion\PhotoGestion;
 use Illuminate\Http\Request;
 use App\Repositories\PratiqueRepository;
+use App\Repositories\ExerciceRepository;
 
 use Auth;
 
@@ -11,10 +12,12 @@ class PratiquesController extends Controller
 {
 
     protected $pratiqueRepository;
+    protected $exerciceRepository;
 
-    public function __construct(PratiqueRepository $pratiqueRepository)
+    public function __construct(PratiqueRepository $pratiqueRepository, ExerciceRepository $exerciceRepository)
     {
         $this->pratiqueRepository = $pratiqueRepository;
+        $this->exerciceRepository = $exerciceRepository;
     }
 
     public function create(){
@@ -28,6 +31,17 @@ class PratiquesController extends Controller
         }
         
         return view('details-pratique', compact('pratique'));
+    }
+
+    public function getExercicesBySeanceId($id){
+        //récupérer la liste d'exercices d'une séance
+        $lstExercices = $this->pratiqueRepository->getExercicesByPratiqueId($id);
+        //récupérer les variantes de chaque exercice
+        foreach($lstExercices as $exercice){
+            $exercice->variantes = $this->exerciceRepository->getVariantesById($exercice->id);
+        }
+
+        return response()->json(['exercices' => $lstExercices,  'succes' => 'OK'], 200);
     }
 
     public function updateSeance(Request $request, PhotoGestion $photogestion){

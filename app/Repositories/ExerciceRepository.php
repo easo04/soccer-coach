@@ -3,10 +3,11 @@
 namespace App\Repositories;
 
 use App\Exercice;
-use App\Repositories\DB;
 use App\TypesExercice;
 use App\Repositories\VarianteRepository;
 use App\Repositories\PratiqueExerciceRepository;
+
+use DB;
 
 class ExerciceRepository
 {
@@ -83,13 +84,35 @@ class ExerciceRepository
 	}
 
 	public function getExercicesByIdUser($idUser){
-		return $this->exercice->with('typeExercice', 'objectifs', 'variantes')->where('exercice.users_id', $idUser)->where('exercice.isMatch', '0')
-		->orderBy('exercice.created_at', 'desc')->get();
+		return DB::table('exercice')
+		->select('exercice.*', 'typesexcercice.id as typeId', 'typesexcercice.nom as typeNom', 'typesexcercice.urlNom as typeUrlNom')
+		->leftJoin('typesexcercice', 'typesexcercice.id' , '=', 'exercice.typesexcercice_id')
+		->where('exercice.users_id', '=', $idUser)
+		->where('exercice.isMatch', '=', '0')
+		->orderBy('exercice.created_at', 'desc')
+		->get();
+	}
+
+	public function getTypeExerciceByExe($id){
+		return DB::table('typesexcercice')
+		->select('typesexcercice.*')
+		->leftJoin('exercice', 'typesexcercice.id' , '=', 'exercice.typesexcercice_id')
+		->where('exercice.id', '=', $id)
+		->first();
 	}
 
 	public function getVariantesById($id){
 		$variantes = $this->exercice->find($id)->variantes;
 		return $variantes;
+	}
+
+	public function getObjectifsById($id){
+		return DB::table('objectifs')
+		->select('objectifs.*')
+		->join('exercice_objectifs', 'exercice_objectifs.objectifs_id', '=', 'objectifs.id')
+		->join('exercice', 'exercice.id', '=', 'exercice_objectifs.exercice_id')
+		->where('exercice.id', '=', $id)
+		->get();
 	}
 
 	public function store(Array $inputs){
@@ -221,6 +244,11 @@ class ExerciceRepository
 
 	public function getImagesByExercicesUser($idUser){
 		return $this->exercice->select('image')->distinct()->where('exercice.users_id', $idUser)->get();
+	}
+
+	public function isExercicePublic($id){
+		$exercice = $this->exercice->find($id);
+		return $exercice->private == '0';
 	}
 
 }

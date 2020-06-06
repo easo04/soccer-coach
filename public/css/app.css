@@ -11076,7 +11076,6 @@ body .btn-g-selected {
 body .btn:focus,
 body .btn.focus {
   outline: 0;
-  background-color: #45191f !important;
   box-shadow: none;
 }
 
@@ -11136,8 +11135,16 @@ body .field-input:focus {
   box-shadow: 0 0 0 0.2rem rgba(23, 184, 125, 0.2);
 }
 
+body .date-time-picker .field-input {
+  border: none;
+}
+
 body .datetimepicker .datepicker {
   border-radius: 0 !important;
+}
+
+body .datetimepicker.visible {
+  z-index: 10 !important;
 }
 
 body .datepicker-buttons-container .datepicker-button .datepicker-button-effect {
@@ -11188,7 +11195,7 @@ body .datepicker-buttons-container .datepicker-button .datepicker-button-effect 
 
 .body-exercice {
   padding: 0px;
-  border: 1px solid rgba(0, 0, 0, 0.125);
+  background-color: #F3F3F3;
   padding-bottom: 10px;
 }
 
@@ -11200,8 +11207,7 @@ body .datepicker-buttons-container .datepicker-button .datepicker-button-effect 
 }
 
 .footer-exercice {
-  background-color: white;
-  border: 1px solid rgba(0, 0, 0, 0.125);
+  background-color: #F3F3F3;
   border-radius: 0 !important;
 }
 

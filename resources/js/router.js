@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import VueRouter  from 'vue-router'
 
+
 Vue.use(VueRouter)
 
 export default new VueRouter ({
@@ -53,6 +54,11 @@ export default new VueRouter ({
             name:'UpdateSeance',
             component:() => import('./views/seance/UpdateSeance.vue'),
             props: true
+        },
+        {
+            path:'/mes-favoris',
+            name:'MesFavoris',
+            component:() => import('./views/favoris/FavorisComponent.vue'),
         },
     ]
 })

@@ -78,7 +78,7 @@ export default {
                 selected:false,
                 nomFr:'Mes favoris',
                 icon:'fa fa-star',
-                url:''
+                url:'mes-favoris'
             },
             {
                 name:'mes_activites',

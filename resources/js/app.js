@@ -36,6 +36,8 @@ Vue.component('pratiques-by-user', require('./components/PratiquesByUserComponen
 Vue.component('add-pratique', require('./components/AddPratiquesComponent.vue').default);
 Vue.component('dashboard-soccer-coach', require('./components/DashboardSoccerCoach.vue').default);
 Vue.component('update-pratique', require('./components/UpdatePratiquesComponent.vue').default);
+Vue.component('types-seances-select', require('./components/TypesSeancesSelect.vue').default);
+Vue.component('add-favoris', require('./components/AddFavorisComponent.vue').default);
 
 //Components forms
 Vue.component('input-text', require('./components/form/InputTextComponent.vue').default);

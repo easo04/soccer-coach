@@ -9,8 +9,8 @@
         <div class="col-sm-9">
             <div class="actions-exercice-detail">
                 @auth
-                    <div class="btns">                
-                        <a class="btn btn-soccer-coach-action" data-toggle="modal" data-target="#modalDelete"><i class="ti-star"></i> Favoris</a>                      
+                    <div class="btns">      
+                        <add-favoris :id-exercice="{{$exercice->id}}"/>
                     </div>  
                 @endauth
             </div>
