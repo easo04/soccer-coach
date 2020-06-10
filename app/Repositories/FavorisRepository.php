@@ -60,4 +60,5 @@ class FavorisRepository
     public function deleteByIdExe($idExe){
         DB::table('favoris')->where('exercice_id', '=', $idExe)->delete();
     }
+
 }

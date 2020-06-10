@@ -97,22 +97,22 @@
                     <objectifs-by-exercice v-bind:objectifs="{{ $exercice->objectifs }}"/>
                 </div>  
             @endif
-            <div class="modal" id="modalDelete">
-                <div class="modal-dialog">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h4 class="modal-title">Supprimer exercice</h4>
-                            <button type="button" class="close" data-dismiss="modal">&times;</button>
-                        </div>
-                        <div class="modal-body">
-                            Voulez-vous supprimer l'exercice <span>{{ $exercice->principe }}</span>?
-                        </div>
-                        <div class="modal-footer">
-                            {!! Form::open(['method' => 'DELETE', 'route' => ['exercice.destroy', $exercice->id]]) !!}
-                                <button type="submit" class="btn btn-soccer-coach-action"><i class="ti-trash"></i> Supprimer</button>
-                            {!! Form::close() !!}
-                        </div>
-                    </div>               
+            <div class="suggestions-exercices">
+                <h5>Exercices du même type</h5>
+                <div class="lst-suggestions">
+                    @foreach($exerciceEvenType as $exe)
+                        <a class="lien-suggestion" href="{{ route('exercice.show', ['exercice'=>$exe->id, 'name'=>$exe->principeUrl]) }}" alt="{{$exe->principeUrl}}">
+                            <div class="suggestion-item">
+                                <div class="img-suggestion">
+                                    <img src="{{ asset('images/uploaded/' . $exe->image) }}" alt="{{$exe->principe}}"/>
+                                </div>
+                                <div class="principe">
+                                    <h5 class="card-title">{{$exe->principe}}</h5>
+                                </div>
+                                <div class="time"><h6><i class="ti-timer color-soccer-coach"></i> {{$exe->time}}</h6></div>
+                            </div>
+                        </a>
+                    @endforeach
                 </div>
             </div>
         </div>

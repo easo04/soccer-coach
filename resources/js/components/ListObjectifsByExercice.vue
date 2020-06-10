@@ -12,7 +12,7 @@
                 </div>
                 <div v-else>
                     <div class="tag" :class="{'tag-selected' : objectif.isSelected}" v-for="objectif in categorie.lstObjectifs" :key="objectif.id">
-                        <span v-if="setUrl"><a :href="'/exercice/objectifs/' + objectif.nom_url" :alt="objectif.nom_url">{{ objectif.nom }}</a></span>
+                        <span v-if="setUrl"><a :href="'/search/objectifs/' + objectif.nom_url" :alt="objectif.nom_url">{{ objectif.nom }}</a></span>
                         <span v-else-if="!setUrl">{{ objectif.nom }}</span>
                     </div>
                 </div>

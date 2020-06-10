@@ -9,7 +9,7 @@
                 <nav class="navbar navbar-expand-sm bg-info navbar-dark nav-type-exercice">    
                     <ul class="navbar-nav">
                         <li class="nav-item">
-                            <a class="nav-link" href="/exercice"><i class="ti-star"></i> Tous</a>
+                            <a class="nav-link" href="/exercice"><i class="ti-star"></i> Populaires</a>
                         </li>
                         @foreach ($types as $type)
                             @if($type->selected)

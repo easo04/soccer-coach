@@ -22,7 +22,7 @@ Route::get('/home', 'HomeController@index')->name('home');
 Route::get('/types-exercices', 'TypesExerciceController@getAll'); //API
 Route::get('/objectifs', 'ObjectifController@getAll'); //API
 Route::get('/exercice/type/{n}/{urlNom}', 'ExerciceController@type')->name('exercice.type');
-Route::get('/exercice/objectifs/{objectif}', 'ExerciceController@getByObjectif')->name('exercice.objectifs');
+Route::get('/search/objectifs/{objectif}', 'ExerciceController@getByObjectif')->name('exercice.objectifs');
 Route::get('/exercice/{exercice}/{name}', 'ExerciceController@show')->name('exercice.show');
 
 //ROUTES AVEC AUTH
@@ -50,9 +50,9 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/user/services', 'UserController@getServices')->name('user.services'); //API
 
     //FAVORIS ROUTES
-    Route::get('/favoris/get-favoris-by-user', 'FavorisController@getFavorisToAuthUser');
-    Route::post('/favoris/add-favoris', 'FavorisController@addExerciceToFavoris');
-    Route::delete('/favoris/delete-exercice/{id}', 'FavorisController@deleteFavoris');
+    Route::get('/favoris/get-favoris-by-user', 'FavorisController@getFavorisToAuthUser'); //API
+    Route::post('/favoris/add-favoris', 'FavorisController@addExerciceToFavoris'); //API
+    Route::delete('/favoris/delete-exercice/{id}', 'FavorisController@deleteFavoris'); //API
 
     //ROUTE OUTIL DESIGNER
     Route::get('/create-exercice', 'CreateExercice@getPage');

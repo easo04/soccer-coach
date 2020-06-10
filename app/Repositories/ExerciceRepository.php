@@ -115,6 +115,29 @@ class ExerciceRepository
 		->get();
 	}
 
+	public function getExercicesPopulaires(){
+		//select e.id, e.principe, count(e.id) as nbExercices from exercice as e inner join favoris as f on f.exercice_id = e.id group by e.id order by nbExercices desc limit 9;
+		return DB::table('exercice')
+		->select(DB::raw('exercice.*, count(exercice.id) as nbExercice, typesexcercice.id as typeId, typesexcercice.nom as typeNom, typesexcercice.urlNom as typeUrlNom'))
+		->leftJoin('typesexcercice', 'typesexcercice.id' , '=', 'exercice.typesexcercice_id')
+		->join('favoris', 'favoris.exercice_id', '=',  'exercice.id')
+		->groupBy('exercice.id')
+		->orderBy('nbExercice', 'desc')
+		->limit(9)
+		->get();
+	}
+	
+	public function getRandomExerciceToEvenType($idType, $idExe){
+		//select * from exercice where typesexcercice_id = 1 and private = 0 and isMatch = 0 order by rand() limit 5;
+		return DB::table('exercice')
+		->select('exercice.id', 'exercice.principe', 'exercice.image', 'exercice.time')
+		->where('exercice.typesexcercice_id', '=', $idType)
+		->where('exercice.id', '<>', $idExe)
+		->inRandomOrder()
+		->limit(3)
+		->get();
+	}
+
 	public function store(Array $inputs){
 		$exercice = new Exercice;
 		$this->save($exercice, $inputs);

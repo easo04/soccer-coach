@@ -39,20 +39,22 @@ class ExerciceController extends Controller
     }
     
     public function index(){
-        $exercices = $this->exerciceRepository->getPaginate($this->nbPerPege);
-        $links = $exercices->render();
+        $exercices = $this->exerciceRepository->getExercicesPopulaires();
         $types = $this->typesExerciceRepository->getAll();
 
         foreach($exercices as $exercice){   
             $exercice->principeUrl = Str::slug($exercice->principe, '-');
+
+            //setter le type d'exercice
+            $typeExercice = (object) array('id' => $exercice->typeId, 'nom' => $exercice->typeNom, 'urlNom' => $exercice->typeUrlNom);
+            $exercice->typeExercice = $typeExercice;
             $this->getTypeExerciceUpdated($exercice->typeExercice);
         }
 
         $this->updateTypeExerciceList($types, null);
 
         $objectifs = $this->objectifRepository->getAll();
-        
-        return view('exercices', compact('exercices', 'links', 'types', 'objectifs'));
+        return view('exercices', compact('exercices', 'types', 'objectifs'));
     }
 
     public function type($idType, $urlNom){
@@ -80,9 +82,8 @@ class ExerciceController extends Controller
     public function store(ExerciceRequest $request, PhotoGestion $photogestion){}
 
     public function show($id, $nom){
-        $idUser = Auth::user()->id;
         $exercice = $this->exerciceRepository->getById($id);
-        if($exercice->private == 1 && (auth()->guest() || $idUser != $exercice->users_id)){
+        if($exercice->private == 1 && (auth()->guest() || Auth::user()->id != $exercice->users_id)){
             return redirect('/');
         }
 
@@ -95,10 +96,21 @@ class ExerciceController extends Controller
             $exercice->idVideo =  substr($exercice->url, 17, 30);
         }
 
-        //vérifier si l'exercice est favoris
-        $exercice->isFavoris = $this->favorisRepository->isExerciceFavorisForAuthUser($idUser, $id) ? 1 : 0;
+        if(auth()->check()){     
+            
+            //vérifier si l'exercice est favoris   
+            $exercice->isFavoris = $this->favorisRepository->isExerciceFavorisForAuthUser(Auth::user()->id, $id) ? 1 : 0;
+        }else{
+            $exercice->isFavoris = 0;
+        }
+
+        //obtenir la liste de suggestion à afficher
+        $exerciceEvenType = $this->exerciceRepository->getRandomExerciceToEvenType($exercice->typeExercice->id, $exercice->id);
+        foreach($exerciceEvenType as $exerciceEven){
+            $exerciceEven->principeUrl = Str::slug($exerciceEven->principe, '-');
+        }
         
-        return view('detail-exercice',  compact('exercice', 'types', 'objectifs'));
+        return view('detail-exercice',  compact('exercice', 'types', 'objectifs', 'exerciceEvenType'));
     }
 
     public function edit($id){
@@ -257,5 +269,6 @@ class ExerciceController extends Controller
         }
         return Str::ucfirst($retval);
     }
+    
 
 }

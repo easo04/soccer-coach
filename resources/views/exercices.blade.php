@@ -15,7 +15,7 @@
                         <nav class="navbar navbar-expand-sm bg-info navbar-dark nav-type-exercice">
                             <ul class="navbar-nav">
                                 <li class="nav-item">
-                                    <a class="nav-link selected-type" href="/exercice"><i class="ti-star"></i> Tous</a>
+                                    <a class="nav-link selected-type" href="/exercice"><i class="ti-star"></i> Populaires</a>
                                 </li>
                                 @foreach ($types as $type)
                                     <li class="nav-item">
@@ -66,7 +66,9 @@
                     <div class="lst-vide"><span class="aucun-exercice">Aucun exercice</span></div>
                 @endforelse
             </div>
-            {!! $links !!}
+            @if(isset($objectifSearch))
+                {!! $links !!}
+            @endif
         </div>
         <div class="col-sm-3 menu-droite-search"> 
             <div class="search-by-type search-div">

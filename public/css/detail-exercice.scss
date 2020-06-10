@@ -150,6 +150,58 @@
     float: right;
 }
 
+
+.suggestions-exercices{  
+    margin-top: 20px;
+    border-bottom: 2px solid #F3F3F3;
+    box-shadow: 0 2px 3px -1px #DCDCDC;
+    border-top: 1px solid #F3F3F3;
+    padding-bottom: 10px;
+    padding-top: 10px;
+}
+
+.suggestions-exercices .lst-suggestions{  
+    position: relative;
+    display: flex;
+}
+
+.suggestions-exercices .lst-suggestions .lien-suggestion{
+    text-decoration: none;
+    color:black;
+    margin-right: 7px;
+}
+
+.suggestions-exercices .suggestion-item{
+    padding: 5px;
+    width: 320px;
+    height: 300px;
+    background-color: #F3F3F3;
+    position: relative;
+}
+
+.suggestions-exercices .suggestion-item .time{
+    position: absolute;
+    bottom: 0;
+}
+
+.suggestions-exercices .suggestion-item .principe{
+    margin-top: 5px;
+}
+
+.lien-suggestion:last-child{
+    margin-right: 0px!important;
+}
+
+.suggestions-exercices .suggestion-item .img-suggestion{
+    width: 100%;
+    height: 200px;
+}
+
+.suggestions-exercices .suggestion-item img{
+    width: inherit;
+    height: inherit;
+}
+
 @media screen and (max-width: 480px) {
     .actions-exercice-detail .btn-sauvegarder1{
         display: none;
