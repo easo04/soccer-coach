@@ -29,11 +29,21 @@ class FavorisRepository
 
     public function getFavorisToAuthUser($idUser){
         return DB::table('exercice')
-        ->select('exercice.*', 'typesexcercice.nom AS typeExerciceNom')
+        ->select('exercice.*', 'typesexcercice.id as typeId', 'typesexcercice.nom as typeNom', 'typesexcercice.urlNom as typeUrlNom')
         ->leftJoin('typesexcercice', 'typesexcercice.id', '=', 'exercice.typesexcercice_id')
         ->join('favoris', 'favoris.exercice_id', '=', 'exercice.id')
         ->where('favoris.users_id', '=', $idUser)
         ->get();
+    }
+
+    public function isExerciceFavorisForAuthUser($idUser, $idExercice){
+        $favoris = DB::table('favoris')
+        ->select('id')
+        ->where('users_id', '=', $idUser)
+        ->where('exercice_id', '=', $idExercice)
+        ->first();
+
+        return $favoris != null;
     }
 
     public function deleteByIdUser($id){
@@ -45,5 +55,9 @@ class FavorisRepository
         ->where('exercice_id', '=', $idExercice)
         ->where('users_id', '=', $idUser)
         ->delete();
+    }
+
+    public function deleteByIdExe($idExe){
+        DB::table('favoris')->where('exercice_id', '=', $idExe)->delete();
     }
 }

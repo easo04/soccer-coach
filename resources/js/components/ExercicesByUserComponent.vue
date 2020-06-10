@@ -10,7 +10,7 @@
                     <button type="button" class="btn btn-g btn-soccer-coach-action" id="btn-tous" :class="{'btn-g-selected' : lastTypeSelected === 'btn-tous'}" @click="filtrerParType(null)">
                         <i class="ti-star"></i> Tous
                     </button>
-                    <button type="button" class="btn btn-g btn-soccer-coach-action" :class="{'btn-g-selected' : lastTypeSelected === type.id}" @click="filtrerParType(type.id)" v-for="type in lstTypes" :key="type.id" :id="'type-'+type.id">
+                    <button type="button" class="btn btn-g btn-soccer-coach-action" :class="{'btn-g-selected' : lastTypeSelected === type.id}" @click="filtrerParType(type.id)" v-for="type in lstAllTypes" :key="type.id" :id="'type-'+type.id">
                         <i :class="type.icon"></i> {{type.nom}}
                     </button>
                     <button type="button" class="btn btn-g btn-soccer-coach-action" :class="{'btn-g-selected' : lastTypeSelected === 'btn-private'}" @click="filtrerParPrivate()">
@@ -18,8 +18,8 @@
                     </button>
                 </div>
                 <div class="mt-3">
-                        <filter-by-objectif v-bind:objectifs="lstObjectifs"
-                        v-bind:set-filter="true" v-bind:show-btn-filter="true" class-custom="filter-action"
+                        <filter-by-objectif :objectifs="lstAllObjectifs"
+                        :set-filter="true" :show-btn-filter="true" class-custom="filter-action"
                         :on-method-filter="filtrerParObjectifs"/>
                 </div>
                 <div class="btn-create-exercice">
@@ -45,7 +45,7 @@
                         <p>{{exercice.description}}</p>
                     </div>
                     <div class="card-footer footer-exercice">
-                        <router-link :to="{ name: 'DetailExercice', params: { exercice } }" class="btn btn-block btn-soccer-coach">Voir</router-link>
+                        <router-link :to="{ name: 'DetailExercice', params: { exercice, route:'mes-exercices' } }" class="btn btn-block btn-soccer-coach">Voir</router-link>
                     </div>
                 </div>
             </div>
@@ -67,14 +67,13 @@
 </template>
 
 <script>
+    import {mapState, mapActions} from 'vuex'
     export default {
-        props:['exercices', 'types', 'objectifs'],
+        props:['exercices'],
         data(){
             return{
                 typeSelected:'tous',
                 lstExercices:this.exercices ? this.exercices : [],
-                lstTypes:this.types ? this.types : [],
-                lstObjectifs:this.objectifs ? this.objectifs : [],
                 exercicesByUser:[],
                 lastTypeSelected: 'btn-tous',
                 lstObjectifsSelected:[],
@@ -182,12 +181,14 @@
                 let from = (page * perPage) - perPage;
                 let to = (page * perPage);
                 return  exercices.slice(from, to);
-            }
+            },
+            ...mapActions(['loadAllObjectifs', 'loadAllTypes'])
         },
         computed: {
             displayedExercices () {
                 return this.paginate(this.lstExercices);
-            }
+            },
+            ...mapState(['lstAllTypes', 'lstAllObjectifs']),
         },
         watch: {
             lstExercices () {
@@ -206,13 +207,14 @@
                 axios.get('/exercice/get-exercices-by-user').then(reponse =>{
                     this.exercicesByUser = reponse.data.exercices;
                     this.lstExercices = this.exercicesByUser;
-                    this.lstTypes = reponse.data.types;
-                    this.lstObjectifs = reponse.data.objectifs;
                     this.isLoading = false;
                 }).catch(error =>{
                     console.log(error);
                     this.isLoading = false;
                 });
+                //load le type d'exercice et les objectifs
+                this.loadAllTypes();
+                this.loadAllObjectifs();
             }
             console.log(this.exercices);
             this.setPages();

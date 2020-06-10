@@ -10,7 +10,7 @@
             <div class="actions-exercice-detail">
                 @auth
                     <div class="btns">      
-                        <add-favoris :id-exercice="{{$exercice->id}}"/>
+                        <add-favoris :id-exercice="{{$exercice->id}}" :is-added="{{$exercice->isFavoris}}"/>
                     </div>  
                 @endauth
             </div>

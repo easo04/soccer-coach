@@ -11029,6 +11029,30 @@ body .container-soccer-coach .search-objectifs .objectif-item:after {
   content: "";
 }
 
+body .container-soccer-coach .mes-favoris .lst-exercices .btn-delete-favoris {
+  position: absolute;
+  top: 0;
+  right: 0;
+  height: 30px;
+  width: 50px;
+  background-color: #8a2539;
+  /* z-index: 1; */
+  color: #FFF;
+  padding: 2px 15px;
+  font-size: 15px;
+  text-align: center;
+  cursor: pointer;
+}
+
+body .container-soccer-coach .mes-favoris .lst-exercices .btn-delete-favoris i {
+  position: relative;
+  top: 3px;
+}
+
+body .container-soccer-coach .mes-favoris .lst-exercices .btn-delete-favoris:hover {
+  background-color: #45191f;
+}
+
 body .nav-principal {
   height: 100px;
   background-color: #6cb2eb !important;

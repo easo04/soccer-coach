@@ -146,6 +146,33 @@ body{
                 }
             }
         }
+
+        .mes-favoris{
+            .lst-exercices{
+                .btn-delete-favoris{
+                    position: absolute;
+                    top:0;
+                    right: 0;
+                    height: 30px;
+                    width: 50px;   
+                    background-color: $color-action;
+                    /* z-index: 1; */
+                    color: #FFF;
+                    padding: 2px 15px;
+                    font-size: 15px;
+                    text-align: center;
+                    cursor: pointer;                
+                    i{
+                        position: relative;
+                        top:3px;
+                    }
+
+                    &:hover{
+                        background-color: $color-action-selected;
+                    }                   
+                }
+            }
+        }
     }
 
     .nav-principal{

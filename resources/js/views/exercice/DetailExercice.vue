@@ -7,7 +7,8 @@
             <div class="contenu-exercices">
                 <div class="actions-exercice-detail">
                     <div class="btn-mes-exercices">
-                        <a class="btn btn-soccer-coach-action" @click="back"> <i class="ti-list"></i> Mes exercices</a>
+                        <a class="btn btn-soccer-coach-action" @click="back" v-if="route !== 'mes-favoris'"> <i class="ti-list"></i> Mes exercices</a>
+                        <a class="btn btn-soccer-coach-action" @click="backFavoris" v-else> <i class="ti-list"></i> Mes Favoris</a>
                     </div>
                     <div class="btns">                
                         <a class="btn btn-soccer-coach-action" href="#"><i class="fa fa-file-pdf-o"></i> Télecharger</a>
@@ -103,7 +104,7 @@
 </template>
 <script>
 export default {
-    props:['exercice'],
+    props:['exercice', 'route'],
     data(){
         return{
             isLoading:true,
@@ -112,6 +113,9 @@ export default {
     methods:{
         back(){
             this.$router.push('mes-exercices');
+        },
+        backFavoris(){
+            this.$router.push('mes-favoris');
         },
         deleteExercice(){
             axios.delete('/exercice/'+  this.exercice.id).then(reponse =>{

@@ -8,6 +8,7 @@ use App\Http\Requests\UpdateExerciceRequest;
 use App\Repositories\ExerciceRepository;
 use App\Repositories\TypesExerciceRepository;
 use App\Repositories\ObjectifRepository;
+use App\Repositories\FavorisRepository;
 use App\Gestion\PhotoGestion;
 
 use PDF;
@@ -23,12 +24,14 @@ class ExerciceController extends Controller
     protected $objectifRepository;
     protected $objectifs;
     protected $typeSelected;
+    protected $favorisRepository;
 
-    public function __construct(ExerciceRepository $exerciceRepository, TypesExerciceRepository $typesExerciceRepository, ObjectifRepository $objectifRepository)
+    public function __construct(ExerciceRepository $exerciceRepository, TypesExerciceRepository $typesExerciceRepository, ObjectifRepository $objectifRepository, FavorisRepository $favorisRepository)
     {
         //$this->middleware('auth', ['except' => ['index', 'indexTag']]);
         //$this->middleware('admin', ['only' => 'destroy']);
         
+        $this->favorisRepository = $favorisRepository;
         $this->exerciceRepository = $exerciceRepository;
         $this->typesExerciceRepository = $typesExerciceRepository;
         $this->objectifRepository = $objectifRepository;
@@ -77,9 +80,9 @@ class ExerciceController extends Controller
     public function store(ExerciceRequest $request, PhotoGestion $photogestion){}
 
     public function show($id, $nom){
-        
+        $idUser = Auth::user()->id;
         $exercice = $this->exerciceRepository->getById($id);
-        if($exercice->private == 1 && (auth()->guest() || Auth::user()->id != $exercice->users_id)){
+        if($exercice->private == 1 && (auth()->guest() || $idUser != $exercice->users_id)){
             return redirect('/');
         }
 
@@ -91,6 +94,9 @@ class ExerciceController extends Controller
         if($exercice->url != '' && str_contains($exercice->url, 'youtu')){
             $exercice->idVideo =  substr($exercice->url, 17, 30);
         }
+
+        //vérifier si l'exercice est favoris
+        $exercice->isFavoris = $this->favorisRepository->isExerciceFavorisForAuthUser($idUser, $id) ? 1 : 0;
         
         return view('detail-exercice',  compact('exercice', 'types', 'objectifs'));
     }

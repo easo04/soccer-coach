@@ -1,11 +1,11 @@
 <template>
     <div class="add-favoris">
         <a class="btn btn-soccer-coach-action" @click="addFavoris"  v-if="!isAddedToFavoris">
-            <i class="ti-star"></i> Favoris
+            <i class="ti-heart"></i> Favoris
         </a>
-        <a class="btn" v-else>
-            <i class="ti-star"></i> Favoris
-        </a>
+        <span class="favoris-added" v-else>
+            <i class="fa fa-heart"></i> Favoris
+        </span>
     </div>
 </template>
 <script>
@@ -13,7 +13,7 @@ export default {
     props:['idExercice', 'isAdded'],
     data(){
         return{
-            isAddedToFavoris:false
+            isAddedToFavoris:this.isAdded && this.isAdded === 1 ? true : false,
         }
     },
     methods:{

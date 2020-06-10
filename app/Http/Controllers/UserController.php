@@ -54,10 +54,8 @@ class UserController extends Controller
         $reponseNo = 500;
         if(auth()->check()){
             $exercices = $this->exerciceRepository->getExercicesByIdUser(Auth::user()->id);
-            $types = $this->typesExerciceRepository->getAll();     
-            $objectifs = $this->objectifRepository->getAll();
-
             foreach($exercices as $exercice){
+                
                 //setter le type d'exercice
                 $typeExercice = (object) array('id' => $exercice->typeId, 'nom' => $exercice->typeNom, 'urlNom' => $exercice->typeUrlNom);
                 $exercice->typeExercice = $typeExercice;
@@ -68,11 +66,8 @@ class UserController extends Controller
                     $exercice->idVideo =  substr($exercice->url, 17, 30);
                 }
             }
-
-            //setter la liste de types d'exercice
-            $this->updateTypeExerciceList($types, null);
                 
-            $reponse = ['exercices' => $exercices, 'objectifs'=> $objectifs, 'types'=> $types, 'succes' => 'OK'];
+            $reponse = ['exercices' => $exercices, 'succes' => 'OK'];
             $reponseNo = 200;
         }
         return response()->json($reponse, $reponseNo);

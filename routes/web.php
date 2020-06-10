@@ -52,6 +52,7 @@ Route::middleware(['auth'])->group(function () {
     //FAVORIS ROUTES
     Route::get('/favoris/get-favoris-by-user', 'FavorisController@getFavorisToAuthUser');
     Route::post('/favoris/add-favoris', 'FavorisController@addExerciceToFavoris');
+    Route::delete('/favoris/delete-exercice/{id}', 'FavorisController@deleteFavoris');
 
     //ROUTE OUTIL DESIGNER
     Route::get('/create-exercice', 'CreateExercice@getPage');

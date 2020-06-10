@@ -190,34 +190,67 @@ export default {
 	},
 
 	actions: {
+		loadAll({state}){
+			state.loadAllObjectifs();
+			state.loadAllTypes();
+		},
 		loadAllObjectifs ({ commit, state }) {
 			if(state.lstAllObjectifs.length === 0){
-				axios.get('/objectifs').then(reponse =>{
-					commit('setAllObjectifs', reponse.data.objectifs);
-				}).catch(error =>{
-					console.log(error);
-				});  
+				//vérifier si la liste est déjà dans le local storage
+				if(localStorage.getItem('lstAllObjetifsLocal')){				
+					let lstObjLocal = JSON.parse(localStorage.getItem('lstAllObjetifsLocal'));
+					commit('setAllObjectifs', lstObjLocal);		
+				}else{
+					axios.get('/objectifs').then(reponse =>{
+						let lstObjResponse = reponse.data.objectifs;
+						commit('setAllObjectifs', lstObjResponse);
+						//add to local storage
+						const parsed = JSON.stringify(lstObjResponse);
+						localStorage.setItem('lstAllObjetifsLocal', parsed);
+					}).catch(error =>{
+						console.log(error);
+					}); 
+				}
 			}
 		},
 		loadAllTypes({ commit, state }) {
-			if(state.lstAllTypes.length === 0){			
-                let mapTypes = new Map(state.lstIconsByType);
-				axios.get('/types-exercices').then(reponse =>{	
-					reponse.data.types.forEach(type => {
-						type.icon = mapTypes.get(type.urlNom);
-						commit('addTypeToAllTypesList', type);
+			if(state.lstAllTypes.length === 0){	
+				//vérifier si la liste est déjà dans le local storage
+				if(localStorage.getItem('lstAllTypesLocal')){				
+					let lstTypesLocal = JSON.parse(localStorage.getItem('lstAllTypesLocal'));
+					commit('setAllTypes', lstTypesLocal);	
+				}else{		
+					let mapTypes = new Map(state.lstIconsByType);
+					axios.get('/types-exercices').then(reponse =>{	
+						reponse.data.types.forEach(type => {
+							type.icon = mapTypes.get(type.urlNom);
+							commit('addTypeToAllTypesList', type);					
+						});
+						//add to local storage
+						const parsed = JSON.stringify(state.lstAllTypes);
+						localStorage.setItem('lstAllTypesLocal', parsed);
+					}).catch(error =>{
+						console.log(error);
 					});
-				}).catch(error =>{
-					console.log(error);
-				});  
+				}  
 			}
 		},
 		loadAllTypesWithTypes({ commit, state }, types){
-			let mapTypes = new Map(state.lstIconsByType);
-			types.forEach(type => {
-				type.icon = mapTypes.get(type.urlNom);
-				commit('addTypeToAllTypesList', type);
-			});
+			//vérifier si la liste est déjà dans le local storage
+			if(localStorage.getItem('lstAllTypesLocal')){				
+				let lstTypesLocal = JSON.parse(localStorage.getItem('lstAllTypesLocal'));
+				commit('setAllTypes', lstTypesLocal);
+			}else{
+				let mapTypes = new Map(state.lstIconsByType);
+				types.forEach(type => {
+					type.icon = mapTypes.get(type.urlNom);
+					commit('addTypeToAllTypesList', type);
+				});
+				//add to local storage
+				const parsed = JSON.stringify(state.lstAllTypes);
+				localStorage.setItem('lstAllTypesLocal', parsed);
+			}
+			
 		}
 	},
 	mutations: {

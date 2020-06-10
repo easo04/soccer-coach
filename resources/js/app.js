@@ -51,6 +51,7 @@ Vue.component('exercices-publics-modal', require('./components/modals/ExercicesP
 Vue.component('create-exercice-modal', require('./components/modals/CreateExerciceComponent.vue').default);
 Vue.component('details-exercice-modal', require('./components/modals/DetailsExerciceComponent.vue').default);
 Vue.component('update-form-modal', require('./components/modals/UpdateFormComponent.vue').default);
+Vue.component('mes-favoris-modal', require('./components/modals/MesFavorisComponent.vue').default);
 
 //Components menu
 Vue.component('menu-left', require('./components/menu/MenuLeftComponent.vue').default);

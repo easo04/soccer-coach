@@ -112,8 +112,9 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
-  props: ['exercice'],
+  props: ['exercice', 'route'],
   data: function data() {
     return {
       isLoading: true
@@ -122,6 +123,9 @@ __webpack_require__.r(__webpack_exports__);
   methods: {
     back: function back() {
       this.$router.push('mes-exercices');
+    },
+    backFavoris: function backFavoris() {
+      this.$router.push('mes-favoris');
     },
     deleteExercice: function deleteExercice() {
       var _this = this;
@@ -196,17 +200,29 @@ var render = function() {
           _c("div", { staticClass: "contenu-exercices" }, [
             _c("div", { staticClass: "actions-exercice-detail" }, [
               _c("div", { staticClass: "btn-mes-exercices" }, [
-                _c(
-                  "a",
-                  {
-                    staticClass: "btn btn-soccer-coach-action",
-                    on: { click: _vm.back }
-                  },
-                  [
-                    _c("i", { staticClass: "ti-list" }),
-                    _vm._v(" Mes exercices")
-                  ]
-                )
+                _vm.route !== "mes-favoris"
+                  ? _c(
+                      "a",
+                      {
+                        staticClass: "btn btn-soccer-coach-action",
+                        on: { click: _vm.back }
+                      },
+                      [
+                        _c("i", { staticClass: "ti-list" }),
+                        _vm._v(" Mes exercices")
+                      ]
+                    )
+                  : _c(
+                      "a",
+                      {
+                        staticClass: "btn btn-soccer-coach-action",
+                        on: { click: _vm.backFavoris }
+                      },
+                      [
+                        _c("i", { staticClass: "ti-list" }),
+                        _vm._v(" Mes Favoris")
+                      ]
+                    )
               ]),
               _vm._v(" "),
               _c(
