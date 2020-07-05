@@ -238,7 +238,8 @@ body{
     }
 
     .lst-vide{
-        height: 636px;
+        min-height: 409px;
+        //height: 636px;
     }
 
     .date-creation{
@@ -290,6 +291,17 @@ body{
     }
 
     .date-time-picker{
+        //width: 25%;
+        margin: 0;
+        border-bottom: 2px solid $color-soccer-coach;
+        .field{
+            .field-input{
+                border:none!important;
+            }
+        }    
+        @media screen and (max-width: $screen-xs) {
+            width: 100%;
+        }
         .field-input{
             border:none;
         }

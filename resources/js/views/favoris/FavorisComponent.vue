@@ -38,7 +38,6 @@
                             <h4 class="card-title">{{exercice.principe}}</h4>
                             <h6><i class="ti-timer color-soccer-coach"></i> {{exercice.time}}</h6>                     
                         </div>
-                        <p>{{exercice.description}}</p>
                     </div>
                     <div class="card-footer footer-exercice">
                         <router-link :to="{ name: 'DetailExercice', params: { exercice, route:'mes-favoris' } }" class="btn btn-block btn-soccer-coach">Voir</router-link>

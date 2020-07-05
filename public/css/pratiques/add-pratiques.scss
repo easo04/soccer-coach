@@ -1,19 +1,6 @@
 @import '../../../resources/sass/variables';
 
 .add-seance-form{
-    .date-time-picker {
-        //width: 25%;
-        margin: 0;
-        border-bottom: 2px solid $color-soccer-coach;
-        .field{
-            .field-input{
-                border:none!important;
-            }
-        }    
-        @media screen and (max-width: $screen-xs) {
-            width: 100%;
-        }
-    }
 
     .exercices{
         .btn-action-exercices{

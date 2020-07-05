@@ -42,7 +42,6 @@
                             <h6><i class="ti-timer color-soccer-coach"></i> {{exercice.time}}</h6>                     
                         </div>
                         <span class="date-creation">Créé le {{ exercice.created_at | moment('YYYY-MM-DD') }}</span>
-                        <p>{{exercice.description}}</p>
                     </div>
                     <div class="card-footer footer-exercice">
                         <router-link :to="{ name: 'DetailExercice', params: { exercice, route:'mes-exercices' } }" class="btn btn-block btn-soccer-coach">Voir</router-link>

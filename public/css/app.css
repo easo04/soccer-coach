@@ -11112,7 +11112,7 @@ body .aucun-exercice {
 }
 
 body .lst-vide {
-  height: 636px;
+  min-height: 409px;
 }
 
 body .date-creation {
@@ -11157,6 +11157,21 @@ body .field-input {
 body .field-input:focus {
   border-color: #03aca4;
   box-shadow: 0 0 0 0.2rem rgba(23, 184, 125, 0.2);
+}
+
+body .date-time-picker {
+  margin: 0;
+  border-bottom: 2px solid #03aca4;
+}
+
+body .date-time-picker .field .field-input {
+  border: none !important;
+}
+
+@media screen and (max-width: 480px) {
+  body .date-time-picker {
+    width: 100%;
+  }
 }
 
 body .date-time-picker .field-input {
@@ -11282,7 +11297,7 @@ body .datepicker-buttons-container .datepicker-button .datepicker-button-effect 
 .btn-soccer-coach-action {
   background-color: #8a2539;
   color: white !important;
-  border-radius: 0;
+  border-radius: 20px;
 }
 
 .btn-soccer-coach-action:hover {
@@ -11290,11 +11305,25 @@ body .datepicker-buttons-container .datepicker-button .datepicker-button-effect 
   color: white;
 }
 
+.btn-soccer-coach-action-list {
+  height: 43px;
+  width: 45px;
+  border-radius: 50%;
+  background: transparent;
+  border: 2px solid #8a2539;
+  color: #8a2539 !important;
+}
+
+.btn-soccer-coach-action-list:hover {
+  border: 1px solid #45191f !important;
+  color: #45191f !important;
+}
+
 .btn-soccer-coach {
   /*background-color: #b87e17!important;*/
   background-color: #03aca4 !important;
   color: white;
-  border-radius: 0;
+  border-radius: 20px;
 }
 
 .btn-soccer-coach:hover {
@@ -11317,6 +11346,7 @@ body .datepicker-buttons-container .datepicker-button .datepicker-button-effect 
 .card-title-principe h6 {
   position: absolute;
   bottom: 0;
+  margin-bottom: 0px;
 }
 
 .color-soccer-coach {
@@ -11463,6 +11493,15 @@ textarea {
   /*.btn-create-exercice{
       float: right;
   }*/
+
+  .nav-type-exercice .navbar-nav .nav-item:first-child {
+    border-top-left-radius: 20px;
+  }
+
+  .nav-type-exercice .navbar-nav .nav-item:last-child {
+    border-top-right-radius: 20px;
+    border-bottom-right-radius: 20px;
+  }
 }
 
 @media screen and (max-width: 480px) {

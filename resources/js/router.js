@@ -60,5 +60,27 @@ export default new VueRouter ({
             name:'MesFavoris',
             component:() => import('./views/favoris/FavorisComponent.vue'),
         },
+        {
+            path:'/mes-equipes',
+            name:'MesEquipes',
+            component:() => import('./views/equipes/EquipesComponent.vue'),
+        },
+        {
+            path:'/create-equipe',
+            name:'CreateEquipe',
+            component:() => import('./views/equipes/CreateEquipe.vue'),
+        },
+        {
+            path:'/update-equipe',
+            name:'UpdateEquipe',
+            component:() => import('./views/equipes/UpdateEquipe.vue'),
+            props: true
+        },
+        {
+            path:'/details-equipe',
+            name:'DetailsEquipe',
+            component:() => import('./views/equipes/DetailEquipe.vue'),
+            props: true
+        },
     ]
 })

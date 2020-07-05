@@ -7,6 +7,7 @@ use App\Repositories\ExerciceRepository;
 use App\Repositories\TypesExerciceRepository;
 use App\Repositories\ObjectifRepository;
 use App\Repositories\PratiqueRepository;
+use App\Repositories\EquipeRepository;
 use Illuminate\Http\Request;
 
 use Str;
@@ -22,9 +23,10 @@ class UserController extends Controller
     protected $nbPerPege = 6;
     protected $objectifRepository;
     protected $pratiqueRepository;
+    protected $equipesRepository;
 
     public function __construct(UserRepository $userRepository, ExerciceRepository $exerciceRepository, TypesExerciceRepository $typesExerciceRepository,
-        ObjectifRepository $objectifRepository, PratiqueRepository $pratiqueRepository)
+        ObjectifRepository $objectifRepository, PratiqueRepository $pratiqueRepository, EquipeRepository $equipeRepository)
     {
         $this->userRepository = $userRepository;
         $this->exerciceRepository = $exerciceRepository;
@@ -32,6 +34,7 @@ class UserController extends Controller
         $this->typesExerciceRepository = $typesExerciceRepository;
         $this->objectifRepository = $objectifRepository;
         $this->pratiqueRepository = $pratiqueRepository;
+        $this->equipeRepository = $equipeRepository;
     }
 
     public function getServices(){
@@ -68,6 +71,17 @@ class UserController extends Controller
             }
                 
             $reponse = ['exercices' => $exercices, 'succes' => 'OK'];
+            $reponseNo = 200;
+        }
+        return response()->json($reponse, $reponseNo);
+    }
+
+    public function getEquipesToAuthUser(){
+        $reponse = array('message' => 'USAGER NON CONNECTÉ');
+        $reponseNo = 500;
+        if(auth()->check()){
+            $equipes = $this->equipeRepository->getEquipesByIdUser(Auth::user()->id);
+            $reponse = ['equipes' => $equipes, 'succes' => 'OK'];
             $reponseNo = 200;
         }
         return response()->json($reponse, $reponseNo);

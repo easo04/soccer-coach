@@ -64,7 +64,7 @@
     <div class="row container conteneur">
       <div class="col-sm-8 terrain">
         <div class="row terrain-space" id="terrainSoccer">
-            <img src="images/imageA.svg"/>
+            <!--<img src="images/imageA.svg"/>-->
             <!-- <object id="star-demos" type="image/svg+xml" data="/images/imageA.svg" alt="embedded svg"></object>-->
         </div>
       </div>

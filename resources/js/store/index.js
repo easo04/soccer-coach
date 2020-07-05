@@ -11,6 +11,10 @@ export default {
 		lstAllObjectifs:[], //tous les types d'objectifs
 		lstAllTypes:[], //tous les types d'exercice
 		exerciceAdd:{},
+		lstJoueurs:[], //garde la liste des joueurs ajoutés
+		lstEntraineurs:[], //garde la liste des entraineurs ajoutés
+		lstMatchs:[], //garde la liste des matchs ajoutés
+		lstPratiques:[], //garde la liste des pratiques ajoutés
 		imgBase64:undefined, //garde l'image en base64
 		lstIconsByType: [['principe-offensif', 'ti-target'], ['principe-defensif', 'ti-hummer'], ['rondos', 'ti-cup'], ['physique', 'ti-heart']],          
 		lstIconsByCategorie:[{ name:'Offensive', icon:'ti-target', id:'off'}, { name:'Défensive', icon:'ti-hummer', id:'def'}, { name:'Tactique', icon:'fa fa-puzzle-piece', id:'tact'}, { name:'Technique', icon:'fa fa-rocket', id:'tec'},
@@ -177,14 +181,54 @@ export default {
 				},
 				validate:false
 			},
-		}
+		},
+		equipeStoreDTO:{
+			nom:{
+                value:undefined,
+                validations:{
+                    require:true
+                },
+                validate:false
+			},
+			logo:{
+				value:undefined,
+                validations:{
+                    require:false
+                },
+                validate:true
+			},
+			saison:{
+				nom:{
+					value:undefined,
+					validations:{
+						require:true
+					},
+					validate:false
+				},
+				dateDebut:{
+					value:undefined,
+					validations:{
+						require:true
+					},
+					validate:false
+				},
+				dateFin:{
+					value:undefined,
+					validations:{
+						require:true
+					},
+					validate:false
+				}
+			}
+		},
+		positions:['G', 'DFC', 'DFD', 'DFG', 'MC', 'MOC', 'MD', 'MG', 'ATT', 'AG', 'AD', 'AC'],
+		roles:['E','EA','EG','G','A','PP'],
 	},
 	getters: {
 		getNameTypeById: (state) => (id) =>{
 			return state.lstAllTypes.find(type => type.id === id).nom;
 		},
 		getIconByCategorie: (state) => (categorie) =>{
-			let categorieFind = state.lstIconsByCategorie.find(c => c.name === categorie);
             return state.lstIconsByCategorie.find(c => c.name === categorie).icon;
 		},
 	},
@@ -462,6 +506,54 @@ export default {
 		},
 		setImgBase64(state, img){
 			state.imgBase64 = img;
+		},
+		addJoueurToList(state, joueur){
+			state.lstJoueurs.push(joueur);
+		},
+		deleteJoueur(state, index){
+			state.lstJoueurs.splice(index, 1);
+		},
+		clearJoueurList(state){
+			state.lstJoueurs = [];
+		},
+		addEntraineurToList(state, entraineur){
+			state.lstEntraineurs.push(entraineur);
+		},
+		deleteEntraineur(state, index){
+			state.lstEntraineurs.splice(index, 1);
+		},
+		clearEntraineurList(state){
+			state.lstEntraineurs = [];
+		},
+		addPratiqueToList(state, pratique){
+			state.lstPratiques.push(pratique);
+		},
+		deletePratique(state, index){
+			state.lstPratiques.splice(index, 1);
+		},
+		clearPratiqueList(state){
+			state.lstPratiques = [];
+		},
+		addMatchToList(state, match){
+			state.lstMatchs.push(match);
+		},
+		deleteMatch(state, index){
+			state.lstMatchs.splice(index, 1);
+		},
+		clearMatchList(state){
+			state.lstMatchs = [];
+		},
+		setJoueurList(state, list){
+			state.lstJoueurs = list;
+		},
+		setEntraineurList(state, list){
+			state.lstEntraineurs = list;
+		},
+		setPratiquesList(state, list){
+			state.lstPratiques = list;
+		},
+		setMatchsList(state, list){
+			state.lstMatchs = list;
 		}
 	}
 }

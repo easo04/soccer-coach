@@ -2920,7 +2920,6 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
-//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: ['exercices'],
@@ -4855,7 +4854,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       selected: false,
       nomFr: 'Mes équipes',
       icon: 'fa fa-cubes',
-      url: ''
+      url: 'mes-equipes'
     }, {
       name: 'mon_club',
       selected: false,
@@ -4875,6 +4874,141 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       _this.goToLink(lastLinkSelected.url, _this.indexSelectedBeforeShowModal);
     });
   }
+});
+
+/***/ }),
+
+/***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/modals/CreateEntraineurComponent.vue?vue&type=script&lang=js&":
+/*!*******************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/modals/CreateEntraineurComponent.vue?vue&type=script&lang=js& ***!
+  \*******************************************************************************************************************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm.js");
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
+
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+  props: ['fromDetail', 'equipe'],
+  data: function data() {
+    return {
+      entraineurDTO: {
+        nom: {
+          value: undefined,
+          validations: {
+            require: true
+          },
+          validate: false
+        },
+        role: {
+          value: undefined,
+          validations: {
+            require: false
+          },
+          validate: true
+        }
+      }
+    };
+  },
+  computed: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapState"])(['roles'])),
+  methods: _objectSpread({
+    addEntraineur: function addEntraineur() {
+      var _this = this;
+
+      /*if(!this.formValid()){
+          return;
+      }*/
+      var entraineur = {
+        nom: this.entraineurDTO.nom.value,
+        role: this.entraineurDTO.role.value
+      };
+
+      if (this.fromDetail) {
+        entraineur.equipe = this.equipe;
+        axios.post("/equipes/createEntraineur", entraineur).then(function (response) {
+          entraineur.id = response.data.entraineur;
+
+          _this.addEntraineurToList(entraineur);
+
+          _this.$root.$emit('setEntraineurLocalStorage');
+        });
+      } else {
+        this.addEntraineurToList(entraineur);
+      }
+
+      this.closeModal();
+    },
+    formValid: function formValid() {
+      return true;
+    },
+    initJoueurDTO: function initJoueurDTO() {
+      this.entraineurDTO = {
+        nom: {
+          value: undefined,
+          validations: {
+            require: true
+          },
+          validate: false
+        },
+        role: {
+          value: undefined,
+          validations: {
+            require: false
+          },
+          validate: true
+        }
+      };
+    },
+    openModal: function openModal() {//this.$root.$emit('setExerciceDTO');
+    },
+    closeModal: function closeModal() {
+      this.initJoueurDTO();
+      $("#modalAddCoach").modal("hide");
+    }
+  }, Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapMutations"])(['addEntraineurToList']))
 });
 
 /***/ }),
@@ -4922,6 +5056,341 @@ __webpack_require__.r(__webpack_exports__);
       _this.closeModal();
     });
   }
+});
+
+/***/ }),
+
+/***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/modals/CreateJoueurComponent.vue?vue&type=script&lang=js&":
+/*!***************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/modals/CreateJoueurComponent.vue?vue&type=script&lang=js& ***!
+  \***************************************************************************************************************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm.js");
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
+
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+  props: ['fromDetail', 'equipe'],
+  data: function data() {
+    return {
+      joueurDTO: {
+        nom: {
+          value: undefined,
+          validations: {
+            require: true
+          },
+          validate: false
+        },
+        email: {
+          value: undefined,
+          validations: {
+            require: false
+          },
+          validate: true
+        },
+        position1: {
+          value: undefined,
+          validations: {
+            require: false
+          },
+          validate: true
+        },
+        position2: {
+          value: undefined,
+          validations: {
+            require: false
+          },
+          validate: true
+        },
+        position3: {
+          value: undefined,
+          validations: {
+            require: false
+          },
+          validate: true
+        }
+      }
+    };
+  },
+  computed: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapState"])(['positions'])),
+  methods: _objectSpread({
+    addJoueur: function addJoueur() {
+      var _this = this;
+
+      /*if(!this.formValid()){
+          return;
+      }*/
+      var joueur = {
+        nom: this.joueurDTO.nom.value,
+        email: this.joueurDTO.email.value,
+        position1: this.joueurDTO.position1.value,
+        position2: this.joueurDTO.position2.value,
+        position3: this.joueurDTO.position3.value
+      };
+
+      if (this.fromDetail) {
+        joueur.equipe = this.equipe;
+        axios.post("/equipes/createJoueur", joueur).then(function (response) {
+          joueur.id = response.data.joueur;
+
+          _this.addJoueurToList(joueur);
+
+          _this.$root.$emit('setJoueurLocalStorage');
+        });
+      } else {
+        this.addJoueurToList(joueur);
+      }
+
+      this.closeModal();
+    },
+    formValid: function formValid() {
+      var values = Object.values(this.joueurDTO);
+      var valueNotValidate = values.find(function (value) {
+        return !value.validate;
+      });
+
+      if (valueNotValidate) {
+        this.$root.$emit('formInvalid');
+        return false;
+      }
+
+      return true;
+    },
+    initJoueurDTO: function initJoueurDTO() {
+      this.joueurDTO = {
+        nom: {
+          value: undefined,
+          validations: {
+            require: true
+          },
+          validate: false
+        },
+        email: {
+          value: undefined,
+          validations: {
+            require: false
+          },
+          validate: true
+        },
+        position1: {
+          value: undefined,
+          validations: {
+            require: true
+          },
+          validate: false
+        },
+        position2: {
+          value: undefined,
+          validations: {
+            require: false
+          },
+          validate: true
+        },
+        position3: {
+          value: undefined,
+          validations: {
+            require: false
+          },
+          validate: true
+        }
+      };
+    },
+    openModal: function openModal() {//this.$root.$emit('setExerciceDTO');
+    },
+    closeModal: function closeModal() {
+      this.initJoueurDTO();
+      $("#modalAddPlayer").modal("hide");
+    }
+  }, Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapMutations"])(['addJoueurToList']))
+});
+
+/***/ }),
+
+/***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/modals/DeleteEntraineurComponent.vue?vue&type=script&lang=js&":
+/*!*******************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/modals/DeleteEntraineurComponent.vue?vue&type=script&lang=js& ***!
+  \*******************************************************************************************************************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm.js");
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
+
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+  props: ['entraineur', 'indexEntraineur', 'nom'],
+  methods: _objectSpread({
+    closeModal: function closeModal() {
+      console.log('#modalDeleteCoach' + this.entraineur);
+      $("#modalDeleteCoach" + this.entraineur).modal("hide");
+    },
+    deleteEntraineurToList: function deleteEntraineurToList() {
+      var _this = this;
+
+      var parm = {
+        idEntraineur: this.entraineur
+      };
+      axios.post('/equipes/deleteEntraineur', parm).then(function (response) {
+        _this.deleteEntraineur(_this.indexEntraineur);
+
+        _this.closeModal();
+
+        _this.$root.$emit('setEntraineurLocalStorage');
+      });
+    }
+  }, Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapMutations"])(['deleteEntraineur']))
+});
+
+/***/ }),
+
+/***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/modals/DeleteJoueurComponent.vue?vue&type=script&lang=js&":
+/*!***************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/modals/DeleteJoueurComponent.vue?vue&type=script&lang=js& ***!
+  \***************************************************************************************************************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm.js");
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
+
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+  props: ['joueur', 'indexJoueur', 'nom'],
+  methods: _objectSpread({
+    closeModal: function closeModal() {
+      console.log('#modalDeletePlayer' + this.joueur);
+      $("#modalDeletePlayer" + this.joueur).modal("hide");
+    },
+    deleteJoueurToList: function deleteJoueurToList() {
+      var _this = this;
+
+      var parm = {
+        idJoueur: this.joueur
+      };
+      axios.post('/equipes/deleteJoueur', parm).then(function (response) {
+        _this.deleteJoueur(_this.indexJoueur);
+
+        _this.closeModal();
+
+        _this.$root.$emit('setJoueurLocalStorage');
+      });
+    }
+  }, Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapMutations"])(['deleteJoueur']))
 });
 
 /***/ }),
@@ -10046,7 +10515,7 @@ exports = module.exports = __webpack_require__(/*! ../../../node_modules/css-loa
 
 
 // module
-exports.push([module.i, ".form-control[data-v-4b59463f] {\n  border: none;\n  border-bottom: 2px solid #03aca4;\n  border-right: 1px solid #F3F3F3;\n}\n.form-group.input-sm .input-text[data-v-4b59463f], .form-group.input-sm .date-time-picker[data-v-4b59463f] {\n  width: 100%;\n}\n@media screen and (min-width: 768px) {\n.form-group.input-sm .input-text[data-v-4b59463f], .form-group.input-sm .date-time-picker[data-v-4b59463f] {\n    width: 33.3%;\n}\n}\n.form-group .temps-input[data-v-4b59463f] {\n  display: flex;\n}\n.temps-chexbox > div[data-v-4b59463f] {\n  flex: 1;\n  padding-left: 5px;\n}\n.temps-chexbox[data-v-4b59463f] {\n  display: flex;\n  flex-flow: row wrap;\n}\n.temps-chexbox .type-item[data-v-4b59463f] {\n  height: auto;\n}\n.temps-chexbox .type-item .icon-exercice[data-v-4b59463f] {\n  bottom: 0;\n  position: absolute;\n}\n.temps-chexbox .type-item input[type=radio][data-v-4b59463f] {\n  display: none;\n}\n.temps-chexbox .type-item input[type=radio]:not(:disabled) ~ label[data-v-4b59463f] {\n  cursor: pointer;\n}\n.temps-chexbox .type-item input[type=radio]:disabled ~ label[data-v-4b59463f] {\n  color: #bcc2bf;\n  border-color: #bcc2bf;\n  box-shadow: none;\n  cursor: not-allowed;\n}\n.temps-chexbox .type-item label[data-v-4b59463f] {\n  height: 2.4rem;\n  width: 2.4rem;\n  display: block;\n  background: white;\n  border: 1px solid #03aca4;\n  border-radius: 0;\n  padding: 2px;\n  text-align: center;\n  margin-bottom: 0 !important;\n  box-shadow: 0px 3px 10px -2px rgba(161, 170, 166, 0.5);\n  position: relative;\n}\n.temps-chexbox .type-item label .details-type[data-v-4b59463f] {\n  margin-top: 5px;\n}\n.temps-chexbox .type-item input[type=radio]:checked + label[data-v-4b59463f] {\n  background: #03aca4;\n  color: white;\n  box-shadow: 0px 0px 20px #F3F3F3;\n}\n.temps-chexbox .type-item input[type=radio]:checked + label i[data-v-4b59463f] {\n  color: white;\n}\n.temps-chexbox .type-item p[data-v-4b59463f] {\n  font-weight: 900;\n  margin-bottom: 0 !important;\n}\n.error[data-v-4b59463f] {\n  color: red;\n  font-weight: 600;\n}\n.input-error[data-v-4b59463f] {\n  border-bottom: 2px solid red;\n}\n.input-error[data-v-4b59463f]:focus {\n  border-color: red;\n  box-shadow: 0 0 0 0.2rem rgba(255, 0, 0, 0.2);\n}", ""]);
+exports.push([module.i, ".form-control[data-v-4b59463f] {\n  border: none;\n  border-bottom: 2px solid #03aca4;\n  border-right: 1px solid #F3F3F3;\n}\n.form-group.input-sm .input-text[data-v-4b59463f], .form-group.input-sm .date-time-picker[data-v-4b59463f] {\n  width: 100%;\n}\n@media screen and (min-width: 768px) {\n.form-group.input-sm .input-text[data-v-4b59463f], .form-group.input-sm .date-time-picker[data-v-4b59463f] {\n    width: 33.3%;\n}\n}\n.form-group .temps-input[data-v-4b59463f] {\n  display: flex;\n}\n.form-group .select-form[data-v-4b59463f] {\n  width: 100%;\n  height: 30px;\n  border: none;\n  border-bottom: 2px solid #03aca4;\n  border-right: 1px solid #F3F3F3;\n}\n.form-group .select-form[data-v-4b59463f]:focus {\n  outline: none;\n}\n.temps-chexbox > div[data-v-4b59463f] {\n  flex: 1;\n  padding-left: 5px;\n}\n.temps-chexbox[data-v-4b59463f] {\n  display: flex;\n  flex-flow: row wrap;\n}\n.temps-chexbox .type-item[data-v-4b59463f] {\n  height: auto;\n}\n.temps-chexbox .type-item .icon-exercice[data-v-4b59463f] {\n  bottom: 0;\n  position: absolute;\n}\n.temps-chexbox .type-item input[type=radio][data-v-4b59463f] {\n  display: none;\n}\n.temps-chexbox .type-item input[type=radio]:not(:disabled) ~ label[data-v-4b59463f] {\n  cursor: pointer;\n}\n.temps-chexbox .type-item input[type=radio]:disabled ~ label[data-v-4b59463f] {\n  color: #bcc2bf;\n  border-color: #bcc2bf;\n  box-shadow: none;\n  cursor: not-allowed;\n}\n.temps-chexbox .type-item label[data-v-4b59463f] {\n  height: 2.4rem;\n  width: 2.4rem;\n  display: block;\n  background: white;\n  border: 1px solid #03aca4;\n  border-radius: 12px;\n  padding: 2px;\n  text-align: center;\n  margin-bottom: 0 !important;\n  box-shadow: 0px 3px 10px -2px rgba(161, 170, 166, 0.5);\n  position: relative;\n}\n.temps-chexbox .type-item label .details-type[data-v-4b59463f] {\n  margin-top: 5px;\n}\n.temps-chexbox .type-item input[type=radio]:checked + label[data-v-4b59463f] {\n  background: #03aca4;\n  color: white;\n  box-shadow: 0px 0px 20px #F3F3F3;\n}\n.temps-chexbox .type-item input[type=radio]:checked + label i[data-v-4b59463f] {\n  color: white;\n}\n.temps-chexbox .type-item p[data-v-4b59463f] {\n  font-weight: 900;\n  margin-bottom: 0 !important;\n}\n.error[data-v-4b59463f] {\n  color: red;\n  font-weight: 600;\n}\n.input-error[data-v-4b59463f] {\n  border-bottom: 2px solid red;\n}\n.input-error[data-v-4b59463f]:focus {\n  border-color: red;\n  box-shadow: 0 0 0 0.2rem rgba(255, 0, 0, 0.2);\n}", ""]);
 
 // exports
 
@@ -10065,7 +10534,7 @@ exports = module.exports = __webpack_require__(/*! ../../../node_modules/css-loa
 
 
 // module
-exports.push([module.i, ".form-control[data-v-e33628c6] {\n  border: none;\n  border-bottom: 2px solid #03aca4;\n  border-right: 1px solid #F3F3F3;\n}\n.form-group.input-sm .input-text[data-v-e33628c6], .form-group.input-sm .date-time-picker[data-v-e33628c6] {\n  width: 100%;\n}\n@media screen and (min-width: 768px) {\n.form-group.input-sm .input-text[data-v-e33628c6], .form-group.input-sm .date-time-picker[data-v-e33628c6] {\n    width: 33.3%;\n}\n}\n.form-group .temps-input[data-v-e33628c6] {\n  display: flex;\n}\n.temps-chexbox > div[data-v-e33628c6] {\n  flex: 1;\n  padding-left: 5px;\n}\n.temps-chexbox[data-v-e33628c6] {\n  display: flex;\n  flex-flow: row wrap;\n}\n.temps-chexbox .type-item[data-v-e33628c6] {\n  height: auto;\n}\n.temps-chexbox .type-item .icon-exercice[data-v-e33628c6] {\n  bottom: 0;\n  position: absolute;\n}\n.temps-chexbox .type-item input[type=radio][data-v-e33628c6] {\n  display: none;\n}\n.temps-chexbox .type-item input[type=radio]:not(:disabled) ~ label[data-v-e33628c6] {\n  cursor: pointer;\n}\n.temps-chexbox .type-item input[type=radio]:disabled ~ label[data-v-e33628c6] {\n  color: #bcc2bf;\n  border-color: #bcc2bf;\n  box-shadow: none;\n  cursor: not-allowed;\n}\n.temps-chexbox .type-item label[data-v-e33628c6] {\n  height: 2.4rem;\n  width: 2.4rem;\n  display: block;\n  background: white;\n  border: 1px solid #03aca4;\n  border-radius: 0;\n  padding: 2px;\n  text-align: center;\n  margin-bottom: 0 !important;\n  box-shadow: 0px 3px 10px -2px rgba(161, 170, 166, 0.5);\n  position: relative;\n}\n.temps-chexbox .type-item label .details-type[data-v-e33628c6] {\n  margin-top: 5px;\n}\n.temps-chexbox .type-item input[type=radio]:checked + label[data-v-e33628c6] {\n  background: #03aca4;\n  color: white;\n  box-shadow: 0px 0px 20px #F3F3F3;\n}\n.temps-chexbox .type-item input[type=radio]:checked + label i[data-v-e33628c6] {\n  color: white;\n}\n.temps-chexbox .type-item p[data-v-e33628c6] {\n  font-weight: 900;\n  margin-bottom: 0 !important;\n}\n.error[data-v-e33628c6] {\n  color: red;\n  font-weight: 600;\n}\n.input-error[data-v-e33628c6] {\n  border-bottom: 2px solid red;\n}\n.input-error[data-v-e33628c6]:focus {\n  border-color: red;\n  box-shadow: 0 0 0 0.2rem rgba(255, 0, 0, 0.2);\n}\n.add-seance-form .date-time-picker[data-v-e33628c6] {\n  margin: 0;\n  border-bottom: 2px solid #03aca4;\n}\n.add-seance-form .date-time-picker .field .field-input[data-v-e33628c6] {\n  border: none !important;\n}\n@media screen and (max-width: 480px) {\n.add-seance-form .date-time-picker[data-v-e33628c6] {\n    width: 100%;\n}\n}\n.add-seance-form .exercices .btn-action-exercices[data-v-e33628c6] {\n  height: 35px;\n}\n.add-seance-form .exercices .btn-action-exercices .btns[data-v-e33628c6] {\n  float: right;\n}\n.add-seance-form .exercices .details-exercice-modal[data-v-e33628c6] {\n  float: right;\n  margin-right: 10px;\n}\n.add-seance-form .exercices .lst-exercices[data-v-e33628c6] {\n  padding: 0 10px 10px 10px;\n  border: 1px solid #ced4da;\n  margin-top: 7px;\n  height: auto;\n}\n.add-seance-form .exercices .lst-exercices.lst-vide[data-v-e33628c6] {\n  min-height: 409px;\n}\n.add-seance-form .exercices .lst-exercices .aucun-exercice[data-v-e33628c6] {\n  text-align: center;\n  margin-top: 170px;\n  color: #ced4da;\n}\n.add-seance-form .exercices .lst-exercices .exercice-item[data-v-e33628c6] {\n  margin-top: 7px;\n  border-radius: 0 !important;\n  height: auto;\n  border-bottom: 1px solid #ced4da;\n}\n.add-seance-form .exercices .lst-exercices .exercice-item .exercice-match .details-match .principe-exe[data-v-e33628c6] {\n  border-left: 8px solid #03aca4;\n  background-color: #F3F3F3;\n  padding: 8px;\n  min-height: 40px;\n}\n.add-seance-form .exercices .lst-exercices .exercice-item .exercice-match .details-match .principe-exe h5[data-v-e33628c6] {\n  margin-top: 2px;\n}\n.add-seance-form .exercices .lst-exercices .exercice-item .exercice-match .details-match .items-modifiables[data-v-e33628c6] {\n  display: flex;\n  padding-top: 10px;\n}\n.add-seance-form .exercices .lst-exercices .exercice-item .exercice-match .details-match .items-modifiables .form-group[data-v-e33628c6] {\n  margin-right: 10px;\n}\n.add-seance-form .exercices .lst-exercices .exercice-item .exercice-match .details-match .items-modifiables .form-group .input-text[data-v-e33628c6] {\n  padding-right: 10px;\n}\n.add-seance-form .exercices .lst-exercices .exercice-item .exercice-match .details-match .items-modifiables .form-group .input-text textarea[data-v-e33628c6] {\n  height: 124px !important;\n}\n.add-seance-form .exercices .lst-exercices .exercice-item .exercice-match .description-match[data-v-e33628c6] {\n  padding-top: 10px;\n}\n.add-seance-form .exercices .lst-exercices .exercice-item .actions[data-v-e33628c6] {\n  height: 50px;\n  margin-top: 12px;\n}\n.add-seance-form .exercices .lst-exercices .exercice-item .actions button[data-v-e33628c6] {\n  float: right;\n}\n.add-seance-form .exercices .lst-exercices .exercice-item .details-exe .principe-exe[data-v-e33628c6] {\n  border-left: 8px solid #03aca4;\n  background-color: #F3F3F3;\n  padding: 8px;\n  min-height: 40px;\n}\n.add-seance-form .exercices .lst-exercices .exercice-item .details-exe .principe-exe h5[data-v-e33628c6] {\n  margin-top: 2px;\n}\n.add-seance-form .exercices .lst-exercices .exercice-item .details-exe .items-modifiables[data-v-e33628c6] {\n  display: flex;\n  padding-top: 10px;\n}\n.add-seance-form .exercices .lst-exercices .exercice-item .details-exe .items-modifiables .form-group[data-v-e33628c6] {\n  margin-right: 10px;\n}\n.add-seance-form .exercices .lst-exercices .exercice-item .image-exe[data-v-e33628c6] {\n  margin-top: 4px;\n}\n.add-seance-form .exercices .lst-exercices .exercice-item .image-exe img[data-v-e33628c6] {\n  width: 100%;\n  height: 220px;\n}", ""]);
+exports.push([module.i, ".form-control[data-v-e33628c6] {\n  border: none;\n  border-bottom: 2px solid #03aca4;\n  border-right: 1px solid #F3F3F3;\n}\n.form-group.input-sm .input-text[data-v-e33628c6], .form-group.input-sm .date-time-picker[data-v-e33628c6] {\n  width: 100%;\n}\n@media screen and (min-width: 768px) {\n.form-group.input-sm .input-text[data-v-e33628c6], .form-group.input-sm .date-time-picker[data-v-e33628c6] {\n    width: 33.3%;\n}\n}\n.form-group .temps-input[data-v-e33628c6] {\n  display: flex;\n}\n.form-group .select-form[data-v-e33628c6] {\n  width: 100%;\n  height: 30px;\n  border: none;\n  border-bottom: 2px solid #03aca4;\n  border-right: 1px solid #F3F3F3;\n}\n.form-group .select-form[data-v-e33628c6]:focus {\n  outline: none;\n}\n.temps-chexbox > div[data-v-e33628c6] {\n  flex: 1;\n  padding-left: 5px;\n}\n.temps-chexbox[data-v-e33628c6] {\n  display: flex;\n  flex-flow: row wrap;\n}\n.temps-chexbox .type-item[data-v-e33628c6] {\n  height: auto;\n}\n.temps-chexbox .type-item .icon-exercice[data-v-e33628c6] {\n  bottom: 0;\n  position: absolute;\n}\n.temps-chexbox .type-item input[type=radio][data-v-e33628c6] {\n  display: none;\n}\n.temps-chexbox .type-item input[type=radio]:not(:disabled) ~ label[data-v-e33628c6] {\n  cursor: pointer;\n}\n.temps-chexbox .type-item input[type=radio]:disabled ~ label[data-v-e33628c6] {\n  color: #bcc2bf;\n  border-color: #bcc2bf;\n  box-shadow: none;\n  cursor: not-allowed;\n}\n.temps-chexbox .type-item label[data-v-e33628c6] {\n  height: 2.4rem;\n  width: 2.4rem;\n  display: block;\n  background: white;\n  border: 1px solid #03aca4;\n  border-radius: 12px;\n  padding: 2px;\n  text-align: center;\n  margin-bottom: 0 !important;\n  box-shadow: 0px 3px 10px -2px rgba(161, 170, 166, 0.5);\n  position: relative;\n}\n.temps-chexbox .type-item label .details-type[data-v-e33628c6] {\n  margin-top: 5px;\n}\n.temps-chexbox .type-item input[type=radio]:checked + label[data-v-e33628c6] {\n  background: #03aca4;\n  color: white;\n  box-shadow: 0px 0px 20px #F3F3F3;\n}\n.temps-chexbox .type-item input[type=radio]:checked + label i[data-v-e33628c6] {\n  color: white;\n}\n.temps-chexbox .type-item p[data-v-e33628c6] {\n  font-weight: 900;\n  margin-bottom: 0 !important;\n}\n.error[data-v-e33628c6] {\n  color: red;\n  font-weight: 600;\n}\n.input-error[data-v-e33628c6] {\n  border-bottom: 2px solid red;\n}\n.input-error[data-v-e33628c6]:focus {\n  border-color: red;\n  box-shadow: 0 0 0 0.2rem rgba(255, 0, 0, 0.2);\n}\n.add-seance-form .exercices .btn-action-exercices[data-v-e33628c6] {\n  height: 35px;\n}\n.add-seance-form .exercices .btn-action-exercices .btns[data-v-e33628c6] {\n  float: right;\n}\n.add-seance-form .exercices .details-exercice-modal[data-v-e33628c6] {\n  float: right;\n  margin-right: 10px;\n}\n.add-seance-form .exercices .lst-exercices[data-v-e33628c6] {\n  padding: 0 10px 10px 10px;\n  border: 1px solid #ced4da;\n  margin-top: 7px;\n  height: auto;\n}\n.add-seance-form .exercices .lst-exercices.lst-vide[data-v-e33628c6] {\n  min-height: 409px;\n}\n.add-seance-form .exercices .lst-exercices .aucun-exercice[data-v-e33628c6] {\n  text-align: center;\n  margin-top: 170px;\n  color: #ced4da;\n}\n.add-seance-form .exercices .lst-exercices .exercice-item[data-v-e33628c6] {\n  margin-top: 7px;\n  border-radius: 0 !important;\n  height: auto;\n  border-bottom: 1px solid #ced4da;\n}\n.add-seance-form .exercices .lst-exercices .exercice-item .exercice-match .details-match .principe-exe[data-v-e33628c6] {\n  border-left: 8px solid #03aca4;\n  background-color: #F3F3F3;\n  padding: 8px;\n  min-height: 40px;\n}\n.add-seance-form .exercices .lst-exercices .exercice-item .exercice-match .details-match .principe-exe h5[data-v-e33628c6] {\n  margin-top: 2px;\n}\n.add-seance-form .exercices .lst-exercices .exercice-item .exercice-match .details-match .items-modifiables[data-v-e33628c6] {\n  display: flex;\n  padding-top: 10px;\n}\n.add-seance-form .exercices .lst-exercices .exercice-item .exercice-match .details-match .items-modifiables .form-group[data-v-e33628c6] {\n  margin-right: 10px;\n}\n.add-seance-form .exercices .lst-exercices .exercice-item .exercice-match .details-match .items-modifiables .form-group .input-text[data-v-e33628c6] {\n  padding-right: 10px;\n}\n.add-seance-form .exercices .lst-exercices .exercice-item .exercice-match .details-match .items-modifiables .form-group .input-text textarea[data-v-e33628c6] {\n  height: 124px !important;\n}\n.add-seance-form .exercices .lst-exercices .exercice-item .exercice-match .description-match[data-v-e33628c6] {\n  padding-top: 10px;\n}\n.add-seance-form .exercices .lst-exercices .exercice-item .actions[data-v-e33628c6] {\n  height: 50px;\n  margin-top: 12px;\n}\n.add-seance-form .exercices .lst-exercices .exercice-item .actions button[data-v-e33628c6] {\n  float: right;\n}\n.add-seance-form .exercices .lst-exercices .exercice-item .details-exe .principe-exe[data-v-e33628c6] {\n  border-left: 8px solid #03aca4;\n  background-color: #F3F3F3;\n  padding: 8px;\n  min-height: 40px;\n}\n.add-seance-form .exercices .lst-exercices .exercice-item .details-exe .principe-exe h5[data-v-e33628c6] {\n  margin-top: 2px;\n}\n.add-seance-form .exercices .lst-exercices .exercice-item .details-exe .items-modifiables[data-v-e33628c6] {\n  display: flex;\n  padding-top: 10px;\n}\n.add-seance-form .exercices .lst-exercices .exercice-item .details-exe .items-modifiables .form-group[data-v-e33628c6] {\n  margin-right: 10px;\n}\n.add-seance-form .exercices .lst-exercices .exercice-item .image-exe[data-v-e33628c6] {\n  margin-top: 4px;\n}\n.add-seance-form .exercices .lst-exercices .exercice-item .image-exe img[data-v-e33628c6] {\n  width: 100%;\n  height: 220px;\n}", ""]);
 
 // exports
 
@@ -10084,7 +10553,7 @@ exports = module.exports = __webpack_require__(/*! ../../../node_modules/css-loa
 
 
 // module
-exports.push([module.i, ".form-control[data-v-90683a7e] {\n  border: none;\n  border-bottom: 2px solid #03aca4;\n  border-right: 1px solid #F3F3F3;\n}\n.form-group.input-sm .input-text[data-v-90683a7e], .form-group.input-sm .date-time-picker[data-v-90683a7e] {\n  width: 100%;\n}\n@media screen and (min-width: 768px) {\n.form-group.input-sm .input-text[data-v-90683a7e], .form-group.input-sm .date-time-picker[data-v-90683a7e] {\n    width: 33.3%;\n}\n}\n.form-group .temps-input[data-v-90683a7e] {\n  display: flex;\n}\n.temps-chexbox > div[data-v-90683a7e] {\n  flex: 1;\n  padding-left: 5px;\n}\n.temps-chexbox[data-v-90683a7e] {\n  display: flex;\n  flex-flow: row wrap;\n}\n.temps-chexbox .type-item[data-v-90683a7e] {\n  height: auto;\n}\n.temps-chexbox .type-item .icon-exercice[data-v-90683a7e] {\n  bottom: 0;\n  position: absolute;\n}\n.temps-chexbox .type-item input[type=radio][data-v-90683a7e] {\n  display: none;\n}\n.temps-chexbox .type-item input[type=radio]:not(:disabled) ~ label[data-v-90683a7e] {\n  cursor: pointer;\n}\n.temps-chexbox .type-item input[type=radio]:disabled ~ label[data-v-90683a7e] {\n  color: #bcc2bf;\n  border-color: #bcc2bf;\n  box-shadow: none;\n  cursor: not-allowed;\n}\n.temps-chexbox .type-item label[data-v-90683a7e] {\n  height: 2.4rem;\n  width: 2.4rem;\n  display: block;\n  background: white;\n  border: 1px solid #03aca4;\n  border-radius: 0;\n  padding: 2px;\n  text-align: center;\n  margin-bottom: 0 !important;\n  box-shadow: 0px 3px 10px -2px rgba(161, 170, 166, 0.5);\n  position: relative;\n}\n.temps-chexbox .type-item label .details-type[data-v-90683a7e] {\n  margin-top: 5px;\n}\n.temps-chexbox .type-item input[type=radio]:checked + label[data-v-90683a7e] {\n  background: #03aca4;\n  color: white;\n  box-shadow: 0px 0px 20px #F3F3F3;\n}\n.temps-chexbox .type-item input[type=radio]:checked + label i[data-v-90683a7e] {\n  color: white;\n}\n.temps-chexbox .type-item p[data-v-90683a7e] {\n  font-weight: 900;\n  margin-bottom: 0 !important;\n}\n.error[data-v-90683a7e] {\n  color: red;\n  font-weight: 600;\n}\n.input-error[data-v-90683a7e] {\n  border-bottom: 2px solid red;\n}\n.input-error[data-v-90683a7e]:focus {\n  border-color: red;\n  box-shadow: 0 0 0 0.2rem rgba(255, 0, 0, 0.2);\n}\n.image-exercice[data-v-90683a7e] {\n  width: inherit;\n  height: 530px;\n}\n.image-exercice img[data-v-90683a7e] {\n  width: inherit;\n}\n.details-items-info[data-v-90683a7e] {\n  background-color: #F3F3F3;\n  box-shadow: 0 2px 3px -1px #DCDCDC;\n}\n.details-items-info div[data-v-90683a7e] {\n  border-right: 1px solid #ededed;\n  line-height: 2;\n}\n.details-items-info div p.text[data-v-90683a7e] {\n  font-weight: 300;\n  font-size: 10px;\n  letter-spacing: 1px;\n  margin: 0;\n  color: #7D8693;\n  font-family: Roboto, sans-serif;\n  /*padding-bottom: 0;\n  border-bottom: 1px solid #b81752;*/\n}\n.details-items-info div p.value[data-v-90683a7e] {\n  margin: 0;\n  font-size: 16px;\n  font-weight: 600;\n  color: #000;\n}\n.detail[data-v-90683a7e] {\n  height: 530px;\n}\n.p-flex[data-v-90683a7e] {\n  padding: 10px;\n  text-align: center;\n  width: 180px;\n  height: 80px;\n  /*border: 1px solid  #17a2b8;*/\n}\n.sous-principes[data-v-90683a7e] {\n  font-size: 20px;\n  font-weight: 300;\n  color: black;\n}\n.sous-principes .titre[data-v-90683a7e] {\n  font-weight: 600;\n}\n.details-exercice p[data-v-90683a7e] {\n  font-size: 16px;\n}\n.description-exercice[data-v-90683a7e] {\n  margin-top: 30px;\n  margin-bottom: 30px;\n}\n.bloc-info[data-v-90683a7e] {\n  box-shadow: 0 2px 3px -1px #DCDCDC;\n  border-bottom: 2px solid #F3F3F3;\n}\n.bloc-info h5[data-v-90683a7e] {\n  border-left: 5px solid #b81752;\n  padding-left: 9px;\n}\n.bloc-sm[data-v-90683a7e] {\n  margin-top: 20px;\n  height: auto;\n}\n.video[data-v-90683a7e], .url[data-v-90683a7e] {\n  margin-top: 20px;\n  width: inherit;\n}\n.video iframe[data-v-90683a7e] {\n  width: inherit;\n}\n.actions-exercice-detail[data-v-90683a7e] {\n  margin-bottom: 20px;\n  height: 80px;\n}\n.actions-exercice-detail .btns[data-v-90683a7e] {\n  float: right;\n}\n.actions-exercice-detail .btn-mes-exercices[data-v-90683a7e] {\n  float: left;\n}\n.bloc-detail-md[data-v-90683a7e] {\n  margin-top: 20px;\n}\n.variantes .variante[data-v-90683a7e] {\n  box-shadow: 0 2px 3px -1px #DCDCDC;\n  height: auto;\n  margin-top: 20px;\n}\n.variantes .variante-header h5.float-left[data-v-90683a7e] {\n  border-left: 5px solid #b81752;\n  padding-left: 9px;\n}\n.variantes .variante-header h5.time[data-v-90683a7e] {\n  margin-right: 11px;\n}\n.variantes .variante-body[data-v-90683a7e] {\n  padding-bottom: 2px;\n}\n.add-seance-form .btn-action-sauvegarder[data-v-90683a7e] {\n  margin-top: 60px;\n  height: 40px;\n  display: block !important;\n}\n.add-seance-form .btn-action-sauvegarder .btn-sauvegarder[data-v-90683a7e] {\n  float: right;\n}\n.update-exercice-form .btn-action-sauvegarder[data-v-90683a7e] {\n  margin-top: 60px;\n  height: 40px;\n  display: block !important;\n}\n.update-exercice-form .btn-action-sauvegarder .btn-sauvegarder[data-v-90683a7e] {\n  float: right;\n}\n.suggestions-exercices[data-v-90683a7e] {\n  margin-top: 20px;\n  border-bottom: 2px solid #F3F3F3;\n  box-shadow: 0 2px 3px -1px #DCDCDC;\n  border-top: 1px solid #F3F3F3;\n  padding-bottom: 10px;\n  padding-top: 10px;\n}\n.suggestions-exercices .lst-suggestions[data-v-90683a7e] {\n  position: relative;\n  display: flex;\n}\n.suggestions-exercices .lst-suggestions .lien-suggestion[data-v-90683a7e] {\n  text-decoration: none;\n  color: black;\n  margin-right: 7px;\n}\n.suggestions-exercices .suggestion-item[data-v-90683a7e] {\n  padding: 5px;\n  width: 320px;\n  height: 300px;\n  background-color: #F3F3F3;\n  position: relative;\n}\n.suggestions-exercices .suggestion-item .time[data-v-90683a7e] {\n  position: absolute;\n  bottom: 0;\n}\n.suggestions-exercices .suggestion-item .principe[data-v-90683a7e] {\n  margin-top: 5px;\n}\n.lien-suggestion[data-v-90683a7e]:last-child {\n  margin-right: 0px !important;\n}\n.suggestions-exercices .suggestion-item .img-suggestion[data-v-90683a7e] {\n  width: 100%;\n  height: 200px;\n}\n.suggestions-exercices .suggestion-item img[data-v-90683a7e] {\n  width: inherit;\n  height: inherit;\n}\n@media screen and (max-width: 480px) {\n.actions-exercice-detail .btn-sauvegarder1[data-v-90683a7e] {\n    display: none;\n}\n.btn-action-sauvegarder[data-v-90683a7e] {\n    display: block;\n    margin-top: 60px;\n    height: 40px;\n}\n.actions-exercice-detail[data-v-90683a7e] {\n    height: auto;\n}\n.actions-exercice-detail .btn-mes-exercices[data-v-90683a7e] {\n    float: none;\n}\n.actions-exercice-detail .btns[data-v-90683a7e] {\n    float: none;\n    margin-top: 10px;\n}\n.actions-exercice-detail .btns .btn-soccer-coach-action[data-v-90683a7e] {\n    width: 100%;\n    margin-bottom: 2px;\n}\n.image-exercice[data-v-90683a7e] {\n    margin-top: 10px;\n    height: auto;\n}\n.details-items-info div p.text[data-v-90683a7e] {\n    font-size: 9px;\n}\n.details-items-info div p.value[data-v-90683a7e] {\n    font-size: 13px;\n}\n.detail[data-v-90683a7e] {\n    height: auto;\n}\n}\n.add-variables[data-v-90683a7e] {\n  margin-top: 20px;\n}\n.add-variables h5[data-v-90683a7e] {\n  margin-bottom: 0;\n}\n.add-variables .form-add-variable form button[data-v-90683a7e] {\n  margin-top: 20px;\n  float: right;\n}\n.add-variables .form-add-variable form textarea[data-v-90683a7e] {\n  height: 234px !important;\n}\n.add-variables .form-add-variable .btn-annuler[data-v-90683a7e] {\n  margin-left: 5px;\n}\n.add-variables .form-add-variable .titre-variantes[data-v-90683a7e] {\n  font-size: 0.9rem;\n  font-weight: 700;\n}\n.add-variables .form-add-variable .lst-variables[data-v-90683a7e] {\n  min-height: 409px;\n  padding: 0 10px 10px 10px;\n  border: 1px solid #ced4da;\n  margin-top: 7px;\n}\n.add-variables .form-add-variable .lst-variables .aucune-variante[data-v-90683a7e] {\n  text-align: center;\n  margin-top: 170px;\n  color: #ced4da;\n}\n.add-variables .form-add-variable .lst-variables .variante-item[data-v-90683a7e] {\n  margin-top: 7px;\n  border-radius: 0 !important;\n  height: auto;\n}\n.add-variables .form-add-variable .lst-variables .variante-item .item-header[data-v-90683a7e] {\n  border-left: 8px solid #03aca4;\n  border-top: 1px solid #03aca4;\n  border-right: 1px solid #03aca4;\n  border-bottom: 1px solid #03aca4;\n  height: 40px;\n  padding-left: 10px;\n  background-color: white;\n  padding-top: 6px;\n  padding-right: 18px;\n}\n.add-variables .form-add-variable .lst-variables .variante-item .item-header[data-v-90683a7e]:first-child {\n  border-radius: 0;\n}\n.add-variables .form-add-variable .lst-variables .variante-item .item-header .btn-delete[data-v-90683a7e] {\n  float: right;\n  border: 0;\n}\n.add-variables .form-add-variable .lst-variables .variante-item .item-body[data-v-90683a7e] {\n  height: auto;\n  border-left: 1px solid #03aca4;\n  border-right: 1px solid #03aca4;\n  border-bottom: 1px solid #03aca4;\n  padding: 18px;\n}\n.add-variables .form-add-variable .lst-variables .variante-item .item-body.row[data-v-90683a7e] {\n  height: auto;\n  margin-left: 0;\n  margin-right: 0;\n}\n.add-variables .form-add-variable .lst-variables .variante-item .item-body .img-variante img[data-v-90683a7e] {\n  width: inherit;\n  height: 318px;\n}", ""]);
+exports.push([module.i, ".form-control[data-v-90683a7e] {\n  border: none;\n  border-bottom: 2px solid #03aca4;\n  border-right: 1px solid #F3F3F3;\n}\n.form-group.input-sm .input-text[data-v-90683a7e], .form-group.input-sm .date-time-picker[data-v-90683a7e] {\n  width: 100%;\n}\n@media screen and (min-width: 768px) {\n.form-group.input-sm .input-text[data-v-90683a7e], .form-group.input-sm .date-time-picker[data-v-90683a7e] {\n    width: 33.3%;\n}\n}\n.form-group .temps-input[data-v-90683a7e] {\n  display: flex;\n}\n.form-group .select-form[data-v-90683a7e] {\n  width: 100%;\n  height: 30px;\n  border: none;\n  border-bottom: 2px solid #03aca4;\n  border-right: 1px solid #F3F3F3;\n}\n.form-group .select-form[data-v-90683a7e]:focus {\n  outline: none;\n}\n.temps-chexbox > div[data-v-90683a7e] {\n  flex: 1;\n  padding-left: 5px;\n}\n.temps-chexbox[data-v-90683a7e] {\n  display: flex;\n  flex-flow: row wrap;\n}\n.temps-chexbox .type-item[data-v-90683a7e] {\n  height: auto;\n}\n.temps-chexbox .type-item .icon-exercice[data-v-90683a7e] {\n  bottom: 0;\n  position: absolute;\n}\n.temps-chexbox .type-item input[type=radio][data-v-90683a7e] {\n  display: none;\n}\n.temps-chexbox .type-item input[type=radio]:not(:disabled) ~ label[data-v-90683a7e] {\n  cursor: pointer;\n}\n.temps-chexbox .type-item input[type=radio]:disabled ~ label[data-v-90683a7e] {\n  color: #bcc2bf;\n  border-color: #bcc2bf;\n  box-shadow: none;\n  cursor: not-allowed;\n}\n.temps-chexbox .type-item label[data-v-90683a7e] {\n  height: 2.4rem;\n  width: 2.4rem;\n  display: block;\n  background: white;\n  border: 1px solid #03aca4;\n  border-radius: 12px;\n  padding: 2px;\n  text-align: center;\n  margin-bottom: 0 !important;\n  box-shadow: 0px 3px 10px -2px rgba(161, 170, 166, 0.5);\n  position: relative;\n}\n.temps-chexbox .type-item label .details-type[data-v-90683a7e] {\n  margin-top: 5px;\n}\n.temps-chexbox .type-item input[type=radio]:checked + label[data-v-90683a7e] {\n  background: #03aca4;\n  color: white;\n  box-shadow: 0px 0px 20px #F3F3F3;\n}\n.temps-chexbox .type-item input[type=radio]:checked + label i[data-v-90683a7e] {\n  color: white;\n}\n.temps-chexbox .type-item p[data-v-90683a7e] {\n  font-weight: 900;\n  margin-bottom: 0 !important;\n}\n.error[data-v-90683a7e] {\n  color: red;\n  font-weight: 600;\n}\n.input-error[data-v-90683a7e] {\n  border-bottom: 2px solid red;\n}\n.input-error[data-v-90683a7e]:focus {\n  border-color: red;\n  box-shadow: 0 0 0 0.2rem rgba(255, 0, 0, 0.2);\n}\n.image-exercice[data-v-90683a7e] {\n  width: inherit;\n  height: 530px;\n}\n.image-exercice img[data-v-90683a7e] {\n  width: inherit;\n}\n.details-items-info[data-v-90683a7e] {\n  background-color: #F3F3F3;\n  box-shadow: 0 2px 3px -1px #DCDCDC;\n}\n.details-items-info div[data-v-90683a7e] {\n  border-right: 1px solid #ededed;\n  line-height: 2;\n}\n.details-items-info div p.text[data-v-90683a7e] {\n  font-weight: 300;\n  font-size: 10px;\n  letter-spacing: 1px;\n  margin: 0;\n  color: #7D8693;\n  font-family: Roboto, sans-serif;\n  /*padding-bottom: 0;\n  border-bottom: 1px solid #b81752;*/\n}\n.details-items-info div p.value[data-v-90683a7e] {\n  margin: 0;\n  font-size: 16px;\n  font-weight: 600;\n  color: #000;\n}\n.detail[data-v-90683a7e] {\n  height: 530px;\n}\n.p-flex[data-v-90683a7e] {\n  padding: 10px;\n  text-align: center;\n  width: 180px;\n  /*border: 1px solid  #17a2b8;*/\n}\n.sous-principes[data-v-90683a7e] {\n  font-size: 20px;\n  font-weight: 300;\n  color: black;\n}\n.sous-principes .titre[data-v-90683a7e] {\n  font-weight: 600;\n}\n.details-exercice p[data-v-90683a7e] {\n  font-size: 16px;\n}\n.description-exercice[data-v-90683a7e] {\n  margin-top: 30px;\n  margin-bottom: 30px;\n}\n.bloc-info[data-v-90683a7e] {\n  box-shadow: 0 2px 3px -1px #DCDCDC;\n  border-bottom: 2px solid #F3F3F3;\n}\n.bloc-info h5[data-v-90683a7e] {\n  border-left: 5px solid #b81752;\n  padding-left: 9px;\n}\n.bloc-sm[data-v-90683a7e] {\n  margin-top: 20px;\n  height: auto;\n}\n.video[data-v-90683a7e], .url[data-v-90683a7e] {\n  margin-top: 20px;\n  width: inherit;\n}\n.video iframe[data-v-90683a7e] {\n  width: inherit;\n}\n.actions-exercice-detail[data-v-90683a7e] {\n  margin-bottom: 20px;\n  height: 80px;\n}\n.actions-exercice-detail .btns[data-v-90683a7e] {\n  float: right;\n}\n.actions-exercice-detail .btn-mes-exercices[data-v-90683a7e] {\n  float: left;\n}\n.bloc-detail-md[data-v-90683a7e] {\n  margin-top: 20px;\n}\n.variantes .variante[data-v-90683a7e] {\n  box-shadow: 0 2px 3px -1px #DCDCDC;\n  height: auto;\n  margin-top: 20px;\n}\n.variantes .variante-header h5.float-left[data-v-90683a7e] {\n  border-left: 5px solid #b81752;\n  padding-left: 9px;\n}\n.variantes .variante-header h5.time[data-v-90683a7e] {\n  margin-right: 11px;\n}\n.variantes .variante-body[data-v-90683a7e] {\n  padding-bottom: 2px;\n}\n.add-seance-form .btn-action-sauvegarder[data-v-90683a7e] {\n  margin-top: 60px;\n  height: 40px;\n  display: block !important;\n}\n.add-seance-form .btn-action-sauvegarder .btn-sauvegarder[data-v-90683a7e] {\n  float: right;\n}\n.update-exercice-form .btn-action-sauvegarder[data-v-90683a7e] {\n  margin-top: 60px;\n  height: 40px;\n  display: block !important;\n}\n.update-exercice-form .btn-action-sauvegarder .btn-sauvegarder[data-v-90683a7e] {\n  float: right;\n}\n.suggestions-exercices[data-v-90683a7e] {\n  margin-top: 20px;\n  border-bottom: 2px solid #F3F3F3;\n  box-shadow: 0 2px 3px -1px #DCDCDC;\n  border-top: 1px solid #F3F3F3;\n  padding-bottom: 10px;\n  padding-top: 10px;\n}\n.suggestions-exercices .lst-suggestions[data-v-90683a7e] {\n  position: relative;\n  display: flex;\n}\n.suggestions-exercices .lst-suggestions .lien-suggestion[data-v-90683a7e] {\n  text-decoration: none;\n  color: black;\n  margin-right: 7px;\n}\n.suggestions-exercices .suggestion-item[data-v-90683a7e] {\n  padding: 5px;\n  width: 320px;\n  height: 300px;\n  background-color: #F3F3F3;\n  position: relative;\n}\n.suggestions-exercices .suggestion-item .time[data-v-90683a7e] {\n  position: absolute;\n  bottom: 0;\n}\n.suggestions-exercices .suggestion-item .principe[data-v-90683a7e] {\n  margin-top: 5px;\n}\n.lien-suggestion[data-v-90683a7e]:last-child {\n  margin-right: 0px !important;\n}\n.suggestions-exercices .suggestion-item .img-suggestion[data-v-90683a7e] {\n  width: 100%;\n  height: 200px;\n}\n.suggestions-exercices .suggestion-item img[data-v-90683a7e] {\n  width: inherit;\n  height: inherit;\n}\n@media screen and (max-width: 480px) {\n.actions-exercice-detail .btn-sauvegarder1[data-v-90683a7e] {\n    display: none;\n}\n.btn-action-sauvegarder[data-v-90683a7e] {\n    display: block;\n    margin-top: 60px;\n    height: 40px;\n}\n.actions-exercice-detail[data-v-90683a7e] {\n    height: auto;\n}\n.actions-exercice-detail .btn-mes-exercices[data-v-90683a7e] {\n    float: none;\n}\n.actions-exercice-detail .btns[data-v-90683a7e] {\n    float: none;\n    margin-top: 10px;\n}\n.actions-exercice-detail .btns .btn-soccer-coach-action[data-v-90683a7e] {\n    width: 100%;\n    margin-bottom: 2px;\n}\n.image-exercice[data-v-90683a7e] {\n    margin-top: 10px;\n    height: auto;\n}\n.details-items-info div p.text[data-v-90683a7e] {\n    font-size: 9px;\n}\n.details-items-info div p.value[data-v-90683a7e] {\n    font-size: 13px;\n}\n.detail[data-v-90683a7e] {\n    height: auto;\n}\n}\n.add-variables[data-v-90683a7e] {\n  margin-top: 20px;\n}\n.add-variables h5[data-v-90683a7e] {\n  margin-bottom: 0;\n}\n.add-variables .form-add-variable form button[data-v-90683a7e] {\n  margin-top: 20px;\n  float: right;\n}\n.add-variables .form-add-variable form textarea[data-v-90683a7e] {\n  height: 234px !important;\n}\n.add-variables .form-add-variable .btn-annuler[data-v-90683a7e] {\n  margin-left: 5px;\n}\n.add-variables .form-add-variable .titre-variantes[data-v-90683a7e] {\n  font-size: 0.9rem;\n  font-weight: 700;\n}\n.add-variables .form-add-variable .lst-variables[data-v-90683a7e] {\n  min-height: 409px;\n  padding: 0 10px 10px 10px;\n  border: 1px solid #ced4da;\n  margin-top: 7px;\n}\n.add-variables .form-add-variable .lst-variables .aucune-variante[data-v-90683a7e] {\n  text-align: center;\n  margin-top: 170px;\n  color: #ced4da;\n}\n.add-variables .form-add-variable .lst-variables .variante-item[data-v-90683a7e] {\n  margin-top: 7px;\n  border-radius: 0 !important;\n  height: auto;\n}\n.add-variables .form-add-variable .lst-variables .variante-item .item-header[data-v-90683a7e] {\n  border-left: 8px solid #03aca4;\n  border-top: 1px solid #03aca4;\n  border-right: 1px solid #03aca4;\n  border-bottom: 1px solid #03aca4;\n  height: 40px;\n  padding-left: 10px;\n  background-color: white;\n  padding-top: 6px;\n  padding-right: 18px;\n}\n.add-variables .form-add-variable .lst-variables .variante-item .item-header[data-v-90683a7e]:first-child {\n  border-radius: 0;\n}\n.add-variables .form-add-variable .lst-variables .variante-item .item-header .btn-delete[data-v-90683a7e] {\n  float: right;\n  border: 0;\n}\n.add-variables .form-add-variable .lst-variables .variante-item .item-body[data-v-90683a7e] {\n  height: auto;\n  border-left: 1px solid #03aca4;\n  border-right: 1px solid #03aca4;\n  border-bottom: 1px solid #03aca4;\n  padding: 18px;\n}\n.add-variables .form-add-variable .lst-variables .variante-item .item-body.row[data-v-90683a7e] {\n  height: auto;\n  margin-left: 0;\n  margin-right: 0;\n}\n.add-variables .form-add-variable .lst-variables .variante-item .item-body .img-variante img[data-v-90683a7e] {\n  width: inherit;\n  height: 318px;\n}", ""]);
 
 // exports
 
@@ -10198,7 +10667,7 @@ exports = module.exports = __webpack_require__(/*! ../../../node_modules/css-loa
 
 
 // module
-exports.push([module.i, ".objectifs-list-group[data-v-b3b43516] {\n  display: flex;\n  justify-content: center;\n  align-items: center;\n  width: 100%;\n}\n@media screen and (max-width: 1200px) {\n.objectifs-list-group[data-v-b3b43516] {\n    width: 100%;\n}\n}\n.objectifs-list-group ul[data-v-b3b43516] {\n  position: relative;\n  display: flex;\n  justify-content: center;\n  align-items: center;\n  flex-wrap: wrap;\n  border-radius: 0;\n  padding: 10px;\n  width: inherit;\n  border: 1px solid #03aca4;\n  box-shadow: 0px 3px 10px -2px rgba(161, 170, 166, 0.5);\n}\n.objectifs-list-group ul li[data-v-b3b43516] {\n  position: relative;\n  list-style: none;\n  text-align: center;\n  margin: 4px;\n}\n.objectifs-list-group ul li label[data-v-b3b43516] {\n  position: relative;\n  cursor: pointer;\n}\n.objectifs-list-group ul li label input[type=checkbox][data-v-b3b43516] {\n  position: absolute;\n  opacity: 0;\n}\n.objectifs-list-group ul li label :checked ~ .icon-box[data-v-b3b43516] {\n  /*box-shadow: inset -2px -2px 5px rgba(255, 255, 255, 1),\n      inset 3px 3px 5px rgba(0, 0, 0, 0.1);*/\n  background: #03aca4;\n  color: white;\n}\n.objectifs-list-group ul li label :checked ~ .icon-box .fa[data-v-b3b43516] {\n  transform: scale(0.95);\n}\n.objectifs-list-group ul li label .icon-box[data-v-b3b43516] {\n  padding: 4px;\n  display: flex;\n  border: 1px solid #03aca4;\n  justify-content: center;\n  align-items: center;\n  box-shadow: -2px -2px 5px white, 3px 3px 5px rgba(0, 0, 0, 0.1);\n}\n.objectifs-list-group ul li label .icon-box .fa[data-v-b3b43516] {\n  font-size: 30px;\n  color: #6a9bd8;\n}", ""]);
+exports.push([module.i, ".objectifs-list-group[data-v-b3b43516] {\n  display: flex;\n  justify-content: center;\n  align-items: center;\n  width: 100%;\n}\n@media screen and (max-width: 1200px) {\n.objectifs-list-group[data-v-b3b43516] {\n    width: 100%;\n}\n}\n.objectifs-list-group ul[data-v-b3b43516] {\n  position: relative;\n  display: flex;\n  justify-content: center;\n  align-items: center;\n  flex-wrap: wrap;\n  border-radius: 0;\n  padding: 10px;\n  width: inherit;\n  border: 1px solid #03aca4;\n  box-shadow: 0px 3px 10px -2px rgba(161, 170, 166, 0.5);\n}\n.objectifs-list-group ul li[data-v-b3b43516] {\n  position: relative;\n  list-style: none;\n  text-align: center;\n  margin: 4px;\n}\n.objectifs-list-group ul li label[data-v-b3b43516] {\n  position: relative;\n  cursor: pointer;\n}\n.objectifs-list-group ul li label input[type=checkbox][data-v-b3b43516] {\n  position: absolute;\n  opacity: 0;\n}\n.objectifs-list-group ul li label :checked ~ .icon-box[data-v-b3b43516] {\n  /*box-shadow: inset -2px -2px 5px rgba(255, 255, 255, 1),\n      inset 3px 3px 5px rgba(0, 0, 0, 0.1);*/\n  background: #03aca4;\n  color: white;\n}\n.objectifs-list-group ul li label :checked ~ .icon-box .fa[data-v-b3b43516] {\n  transform: scale(0.95);\n}\n.objectifs-list-group ul li label .icon-box[data-v-b3b43516] {\n  padding: 4px;\n  display: flex;\n  border: 1px solid #03aca4;\n  border-radius: 13px;\n  justify-content: center;\n  align-items: center;\n  box-shadow: -2px -2px 5px white, 3px 3px 5px rgba(0, 0, 0, 0.1);\n}\n.objectifs-list-group ul li label .icon-box .fa[data-v-b3b43516] {\n  font-size: 30px;\n  color: #6a9bd8;\n}", ""]);
 
 // exports
 
@@ -10236,7 +10705,7 @@ exports = module.exports = __webpack_require__(/*! ../../../node_modules/css-loa
 
 
 // module
-exports.push([module.i, "@charset \"UTF-8\";\n.type-exerice-group > div[data-v-15143299] {\n  flex: 1;\n  padding: 0.5rem;\n}\n.type-exerice-group[data-v-15143299] {\n  display: flex;\n  flex-flow: row wrap;\n  margin-top: 10px;\n}\n.type-exerice-group .type-item[data-v-15143299] {\n  height: 130px;\n}\n.type-exerice-group .type-item .details-type[data-v-15143299] {\n  margin-top: 10px;\n}\n.type-exerice-group .type-item .icon-exercice[data-v-15143299] {\n  bottom: 0;\n  position: absolute;\n}\n.type-exerice-group .type-item input[type=radio][data-v-15143299] {\n  display: none;\n}\n.type-exerice-group .type-item input[type=radio]:not(:disabled) ~ label[data-v-15143299] {\n  cursor: pointer;\n}\n.type-exerice-group .type-item input[type=radio]:disabled ~ label[data-v-15143299] {\n  color: #bcc2bf;\n  border-color: #bcc2bf;\n  box-shadow: none;\n  cursor: not-allowed;\n}\n.type-exerice-group .type-item label[data-v-15143299] {\n  height: 100%;\n  display: block;\n  background: white;\n  border: 1px solid #03aca4;\n  border-radius: 0;\n  padding: 1rem;\n  margin-bottom: 1rem;\n  text-align: center;\n  box-shadow: 0px 3px 10px -2px rgba(161, 170, 166, 0.5);\n  position: relative;\n}\n.type-exerice-group .type-item input[type=radio]:checked + label[data-v-15143299] {\n  background: #03aca4;\n  color: white;\n  box-shadow: 0px 0px 20px #F3F3F3;\n}\n.type-exerice-group .type-item input[type=radio]:checked + label[data-v-15143299]::after {\n  color: #3d3f43;\n  font-family: FontAwesome;\n  border: 2px solid #03aca4;\n  content: \"\\F00C\";\n  font-size: 24px;\n  position: absolute;\n  top: -25px;\n  left: 50%;\n  transform: translateX(-50%);\n  height: 50px;\n  width: 50px;\n  line-height: 50px;\n  text-align: center;\n  border-radius: 50%;\n  background: white;\n  box-shadow: 0px 2px 5px -2px rgba(0, 0, 0, 0.25);\n}\n.type-exerice-group .type-item input[type=radio]:checked + label i[data-v-15143299] {\n  color: white;\n}\n.type-exerice-group .type-item p[data-v-15143299] {\n  font-weight: 900;\n}\n@media only screen and (max-width: 700px) {\nsection[data-v-15143299] {\n    flex-direction: column;\n}\n}", ""]);
+exports.push([module.i, "@charset \"UTF-8\";\n.type-exerice-group > div[data-v-15143299] {\n  flex: 1;\n  padding: 0.5rem;\n}\n.type-exerice-group[data-v-15143299] {\n  display: flex;\n  flex-flow: row wrap;\n  margin-top: 10px;\n}\n.type-exerice-group .type-item[data-v-15143299] {\n  height: 130px;\n}\n.type-exerice-group .type-item .details-type[data-v-15143299] {\n  margin-top: 10px;\n}\n.type-exerice-group .type-item .icon-exercice[data-v-15143299] {\n  bottom: 0;\n  position: absolute;\n}\n.type-exerice-group .type-item input[type=radio][data-v-15143299] {\n  display: none;\n}\n.type-exerice-group .type-item input[type=radio]:not(:disabled) ~ label[data-v-15143299] {\n  cursor: pointer;\n}\n.type-exerice-group .type-item input[type=radio]:disabled ~ label[data-v-15143299] {\n  color: #bcc2bf;\n  border-color: #bcc2bf;\n  box-shadow: none;\n  cursor: not-allowed;\n}\n.type-exerice-group .type-item label[data-v-15143299] {\n  height: 100%;\n  display: block;\n  background: white;\n  border: 1px solid #03aca4;\n  border-radius: 10px;\n  padding: 1rem;\n  margin-bottom: 1rem;\n  text-align: center;\n  box-shadow: 0px 3px 10px -2px rgba(161, 170, 166, 0.5);\n  position: relative;\n}\n.type-exerice-group .type-item input[type=radio]:checked + label[data-v-15143299] {\n  background: #03aca4;\n  color: white;\n  box-shadow: 0px 0px 20px #F3F3F3;\n}\n.type-exerice-group .type-item input[type=radio]:checked + label[data-v-15143299]::after {\n  color: #3d3f43;\n  font-family: FontAwesome;\n  border: 2px solid #03aca4;\n  content: \"\\F00C\";\n  font-size: 24px;\n  position: absolute;\n  top: -25px;\n  left: 50%;\n  transform: translateX(-50%);\n  height: 50px;\n  width: 50px;\n  line-height: 50px;\n  text-align: center;\n  border-radius: 50%;\n  background: white;\n  box-shadow: 0px 2px 5px -2px rgba(0, 0, 0, 0.25);\n}\n.type-exerice-group .type-item input[type=radio]:checked + label i[data-v-15143299] {\n  color: white;\n}\n.type-exerice-group .type-item p[data-v-15143299] {\n  font-weight: 900;\n}\n@media only screen and (max-width: 700px) {\nsection[data-v-15143299] {\n    flex-direction: column;\n}\n}", ""]);
 
 // exports
 
@@ -10255,7 +10724,7 @@ exports = module.exports = __webpack_require__(/*! ../../../node_modules/css-loa
 
 
 // module
-exports.push([module.i, "@charset \"UTF-8\";\n.type-exerice-group > div[data-v-8789c680] {\n  flex: 1;\n  padding: 0.5rem;\n}\n.type-exerice-group[data-v-8789c680] {\n  display: flex;\n  flex-flow: row wrap;\n  margin-top: 10px;\n}\n.type-exerice-group .type-item[data-v-8789c680] {\n  height: 130px;\n}\n.type-exerice-group .type-item .details-type[data-v-8789c680] {\n  margin-top: 10px;\n}\n.type-exerice-group .type-item .icon-exercice[data-v-8789c680] {\n  bottom: 0;\n  position: absolute;\n}\n.type-exerice-group .type-item input[type=radio][data-v-8789c680] {\n  display: none;\n}\n.type-exerice-group .type-item input[type=radio]:not(:disabled) ~ label[data-v-8789c680] {\n  cursor: pointer;\n}\n.type-exerice-group .type-item input[type=radio]:disabled ~ label[data-v-8789c680] {\n  color: #bcc2bf;\n  border-color: #bcc2bf;\n  box-shadow: none;\n  cursor: not-allowed;\n}\n.type-exerice-group .type-item label[data-v-8789c680] {\n  height: 100%;\n  display: block;\n  background: white;\n  border: 1px solid #03aca4;\n  border-radius: 0;\n  padding: 1rem;\n  margin-bottom: 1rem;\n  text-align: center;\n  box-shadow: 0px 3px 10px -2px rgba(161, 170, 166, 0.5);\n  position: relative;\n}\n.type-exerice-group .type-item input[type=radio]:checked + label[data-v-8789c680] {\n  background: #03aca4;\n  color: white;\n  box-shadow: 0px 0px 20px #F3F3F3;\n}\n.type-exerice-group .type-item input[type=radio]:checked + label[data-v-8789c680]::after {\n  color: #3d3f43;\n  font-family: FontAwesome;\n  border: 2px solid #03aca4;\n  content: \"\\F00C\";\n  font-size: 24px;\n  position: absolute;\n  top: -25px;\n  left: 50%;\n  transform: translateX(-50%);\n  height: 50px;\n  width: 50px;\n  line-height: 50px;\n  text-align: center;\n  border-radius: 50%;\n  background: white;\n  box-shadow: 0px 2px 5px -2px rgba(0, 0, 0, 0.25);\n}\n.type-exerice-group .type-item input[type=radio]:checked + label i[data-v-8789c680] {\n  color: white;\n}\n.type-exerice-group .type-item p[data-v-8789c680] {\n  font-weight: 900;\n}\n@media only screen and (max-width: 700px) {\nsection[data-v-8789c680] {\n    flex-direction: column;\n}\n}", ""]);
+exports.push([module.i, "@charset \"UTF-8\";\n.type-exerice-group > div[data-v-8789c680] {\n  flex: 1;\n  padding: 0.5rem;\n}\n.type-exerice-group[data-v-8789c680] {\n  display: flex;\n  flex-flow: row wrap;\n  margin-top: 10px;\n}\n.type-exerice-group .type-item[data-v-8789c680] {\n  height: 130px;\n}\n.type-exerice-group .type-item .details-type[data-v-8789c680] {\n  margin-top: 10px;\n}\n.type-exerice-group .type-item .icon-exercice[data-v-8789c680] {\n  bottom: 0;\n  position: absolute;\n}\n.type-exerice-group .type-item input[type=radio][data-v-8789c680] {\n  display: none;\n}\n.type-exerice-group .type-item input[type=radio]:not(:disabled) ~ label[data-v-8789c680] {\n  cursor: pointer;\n}\n.type-exerice-group .type-item input[type=radio]:disabled ~ label[data-v-8789c680] {\n  color: #bcc2bf;\n  border-color: #bcc2bf;\n  box-shadow: none;\n  cursor: not-allowed;\n}\n.type-exerice-group .type-item label[data-v-8789c680] {\n  height: 100%;\n  display: block;\n  background: white;\n  border: 1px solid #03aca4;\n  border-radius: 10px;\n  padding: 1rem;\n  margin-bottom: 1rem;\n  text-align: center;\n  box-shadow: 0px 3px 10px -2px rgba(161, 170, 166, 0.5);\n  position: relative;\n}\n.type-exerice-group .type-item input[type=radio]:checked + label[data-v-8789c680] {\n  background: #03aca4;\n  color: white;\n  box-shadow: 0px 0px 20px #F3F3F3;\n}\n.type-exerice-group .type-item input[type=radio]:checked + label[data-v-8789c680]::after {\n  color: #3d3f43;\n  font-family: FontAwesome;\n  border: 2px solid #03aca4;\n  content: \"\\F00C\";\n  font-size: 24px;\n  position: absolute;\n  top: -25px;\n  left: 50%;\n  transform: translateX(-50%);\n  height: 50px;\n  width: 50px;\n  line-height: 50px;\n  text-align: center;\n  border-radius: 50%;\n  background: white;\n  box-shadow: 0px 2px 5px -2px rgba(0, 0, 0, 0.25);\n}\n.type-exerice-group .type-item input[type=radio]:checked + label i[data-v-8789c680] {\n  color: white;\n}\n.type-exerice-group .type-item p[data-v-8789c680] {\n  font-weight: 900;\n}\n@media only screen and (max-width: 700px) {\nsection[data-v-8789c680] {\n    flex-direction: column;\n}\n}", ""]);
 
 // exports
 
@@ -10274,7 +10743,7 @@ exports = module.exports = __webpack_require__(/*! ../../../node_modules/css-loa
 
 
 // module
-exports.push([module.i, ".form-control[data-v-ffb5a4de] {\n  border: none;\n  border-bottom: 2px solid #03aca4;\n  border-right: 1px solid #F3F3F3;\n}\n.form-group.input-sm .input-text[data-v-ffb5a4de], .form-group.input-sm .date-time-picker[data-v-ffb5a4de] {\n  width: 100%;\n}\n@media screen and (min-width: 768px) {\n.form-group.input-sm .input-text[data-v-ffb5a4de], .form-group.input-sm .date-time-picker[data-v-ffb5a4de] {\n    width: 33.3%;\n}\n}\n.form-group .temps-input[data-v-ffb5a4de] {\n  display: flex;\n}\n.temps-chexbox > div[data-v-ffb5a4de] {\n  flex: 1;\n  padding-left: 5px;\n}\n.temps-chexbox[data-v-ffb5a4de] {\n  display: flex;\n  flex-flow: row wrap;\n}\n.temps-chexbox .type-item[data-v-ffb5a4de] {\n  height: auto;\n}\n.temps-chexbox .type-item .icon-exercice[data-v-ffb5a4de] {\n  bottom: 0;\n  position: absolute;\n}\n.temps-chexbox .type-item input[type=radio][data-v-ffb5a4de] {\n  display: none;\n}\n.temps-chexbox .type-item input[type=radio]:not(:disabled) ~ label[data-v-ffb5a4de] {\n  cursor: pointer;\n}\n.temps-chexbox .type-item input[type=radio]:disabled ~ label[data-v-ffb5a4de] {\n  color: #bcc2bf;\n  border-color: #bcc2bf;\n  box-shadow: none;\n  cursor: not-allowed;\n}\n.temps-chexbox .type-item label[data-v-ffb5a4de] {\n  height: 2.4rem;\n  width: 2.4rem;\n  display: block;\n  background: white;\n  border: 1px solid #03aca4;\n  border-radius: 0;\n  padding: 2px;\n  text-align: center;\n  margin-bottom: 0 !important;\n  box-shadow: 0px 3px 10px -2px rgba(161, 170, 166, 0.5);\n  position: relative;\n}\n.temps-chexbox .type-item label .details-type[data-v-ffb5a4de] {\n  margin-top: 5px;\n}\n.temps-chexbox .type-item input[type=radio]:checked + label[data-v-ffb5a4de] {\n  background: #03aca4;\n  color: white;\n  box-shadow: 0px 0px 20px #F3F3F3;\n}\n.temps-chexbox .type-item input[type=radio]:checked + label i[data-v-ffb5a4de] {\n  color: white;\n}\n.temps-chexbox .type-item p[data-v-ffb5a4de] {\n  font-weight: 900;\n  margin-bottom: 0 !important;\n}\n.error[data-v-ffb5a4de] {\n  color: red;\n  font-weight: 600;\n}\n.input-error[data-v-ffb5a4de] {\n  border-bottom: 2px solid red;\n}\n.input-error[data-v-ffb5a4de]:focus {\n  border-color: red;\n  box-shadow: 0 0 0 0.2rem rgba(255, 0, 0, 0.2);\n}", ""]);
+exports.push([module.i, ".form-control[data-v-ffb5a4de] {\n  border: none;\n  border-bottom: 2px solid #03aca4;\n  border-right: 1px solid #F3F3F3;\n}\n.form-group.input-sm .input-text[data-v-ffb5a4de], .form-group.input-sm .date-time-picker[data-v-ffb5a4de] {\n  width: 100%;\n}\n@media screen and (min-width: 768px) {\n.form-group.input-sm .input-text[data-v-ffb5a4de], .form-group.input-sm .date-time-picker[data-v-ffb5a4de] {\n    width: 33.3%;\n}\n}\n.form-group .temps-input[data-v-ffb5a4de] {\n  display: flex;\n}\n.form-group .select-form[data-v-ffb5a4de] {\n  width: 100%;\n  height: 30px;\n  border: none;\n  border-bottom: 2px solid #03aca4;\n  border-right: 1px solid #F3F3F3;\n}\n.form-group .select-form[data-v-ffb5a4de]:focus {\n  outline: none;\n}\n.temps-chexbox > div[data-v-ffb5a4de] {\n  flex: 1;\n  padding-left: 5px;\n}\n.temps-chexbox[data-v-ffb5a4de] {\n  display: flex;\n  flex-flow: row wrap;\n}\n.temps-chexbox .type-item[data-v-ffb5a4de] {\n  height: auto;\n}\n.temps-chexbox .type-item .icon-exercice[data-v-ffb5a4de] {\n  bottom: 0;\n  position: absolute;\n}\n.temps-chexbox .type-item input[type=radio][data-v-ffb5a4de] {\n  display: none;\n}\n.temps-chexbox .type-item input[type=radio]:not(:disabled) ~ label[data-v-ffb5a4de] {\n  cursor: pointer;\n}\n.temps-chexbox .type-item input[type=radio]:disabled ~ label[data-v-ffb5a4de] {\n  color: #bcc2bf;\n  border-color: #bcc2bf;\n  box-shadow: none;\n  cursor: not-allowed;\n}\n.temps-chexbox .type-item label[data-v-ffb5a4de] {\n  height: 2.4rem;\n  width: 2.4rem;\n  display: block;\n  background: white;\n  border: 1px solid #03aca4;\n  border-radius: 12px;\n  padding: 2px;\n  text-align: center;\n  margin-bottom: 0 !important;\n  box-shadow: 0px 3px 10px -2px rgba(161, 170, 166, 0.5);\n  position: relative;\n}\n.temps-chexbox .type-item label .details-type[data-v-ffb5a4de] {\n  margin-top: 5px;\n}\n.temps-chexbox .type-item input[type=radio]:checked + label[data-v-ffb5a4de] {\n  background: #03aca4;\n  color: white;\n  box-shadow: 0px 0px 20px #F3F3F3;\n}\n.temps-chexbox .type-item input[type=radio]:checked + label i[data-v-ffb5a4de] {\n  color: white;\n}\n.temps-chexbox .type-item p[data-v-ffb5a4de] {\n  font-weight: 900;\n  margin-bottom: 0 !important;\n}\n.error[data-v-ffb5a4de] {\n  color: red;\n  font-weight: 600;\n}\n.input-error[data-v-ffb5a4de] {\n  border-bottom: 2px solid red;\n}\n.input-error[data-v-ffb5a4de]:focus {\n  border-color: red;\n  box-shadow: 0 0 0 0.2rem rgba(255, 0, 0, 0.2);\n}", ""]);
 
 // exports
 
@@ -10293,7 +10762,7 @@ exports = module.exports = __webpack_require__(/*! ../../../node_modules/css-loa
 
 
 // module
-exports.push([module.i, ".form-control[data-v-19d422ea] {\n  border: none;\n  border-bottom: 2px solid #03aca4;\n  border-right: 1px solid #F3F3F3;\n}\n.form-group.input-sm .input-text[data-v-19d422ea], .form-group.input-sm .date-time-picker[data-v-19d422ea] {\n  width: 100%;\n}\n@media screen and (min-width: 768px) {\n.form-group.input-sm .input-text[data-v-19d422ea], .form-group.input-sm .date-time-picker[data-v-19d422ea] {\n    width: 33.3%;\n}\n}\n.form-group .temps-input[data-v-19d422ea] {\n  display: flex;\n}\n.temps-chexbox > div[data-v-19d422ea] {\n  flex: 1;\n  padding-left: 5px;\n}\n.temps-chexbox[data-v-19d422ea] {\n  display: flex;\n  flex-flow: row wrap;\n}\n.temps-chexbox .type-item[data-v-19d422ea] {\n  height: auto;\n}\n.temps-chexbox .type-item .icon-exercice[data-v-19d422ea] {\n  bottom: 0;\n  position: absolute;\n}\n.temps-chexbox .type-item input[type=radio][data-v-19d422ea] {\n  display: none;\n}\n.temps-chexbox .type-item input[type=radio]:not(:disabled) ~ label[data-v-19d422ea] {\n  cursor: pointer;\n}\n.temps-chexbox .type-item input[type=radio]:disabled ~ label[data-v-19d422ea] {\n  color: #bcc2bf;\n  border-color: #bcc2bf;\n  box-shadow: none;\n  cursor: not-allowed;\n}\n.temps-chexbox .type-item label[data-v-19d422ea] {\n  height: 2.4rem;\n  width: 2.4rem;\n  display: block;\n  background: white;\n  border: 1px solid #03aca4;\n  border-radius: 0;\n  padding: 2px;\n  text-align: center;\n  margin-bottom: 0 !important;\n  box-shadow: 0px 3px 10px -2px rgba(161, 170, 166, 0.5);\n  position: relative;\n}\n.temps-chexbox .type-item label .details-type[data-v-19d422ea] {\n  margin-top: 5px;\n}\n.temps-chexbox .type-item input[type=radio]:checked + label[data-v-19d422ea] {\n  background: #03aca4;\n  color: white;\n  box-shadow: 0px 0px 20px #F3F3F3;\n}\n.temps-chexbox .type-item input[type=radio]:checked + label i[data-v-19d422ea] {\n  color: white;\n}\n.temps-chexbox .type-item p[data-v-19d422ea] {\n  font-weight: 900;\n  margin-bottom: 0 !important;\n}\n.error[data-v-19d422ea] {\n  color: red;\n  font-weight: 600;\n}\n.input-error[data-v-19d422ea] {\n  border-bottom: 2px solid red;\n}\n.input-error[data-v-19d422ea]:focus {\n  border-color: red;\n  box-shadow: 0 0 0 0.2rem rgba(255, 0, 0, 0.2);\n}\n.add-seance-form .date-time-picker[data-v-19d422ea] {\n  margin: 0;\n  border-bottom: 2px solid #03aca4;\n}\n.add-seance-form .date-time-picker .field .field-input[data-v-19d422ea] {\n  border: none !important;\n}\n@media screen and (max-width: 480px) {\n.add-seance-form .date-time-picker[data-v-19d422ea] {\n    width: 100%;\n}\n}\n.add-seance-form .exercices .btn-action-exercices[data-v-19d422ea] {\n  height: 35px;\n}\n.add-seance-form .exercices .btn-action-exercices .btns[data-v-19d422ea] {\n  float: right;\n}\n.add-seance-form .exercices .details-exercice-modal[data-v-19d422ea] {\n  float: right;\n  margin-right: 10px;\n}\n.add-seance-form .exercices .lst-exercices[data-v-19d422ea] {\n  padding: 0 10px 10px 10px;\n  border: 1px solid #ced4da;\n  margin-top: 7px;\n  height: auto;\n}\n.add-seance-form .exercices .lst-exercices.lst-vide[data-v-19d422ea] {\n  min-height: 409px;\n}\n.add-seance-form .exercices .lst-exercices .aucun-exercice[data-v-19d422ea] {\n  text-align: center;\n  margin-top: 170px;\n  color: #ced4da;\n}\n.add-seance-form .exercices .lst-exercices .exercice-item[data-v-19d422ea] {\n  margin-top: 7px;\n  border-radius: 0 !important;\n  height: auto;\n  border-bottom: 1px solid #ced4da;\n}\n.add-seance-form .exercices .lst-exercices .exercice-item .exercice-match .details-match .principe-exe[data-v-19d422ea] {\n  border-left: 8px solid #03aca4;\n  background-color: #F3F3F3;\n  padding: 8px;\n  min-height: 40px;\n}\n.add-seance-form .exercices .lst-exercices .exercice-item .exercice-match .details-match .principe-exe h5[data-v-19d422ea] {\n  margin-top: 2px;\n}\n.add-seance-form .exercices .lst-exercices .exercice-item .exercice-match .details-match .items-modifiables[data-v-19d422ea] {\n  display: flex;\n  padding-top: 10px;\n}\n.add-seance-form .exercices .lst-exercices .exercice-item .exercice-match .details-match .items-modifiables .form-group[data-v-19d422ea] {\n  margin-right: 10px;\n}\n.add-seance-form .exercices .lst-exercices .exercice-item .exercice-match .details-match .items-modifiables .form-group .input-text[data-v-19d422ea] {\n  padding-right: 10px;\n}\n.add-seance-form .exercices .lst-exercices .exercice-item .exercice-match .details-match .items-modifiables .form-group .input-text textarea[data-v-19d422ea] {\n  height: 124px !important;\n}\n.add-seance-form .exercices .lst-exercices .exercice-item .exercice-match .description-match[data-v-19d422ea] {\n  padding-top: 10px;\n}\n.add-seance-form .exercices .lst-exercices .exercice-item .actions[data-v-19d422ea] {\n  height: 50px;\n  margin-top: 12px;\n}\n.add-seance-form .exercices .lst-exercices .exercice-item .actions button[data-v-19d422ea] {\n  float: right;\n}\n.add-seance-form .exercices .lst-exercices .exercice-item .details-exe .principe-exe[data-v-19d422ea] {\n  border-left: 8px solid #03aca4;\n  background-color: #F3F3F3;\n  padding: 8px;\n  min-height: 40px;\n}\n.add-seance-form .exercices .lst-exercices .exercice-item .details-exe .principe-exe h5[data-v-19d422ea] {\n  margin-top: 2px;\n}\n.add-seance-form .exercices .lst-exercices .exercice-item .details-exe .items-modifiables[data-v-19d422ea] {\n  display: flex;\n  padding-top: 10px;\n}\n.add-seance-form .exercices .lst-exercices .exercice-item .details-exe .items-modifiables .form-group[data-v-19d422ea] {\n  margin-right: 10px;\n}\n.add-seance-form .exercices .lst-exercices .exercice-item .image-exe[data-v-19d422ea] {\n  margin-top: 4px;\n}\n.add-seance-form .exercices .lst-exercices .exercice-item .image-exe img[data-v-19d422ea] {\n  width: 100%;\n  height: 220px;\n}", ""]);
+exports.push([module.i, ".form-control[data-v-19d422ea] {\n  border: none;\n  border-bottom: 2px solid #03aca4;\n  border-right: 1px solid #F3F3F3;\n}\n.form-group.input-sm .input-text[data-v-19d422ea], .form-group.input-sm .date-time-picker[data-v-19d422ea] {\n  width: 100%;\n}\n@media screen and (min-width: 768px) {\n.form-group.input-sm .input-text[data-v-19d422ea], .form-group.input-sm .date-time-picker[data-v-19d422ea] {\n    width: 33.3%;\n}\n}\n.form-group .temps-input[data-v-19d422ea] {\n  display: flex;\n}\n.form-group .select-form[data-v-19d422ea] {\n  width: 100%;\n  height: 30px;\n  border: none;\n  border-bottom: 2px solid #03aca4;\n  border-right: 1px solid #F3F3F3;\n}\n.form-group .select-form[data-v-19d422ea]:focus {\n  outline: none;\n}\n.temps-chexbox > div[data-v-19d422ea] {\n  flex: 1;\n  padding-left: 5px;\n}\n.temps-chexbox[data-v-19d422ea] {\n  display: flex;\n  flex-flow: row wrap;\n}\n.temps-chexbox .type-item[data-v-19d422ea] {\n  height: auto;\n}\n.temps-chexbox .type-item .icon-exercice[data-v-19d422ea] {\n  bottom: 0;\n  position: absolute;\n}\n.temps-chexbox .type-item input[type=radio][data-v-19d422ea] {\n  display: none;\n}\n.temps-chexbox .type-item input[type=radio]:not(:disabled) ~ label[data-v-19d422ea] {\n  cursor: pointer;\n}\n.temps-chexbox .type-item input[type=radio]:disabled ~ label[data-v-19d422ea] {\n  color: #bcc2bf;\n  border-color: #bcc2bf;\n  box-shadow: none;\n  cursor: not-allowed;\n}\n.temps-chexbox .type-item label[data-v-19d422ea] {\n  height: 2.4rem;\n  width: 2.4rem;\n  display: block;\n  background: white;\n  border: 1px solid #03aca4;\n  border-radius: 12px;\n  padding: 2px;\n  text-align: center;\n  margin-bottom: 0 !important;\n  box-shadow: 0px 3px 10px -2px rgba(161, 170, 166, 0.5);\n  position: relative;\n}\n.temps-chexbox .type-item label .details-type[data-v-19d422ea] {\n  margin-top: 5px;\n}\n.temps-chexbox .type-item input[type=radio]:checked + label[data-v-19d422ea] {\n  background: #03aca4;\n  color: white;\n  box-shadow: 0px 0px 20px #F3F3F3;\n}\n.temps-chexbox .type-item input[type=radio]:checked + label i[data-v-19d422ea] {\n  color: white;\n}\n.temps-chexbox .type-item p[data-v-19d422ea] {\n  font-weight: 900;\n  margin-bottom: 0 !important;\n}\n.error[data-v-19d422ea] {\n  color: red;\n  font-weight: 600;\n}\n.input-error[data-v-19d422ea] {\n  border-bottom: 2px solid red;\n}\n.input-error[data-v-19d422ea]:focus {\n  border-color: red;\n  box-shadow: 0 0 0 0.2rem rgba(255, 0, 0, 0.2);\n}\n.add-seance-form .exercices .btn-action-exercices[data-v-19d422ea] {\n  height: 35px;\n}\n.add-seance-form .exercices .btn-action-exercices .btns[data-v-19d422ea] {\n  float: right;\n}\n.add-seance-form .exercices .details-exercice-modal[data-v-19d422ea] {\n  float: right;\n  margin-right: 10px;\n}\n.add-seance-form .exercices .lst-exercices[data-v-19d422ea] {\n  padding: 0 10px 10px 10px;\n  border: 1px solid #ced4da;\n  margin-top: 7px;\n  height: auto;\n}\n.add-seance-form .exercices .lst-exercices.lst-vide[data-v-19d422ea] {\n  min-height: 409px;\n}\n.add-seance-form .exercices .lst-exercices .aucun-exercice[data-v-19d422ea] {\n  text-align: center;\n  margin-top: 170px;\n  color: #ced4da;\n}\n.add-seance-form .exercices .lst-exercices .exercice-item[data-v-19d422ea] {\n  margin-top: 7px;\n  border-radius: 0 !important;\n  height: auto;\n  border-bottom: 1px solid #ced4da;\n}\n.add-seance-form .exercices .lst-exercices .exercice-item .exercice-match .details-match .principe-exe[data-v-19d422ea] {\n  border-left: 8px solid #03aca4;\n  background-color: #F3F3F3;\n  padding: 8px;\n  min-height: 40px;\n}\n.add-seance-form .exercices .lst-exercices .exercice-item .exercice-match .details-match .principe-exe h5[data-v-19d422ea] {\n  margin-top: 2px;\n}\n.add-seance-form .exercices .lst-exercices .exercice-item .exercice-match .details-match .items-modifiables[data-v-19d422ea] {\n  display: flex;\n  padding-top: 10px;\n}\n.add-seance-form .exercices .lst-exercices .exercice-item .exercice-match .details-match .items-modifiables .form-group[data-v-19d422ea] {\n  margin-right: 10px;\n}\n.add-seance-form .exercices .lst-exercices .exercice-item .exercice-match .details-match .items-modifiables .form-group .input-text[data-v-19d422ea] {\n  padding-right: 10px;\n}\n.add-seance-form .exercices .lst-exercices .exercice-item .exercice-match .details-match .items-modifiables .form-group .input-text textarea[data-v-19d422ea] {\n  height: 124px !important;\n}\n.add-seance-form .exercices .lst-exercices .exercice-item .exercice-match .description-match[data-v-19d422ea] {\n  padding-top: 10px;\n}\n.add-seance-form .exercices .lst-exercices .exercice-item .actions[data-v-19d422ea] {\n  height: 50px;\n  margin-top: 12px;\n}\n.add-seance-form .exercices .lst-exercices .exercice-item .actions button[data-v-19d422ea] {\n  float: right;\n}\n.add-seance-form .exercices .lst-exercices .exercice-item .details-exe .principe-exe[data-v-19d422ea] {\n  border-left: 8px solid #03aca4;\n  background-color: #F3F3F3;\n  padding: 8px;\n  min-height: 40px;\n}\n.add-seance-form .exercices .lst-exercices .exercice-item .details-exe .principe-exe h5[data-v-19d422ea] {\n  margin-top: 2px;\n}\n.add-seance-form .exercices .lst-exercices .exercice-item .details-exe .items-modifiables[data-v-19d422ea] {\n  display: flex;\n  padding-top: 10px;\n}\n.add-seance-form .exercices .lst-exercices .exercice-item .details-exe .items-modifiables .form-group[data-v-19d422ea] {\n  margin-right: 10px;\n}\n.add-seance-form .exercices .lst-exercices .exercice-item .image-exe[data-v-19d422ea] {\n  margin-top: 4px;\n}\n.add-seance-form .exercices .lst-exercices .exercice-item .image-exe img[data-v-19d422ea] {\n  width: 100%;\n  height: 220px;\n}", ""]);
 
 // exports
 
@@ -10312,7 +10781,7 @@ exports = module.exports = __webpack_require__(/*! ../../../../node_modules/css-
 
 
 // module
-exports.push([module.i, ".form-control[data-v-495b20da] {\n  border: none;\n  border-bottom: 2px solid #03aca4;\n  border-right: 1px solid #F3F3F3;\n}\n.form-group.input-sm .input-text[data-v-495b20da], .form-group.input-sm .date-time-picker[data-v-495b20da] {\n  width: 100%;\n}\n@media screen and (min-width: 768px) {\n.form-group.input-sm .input-text[data-v-495b20da], .form-group.input-sm .date-time-picker[data-v-495b20da] {\n    width: 33.3%;\n}\n}\n.form-group .temps-input[data-v-495b20da] {\n  display: flex;\n}\n.temps-chexbox > div[data-v-495b20da] {\n  flex: 1;\n  padding-left: 5px;\n}\n.temps-chexbox[data-v-495b20da] {\n  display: flex;\n  flex-flow: row wrap;\n}\n.temps-chexbox .type-item[data-v-495b20da] {\n  height: auto;\n}\n.temps-chexbox .type-item .icon-exercice[data-v-495b20da] {\n  bottom: 0;\n  position: absolute;\n}\n.temps-chexbox .type-item input[type=radio][data-v-495b20da] {\n  display: none;\n}\n.temps-chexbox .type-item input[type=radio]:not(:disabled) ~ label[data-v-495b20da] {\n  cursor: pointer;\n}\n.temps-chexbox .type-item input[type=radio]:disabled ~ label[data-v-495b20da] {\n  color: #bcc2bf;\n  border-color: #bcc2bf;\n  box-shadow: none;\n  cursor: not-allowed;\n}\n.temps-chexbox .type-item label[data-v-495b20da] {\n  height: 2.4rem;\n  width: 2.4rem;\n  display: block;\n  background: white;\n  border: 1px solid #03aca4;\n  border-radius: 0;\n  padding: 2px;\n  text-align: center;\n  margin-bottom: 0 !important;\n  box-shadow: 0px 3px 10px -2px rgba(161, 170, 166, 0.5);\n  position: relative;\n}\n.temps-chexbox .type-item label .details-type[data-v-495b20da] {\n  margin-top: 5px;\n}\n.temps-chexbox .type-item input[type=radio]:checked + label[data-v-495b20da] {\n  background: #03aca4;\n  color: white;\n  box-shadow: 0px 0px 20px #F3F3F3;\n}\n.temps-chexbox .type-item input[type=radio]:checked + label i[data-v-495b20da] {\n  color: white;\n}\n.temps-chexbox .type-item p[data-v-495b20da] {\n  font-weight: 900;\n  margin-bottom: 0 !important;\n}\n.error[data-v-495b20da] {\n  color: red;\n  font-weight: 600;\n}\n.input-error[data-v-495b20da] {\n  border-bottom: 2px solid red;\n}\n.input-error[data-v-495b20da]:focus {\n  border-color: red;\n  box-shadow: 0 0 0 0.2rem rgba(255, 0, 0, 0.2);\n}", ""]);
+exports.push([module.i, ".form-control[data-v-495b20da] {\n  border: none;\n  border-bottom: 2px solid #03aca4;\n  border-right: 1px solid #F3F3F3;\n}\n.form-group.input-sm .input-text[data-v-495b20da], .form-group.input-sm .date-time-picker[data-v-495b20da] {\n  width: 100%;\n}\n@media screen and (min-width: 768px) {\n.form-group.input-sm .input-text[data-v-495b20da], .form-group.input-sm .date-time-picker[data-v-495b20da] {\n    width: 33.3%;\n}\n}\n.form-group .temps-input[data-v-495b20da] {\n  display: flex;\n}\n.form-group .select-form[data-v-495b20da] {\n  width: 100%;\n  height: 30px;\n  border: none;\n  border-bottom: 2px solid #03aca4;\n  border-right: 1px solid #F3F3F3;\n}\n.form-group .select-form[data-v-495b20da]:focus {\n  outline: none;\n}\n.temps-chexbox > div[data-v-495b20da] {\n  flex: 1;\n  padding-left: 5px;\n}\n.temps-chexbox[data-v-495b20da] {\n  display: flex;\n  flex-flow: row wrap;\n}\n.temps-chexbox .type-item[data-v-495b20da] {\n  height: auto;\n}\n.temps-chexbox .type-item .icon-exercice[data-v-495b20da] {\n  bottom: 0;\n  position: absolute;\n}\n.temps-chexbox .type-item input[type=radio][data-v-495b20da] {\n  display: none;\n}\n.temps-chexbox .type-item input[type=radio]:not(:disabled) ~ label[data-v-495b20da] {\n  cursor: pointer;\n}\n.temps-chexbox .type-item input[type=radio]:disabled ~ label[data-v-495b20da] {\n  color: #bcc2bf;\n  border-color: #bcc2bf;\n  box-shadow: none;\n  cursor: not-allowed;\n}\n.temps-chexbox .type-item label[data-v-495b20da] {\n  height: 2.4rem;\n  width: 2.4rem;\n  display: block;\n  background: white;\n  border: 1px solid #03aca4;\n  border-radius: 12px;\n  padding: 2px;\n  text-align: center;\n  margin-bottom: 0 !important;\n  box-shadow: 0px 3px 10px -2px rgba(161, 170, 166, 0.5);\n  position: relative;\n}\n.temps-chexbox .type-item label .details-type[data-v-495b20da] {\n  margin-top: 5px;\n}\n.temps-chexbox .type-item input[type=radio]:checked + label[data-v-495b20da] {\n  background: #03aca4;\n  color: white;\n  box-shadow: 0px 0px 20px #F3F3F3;\n}\n.temps-chexbox .type-item input[type=radio]:checked + label i[data-v-495b20da] {\n  color: white;\n}\n.temps-chexbox .type-item p[data-v-495b20da] {\n  font-weight: 900;\n  margin-bottom: 0 !important;\n}\n.error[data-v-495b20da] {\n  color: red;\n  font-weight: 600;\n}\n.input-error[data-v-495b20da] {\n  border-bottom: 2px solid red;\n}\n.input-error[data-v-495b20da]:focus {\n  border-color: red;\n  box-shadow: 0 0 0 0.2rem rgba(255, 0, 0, 0.2);\n}", ""]);
 
 // exports
 
@@ -10331,7 +10800,7 @@ exports = module.exports = __webpack_require__(/*! ../../../../node_modules/css-
 
 
 // module
-exports.push([module.i, ".form-control[data-v-2763b4f6] {\n  border: none;\n  border-bottom: 2px solid #03aca4;\n  border-right: 1px solid #F3F3F3;\n}\n.form-group.input-sm .input-text[data-v-2763b4f6], .form-group.input-sm .date-time-picker[data-v-2763b4f6] {\n  width: 100%;\n}\n@media screen and (min-width: 768px) {\n.form-group.input-sm .input-text[data-v-2763b4f6], .form-group.input-sm .date-time-picker[data-v-2763b4f6] {\n    width: 33.3%;\n}\n}\n.form-group .temps-input[data-v-2763b4f6] {\n  display: flex;\n}\n.temps-chexbox > div[data-v-2763b4f6] {\n  flex: 1;\n  padding-left: 5px;\n}\n.temps-chexbox[data-v-2763b4f6] {\n  display: flex;\n  flex-flow: row wrap;\n}\n.temps-chexbox .type-item[data-v-2763b4f6] {\n  height: auto;\n}\n.temps-chexbox .type-item .icon-exercice[data-v-2763b4f6] {\n  bottom: 0;\n  position: absolute;\n}\n.temps-chexbox .type-item input[type=radio][data-v-2763b4f6] {\n  display: none;\n}\n.temps-chexbox .type-item input[type=radio]:not(:disabled) ~ label[data-v-2763b4f6] {\n  cursor: pointer;\n}\n.temps-chexbox .type-item input[type=radio]:disabled ~ label[data-v-2763b4f6] {\n  color: #bcc2bf;\n  border-color: #bcc2bf;\n  box-shadow: none;\n  cursor: not-allowed;\n}\n.temps-chexbox .type-item label[data-v-2763b4f6] {\n  height: 2.4rem;\n  width: 2.4rem;\n  display: block;\n  background: white;\n  border: 1px solid #03aca4;\n  border-radius: 0;\n  padding: 2px;\n  text-align: center;\n  margin-bottom: 0 !important;\n  box-shadow: 0px 3px 10px -2px rgba(161, 170, 166, 0.5);\n  position: relative;\n}\n.temps-chexbox .type-item label .details-type[data-v-2763b4f6] {\n  margin-top: 5px;\n}\n.temps-chexbox .type-item input[type=radio]:checked + label[data-v-2763b4f6] {\n  background: #03aca4;\n  color: white;\n  box-shadow: 0px 0px 20px #F3F3F3;\n}\n.temps-chexbox .type-item input[type=radio]:checked + label i[data-v-2763b4f6] {\n  color: white;\n}\n.temps-chexbox .type-item p[data-v-2763b4f6] {\n  font-weight: 900;\n  margin-bottom: 0 !important;\n}\n.error[data-v-2763b4f6] {\n  color: red;\n  font-weight: 600;\n}\n.input-error[data-v-2763b4f6] {\n  border-bottom: 2px solid red;\n}\n.input-error[data-v-2763b4f6]:focus {\n  border-color: red;\n  box-shadow: 0 0 0 0.2rem rgba(255, 0, 0, 0.2);\n}", ""]);
+exports.push([module.i, ".form-control[data-v-2763b4f6] {\n  border: none;\n  border-bottom: 2px solid #03aca4;\n  border-right: 1px solid #F3F3F3;\n}\n.form-group.input-sm .input-text[data-v-2763b4f6], .form-group.input-sm .date-time-picker[data-v-2763b4f6] {\n  width: 100%;\n}\n@media screen and (min-width: 768px) {\n.form-group.input-sm .input-text[data-v-2763b4f6], .form-group.input-sm .date-time-picker[data-v-2763b4f6] {\n    width: 33.3%;\n}\n}\n.form-group .temps-input[data-v-2763b4f6] {\n  display: flex;\n}\n.form-group .select-form[data-v-2763b4f6] {\n  width: 100%;\n  height: 30px;\n  border: none;\n  border-bottom: 2px solid #03aca4;\n  border-right: 1px solid #F3F3F3;\n}\n.form-group .select-form[data-v-2763b4f6]:focus {\n  outline: none;\n}\n.temps-chexbox > div[data-v-2763b4f6] {\n  flex: 1;\n  padding-left: 5px;\n}\n.temps-chexbox[data-v-2763b4f6] {\n  display: flex;\n  flex-flow: row wrap;\n}\n.temps-chexbox .type-item[data-v-2763b4f6] {\n  height: auto;\n}\n.temps-chexbox .type-item .icon-exercice[data-v-2763b4f6] {\n  bottom: 0;\n  position: absolute;\n}\n.temps-chexbox .type-item input[type=radio][data-v-2763b4f6] {\n  display: none;\n}\n.temps-chexbox .type-item input[type=radio]:not(:disabled) ~ label[data-v-2763b4f6] {\n  cursor: pointer;\n}\n.temps-chexbox .type-item input[type=radio]:disabled ~ label[data-v-2763b4f6] {\n  color: #bcc2bf;\n  border-color: #bcc2bf;\n  box-shadow: none;\n  cursor: not-allowed;\n}\n.temps-chexbox .type-item label[data-v-2763b4f6] {\n  height: 2.4rem;\n  width: 2.4rem;\n  display: block;\n  background: white;\n  border: 1px solid #03aca4;\n  border-radius: 12px;\n  padding: 2px;\n  text-align: center;\n  margin-bottom: 0 !important;\n  box-shadow: 0px 3px 10px -2px rgba(161, 170, 166, 0.5);\n  position: relative;\n}\n.temps-chexbox .type-item label .details-type[data-v-2763b4f6] {\n  margin-top: 5px;\n}\n.temps-chexbox .type-item input[type=radio]:checked + label[data-v-2763b4f6] {\n  background: #03aca4;\n  color: white;\n  box-shadow: 0px 0px 20px #F3F3F3;\n}\n.temps-chexbox .type-item input[type=radio]:checked + label i[data-v-2763b4f6] {\n  color: white;\n}\n.temps-chexbox .type-item p[data-v-2763b4f6] {\n  font-weight: 900;\n  margin-bottom: 0 !important;\n}\n.error[data-v-2763b4f6] {\n  color: red;\n  font-weight: 600;\n}\n.input-error[data-v-2763b4f6] {\n  border-bottom: 2px solid red;\n}\n.input-error[data-v-2763b4f6]:focus {\n  border-color: red;\n  box-shadow: 0 0 0 0.2rem rgba(255, 0, 0, 0.2);\n}", ""]);
 
 // exports
 
@@ -10350,7 +10819,7 @@ exports = module.exports = __webpack_require__(/*! ../../../../node_modules/css-
 
 
 // module
-exports.push([module.i, ".form-control[data-v-e266c3ba] {\n  border: none;\n  border-bottom: 2px solid #03aca4;\n  border-right: 1px solid #F3F3F3;\n}\n.form-group.input-sm .input-text[data-v-e266c3ba], .form-group.input-sm .date-time-picker[data-v-e266c3ba] {\n  width: 100%;\n}\n@media screen and (min-width: 768px) {\n.form-group.input-sm .input-text[data-v-e266c3ba], .form-group.input-sm .date-time-picker[data-v-e266c3ba] {\n    width: 33.3%;\n}\n}\n.form-group .temps-input[data-v-e266c3ba] {\n  display: flex;\n}\n.temps-chexbox > div[data-v-e266c3ba] {\n  flex: 1;\n  padding-left: 5px;\n}\n.temps-chexbox[data-v-e266c3ba] {\n  display: flex;\n  flex-flow: row wrap;\n}\n.temps-chexbox .type-item[data-v-e266c3ba] {\n  height: auto;\n}\n.temps-chexbox .type-item .icon-exercice[data-v-e266c3ba] {\n  bottom: 0;\n  position: absolute;\n}\n.temps-chexbox .type-item input[type=radio][data-v-e266c3ba] {\n  display: none;\n}\n.temps-chexbox .type-item input[type=radio]:not(:disabled) ~ label[data-v-e266c3ba] {\n  cursor: pointer;\n}\n.temps-chexbox .type-item input[type=radio]:disabled ~ label[data-v-e266c3ba] {\n  color: #bcc2bf;\n  border-color: #bcc2bf;\n  box-shadow: none;\n  cursor: not-allowed;\n}\n.temps-chexbox .type-item label[data-v-e266c3ba] {\n  height: 2.4rem;\n  width: 2.4rem;\n  display: block;\n  background: white;\n  border: 1px solid #03aca4;\n  border-radius: 0;\n  padding: 2px;\n  text-align: center;\n  margin-bottom: 0 !important;\n  box-shadow: 0px 3px 10px -2px rgba(161, 170, 166, 0.5);\n  position: relative;\n}\n.temps-chexbox .type-item label .details-type[data-v-e266c3ba] {\n  margin-top: 5px;\n}\n.temps-chexbox .type-item input[type=radio]:checked + label[data-v-e266c3ba] {\n  background: #03aca4;\n  color: white;\n  box-shadow: 0px 0px 20px #F3F3F3;\n}\n.temps-chexbox .type-item input[type=radio]:checked + label i[data-v-e266c3ba] {\n  color: white;\n}\n.temps-chexbox .type-item p[data-v-e266c3ba] {\n  font-weight: 900;\n  margin-bottom: 0 !important;\n}\n.error[data-v-e266c3ba] {\n  color: red;\n  font-weight: 600;\n}\n.input-error[data-v-e266c3ba] {\n  border-bottom: 2px solid red;\n}\n.input-error[data-v-e266c3ba]:focus {\n  border-color: red;\n  box-shadow: 0 0 0 0.2rem rgba(255, 0, 0, 0.2);\n}", ""]);
+exports.push([module.i, ".form-control[data-v-e266c3ba] {\n  border: none;\n  border-bottom: 2px solid #03aca4;\n  border-right: 1px solid #F3F3F3;\n}\n.form-group.input-sm .input-text[data-v-e266c3ba], .form-group.input-sm .date-time-picker[data-v-e266c3ba] {\n  width: 100%;\n}\n@media screen and (min-width: 768px) {\n.form-group.input-sm .input-text[data-v-e266c3ba], .form-group.input-sm .date-time-picker[data-v-e266c3ba] {\n    width: 33.3%;\n}\n}\n.form-group .temps-input[data-v-e266c3ba] {\n  display: flex;\n}\n.form-group .select-form[data-v-e266c3ba] {\n  width: 100%;\n  height: 30px;\n  border: none;\n  border-bottom: 2px solid #03aca4;\n  border-right: 1px solid #F3F3F3;\n}\n.form-group .select-form[data-v-e266c3ba]:focus {\n  outline: none;\n}\n.temps-chexbox > div[data-v-e266c3ba] {\n  flex: 1;\n  padding-left: 5px;\n}\n.temps-chexbox[data-v-e266c3ba] {\n  display: flex;\n  flex-flow: row wrap;\n}\n.temps-chexbox .type-item[data-v-e266c3ba] {\n  height: auto;\n}\n.temps-chexbox .type-item .icon-exercice[data-v-e266c3ba] {\n  bottom: 0;\n  position: absolute;\n}\n.temps-chexbox .type-item input[type=radio][data-v-e266c3ba] {\n  display: none;\n}\n.temps-chexbox .type-item input[type=radio]:not(:disabled) ~ label[data-v-e266c3ba] {\n  cursor: pointer;\n}\n.temps-chexbox .type-item input[type=radio]:disabled ~ label[data-v-e266c3ba] {\n  color: #bcc2bf;\n  border-color: #bcc2bf;\n  box-shadow: none;\n  cursor: not-allowed;\n}\n.temps-chexbox .type-item label[data-v-e266c3ba] {\n  height: 2.4rem;\n  width: 2.4rem;\n  display: block;\n  background: white;\n  border: 1px solid #03aca4;\n  border-radius: 12px;\n  padding: 2px;\n  text-align: center;\n  margin-bottom: 0 !important;\n  box-shadow: 0px 3px 10px -2px rgba(161, 170, 166, 0.5);\n  position: relative;\n}\n.temps-chexbox .type-item label .details-type[data-v-e266c3ba] {\n  margin-top: 5px;\n}\n.temps-chexbox .type-item input[type=radio]:checked + label[data-v-e266c3ba] {\n  background: #03aca4;\n  color: white;\n  box-shadow: 0px 0px 20px #F3F3F3;\n}\n.temps-chexbox .type-item input[type=radio]:checked + label i[data-v-e266c3ba] {\n  color: white;\n}\n.temps-chexbox .type-item p[data-v-e266c3ba] {\n  font-weight: 900;\n  margin-bottom: 0 !important;\n}\n.error[data-v-e266c3ba] {\n  color: red;\n  font-weight: 600;\n}\n.input-error[data-v-e266c3ba] {\n  border-bottom: 2px solid red;\n}\n.input-error[data-v-e266c3ba]:focus {\n  border-color: red;\n  box-shadow: 0 0 0 0.2rem rgba(255, 0, 0, 0.2);\n}", ""]);
 
 // exports
 
@@ -10376,6 +10845,25 @@ exports.push([module.i, ".menu-left .sidebar[data-v-57527152] {\n  min-width: 25
 
 /***/ }),
 
+/***/ "./node_modules/css-loader/index.js!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src/index.js?!./node_modules/sass-loader/dist/cjs.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/modals/CreateEntraineurComponent.vue?vue&type=style&index=0&id=8b378900&lang=scss&scoped=true&":
+/*!******************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/css-loader!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src??ref--7-2!./node_modules/sass-loader/dist/cjs.js??ref--7-3!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/modals/CreateEntraineurComponent.vue?vue&type=style&index=0&id=8b378900&lang=scss&scoped=true& ***!
+  \******************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__(/*! ../../../../node_modules/css-loader/lib/css-base.js */ "./node_modules/css-loader/lib/css-base.js")(false);
+// imports
+
+
+// module
+exports.push([module.i, ".form-control[data-v-8b378900] {\n  border: none;\n  border-bottom: 2px solid #03aca4;\n  border-right: 1px solid #F3F3F3;\n}\n.form-group.input-sm .input-text[data-v-8b378900], .form-group.input-sm .date-time-picker[data-v-8b378900] {\n  width: 100%;\n}\n@media screen and (min-width: 768px) {\n.form-group.input-sm .input-text[data-v-8b378900], .form-group.input-sm .date-time-picker[data-v-8b378900] {\n    width: 33.3%;\n}\n}\n.form-group .temps-input[data-v-8b378900] {\n  display: flex;\n}\n.form-group .select-form[data-v-8b378900] {\n  width: 100%;\n  height: 30px;\n  border: none;\n  border-bottom: 2px solid #03aca4;\n  border-right: 1px solid #F3F3F3;\n}\n.form-group .select-form[data-v-8b378900]:focus {\n  outline: none;\n}\n.temps-chexbox > div[data-v-8b378900] {\n  flex: 1;\n  padding-left: 5px;\n}\n.temps-chexbox[data-v-8b378900] {\n  display: flex;\n  flex-flow: row wrap;\n}\n.temps-chexbox .type-item[data-v-8b378900] {\n  height: auto;\n}\n.temps-chexbox .type-item .icon-exercice[data-v-8b378900] {\n  bottom: 0;\n  position: absolute;\n}\n.temps-chexbox .type-item input[type=radio][data-v-8b378900] {\n  display: none;\n}\n.temps-chexbox .type-item input[type=radio]:not(:disabled) ~ label[data-v-8b378900] {\n  cursor: pointer;\n}\n.temps-chexbox .type-item input[type=radio]:disabled ~ label[data-v-8b378900] {\n  color: #bcc2bf;\n  border-color: #bcc2bf;\n  box-shadow: none;\n  cursor: not-allowed;\n}\n.temps-chexbox .type-item label[data-v-8b378900] {\n  height: 2.4rem;\n  width: 2.4rem;\n  display: block;\n  background: white;\n  border: 1px solid #03aca4;\n  border-radius: 12px;\n  padding: 2px;\n  text-align: center;\n  margin-bottom: 0 !important;\n  box-shadow: 0px 3px 10px -2px rgba(161, 170, 166, 0.5);\n  position: relative;\n}\n.temps-chexbox .type-item label .details-type[data-v-8b378900] {\n  margin-top: 5px;\n}\n.temps-chexbox .type-item input[type=radio]:checked + label[data-v-8b378900] {\n  background: #03aca4;\n  color: white;\n  box-shadow: 0px 0px 20px #F3F3F3;\n}\n.temps-chexbox .type-item input[type=radio]:checked + label i[data-v-8b378900] {\n  color: white;\n}\n.temps-chexbox .type-item p[data-v-8b378900] {\n  font-weight: 900;\n  margin-bottom: 0 !important;\n}\n.error[data-v-8b378900] {\n  color: red;\n  font-weight: 600;\n}\n.input-error[data-v-8b378900] {\n  border-bottom: 2px solid red;\n}\n.input-error[data-v-8b378900]:focus {\n  border-color: red;\n  box-shadow: 0 0 0 0.2rem rgba(255, 0, 0, 0.2);\n}\n.add-joueur .btn-close[data-v-8b378900] {\n  outline: none;\n}\n.add-joueur .btn-action-exercices .btns[data-v-8b378900] {\n  float: right;\n}", ""]);
+
+// exports
+
+
+/***/ }),
+
 /***/ "./node_modules/css-loader/index.js!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src/index.js?!./node_modules/sass-loader/dist/cjs.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/modals/CreateExerciceComponent.vue?vue&type=style&index=0&id=6c48959b&lang=scss&scoped=true&":
 /*!****************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
   !*** ./node_modules/css-loader!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src??ref--7-2!./node_modules/sass-loader/dist/cjs.js??ref--7-3!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/modals/CreateExerciceComponent.vue?vue&type=style&index=0&id=6c48959b&lang=scss&scoped=true& ***!
@@ -10389,6 +10877,63 @@ exports = module.exports = __webpack_require__(/*! ../../../../node_modules/css-
 
 // module
 exports.push([module.i, ".add-exercice-modal[data-v-6c48959b] {\n  display: inline;\n  padding-bottom: 2px;\n}\n@media screen and (max-width: 480px) {\n.add-exercice-modal .btn-soccer-coach-action[data-v-6c48959b] {\n    margin-top: 1px;\n}\n}\n.add-exercice-modal .modal .modal-dialog[data-v-6c48959b] {\n  max-width: 1000px;\n}\n.add-exercice-modal .modal .modal-dialog .modal-content .modal-header[data-v-6c48959b] {\n  border-bottom: 1px solid #03aca4;\n}\n.add-exercice-modal .modal .modal-dialog .modal-content .modal-header .btn-close[data-v-6c48959b] {\n  height: 66px;\n  background-color: #8a2539;\n  opacity: 1;\n  color: white;\n  width: 60px;\n}\n.add-exercice-modal .modal .modal-dialog .modal-content .modal-header .btn-close[data-v-6c48959b]:focus {\n  border-color: #03aca4 !important;\n  box-shadow: 0 0 0 0.2rem rgba(23, 184, 125, 0.2) !important;\n}\n.add-exercice-modal .modal .modal-dialog .modal-content .modal-header .btn-close[data-v-6c48959b]:hover {\n  background-color: #45191f;\n  color: white;\n}\n.add-exercice-modal .modal .modal-dialog .modal-content .modal-body .update-exercice-form .actions-exercice-detail .msg-required[data-v-6c48959b] {\n  font-weight: normal !important;\n}", ""]);
+
+// exports
+
+
+/***/ }),
+
+/***/ "./node_modules/css-loader/index.js!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src/index.js?!./node_modules/sass-loader/dist/cjs.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/modals/CreateJoueurComponent.vue?vue&type=style&index=0&id=04c3e551&lang=scss&scoped=true&":
+/*!**************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/css-loader!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src??ref--7-2!./node_modules/sass-loader/dist/cjs.js??ref--7-3!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/modals/CreateJoueurComponent.vue?vue&type=style&index=0&id=04c3e551&lang=scss&scoped=true& ***!
+  \**************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__(/*! ../../../../node_modules/css-loader/lib/css-base.js */ "./node_modules/css-loader/lib/css-base.js")(false);
+// imports
+
+
+// module
+exports.push([module.i, ".form-control[data-v-04c3e551] {\n  border: none;\n  border-bottom: 2px solid #03aca4;\n  border-right: 1px solid #F3F3F3;\n}\n.form-group.input-sm .input-text[data-v-04c3e551], .form-group.input-sm .date-time-picker[data-v-04c3e551] {\n  width: 100%;\n}\n@media screen and (min-width: 768px) {\n.form-group.input-sm .input-text[data-v-04c3e551], .form-group.input-sm .date-time-picker[data-v-04c3e551] {\n    width: 33.3%;\n}\n}\n.form-group .temps-input[data-v-04c3e551] {\n  display: flex;\n}\n.form-group .select-form[data-v-04c3e551] {\n  width: 100%;\n  height: 30px;\n  border: none;\n  border-bottom: 2px solid #03aca4;\n  border-right: 1px solid #F3F3F3;\n}\n.form-group .select-form[data-v-04c3e551]:focus {\n  outline: none;\n}\n.temps-chexbox > div[data-v-04c3e551] {\n  flex: 1;\n  padding-left: 5px;\n}\n.temps-chexbox[data-v-04c3e551] {\n  display: flex;\n  flex-flow: row wrap;\n}\n.temps-chexbox .type-item[data-v-04c3e551] {\n  height: auto;\n}\n.temps-chexbox .type-item .icon-exercice[data-v-04c3e551] {\n  bottom: 0;\n  position: absolute;\n}\n.temps-chexbox .type-item input[type=radio][data-v-04c3e551] {\n  display: none;\n}\n.temps-chexbox .type-item input[type=radio]:not(:disabled) ~ label[data-v-04c3e551] {\n  cursor: pointer;\n}\n.temps-chexbox .type-item input[type=radio]:disabled ~ label[data-v-04c3e551] {\n  color: #bcc2bf;\n  border-color: #bcc2bf;\n  box-shadow: none;\n  cursor: not-allowed;\n}\n.temps-chexbox .type-item label[data-v-04c3e551] {\n  height: 2.4rem;\n  width: 2.4rem;\n  display: block;\n  background: white;\n  border: 1px solid #03aca4;\n  border-radius: 12px;\n  padding: 2px;\n  text-align: center;\n  margin-bottom: 0 !important;\n  box-shadow: 0px 3px 10px -2px rgba(161, 170, 166, 0.5);\n  position: relative;\n}\n.temps-chexbox .type-item label .details-type[data-v-04c3e551] {\n  margin-top: 5px;\n}\n.temps-chexbox .type-item input[type=radio]:checked + label[data-v-04c3e551] {\n  background: #03aca4;\n  color: white;\n  box-shadow: 0px 0px 20px #F3F3F3;\n}\n.temps-chexbox .type-item input[type=radio]:checked + label i[data-v-04c3e551] {\n  color: white;\n}\n.temps-chexbox .type-item p[data-v-04c3e551] {\n  font-weight: 900;\n  margin-bottom: 0 !important;\n}\n.error[data-v-04c3e551] {\n  color: red;\n  font-weight: 600;\n}\n.input-error[data-v-04c3e551] {\n  border-bottom: 2px solid red;\n}\n.input-error[data-v-04c3e551]:focus {\n  border-color: red;\n  box-shadow: 0 0 0 0.2rem rgba(255, 0, 0, 0.2);\n}\n.add-joueur .btn-close[data-v-04c3e551] {\n  outline: none;\n}\n.add-joueur .btn-action-exercices .btns[data-v-04c3e551] {\n  float: right;\n}", ""]);
+
+// exports
+
+
+/***/ }),
+
+/***/ "./node_modules/css-loader/index.js!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src/index.js?!./node_modules/sass-loader/dist/cjs.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/modals/DeleteEntraineurComponent.vue?vue&type=style&index=0&id=41b381f1&lang=scss&scoped=true&":
+/*!******************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/css-loader!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src??ref--7-2!./node_modules/sass-loader/dist/cjs.js??ref--7-3!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/modals/DeleteEntraineurComponent.vue?vue&type=style&index=0&id=41b381f1&lang=scss&scoped=true& ***!
+  \******************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__(/*! ../../../../node_modules/css-loader/lib/css-base.js */ "./node_modules/css-loader/lib/css-base.js")(false);
+// imports
+
+
+// module
+exports.push([module.i, ".modalUpdateForm .modal-content .modal-footer[data-v-41b381f1] {\n  display: inline;\n}\n.modalUpdateForm .modal-content .modal-footer .btn-non[data-v-41b381f1] {\n  float: left;\n}\n.modalUpdateForm .modal-content .modal-footer .btn-oui[data-v-41b381f1] {\n  float: right;\n}", ""]);
+
+// exports
+
+
+/***/ }),
+
+/***/ "./node_modules/css-loader/index.js!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src/index.js?!./node_modules/sass-loader/dist/cjs.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/modals/DeleteJoueurComponent.vue?vue&type=style&index=0&id=435be77c&lang=scss&scoped=true&":
+/*!**************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/css-loader!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src??ref--7-2!./node_modules/sass-loader/dist/cjs.js??ref--7-3!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/modals/DeleteJoueurComponent.vue?vue&type=style&index=0&id=435be77c&lang=scss&scoped=true& ***!
+  \**************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__(/*! ../../../../node_modules/css-loader/lib/css-base.js */ "./node_modules/css-loader/lib/css-base.js")(false);
+// imports
+
+
+// module
+exports.push([module.i, ".modalUpdateForm .modal-content .modal-footer[data-v-435be77c] {\n  display: inline;\n}\n.modalUpdateForm .modal-content .modal-footer .btn-non[data-v-435be77c] {\n  float: left;\n}\n.modalUpdateForm .modal-content .modal-footer .btn-oui[data-v-435be77c] {\n  float: right;\n}", ""]);
 
 // exports
 
@@ -10426,7 +10971,7 @@ exports = module.exports = __webpack_require__(/*! ../../../../node_modules/css-
 
 
 // module
-exports.push([module.i, ".images-modal[data-v-0fcd4010] {\n  padding-bottom: 2px;\n}\n.images-modal .btns .btn[data-v-0fcd4010] {\n  float: right;\n  margin-left: 2px;\n}\n@media screen and (max-width: 480px) {\n.images-modal .btn-soccer-coach-action[data-v-0fcd4010] {\n    margin-top: 1px;\n}\n}\n@media screen and (max-width: 480px) {\n.images-modal .create-exe-designer[data-v-0fcd4010] {\n    display: none;\n}\n}\n.images-modal .modal .modal-header[data-v-0fcd4010] {\n  border-bottom: 1px solid #03aca4;\n}\n.images-modal .modal .modal-header .btn-close[data-v-0fcd4010] {\n  height: 66px;\n  background-color: #8a2539;\n  opacity: 1;\n  color: white;\n  width: 60px;\n}\n.images-modal .modal .modal-header .btn-close[data-v-0fcd4010]:focus {\n  border-color: #03aca4 !important;\n  box-shadow: 0 0 0 0.2rem rgba(23, 184, 125, 0.2) !important;\n}\n.images-modal .modal .modal-header .btn-close[data-v-0fcd4010]:hover {\n  background-color: #45191f;\n  color: white;\n}\n.images-modal .modal .image-exericie[data-v-0fcd4010] {\n  padding-top: 15px;\n  padding-bottom: 15px;\n}\n.images-modal .modal .image-exericie .img-select[data-v-0fcd4010] {\n  z-index: 1;\n  height: inherit;\n  width: inherit;\n}\n.images-modal .modal .image-exericie .img-select img[data-v-0fcd4010] {\n  height: 200px;\n  width: inherit;\n}\n.images-modal .modal .image-exericie .file-upload-infos-modal[data-v-0fcd4010] {\n  cursor: pointer;\n  position: absolute;\n  left: 0;\n  top: 0;\n  right: 0;\n  bottom: 0;\n  z-index: 2;\n  background: rgba(0, 0, 0, 0.7);\n  opacity: 0;\n  transition: opacity 0.15s linear;\n}\n.images-modal .modal .image-exericie .file-upload-infos-modal .file-upload-infos-inner[data-v-0fcd4010] {\n  position: absolute;\n  top: 50%;\n  transform: translate(0, -40%);\n  -webkit-backface-visibility: hidden;\n  backface-visibility: hidden;\n  width: 100%;\n  padding: 0 20px;\n  transition: all 0.2s ease;\n}\n.images-modal .modal .image-exericie .file-upload-infos-modal .file-upload-infos-inner p[data-v-0fcd4010] {\n  padding: 0;\n  margin: 0;\n  position: relative;\n  width: 100%;\n  white-space: nowrap;\n  overflow: hidden;\n  text-overflow: ellipsis;\n  color: #fff;\n  text-align: center;\n  line-height: 25px;\n  font-weight: 700;\n}\n.images-modal .modal .image-exericie .file-upload-infos-modal .file-upload-infos-inner p.file-upload-infos-message[data-v-0fcd4010] {\n  margin-top: 15px;\n  padding-top: 15px;\n  font-size: 12px;\n  position: relative;\n  opacity: 0.5;\n  color: #17a2b8;\n}\n.images-modal .modal .image-exericie .file-upload-infos-modal .file-upload-infos-inner p.file-upload-infos-message[data-v-0fcd4010]::before {\n  content: \"\";\n  position: absolute;\n  top: 0;\n  left: 50%;\n  transform: translate(-50%, 0);\n  background: #fff;\n  width: 30px;\n  height: 2px;\n}\n.images-modal .modal .image-exericie .file-upload-infos-modal .file-upload-infos-inner i[data-v-0fcd4010] {\n  opacity: 0.5;\n}", ""]);
+exports.push([module.i, ".images-modal[data-v-0fcd4010] {\n  padding-bottom: 2px;\n}\n.images-modal .btns .btn[data-v-0fcd4010] {\n  float: right;\n  margin-left: 2px;\n  margin-bottom: 5px;\n}\n@media screen and (max-width: 480px) {\n.images-modal .btn-soccer-coach-action[data-v-0fcd4010] {\n    margin-top: 1px;\n}\n}\n@media screen and (max-width: 480px) {\n.images-modal .create-exe-designer[data-v-0fcd4010] {\n    display: none;\n}\n}\n.images-modal .modal .modal-header[data-v-0fcd4010] {\n  border-bottom: 1px solid #03aca4;\n}\n.images-modal .modal .modal-header .btn-close[data-v-0fcd4010] {\n  height: 66px;\n  background-color: #8a2539;\n  opacity: 1;\n  color: white;\n  width: 60px;\n}\n.images-modal .modal .modal-header .btn-close[data-v-0fcd4010]:focus {\n  border-color: #03aca4 !important;\n  box-shadow: 0 0 0 0.2rem rgba(23, 184, 125, 0.2) !important;\n}\n.images-modal .modal .modal-header .btn-close[data-v-0fcd4010]:hover {\n  background-color: #45191f;\n  color: white;\n}\n.images-modal .modal .image-exericie[data-v-0fcd4010] {\n  padding-top: 15px;\n  padding-bottom: 15px;\n}\n.images-modal .modal .image-exericie .img-select[data-v-0fcd4010] {\n  z-index: 1;\n  height: inherit;\n  width: inherit;\n}\n.images-modal .modal .image-exericie .img-select img[data-v-0fcd4010] {\n  height: 200px;\n  width: inherit;\n}\n.images-modal .modal .image-exericie .file-upload-infos-modal[data-v-0fcd4010] {\n  cursor: pointer;\n  position: absolute;\n  left: 0;\n  top: 0;\n  right: 0;\n  bottom: 0;\n  z-index: 2;\n  background: rgba(0, 0, 0, 0.7);\n  opacity: 0;\n  transition: opacity 0.15s linear;\n}\n.images-modal .modal .image-exericie .file-upload-infos-modal .file-upload-infos-inner[data-v-0fcd4010] {\n  position: absolute;\n  top: 50%;\n  transform: translate(0, -40%);\n  -webkit-backface-visibility: hidden;\n  backface-visibility: hidden;\n  width: 100%;\n  padding: 0 20px;\n  transition: all 0.2s ease;\n}\n.images-modal .modal .image-exericie .file-upload-infos-modal .file-upload-infos-inner p[data-v-0fcd4010] {\n  padding: 0;\n  margin: 0;\n  position: relative;\n  width: 100%;\n  white-space: nowrap;\n  overflow: hidden;\n  text-overflow: ellipsis;\n  color: #fff;\n  text-align: center;\n  line-height: 25px;\n  font-weight: 700;\n}\n.images-modal .modal .image-exericie .file-upload-infos-modal .file-upload-infos-inner p.file-upload-infos-message[data-v-0fcd4010] {\n  margin-top: 15px;\n  padding-top: 15px;\n  font-size: 12px;\n  position: relative;\n  opacity: 0.5;\n  color: #17a2b8;\n}\n.images-modal .modal .image-exericie .file-upload-infos-modal .file-upload-infos-inner p.file-upload-infos-message[data-v-0fcd4010]::before {\n  content: \"\";\n  position: absolute;\n  top: 0;\n  left: 50%;\n  transform: translate(-50%, 0);\n  background: #fff;\n  width: 30px;\n  height: 2px;\n}\n.images-modal .modal .image-exericie .file-upload-infos-modal .file-upload-infos-inner i[data-v-0fcd4010] {\n  opacity: 0.5;\n}", ""]);
 
 // exports
 
@@ -42178,6 +42723,36 @@ if(false) {}
 
 /***/ }),
 
+/***/ "./node_modules/style-loader/index.js!./node_modules/css-loader/index.js!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src/index.js?!./node_modules/sass-loader/dist/cjs.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/modals/CreateEntraineurComponent.vue?vue&type=style&index=0&id=8b378900&lang=scss&scoped=true&":
+/*!**********************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/style-loader!./node_modules/css-loader!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src??ref--7-2!./node_modules/sass-loader/dist/cjs.js??ref--7-3!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/modals/CreateEntraineurComponent.vue?vue&type=style&index=0&id=8b378900&lang=scss&scoped=true& ***!
+  \**********************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+
+var content = __webpack_require__(/*! !../../../../node_modules/css-loader!../../../../node_modules/vue-loader/lib/loaders/stylePostLoader.js!../../../../node_modules/postcss-loader/src??ref--7-2!../../../../node_modules/sass-loader/dist/cjs.js??ref--7-3!../../../../node_modules/vue-loader/lib??vue-loader-options!./CreateEntraineurComponent.vue?vue&type=style&index=0&id=8b378900&lang=scss&scoped=true& */ "./node_modules/css-loader/index.js!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src/index.js?!./node_modules/sass-loader/dist/cjs.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/modals/CreateEntraineurComponent.vue?vue&type=style&index=0&id=8b378900&lang=scss&scoped=true&");
+
+if(typeof content === 'string') content = [[module.i, content, '']];
+
+var transform;
+var insertInto;
+
+
+
+var options = {"hmr":true}
+
+options.transform = transform
+options.insertInto = undefined;
+
+var update = __webpack_require__(/*! ../../../../node_modules/style-loader/lib/addStyles.js */ "./node_modules/style-loader/lib/addStyles.js")(content, options);
+
+if(content.locals) module.exports = content.locals;
+
+if(false) {}
+
+/***/ }),
+
 /***/ "./node_modules/style-loader/index.js!./node_modules/css-loader/index.js!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src/index.js?!./node_modules/sass-loader/dist/cjs.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/modals/CreateExerciceComponent.vue?vue&type=style&index=0&id=6c48959b&lang=scss&scoped=true&":
 /*!********************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
   !*** ./node_modules/style-loader!./node_modules/css-loader!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src??ref--7-2!./node_modules/sass-loader/dist/cjs.js??ref--7-3!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/modals/CreateExerciceComponent.vue?vue&type=style&index=0&id=6c48959b&lang=scss&scoped=true& ***!
@@ -42187,6 +42762,96 @@ if(false) {}
 
 
 var content = __webpack_require__(/*! !../../../../node_modules/css-loader!../../../../node_modules/vue-loader/lib/loaders/stylePostLoader.js!../../../../node_modules/postcss-loader/src??ref--7-2!../../../../node_modules/sass-loader/dist/cjs.js??ref--7-3!../../../../node_modules/vue-loader/lib??vue-loader-options!./CreateExerciceComponent.vue?vue&type=style&index=0&id=6c48959b&lang=scss&scoped=true& */ "./node_modules/css-loader/index.js!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src/index.js?!./node_modules/sass-loader/dist/cjs.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/modals/CreateExerciceComponent.vue?vue&type=style&index=0&id=6c48959b&lang=scss&scoped=true&");
+
+if(typeof content === 'string') content = [[module.i, content, '']];
+
+var transform;
+var insertInto;
+
+
+
+var options = {"hmr":true}
+
+options.transform = transform
+options.insertInto = undefined;
+
+var update = __webpack_require__(/*! ../../../../node_modules/style-loader/lib/addStyles.js */ "./node_modules/style-loader/lib/addStyles.js")(content, options);
+
+if(content.locals) module.exports = content.locals;
+
+if(false) {}
+
+/***/ }),
+
+/***/ "./node_modules/style-loader/index.js!./node_modules/css-loader/index.js!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src/index.js?!./node_modules/sass-loader/dist/cjs.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/modals/CreateJoueurComponent.vue?vue&type=style&index=0&id=04c3e551&lang=scss&scoped=true&":
+/*!******************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/style-loader!./node_modules/css-loader!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src??ref--7-2!./node_modules/sass-loader/dist/cjs.js??ref--7-3!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/modals/CreateJoueurComponent.vue?vue&type=style&index=0&id=04c3e551&lang=scss&scoped=true& ***!
+  \******************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+
+var content = __webpack_require__(/*! !../../../../node_modules/css-loader!../../../../node_modules/vue-loader/lib/loaders/stylePostLoader.js!../../../../node_modules/postcss-loader/src??ref--7-2!../../../../node_modules/sass-loader/dist/cjs.js??ref--7-3!../../../../node_modules/vue-loader/lib??vue-loader-options!./CreateJoueurComponent.vue?vue&type=style&index=0&id=04c3e551&lang=scss&scoped=true& */ "./node_modules/css-loader/index.js!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src/index.js?!./node_modules/sass-loader/dist/cjs.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/modals/CreateJoueurComponent.vue?vue&type=style&index=0&id=04c3e551&lang=scss&scoped=true&");
+
+if(typeof content === 'string') content = [[module.i, content, '']];
+
+var transform;
+var insertInto;
+
+
+
+var options = {"hmr":true}
+
+options.transform = transform
+options.insertInto = undefined;
+
+var update = __webpack_require__(/*! ../../../../node_modules/style-loader/lib/addStyles.js */ "./node_modules/style-loader/lib/addStyles.js")(content, options);
+
+if(content.locals) module.exports = content.locals;
+
+if(false) {}
+
+/***/ }),
+
+/***/ "./node_modules/style-loader/index.js!./node_modules/css-loader/index.js!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src/index.js?!./node_modules/sass-loader/dist/cjs.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/modals/DeleteEntraineurComponent.vue?vue&type=style&index=0&id=41b381f1&lang=scss&scoped=true&":
+/*!**********************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/style-loader!./node_modules/css-loader!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src??ref--7-2!./node_modules/sass-loader/dist/cjs.js??ref--7-3!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/modals/DeleteEntraineurComponent.vue?vue&type=style&index=0&id=41b381f1&lang=scss&scoped=true& ***!
+  \**********************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+
+var content = __webpack_require__(/*! !../../../../node_modules/css-loader!../../../../node_modules/vue-loader/lib/loaders/stylePostLoader.js!../../../../node_modules/postcss-loader/src??ref--7-2!../../../../node_modules/sass-loader/dist/cjs.js??ref--7-3!../../../../node_modules/vue-loader/lib??vue-loader-options!./DeleteEntraineurComponent.vue?vue&type=style&index=0&id=41b381f1&lang=scss&scoped=true& */ "./node_modules/css-loader/index.js!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src/index.js?!./node_modules/sass-loader/dist/cjs.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/modals/DeleteEntraineurComponent.vue?vue&type=style&index=0&id=41b381f1&lang=scss&scoped=true&");
+
+if(typeof content === 'string') content = [[module.i, content, '']];
+
+var transform;
+var insertInto;
+
+
+
+var options = {"hmr":true}
+
+options.transform = transform
+options.insertInto = undefined;
+
+var update = __webpack_require__(/*! ../../../../node_modules/style-loader/lib/addStyles.js */ "./node_modules/style-loader/lib/addStyles.js")(content, options);
+
+if(content.locals) module.exports = content.locals;
+
+if(false) {}
+
+/***/ }),
+
+/***/ "./node_modules/style-loader/index.js!./node_modules/css-loader/index.js!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src/index.js?!./node_modules/sass-loader/dist/cjs.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/modals/DeleteJoueurComponent.vue?vue&type=style&index=0&id=435be77c&lang=scss&scoped=true&":
+/*!******************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/style-loader!./node_modules/css-loader!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src??ref--7-2!./node_modules/sass-loader/dist/cjs.js??ref--7-3!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/modals/DeleteJoueurComponent.vue?vue&type=style&index=0&id=435be77c&lang=scss&scoped=true& ***!
+  \******************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+
+var content = __webpack_require__(/*! !../../../../node_modules/css-loader!../../../../node_modules/vue-loader/lib/loaders/stylePostLoader.js!../../../../node_modules/postcss-loader/src??ref--7-2!../../../../node_modules/sass-loader/dist/cjs.js??ref--7-3!../../../../node_modules/vue-loader/lib??vue-loader-options!./DeleteJoueurComponent.vue?vue&type=style&index=0&id=435be77c&lang=scss&scoped=true& */ "./node_modules/css-loader/index.js!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src/index.js?!./node_modules/sass-loader/dist/cjs.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/modals/DeleteJoueurComponent.vue?vue&type=style&index=0&id=435be77c&lang=scss&scoped=true&");
 
 if(typeof content === 'string') content = [[module.i, content, '']];
 
@@ -69751,9 +70416,7 @@ var render = function() {
                               )
                             )
                         )
-                      ]),
-                      _vm._v(" "),
-                      _c("p", [_vm._v(_vm._s(exercice.description))])
+                      ])
                     ]),
                     _vm._v(" "),
                     _c(
@@ -71761,7 +72424,7 @@ var render = function() {
                 [
                   _c("mes-exercices-modal"),
                   _vm._v(" "),
-                  _vm._m(3),
+                  _c("mes-favoris-modal"),
                   _vm._v(" "),
                   _c("create-exercice-modal"),
                   _vm._v(" "),
@@ -71822,7 +72485,7 @@ var render = function() {
                                   "div",
                                   { staticClass: "form-group" },
                                   [
-                                    _vm._m(4, true),
+                                    _vm._m(3, true),
                                     _vm._v(" "),
                                     _c("input-text", {
                                       attrs: {
@@ -71892,14 +72555,14 @@ var render = function() {
                           ])
                         : _c("div", { staticClass: "exercice-match" }, [
                             _c("div", { staticClass: "details-match" }, [
-                              _vm._m(5, true),
+                              _vm._m(4, true),
                               _vm._v(" "),
                               _c("div", { staticClass: "items-modifiables" }, [
                                 _c(
                                   "div",
                                   { staticClass: "form-group" },
                                   [
-                                    _vm._m(6, true),
+                                    _vm._m(5, true),
                                     _vm._v(" "),
                                     _c("input-text", {
                                       attrs: {
@@ -72022,7 +72685,7 @@ var render = function() {
           ])
         ]),
         _vm._v(" "),
-        _vm._m(7)
+        _vm._m(6)
       ]
     )
   ])
@@ -72055,15 +72718,6 @@ var staticRenderFns = [
     return _c("label", { attrs: { for: "time" } }, [
       _c("i", { staticClass: "ti-star color-soccer-coach" }),
       _vm._v(" * Exercices:")
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("button", { staticClass: "btn btn-soccer-coach-action" }, [
-      _c("i", { staticClass: "ti-star" }),
-      _vm._v(" Mes favoris")
     ])
   },
   function() {
@@ -72356,6 +73010,209 @@ render._withStripped = true
 
 /***/ }),
 
+/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/modals/CreateEntraineurComponent.vue?vue&type=template&id=8b378900&scoped=true&":
+/*!***********************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/modals/CreateEntraineurComponent.vue?vue&type=template&id=8b378900&scoped=true& ***!
+  \***********************************************************************************************************************************************************************************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "render", function() { return render; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return staticRenderFns; });
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c("div", { staticClass: "add-joueur" }, [
+    !_vm.fromDetail
+      ? _c(
+          "button",
+          {
+            staticClass: "btn btn-soccer-coach-action btn-sauvegarder",
+            attrs: {
+              type: "button",
+              "data-toggle": "modal",
+              "data-target": "#modalAddCoach"
+            },
+            on: {
+              click: function($event) {
+                return _vm.openModal()
+              }
+            }
+          },
+          [_c("i", { staticClass: "ti-plus" }), _vm._v(" Ajouter entraîneur ")]
+        )
+      : _c(
+          "button",
+          {
+            staticClass: "btn btn-soccer-coach-action btn-sauvegarder",
+            attrs: {
+              type: "button",
+              "data-toggle": "modal",
+              "data-target": "#modalAddCoach"
+            },
+            on: {
+              click: function($event) {
+                return _vm.openModal()
+              }
+            }
+          },
+          [_c("i", { staticClass: "ti-plus" }), _vm._v(" Ajouter")]
+        ),
+    _vm._v(" "),
+    _c(
+      "div",
+      {
+        staticClass: "modal fade",
+        attrs: { id: "modalAddCoach", role: "dialog" }
+      },
+      [
+        _c("div", { staticClass: "modal-dialog" }, [
+          _c("div", { staticClass: "modal-content" }, [
+            _c("div", { staticClass: "modal-header" }, [
+              _c("h4", { staticClass: "modal-title" }, [
+                _vm._v("Créer un entrâineur")
+              ]),
+              _vm._v(" "),
+              _c(
+                "button",
+                {
+                  staticClass: "close btn-close",
+                  attrs: { type: "button", id: "closemodalAddCoach" },
+                  on: {
+                    click: function($event) {
+                      return _vm.closeModal()
+                    }
+                  }
+                },
+                [_vm._v("×")]
+              )
+            ]),
+            _vm._v(" "),
+            _c("div", { staticClass: "modal-body" }, [
+              _c("div", { staticClass: "form-add-joueur" }, [
+                _c(
+                  "div",
+                  { staticClass: "form-group" },
+                  [
+                    _c("label", { attrs: { for: "nomEnt" } }, [
+                      _vm.entraineurDTO.nom.validations.require
+                        ? _c("span", [_vm._v(" * ")])
+                        : _vm._e(),
+                      _vm._v(" Nom:")
+                    ]),
+                    _vm._v(" "),
+                    _c("input-text", {
+                      attrs: {
+                        placeholder: "Ex: Pep Guardiola",
+                        name: "nomEnt",
+                        model: _vm.entraineurDTO.nom
+                      },
+                      on: {
+                        validation: function($event) {
+                          _vm.entraineurDTO.nom.validate = $event
+                        }
+                      },
+                      model: {
+                        value: _vm.entraineurDTO.nom.value,
+                        callback: function($$v) {
+                          _vm.$set(_vm.entraineurDTO.nom, "value", $$v)
+                        },
+                        expression: "entraineurDTO.nom.value"
+                      }
+                    })
+                  ],
+                  1
+                ),
+                _vm._v(" "),
+                _c("div", { staticClass: "form-group" }, [
+                  _c("label", { attrs: { for: "role" } }, [
+                    _vm.entraineurDTO.role.validations.require
+                      ? _c("span", [_vm._v(" * ")])
+                      : _vm._e(),
+                    _vm._v(" Rôle:")
+                  ]),
+                  _vm._v(" "),
+                  _c(
+                    "select",
+                    {
+                      directives: [
+                        {
+                          name: "model",
+                          rawName: "v-model",
+                          value: _vm.entraineurDTO.role.value,
+                          expression: "entraineurDTO.role.value"
+                        }
+                      ],
+                      staticClass: "select-form",
+                      attrs: { name: "role", id: "role" },
+                      on: {
+                        change: function($event) {
+                          var $$selectedVal = Array.prototype.filter
+                            .call($event.target.options, function(o) {
+                              return o.selected
+                            })
+                            .map(function(o) {
+                              var val = "_value" in o ? o._value : o.value
+                              return val
+                            })
+                          _vm.$set(
+                            _vm.entraineurDTO.role,
+                            "value",
+                            $event.target.multiple
+                              ? $$selectedVal
+                              : $$selectedVal[0]
+                          )
+                        }
+                      }
+                    },
+                    _vm._l(_vm.roles, function(role, index) {
+                      return _c(
+                        "option",
+                        { key: index, domProps: { value: role } },
+                        [_vm._v(_vm._s(role))]
+                      )
+                    }),
+                    0
+                  )
+                ]),
+                _vm._v(" "),
+                _c("div", { staticClass: "btn-action-exercices" }, [
+                  _c("div", { staticClass: "btns" }, [
+                    _c(
+                      "a",
+                      {
+                        staticClass: "btn btn-soccer-coach-action",
+                        on: {
+                          click: function($event) {
+                            return _vm.addEntraineur()
+                          }
+                        }
+                      },
+                      [
+                        _c("i", { staticClass: "ti-plus" }),
+                        _vm._v(" Ajouter entraîneur")
+                      ]
+                    )
+                  ])
+                ])
+              ])
+            ])
+          ])
+        ])
+      ]
+    )
+  ])
+}
+var staticRenderFns = []
+render._withStripped = true
+
+
+
+/***/ }),
+
 /***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/modals/CreateExerciceComponent.vue?vue&type=template&id=6c48959b&scoped=true&":
 /*!*********************************************************************************************************************************************************************************************************************************************!*\
   !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/modals/CreateExerciceComponent.vue?vue&type=template&id=6c48959b&scoped=true& ***!
@@ -72432,6 +73289,537 @@ var render = function() {
   ])
 }
 var staticRenderFns = []
+render._withStripped = true
+
+
+
+/***/ }),
+
+/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/modals/CreateJoueurComponent.vue?vue&type=template&id=04c3e551&scoped=true&":
+/*!*******************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/modals/CreateJoueurComponent.vue?vue&type=template&id=04c3e551&scoped=true& ***!
+  \*******************************************************************************************************************************************************************************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "render", function() { return render; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return staticRenderFns; });
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c("div", { staticClass: "add-joueur" }, [
+    !_vm.fromDetail
+      ? _c(
+          "button",
+          {
+            staticClass: "btn btn-soccer-coach-action btn-sauvegarder",
+            attrs: {
+              type: "button",
+              "data-toggle": "modal",
+              "data-target": "#modalAddPlayer"
+            },
+            on: {
+              click: function($event) {
+                return _vm.openModal()
+              }
+            }
+          },
+          [_c("i", { staticClass: "ti-plus" }), _vm._v(" Ajouter joueur ")]
+        )
+      : _c(
+          "button",
+          {
+            staticClass: "btn btn-soccer-coach-action btn-sauvegarder",
+            attrs: {
+              type: "button",
+              "data-toggle": "modal",
+              "data-target": "#modalAddPlayer"
+            },
+            on: {
+              click: function($event) {
+                return _vm.openModal()
+              }
+            }
+          },
+          [_c("i", { staticClass: "ti-plus" }), _vm._v(" Ajouter")]
+        ),
+    _vm._v(" "),
+    _c(
+      "div",
+      {
+        staticClass: "modal fade",
+        attrs: { id: "modalAddPlayer", role: "dialog" }
+      },
+      [
+        _c("div", { staticClass: "modal-dialog" }, [
+          _c("div", { staticClass: "modal-content" }, [
+            _c("div", { staticClass: "modal-header" }, [
+              _c("h4", { staticClass: "modal-title" }, [
+                _vm._v("Créer un joueur")
+              ]),
+              _vm._v(" "),
+              _c(
+                "button",
+                {
+                  staticClass: "close btn-close",
+                  attrs: { type: "button", id: "closeModalAddPlayer" },
+                  on: {
+                    click: function($event) {
+                      return _vm.closeModal()
+                    }
+                  }
+                },
+                [_vm._v("×")]
+              )
+            ]),
+            _vm._v(" "),
+            _c("div", { staticClass: "modal-body" }, [
+              _c("div", { staticClass: "form-add-joueur" }, [
+                _c(
+                  "div",
+                  { staticClass: "form-group" },
+                  [
+                    _c("label", { attrs: { for: "nomJoueur" } }, [
+                      _vm.joueurDTO.nom.validations.require
+                        ? _c("span", [_vm._v(" * ")])
+                        : _vm._e(),
+                      _vm._v(" Nom:")
+                    ]),
+                    _vm._v(" "),
+                    _c("input-text", {
+                      attrs: {
+                        placeholder: "Ex: Lionel Messi",
+                        name: "nomJoueur",
+                        model: _vm.joueurDTO.nom
+                      },
+                      on: {
+                        validation: function($event) {
+                          _vm.joueurDTO.nom.validate = $event
+                        }
+                      },
+                      model: {
+                        value: _vm.joueurDTO.nom.value,
+                        callback: function($$v) {
+                          _vm.$set(_vm.joueurDTO.nom, "value", $$v)
+                        },
+                        expression: "joueurDTO.nom.value"
+                      }
+                    })
+                  ],
+                  1
+                ),
+                _vm._v(" "),
+                _c(
+                  "div",
+                  { staticClass: "form-group" },
+                  [
+                    _c("label", { attrs: { for: "emailJoueur" } }, [
+                      _vm.joueurDTO.email.validations.require
+                        ? _c("span", [_vm._v(" * ")])
+                        : _vm._e(),
+                      _vm._v(" Email:")
+                    ]),
+                    _vm._v(" "),
+                    _c("input-text", {
+                      attrs: {
+                        placeholder: "Ex: lionel.messi@gmail.com",
+                        name: "emailJoueur",
+                        model: _vm.joueurDTO.email
+                      },
+                      on: {
+                        validation: function($event) {
+                          _vm.joueurDTO.email.validate = $event
+                        }
+                      },
+                      model: {
+                        value: _vm.joueurDTO.email.value,
+                        callback: function($$v) {
+                          _vm.$set(_vm.joueurDTO.email, "value", $$v)
+                        },
+                        expression: "joueurDTO.email.value"
+                      }
+                    })
+                  ],
+                  1
+                ),
+                _vm._v(" "),
+                _c("div", { staticClass: "form-group" }, [
+                  _c("label", { attrs: { for: "position2" } }, [
+                    _vm.joueurDTO.position1.validations.require
+                      ? _c("span", [_vm._v(" * ")])
+                      : _vm._e(),
+                    _vm._v(" Position 1:")
+                  ]),
+                  _vm._v(" "),
+                  _c(
+                    "select",
+                    {
+                      directives: [
+                        {
+                          name: "model",
+                          rawName: "v-model",
+                          value: _vm.joueurDTO.position1.value,
+                          expression: "joueurDTO.position1.value"
+                        }
+                      ],
+                      staticClass: "select-form",
+                      attrs: { name: "position1", id: "position2" },
+                      on: {
+                        change: function($event) {
+                          var $$selectedVal = Array.prototype.filter
+                            .call($event.target.options, function(o) {
+                              return o.selected
+                            })
+                            .map(function(o) {
+                              var val = "_value" in o ? o._value : o.value
+                              return val
+                            })
+                          _vm.$set(
+                            _vm.joueurDTO.position1,
+                            "value",
+                            $event.target.multiple
+                              ? $$selectedVal
+                              : $$selectedVal[0]
+                          )
+                        }
+                      }
+                    },
+                    _vm._l(_vm.positions, function(position, index) {
+                      return _c(
+                        "option",
+                        { key: index, domProps: { value: position } },
+                        [_vm._v(_vm._s(position))]
+                      )
+                    }),
+                    0
+                  )
+                ]),
+                _vm._v(" "),
+                _c("div", { staticClass: "form-group" }, [
+                  _c("label", { attrs: { for: "position2" } }, [
+                    _vm.joueurDTO.position2.validations.require
+                      ? _c("span", [_vm._v(" * ")])
+                      : _vm._e(),
+                    _vm._v(" Position 2:")
+                  ]),
+                  _vm._v(" "),
+                  _c(
+                    "select",
+                    {
+                      directives: [
+                        {
+                          name: "model",
+                          rawName: "v-model",
+                          value: _vm.joueurDTO.position2.value,
+                          expression: "joueurDTO.position2.value"
+                        }
+                      ],
+                      staticClass: "select-form",
+                      attrs: { name: "position2", id: "position2" },
+                      on: {
+                        change: function($event) {
+                          var $$selectedVal = Array.prototype.filter
+                            .call($event.target.options, function(o) {
+                              return o.selected
+                            })
+                            .map(function(o) {
+                              var val = "_value" in o ? o._value : o.value
+                              return val
+                            })
+                          _vm.$set(
+                            _vm.joueurDTO.position2,
+                            "value",
+                            $event.target.multiple
+                              ? $$selectedVal
+                              : $$selectedVal[0]
+                          )
+                        }
+                      }
+                    },
+                    _vm._l(_vm.positions, function(position, index) {
+                      return _c(
+                        "option",
+                        { key: index, domProps: { value: position } },
+                        [_vm._v(_vm._s(position))]
+                      )
+                    }),
+                    0
+                  )
+                ]),
+                _vm._v(" "),
+                _c("div", { staticClass: "form-group" }, [
+                  _c("label", { attrs: { for: "position3" } }, [
+                    _vm.joueurDTO.position3.validations.require
+                      ? _c("span", [_vm._v(" * ")])
+                      : _vm._e(),
+                    _vm._v(" Position 3:")
+                  ]),
+                  _vm._v(" "),
+                  _c(
+                    "select",
+                    {
+                      directives: [
+                        {
+                          name: "model",
+                          rawName: "v-model",
+                          value: _vm.joueurDTO.position3.value,
+                          expression: "joueurDTO.position3.value"
+                        }
+                      ],
+                      staticClass: "select-form",
+                      attrs: { name: "position3", id: "position3" },
+                      on: {
+                        change: function($event) {
+                          var $$selectedVal = Array.prototype.filter
+                            .call($event.target.options, function(o) {
+                              return o.selected
+                            })
+                            .map(function(o) {
+                              var val = "_value" in o ? o._value : o.value
+                              return val
+                            })
+                          _vm.$set(
+                            _vm.joueurDTO.position3,
+                            "value",
+                            $event.target.multiple
+                              ? $$selectedVal
+                              : $$selectedVal[0]
+                          )
+                        }
+                      }
+                    },
+                    _vm._l(_vm.positions, function(position, index) {
+                      return _c(
+                        "option",
+                        { key: index, domProps: { value: position } },
+                        [_vm._v(_vm._s(position))]
+                      )
+                    }),
+                    0
+                  )
+                ]),
+                _vm._v(" "),
+                _c("div", { staticClass: "btn-action-exercices" }, [
+                  _c("div", { staticClass: "btns" }, [
+                    _c(
+                      "a",
+                      {
+                        staticClass: "btn btn-soccer-coach-action",
+                        on: {
+                          click: function($event) {
+                            return _vm.addJoueur()
+                          }
+                        }
+                      },
+                      [
+                        _c("i", { staticClass: "ti-plus" }),
+                        _vm._v(" Ajouter joueur")
+                      ]
+                    )
+                  ])
+                ])
+              ])
+            ])
+          ])
+        ])
+      ]
+    )
+  ])
+}
+var staticRenderFns = []
+render._withStripped = true
+
+
+
+/***/ }),
+
+/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/modals/DeleteEntraineurComponent.vue?vue&type=template&id=41b381f1&scoped=true&":
+/*!***********************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/modals/DeleteEntraineurComponent.vue?vue&type=template&id=41b381f1&scoped=true& ***!
+  \***********************************************************************************************************************************************************************************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "render", function() { return render; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return staticRenderFns; });
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c("div", { staticClass: "modal-delete-joueur" }, [
+    _c(
+      "button",
+      {
+        staticClass: "btn btn-soccer-coach-action-list",
+        attrs: {
+          "data-toggle": "modal",
+          "data-target": "#modalDeleteCoach" + _vm.entraineur
+        }
+      },
+      [_c("i", { staticClass: "ti-trash" })]
+    ),
+    _vm._v(" "),
+    _c(
+      "div",
+      {
+        staticClass: "modal fade modalUpdateForm",
+        attrs: { id: "modalDeleteCoach" + _vm.entraineur, role: "dialog" }
+      },
+      [
+        _c("div", { staticClass: "modal-dialog" }, [
+          _c("div", { staticClass: "modal-content" }, [
+            _vm._m(0),
+            _vm._v(" "),
+            _c("div", { staticClass: "modal-body" }, [
+              _vm._v(
+                "\n                    Voulez-vous supprimer l'entraîneur "
+              ),
+              _c("span", [_vm._v(_vm._s(_vm.nom))]),
+              _vm._v("?\n                ")
+            ]),
+            _vm._v(" "),
+            _c("div", { staticClass: "modal-footer" }, [
+              _c(
+                "button",
+                {
+                  staticClass: "btn btn-soccer-coach-action btn-non",
+                  on: {
+                    click: function($event) {
+                      return _vm.closeModal()
+                    }
+                  }
+                },
+                [_vm._v("Non")]
+              ),
+              _vm._v(" "),
+              _c(
+                "button",
+                {
+                  staticClass: "btn btn-soccer-coach-action btn-oui",
+                  on: {
+                    click: function($event) {
+                      return _vm.deleteEntraineurToList()
+                    }
+                  }
+                },
+                [_vm._v("Oui")]
+              )
+            ])
+          ])
+        ])
+      ]
+    )
+  ])
+}
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "modal-header" }, [
+      _c("h4", { staticClass: "modal-title" }, [_vm._v("Attention")])
+    ])
+  }
+]
+render._withStripped = true
+
+
+
+/***/ }),
+
+/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/modals/DeleteJoueurComponent.vue?vue&type=template&id=435be77c&scoped=true&":
+/*!*******************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/modals/DeleteJoueurComponent.vue?vue&type=template&id=435be77c&scoped=true& ***!
+  \*******************************************************************************************************************************************************************************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "render", function() { return render; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return staticRenderFns; });
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c("div", { staticClass: "modal-delete-joueur" }, [
+    _c(
+      "button",
+      {
+        staticClass: "btn btn-soccer-coach-action-list",
+        attrs: {
+          "data-toggle": "modal",
+          "data-target": "#modalDeletePlayer" + _vm.joueur
+        }
+      },
+      [_c("i", { staticClass: "ti-trash" })]
+    ),
+    _vm._v(" "),
+    _c(
+      "div",
+      {
+        staticClass: "modal fade modalUpdateForm",
+        attrs: { id: "modalDeletePlayer" + _vm.joueur, role: "dialog" }
+      },
+      [
+        _c("div", { staticClass: "modal-dialog" }, [
+          _c("div", { staticClass: "modal-content" }, [
+            _vm._m(0),
+            _vm._v(" "),
+            _c("div", { staticClass: "modal-body" }, [
+              _vm._v("\n                    Voulez-vous supprimer le joueur "),
+              _c("span", [_vm._v(_vm._s(_vm.nom))]),
+              _vm._v("?\n                ")
+            ]),
+            _vm._v(" "),
+            _c("div", { staticClass: "modal-footer" }, [
+              _c(
+                "button",
+                {
+                  staticClass: "btn btn-soccer-coach-action btn-non",
+                  on: {
+                    click: function($event) {
+                      return _vm.closeModal()
+                    }
+                  }
+                },
+                [_vm._v("Non")]
+              ),
+              _vm._v(" "),
+              _c(
+                "button",
+                {
+                  staticClass: "btn btn-soccer-coach-action btn-oui",
+                  on: {
+                    click: function($event) {
+                      return _vm.deleteJoueurToList()
+                    }
+                  }
+                },
+                [_vm._v("Oui")]
+              )
+            ])
+          ])
+        ])
+      ]
+    )
+  ])
+}
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "modal-header" }, [
+      _c("h4", { staticClass: "modal-title" }, [_vm._v("Attention")])
+    ])
+  }
+]
 render._withStripped = true
 
 
@@ -94606,7 +95994,11 @@ Vue.component('exercices-publics-modal', __webpack_require__(/*! ./components/mo
 Vue.component('create-exercice-modal', __webpack_require__(/*! ./components/modals/CreateExerciceComponent.vue */ "./resources/js/components/modals/CreateExerciceComponent.vue")["default"]);
 Vue.component('details-exercice-modal', __webpack_require__(/*! ./components/modals/DetailsExerciceComponent.vue */ "./resources/js/components/modals/DetailsExerciceComponent.vue")["default"]);
 Vue.component('update-form-modal', __webpack_require__(/*! ./components/modals/UpdateFormComponent.vue */ "./resources/js/components/modals/UpdateFormComponent.vue")["default"]);
-Vue.component('mes-favoris-modal', __webpack_require__(/*! ./components/modals/MesFavorisComponent.vue */ "./resources/js/components/modals/MesFavorisComponent.vue")["default"]); //Components menu
+Vue.component('mes-favoris-modal', __webpack_require__(/*! ./components/modals/MesFavorisComponent.vue */ "./resources/js/components/modals/MesFavorisComponent.vue")["default"]);
+Vue.component('create-joueur-modal', __webpack_require__(/*! ./components/modals/CreateJoueurComponent.vue */ "./resources/js/components/modals/CreateJoueurComponent.vue")["default"]);
+Vue.component('create-entraineur-modal', __webpack_require__(/*! ./components/modals/CreateEntraineurComponent.vue */ "./resources/js/components/modals/CreateEntraineurComponent.vue")["default"]);
+Vue.component('delete-joueur-modal', __webpack_require__(/*! ./components/modals/DeleteJoueurComponent.vue */ "./resources/js/components/modals/DeleteJoueurComponent.vue")["default"]);
+Vue.component('delete-entraineur-modal', __webpack_require__(/*! ./components/modals/DeleteEntraineurComponent.vue */ "./resources/js/components/modals/DeleteEntraineurComponent.vue")["default"]); //Components menu
 
 Vue.component('menu-left', __webpack_require__(/*! ./components/menu/MenuLeftComponent.vue */ "./resources/js/components/menu/MenuLeftComponent.vue")["default"]);
 var app = new Vue({
@@ -96435,6 +97827,93 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
+/***/ "./resources/js/components/modals/CreateEntraineurComponent.vue":
+/*!**********************************************************************!*\
+  !*** ./resources/js/components/modals/CreateEntraineurComponent.vue ***!
+  \**********************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _CreateEntraineurComponent_vue_vue_type_template_id_8b378900_scoped_true___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./CreateEntraineurComponent.vue?vue&type=template&id=8b378900&scoped=true& */ "./resources/js/components/modals/CreateEntraineurComponent.vue?vue&type=template&id=8b378900&scoped=true&");
+/* harmony import */ var _CreateEntraineurComponent_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./CreateEntraineurComponent.vue?vue&type=script&lang=js& */ "./resources/js/components/modals/CreateEntraineurComponent.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport *//* harmony import */ var _CreateEntraineurComponent_vue_vue_type_style_index_0_id_8b378900_lang_scss_scoped_true___WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./CreateEntraineurComponent.vue?vue&type=style&index=0&id=8b378900&lang=scss&scoped=true& */ "./resources/js/components/modals/CreateEntraineurComponent.vue?vue&type=style&index=0&id=8b378900&lang=scss&scoped=true&");
+/* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+
+
+
+
+
+
+/* normalize component */
+
+var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_3__["default"])(
+  _CreateEntraineurComponent_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
+  _CreateEntraineurComponent_vue_vue_type_template_id_8b378900_scoped_true___WEBPACK_IMPORTED_MODULE_0__["render"],
+  _CreateEntraineurComponent_vue_vue_type_template_id_8b378900_scoped_true___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"],
+  false,
+  null,
+  "8b378900",
+  null
+  
+)
+
+/* hot reload */
+if (false) { var api; }
+component.options.__file = "resources/js/components/modals/CreateEntraineurComponent.vue"
+/* harmony default export */ __webpack_exports__["default"] = (component.exports);
+
+/***/ }),
+
+/***/ "./resources/js/components/modals/CreateEntraineurComponent.vue?vue&type=script&lang=js&":
+/*!***********************************************************************************************!*\
+  !*** ./resources/js/components/modals/CreateEntraineurComponent.vue?vue&type=script&lang=js& ***!
+  \***********************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_CreateEntraineurComponent_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/babel-loader/lib??ref--4-0!../../../../node_modules/vue-loader/lib??vue-loader-options!./CreateEntraineurComponent.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/modals/CreateEntraineurComponent.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport */ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_CreateEntraineurComponent_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
+
+/***/ }),
+
+/***/ "./resources/js/components/modals/CreateEntraineurComponent.vue?vue&type=style&index=0&id=8b378900&lang=scss&scoped=true&":
+/*!********************************************************************************************************************************!*\
+  !*** ./resources/js/components/modals/CreateEntraineurComponent.vue?vue&type=style&index=0&id=8b378900&lang=scss&scoped=true& ***!
+  \********************************************************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_style_loader_index_js_node_modules_css_loader_index_js_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_7_2_node_modules_sass_loader_dist_cjs_js_ref_7_3_node_modules_vue_loader_lib_index_js_vue_loader_options_CreateEntraineurComponent_vue_vue_type_style_index_0_id_8b378900_lang_scss_scoped_true___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/style-loader!../../../../node_modules/css-loader!../../../../node_modules/vue-loader/lib/loaders/stylePostLoader.js!../../../../node_modules/postcss-loader/src??ref--7-2!../../../../node_modules/sass-loader/dist/cjs.js??ref--7-3!../../../../node_modules/vue-loader/lib??vue-loader-options!./CreateEntraineurComponent.vue?vue&type=style&index=0&id=8b378900&lang=scss&scoped=true& */ "./node_modules/style-loader/index.js!./node_modules/css-loader/index.js!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src/index.js?!./node_modules/sass-loader/dist/cjs.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/modals/CreateEntraineurComponent.vue?vue&type=style&index=0&id=8b378900&lang=scss&scoped=true&");
+/* harmony import */ var _node_modules_style_loader_index_js_node_modules_css_loader_index_js_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_7_2_node_modules_sass_loader_dist_cjs_js_ref_7_3_node_modules_vue_loader_lib_index_js_vue_loader_options_CreateEntraineurComponent_vue_vue_type_style_index_0_id_8b378900_lang_scss_scoped_true___WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_index_js_node_modules_css_loader_index_js_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_7_2_node_modules_sass_loader_dist_cjs_js_ref_7_3_node_modules_vue_loader_lib_index_js_vue_loader_options_CreateEntraineurComponent_vue_vue_type_style_index_0_id_8b378900_lang_scss_scoped_true___WEBPACK_IMPORTED_MODULE_0__);
+/* harmony reexport (unknown) */ for(var __WEBPACK_IMPORT_KEY__ in _node_modules_style_loader_index_js_node_modules_css_loader_index_js_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_7_2_node_modules_sass_loader_dist_cjs_js_ref_7_3_node_modules_vue_loader_lib_index_js_vue_loader_options_CreateEntraineurComponent_vue_vue_type_style_index_0_id_8b378900_lang_scss_scoped_true___WEBPACK_IMPORTED_MODULE_0__) if(__WEBPACK_IMPORT_KEY__ !== 'default') (function(key) { __webpack_require__.d(__webpack_exports__, key, function() { return _node_modules_style_loader_index_js_node_modules_css_loader_index_js_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_7_2_node_modules_sass_loader_dist_cjs_js_ref_7_3_node_modules_vue_loader_lib_index_js_vue_loader_options_CreateEntraineurComponent_vue_vue_type_style_index_0_id_8b378900_lang_scss_scoped_true___WEBPACK_IMPORTED_MODULE_0__[key]; }) }(__WEBPACK_IMPORT_KEY__));
+ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_style_loader_index_js_node_modules_css_loader_index_js_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_7_2_node_modules_sass_loader_dist_cjs_js_ref_7_3_node_modules_vue_loader_lib_index_js_vue_loader_options_CreateEntraineurComponent_vue_vue_type_style_index_0_id_8b378900_lang_scss_scoped_true___WEBPACK_IMPORTED_MODULE_0___default.a); 
+
+/***/ }),
+
+/***/ "./resources/js/components/modals/CreateEntraineurComponent.vue?vue&type=template&id=8b378900&scoped=true&":
+/*!*****************************************************************************************************************!*\
+  !*** ./resources/js/components/modals/CreateEntraineurComponent.vue?vue&type=template&id=8b378900&scoped=true& ***!
+  \*****************************************************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_CreateEntraineurComponent_vue_vue_type_template_id_8b378900_scoped_true___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../../node_modules/vue-loader/lib??vue-loader-options!./CreateEntraineurComponent.vue?vue&type=template&id=8b378900&scoped=true& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/modals/CreateEntraineurComponent.vue?vue&type=template&id=8b378900&scoped=true&");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_CreateEntraineurComponent_vue_vue_type_template_id_8b378900_scoped_true___WEBPACK_IMPORTED_MODULE_0__["render"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_CreateEntraineurComponent_vue_vue_type_template_id_8b378900_scoped_true___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
+
+
+
+/***/ }),
+
 /***/ "./resources/js/components/modals/CreateExerciceComponent.vue":
 /*!********************************************************************!*\
   !*** ./resources/js/components/modals/CreateExerciceComponent.vue ***!
@@ -96517,6 +97996,267 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_CreateExerciceComponent_vue_vue_type_template_id_6c48959b_scoped_true___WEBPACK_IMPORTED_MODULE_0__["render"]; });
 
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_CreateExerciceComponent_vue_vue_type_template_id_6c48959b_scoped_true___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
+
+
+
+/***/ }),
+
+/***/ "./resources/js/components/modals/CreateJoueurComponent.vue":
+/*!******************************************************************!*\
+  !*** ./resources/js/components/modals/CreateJoueurComponent.vue ***!
+  \******************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _CreateJoueurComponent_vue_vue_type_template_id_04c3e551_scoped_true___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./CreateJoueurComponent.vue?vue&type=template&id=04c3e551&scoped=true& */ "./resources/js/components/modals/CreateJoueurComponent.vue?vue&type=template&id=04c3e551&scoped=true&");
+/* harmony import */ var _CreateJoueurComponent_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./CreateJoueurComponent.vue?vue&type=script&lang=js& */ "./resources/js/components/modals/CreateJoueurComponent.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport *//* harmony import */ var _CreateJoueurComponent_vue_vue_type_style_index_0_id_04c3e551_lang_scss_scoped_true___WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./CreateJoueurComponent.vue?vue&type=style&index=0&id=04c3e551&lang=scss&scoped=true& */ "./resources/js/components/modals/CreateJoueurComponent.vue?vue&type=style&index=0&id=04c3e551&lang=scss&scoped=true&");
+/* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+
+
+
+
+
+
+/* normalize component */
+
+var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_3__["default"])(
+  _CreateJoueurComponent_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
+  _CreateJoueurComponent_vue_vue_type_template_id_04c3e551_scoped_true___WEBPACK_IMPORTED_MODULE_0__["render"],
+  _CreateJoueurComponent_vue_vue_type_template_id_04c3e551_scoped_true___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"],
+  false,
+  null,
+  "04c3e551",
+  null
+  
+)
+
+/* hot reload */
+if (false) { var api; }
+component.options.__file = "resources/js/components/modals/CreateJoueurComponent.vue"
+/* harmony default export */ __webpack_exports__["default"] = (component.exports);
+
+/***/ }),
+
+/***/ "./resources/js/components/modals/CreateJoueurComponent.vue?vue&type=script&lang=js&":
+/*!*******************************************************************************************!*\
+  !*** ./resources/js/components/modals/CreateJoueurComponent.vue?vue&type=script&lang=js& ***!
+  \*******************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_CreateJoueurComponent_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/babel-loader/lib??ref--4-0!../../../../node_modules/vue-loader/lib??vue-loader-options!./CreateJoueurComponent.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/modals/CreateJoueurComponent.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport */ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_CreateJoueurComponent_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
+
+/***/ }),
+
+/***/ "./resources/js/components/modals/CreateJoueurComponent.vue?vue&type=style&index=0&id=04c3e551&lang=scss&scoped=true&":
+/*!****************************************************************************************************************************!*\
+  !*** ./resources/js/components/modals/CreateJoueurComponent.vue?vue&type=style&index=0&id=04c3e551&lang=scss&scoped=true& ***!
+  \****************************************************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_style_loader_index_js_node_modules_css_loader_index_js_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_7_2_node_modules_sass_loader_dist_cjs_js_ref_7_3_node_modules_vue_loader_lib_index_js_vue_loader_options_CreateJoueurComponent_vue_vue_type_style_index_0_id_04c3e551_lang_scss_scoped_true___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/style-loader!../../../../node_modules/css-loader!../../../../node_modules/vue-loader/lib/loaders/stylePostLoader.js!../../../../node_modules/postcss-loader/src??ref--7-2!../../../../node_modules/sass-loader/dist/cjs.js??ref--7-3!../../../../node_modules/vue-loader/lib??vue-loader-options!./CreateJoueurComponent.vue?vue&type=style&index=0&id=04c3e551&lang=scss&scoped=true& */ "./node_modules/style-loader/index.js!./node_modules/css-loader/index.js!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src/index.js?!./node_modules/sass-loader/dist/cjs.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/modals/CreateJoueurComponent.vue?vue&type=style&index=0&id=04c3e551&lang=scss&scoped=true&");
+/* harmony import */ var _node_modules_style_loader_index_js_node_modules_css_loader_index_js_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_7_2_node_modules_sass_loader_dist_cjs_js_ref_7_3_node_modules_vue_loader_lib_index_js_vue_loader_options_CreateJoueurComponent_vue_vue_type_style_index_0_id_04c3e551_lang_scss_scoped_true___WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_index_js_node_modules_css_loader_index_js_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_7_2_node_modules_sass_loader_dist_cjs_js_ref_7_3_node_modules_vue_loader_lib_index_js_vue_loader_options_CreateJoueurComponent_vue_vue_type_style_index_0_id_04c3e551_lang_scss_scoped_true___WEBPACK_IMPORTED_MODULE_0__);
+/* harmony reexport (unknown) */ for(var __WEBPACK_IMPORT_KEY__ in _node_modules_style_loader_index_js_node_modules_css_loader_index_js_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_7_2_node_modules_sass_loader_dist_cjs_js_ref_7_3_node_modules_vue_loader_lib_index_js_vue_loader_options_CreateJoueurComponent_vue_vue_type_style_index_0_id_04c3e551_lang_scss_scoped_true___WEBPACK_IMPORTED_MODULE_0__) if(__WEBPACK_IMPORT_KEY__ !== 'default') (function(key) { __webpack_require__.d(__webpack_exports__, key, function() { return _node_modules_style_loader_index_js_node_modules_css_loader_index_js_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_7_2_node_modules_sass_loader_dist_cjs_js_ref_7_3_node_modules_vue_loader_lib_index_js_vue_loader_options_CreateJoueurComponent_vue_vue_type_style_index_0_id_04c3e551_lang_scss_scoped_true___WEBPACK_IMPORTED_MODULE_0__[key]; }) }(__WEBPACK_IMPORT_KEY__));
+ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_style_loader_index_js_node_modules_css_loader_index_js_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_7_2_node_modules_sass_loader_dist_cjs_js_ref_7_3_node_modules_vue_loader_lib_index_js_vue_loader_options_CreateJoueurComponent_vue_vue_type_style_index_0_id_04c3e551_lang_scss_scoped_true___WEBPACK_IMPORTED_MODULE_0___default.a); 
+
+/***/ }),
+
+/***/ "./resources/js/components/modals/CreateJoueurComponent.vue?vue&type=template&id=04c3e551&scoped=true&":
+/*!*************************************************************************************************************!*\
+  !*** ./resources/js/components/modals/CreateJoueurComponent.vue?vue&type=template&id=04c3e551&scoped=true& ***!
+  \*************************************************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_CreateJoueurComponent_vue_vue_type_template_id_04c3e551_scoped_true___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../../node_modules/vue-loader/lib??vue-loader-options!./CreateJoueurComponent.vue?vue&type=template&id=04c3e551&scoped=true& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/modals/CreateJoueurComponent.vue?vue&type=template&id=04c3e551&scoped=true&");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_CreateJoueurComponent_vue_vue_type_template_id_04c3e551_scoped_true___WEBPACK_IMPORTED_MODULE_0__["render"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_CreateJoueurComponent_vue_vue_type_template_id_04c3e551_scoped_true___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
+
+
+
+/***/ }),
+
+/***/ "./resources/js/components/modals/DeleteEntraineurComponent.vue":
+/*!**********************************************************************!*\
+  !*** ./resources/js/components/modals/DeleteEntraineurComponent.vue ***!
+  \**********************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _DeleteEntraineurComponent_vue_vue_type_template_id_41b381f1_scoped_true___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./DeleteEntraineurComponent.vue?vue&type=template&id=41b381f1&scoped=true& */ "./resources/js/components/modals/DeleteEntraineurComponent.vue?vue&type=template&id=41b381f1&scoped=true&");
+/* harmony import */ var _DeleteEntraineurComponent_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./DeleteEntraineurComponent.vue?vue&type=script&lang=js& */ "./resources/js/components/modals/DeleteEntraineurComponent.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport *//* harmony import */ var _DeleteEntraineurComponent_vue_vue_type_style_index_0_id_41b381f1_lang_scss_scoped_true___WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./DeleteEntraineurComponent.vue?vue&type=style&index=0&id=41b381f1&lang=scss&scoped=true& */ "./resources/js/components/modals/DeleteEntraineurComponent.vue?vue&type=style&index=0&id=41b381f1&lang=scss&scoped=true&");
+/* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+
+
+
+
+
+
+/* normalize component */
+
+var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_3__["default"])(
+  _DeleteEntraineurComponent_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
+  _DeleteEntraineurComponent_vue_vue_type_template_id_41b381f1_scoped_true___WEBPACK_IMPORTED_MODULE_0__["render"],
+  _DeleteEntraineurComponent_vue_vue_type_template_id_41b381f1_scoped_true___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"],
+  false,
+  null,
+  "41b381f1",
+  null
+  
+)
+
+/* hot reload */
+if (false) { var api; }
+component.options.__file = "resources/js/components/modals/DeleteEntraineurComponent.vue"
+/* harmony default export */ __webpack_exports__["default"] = (component.exports);
+
+/***/ }),
+
+/***/ "./resources/js/components/modals/DeleteEntraineurComponent.vue?vue&type=script&lang=js&":
+/*!***********************************************************************************************!*\
+  !*** ./resources/js/components/modals/DeleteEntraineurComponent.vue?vue&type=script&lang=js& ***!
+  \***********************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_DeleteEntraineurComponent_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/babel-loader/lib??ref--4-0!../../../../node_modules/vue-loader/lib??vue-loader-options!./DeleteEntraineurComponent.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/modals/DeleteEntraineurComponent.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport */ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_DeleteEntraineurComponent_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
+
+/***/ }),
+
+/***/ "./resources/js/components/modals/DeleteEntraineurComponent.vue?vue&type=style&index=0&id=41b381f1&lang=scss&scoped=true&":
+/*!********************************************************************************************************************************!*\
+  !*** ./resources/js/components/modals/DeleteEntraineurComponent.vue?vue&type=style&index=0&id=41b381f1&lang=scss&scoped=true& ***!
+  \********************************************************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_style_loader_index_js_node_modules_css_loader_index_js_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_7_2_node_modules_sass_loader_dist_cjs_js_ref_7_3_node_modules_vue_loader_lib_index_js_vue_loader_options_DeleteEntraineurComponent_vue_vue_type_style_index_0_id_41b381f1_lang_scss_scoped_true___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/style-loader!../../../../node_modules/css-loader!../../../../node_modules/vue-loader/lib/loaders/stylePostLoader.js!../../../../node_modules/postcss-loader/src??ref--7-2!../../../../node_modules/sass-loader/dist/cjs.js??ref--7-3!../../../../node_modules/vue-loader/lib??vue-loader-options!./DeleteEntraineurComponent.vue?vue&type=style&index=0&id=41b381f1&lang=scss&scoped=true& */ "./node_modules/style-loader/index.js!./node_modules/css-loader/index.js!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src/index.js?!./node_modules/sass-loader/dist/cjs.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/modals/DeleteEntraineurComponent.vue?vue&type=style&index=0&id=41b381f1&lang=scss&scoped=true&");
+/* harmony import */ var _node_modules_style_loader_index_js_node_modules_css_loader_index_js_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_7_2_node_modules_sass_loader_dist_cjs_js_ref_7_3_node_modules_vue_loader_lib_index_js_vue_loader_options_DeleteEntraineurComponent_vue_vue_type_style_index_0_id_41b381f1_lang_scss_scoped_true___WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_index_js_node_modules_css_loader_index_js_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_7_2_node_modules_sass_loader_dist_cjs_js_ref_7_3_node_modules_vue_loader_lib_index_js_vue_loader_options_DeleteEntraineurComponent_vue_vue_type_style_index_0_id_41b381f1_lang_scss_scoped_true___WEBPACK_IMPORTED_MODULE_0__);
+/* harmony reexport (unknown) */ for(var __WEBPACK_IMPORT_KEY__ in _node_modules_style_loader_index_js_node_modules_css_loader_index_js_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_7_2_node_modules_sass_loader_dist_cjs_js_ref_7_3_node_modules_vue_loader_lib_index_js_vue_loader_options_DeleteEntraineurComponent_vue_vue_type_style_index_0_id_41b381f1_lang_scss_scoped_true___WEBPACK_IMPORTED_MODULE_0__) if(__WEBPACK_IMPORT_KEY__ !== 'default') (function(key) { __webpack_require__.d(__webpack_exports__, key, function() { return _node_modules_style_loader_index_js_node_modules_css_loader_index_js_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_7_2_node_modules_sass_loader_dist_cjs_js_ref_7_3_node_modules_vue_loader_lib_index_js_vue_loader_options_DeleteEntraineurComponent_vue_vue_type_style_index_0_id_41b381f1_lang_scss_scoped_true___WEBPACK_IMPORTED_MODULE_0__[key]; }) }(__WEBPACK_IMPORT_KEY__));
+ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_style_loader_index_js_node_modules_css_loader_index_js_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_7_2_node_modules_sass_loader_dist_cjs_js_ref_7_3_node_modules_vue_loader_lib_index_js_vue_loader_options_DeleteEntraineurComponent_vue_vue_type_style_index_0_id_41b381f1_lang_scss_scoped_true___WEBPACK_IMPORTED_MODULE_0___default.a); 
+
+/***/ }),
+
+/***/ "./resources/js/components/modals/DeleteEntraineurComponent.vue?vue&type=template&id=41b381f1&scoped=true&":
+/*!*****************************************************************************************************************!*\
+  !*** ./resources/js/components/modals/DeleteEntraineurComponent.vue?vue&type=template&id=41b381f1&scoped=true& ***!
+  \*****************************************************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_DeleteEntraineurComponent_vue_vue_type_template_id_41b381f1_scoped_true___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../../node_modules/vue-loader/lib??vue-loader-options!./DeleteEntraineurComponent.vue?vue&type=template&id=41b381f1&scoped=true& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/modals/DeleteEntraineurComponent.vue?vue&type=template&id=41b381f1&scoped=true&");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_DeleteEntraineurComponent_vue_vue_type_template_id_41b381f1_scoped_true___WEBPACK_IMPORTED_MODULE_0__["render"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_DeleteEntraineurComponent_vue_vue_type_template_id_41b381f1_scoped_true___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
+
+
+
+/***/ }),
+
+/***/ "./resources/js/components/modals/DeleteJoueurComponent.vue":
+/*!******************************************************************!*\
+  !*** ./resources/js/components/modals/DeleteJoueurComponent.vue ***!
+  \******************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _DeleteJoueurComponent_vue_vue_type_template_id_435be77c_scoped_true___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./DeleteJoueurComponent.vue?vue&type=template&id=435be77c&scoped=true& */ "./resources/js/components/modals/DeleteJoueurComponent.vue?vue&type=template&id=435be77c&scoped=true&");
+/* harmony import */ var _DeleteJoueurComponent_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./DeleteJoueurComponent.vue?vue&type=script&lang=js& */ "./resources/js/components/modals/DeleteJoueurComponent.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport *//* harmony import */ var _DeleteJoueurComponent_vue_vue_type_style_index_0_id_435be77c_lang_scss_scoped_true___WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./DeleteJoueurComponent.vue?vue&type=style&index=0&id=435be77c&lang=scss&scoped=true& */ "./resources/js/components/modals/DeleteJoueurComponent.vue?vue&type=style&index=0&id=435be77c&lang=scss&scoped=true&");
+/* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+
+
+
+
+
+
+/* normalize component */
+
+var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_3__["default"])(
+  _DeleteJoueurComponent_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
+  _DeleteJoueurComponent_vue_vue_type_template_id_435be77c_scoped_true___WEBPACK_IMPORTED_MODULE_0__["render"],
+  _DeleteJoueurComponent_vue_vue_type_template_id_435be77c_scoped_true___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"],
+  false,
+  null,
+  "435be77c",
+  null
+  
+)
+
+/* hot reload */
+if (false) { var api; }
+component.options.__file = "resources/js/components/modals/DeleteJoueurComponent.vue"
+/* harmony default export */ __webpack_exports__["default"] = (component.exports);
+
+/***/ }),
+
+/***/ "./resources/js/components/modals/DeleteJoueurComponent.vue?vue&type=script&lang=js&":
+/*!*******************************************************************************************!*\
+  !*** ./resources/js/components/modals/DeleteJoueurComponent.vue?vue&type=script&lang=js& ***!
+  \*******************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_DeleteJoueurComponent_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/babel-loader/lib??ref--4-0!../../../../node_modules/vue-loader/lib??vue-loader-options!./DeleteJoueurComponent.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/modals/DeleteJoueurComponent.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport */ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_DeleteJoueurComponent_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
+
+/***/ }),
+
+/***/ "./resources/js/components/modals/DeleteJoueurComponent.vue?vue&type=style&index=0&id=435be77c&lang=scss&scoped=true&":
+/*!****************************************************************************************************************************!*\
+  !*** ./resources/js/components/modals/DeleteJoueurComponent.vue?vue&type=style&index=0&id=435be77c&lang=scss&scoped=true& ***!
+  \****************************************************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_style_loader_index_js_node_modules_css_loader_index_js_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_7_2_node_modules_sass_loader_dist_cjs_js_ref_7_3_node_modules_vue_loader_lib_index_js_vue_loader_options_DeleteJoueurComponent_vue_vue_type_style_index_0_id_435be77c_lang_scss_scoped_true___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/style-loader!../../../../node_modules/css-loader!../../../../node_modules/vue-loader/lib/loaders/stylePostLoader.js!../../../../node_modules/postcss-loader/src??ref--7-2!../../../../node_modules/sass-loader/dist/cjs.js??ref--7-3!../../../../node_modules/vue-loader/lib??vue-loader-options!./DeleteJoueurComponent.vue?vue&type=style&index=0&id=435be77c&lang=scss&scoped=true& */ "./node_modules/style-loader/index.js!./node_modules/css-loader/index.js!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src/index.js?!./node_modules/sass-loader/dist/cjs.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/modals/DeleteJoueurComponent.vue?vue&type=style&index=0&id=435be77c&lang=scss&scoped=true&");
+/* harmony import */ var _node_modules_style_loader_index_js_node_modules_css_loader_index_js_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_7_2_node_modules_sass_loader_dist_cjs_js_ref_7_3_node_modules_vue_loader_lib_index_js_vue_loader_options_DeleteJoueurComponent_vue_vue_type_style_index_0_id_435be77c_lang_scss_scoped_true___WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_index_js_node_modules_css_loader_index_js_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_7_2_node_modules_sass_loader_dist_cjs_js_ref_7_3_node_modules_vue_loader_lib_index_js_vue_loader_options_DeleteJoueurComponent_vue_vue_type_style_index_0_id_435be77c_lang_scss_scoped_true___WEBPACK_IMPORTED_MODULE_0__);
+/* harmony reexport (unknown) */ for(var __WEBPACK_IMPORT_KEY__ in _node_modules_style_loader_index_js_node_modules_css_loader_index_js_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_7_2_node_modules_sass_loader_dist_cjs_js_ref_7_3_node_modules_vue_loader_lib_index_js_vue_loader_options_DeleteJoueurComponent_vue_vue_type_style_index_0_id_435be77c_lang_scss_scoped_true___WEBPACK_IMPORTED_MODULE_0__) if(__WEBPACK_IMPORT_KEY__ !== 'default') (function(key) { __webpack_require__.d(__webpack_exports__, key, function() { return _node_modules_style_loader_index_js_node_modules_css_loader_index_js_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_7_2_node_modules_sass_loader_dist_cjs_js_ref_7_3_node_modules_vue_loader_lib_index_js_vue_loader_options_DeleteJoueurComponent_vue_vue_type_style_index_0_id_435be77c_lang_scss_scoped_true___WEBPACK_IMPORTED_MODULE_0__[key]; }) }(__WEBPACK_IMPORT_KEY__));
+ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_style_loader_index_js_node_modules_css_loader_index_js_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_7_2_node_modules_sass_loader_dist_cjs_js_ref_7_3_node_modules_vue_loader_lib_index_js_vue_loader_options_DeleteJoueurComponent_vue_vue_type_style_index_0_id_435be77c_lang_scss_scoped_true___WEBPACK_IMPORTED_MODULE_0___default.a); 
+
+/***/ }),
+
+/***/ "./resources/js/components/modals/DeleteJoueurComponent.vue?vue&type=template&id=435be77c&scoped=true&":
+/*!*************************************************************************************************************!*\
+  !*** ./resources/js/components/modals/DeleteJoueurComponent.vue?vue&type=template&id=435be77c&scoped=true& ***!
+  \*************************************************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_DeleteJoueurComponent_vue_vue_type_template_id_435be77c_scoped_true___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../../node_modules/vue-loader/lib??vue-loader-options!./DeleteJoueurComponent.vue?vue&type=template&id=435be77c&scoped=true& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/modals/DeleteJoueurComponent.vue?vue&type=template&id=435be77c&scoped=true&");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_DeleteJoueurComponent_vue_vue_type_template_id_435be77c_scoped_true___WEBPACK_IMPORTED_MODULE_0__["render"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_DeleteJoueurComponent_vue_vue_type_template_id_435be77c_scoped_true___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
 
 
 
@@ -97014,61 +98754,87 @@ vue__WEBPACK_IMPORTED_MODULE_0___default.a.use(vue_router__WEBPACK_IMPORTED_MODU
   }, {
     path: '/mes-exercices',
     component: function component() {
-      return __webpack_require__.e(/*! import() */ 7).then(__webpack_require__.bind(null, /*! ./views/exercice/MesExercices.vue */ "./resources/js/views/exercice/MesExercices.vue"));
+      return __webpack_require__.e(/*! import() */ 11).then(__webpack_require__.bind(null, /*! ./views/exercice/MesExercices.vue */ "./resources/js/views/exercice/MesExercices.vue"));
     },
     children: []
   }, {
     path: '/create-exercice',
     name: 'createExercice',
     component: function component() {
-      return __webpack_require__.e(/*! import() */ 6).then(__webpack_require__.bind(null, /*! ./views/exercice/CreateExercice.vue */ "./resources/js/views/exercice/CreateExercice.vue"));
+      return __webpack_require__.e(/*! import() */ 10).then(__webpack_require__.bind(null, /*! ./views/exercice/CreateExercice.vue */ "./resources/js/views/exercice/CreateExercice.vue"));
     }
   }, {
     path: '/update-exercice',
     name: 'UpdateExercice',
     component: function component() {
-      return __webpack_require__.e(/*! import() */ 2).then(__webpack_require__.bind(null, /*! ./views/exercice/UpdateExercice.vue */ "./resources/js/views/exercice/UpdateExercice.vue"));
+      return __webpack_require__.e(/*! import() */ 7).then(__webpack_require__.bind(null, /*! ./views/exercice/UpdateExercice.vue */ "./resources/js/views/exercice/UpdateExercice.vue"));
     },
     props: true
   }, {
     path: '/detail-exercice',
     name: 'DetailExercice',
     component: function component() {
-      return __webpack_require__.e(/*! import() */ 1).then(__webpack_require__.bind(null, /*! ./views/exercice/DetailExercice.vue */ "./resources/js/views/exercice/DetailExercice.vue"));
+      return __webpack_require__.e(/*! import() */ 6).then(__webpack_require__.bind(null, /*! ./views/exercice/DetailExercice.vue */ "./resources/js/views/exercice/DetailExercice.vue"));
     },
     props: true
   }, {
     path: '/mes-seances',
     component: function component() {
-      return __webpack_require__.e(/*! import() */ 9).then(__webpack_require__.bind(null, /*! ./views/seance/MesSeances.vue */ "./resources/js/views/seance/MesSeances.vue"));
+      return __webpack_require__.e(/*! import() */ 13).then(__webpack_require__.bind(null, /*! ./views/seance/MesSeances.vue */ "./resources/js/views/seance/MesSeances.vue"));
     },
     children: []
   }, {
     path: '/detail-seance',
     name: 'DetailSeance',
     component: function component() {
-      return __webpack_require__.e(/*! import() */ 0).then(__webpack_require__.bind(null, /*! ./views/seance/DetailSeance.vue */ "./resources/js/views/seance/DetailSeance.vue"));
+      return __webpack_require__.e(/*! import() */ 4).then(__webpack_require__.bind(null, /*! ./views/seance/DetailSeance.vue */ "./resources/js/views/seance/DetailSeance.vue"));
     },
     props: true
   }, {
     path: '/create-seance',
     name: 'CreateSeance',
     component: function component() {
-      return __webpack_require__.e(/*! import() */ 8).then(__webpack_require__.bind(null, /*! ./views/seance/CreateSeance.vue */ "./resources/js/views/seance/CreateSeance.vue"));
+      return __webpack_require__.e(/*! import() */ 12).then(__webpack_require__.bind(null, /*! ./views/seance/CreateSeance.vue */ "./resources/js/views/seance/CreateSeance.vue"));
     }
   }, {
     path: '/update-seance',
     name: 'UpdateSeance',
     component: function component() {
-      return __webpack_require__.e(/*! import() */ 4).then(__webpack_require__.bind(null, /*! ./views/seance/UpdateSeance.vue */ "./resources/js/views/seance/UpdateSeance.vue"));
+      return __webpack_require__.e(/*! import() */ 9).then(__webpack_require__.bind(null, /*! ./views/seance/UpdateSeance.vue */ "./resources/js/views/seance/UpdateSeance.vue"));
     },
     props: true
   }, {
     path: '/mes-favoris',
     name: 'MesFavoris',
     component: function component() {
-      return __webpack_require__.e(/*! import() */ 3).then(__webpack_require__.bind(null, /*! ./views/favoris/FavorisComponent.vue */ "./resources/js/views/favoris/FavorisComponent.vue"));
+      return __webpack_require__.e(/*! import() */ 8).then(__webpack_require__.bind(null, /*! ./views/favoris/FavorisComponent.vue */ "./resources/js/views/favoris/FavorisComponent.vue"));
     }
+  }, {
+    path: '/mes-equipes',
+    name: 'MesEquipes',
+    component: function component() {
+      return __webpack_require__.e(/*! import() */ 2).then(__webpack_require__.bind(null, /*! ./views/equipes/EquipesComponent.vue */ "./resources/js/views/equipes/EquipesComponent.vue"));
+    }
+  }, {
+    path: '/create-equipe',
+    name: 'CreateEquipe',
+    component: function component() {
+      return __webpack_require__.e(/*! import() */ 0).then(__webpack_require__.bind(null, /*! ./views/equipes/CreateEquipe.vue */ "./resources/js/views/equipes/CreateEquipe.vue"));
+    }
+  }, {
+    path: '/update-equipe',
+    name: 'UpdateEquipe',
+    component: function component() {
+      return __webpack_require__.e(/*! import() */ 3).then(__webpack_require__.bind(null, /*! ./views/equipes/UpdateEquipe.vue */ "./resources/js/views/equipes/UpdateEquipe.vue"));
+    },
+    props: true
+  }, {
+    path: '/details-equipe',
+    name: 'DetailsEquipe',
+    component: function component() {
+      return __webpack_require__.e(/*! import() */ 1).then(__webpack_require__.bind(null, /*! ./views/equipes/DetailEquipe.vue */ "./resources/js/views/equipes/DetailEquipe.vue"));
+    },
+    props: true
   }]
 }));
 
@@ -97101,6 +98867,14 @@ __webpack_require__.r(__webpack_exports__);
     lstAllTypes: [],
     //tous les types d'exercice
     exerciceAdd: {},
+    lstJoueurs: [],
+    //garde la liste des joueurs ajoutés
+    lstEntraineurs: [],
+    //garde la liste des entraineurs ajoutés
+    lstMatchs: [],
+    //garde la liste des matchs ajoutés
+    lstPratiques: [],
+    //garde la liste des pratiques ajoutés
     imgBase64: undefined,
     //garde l'image en base64
     lstIconsByType: [['principe-offensif', 'ti-target'], ['principe-defensif', 'ti-hummer'], ['rondos', 'ti-cup'], ['physique', 'ti-heart']],
@@ -97291,7 +99065,48 @@ __webpack_require__.r(__webpack_exports__);
         },
         validate: false
       }
-    }
+    },
+    equipeStoreDTO: {
+      nom: {
+        value: undefined,
+        validations: {
+          require: true
+        },
+        validate: false
+      },
+      logo: {
+        value: undefined,
+        validations: {
+          require: false
+        },
+        validate: true
+      },
+      saison: {
+        nom: {
+          value: undefined,
+          validations: {
+            require: true
+          },
+          validate: false
+        },
+        dateDebut: {
+          value: undefined,
+          validations: {
+            require: true
+          },
+          validate: false
+        },
+        dateFin: {
+          value: undefined,
+          validations: {
+            require: true
+          },
+          validate: false
+        }
+      }
+    },
+    positions: ['G', 'DFC', 'DFD', 'DFG', 'MC', 'MOC', 'MD', 'MG', 'ATT', 'AG', 'AD', 'AC'],
+    roles: ['E', 'EA', 'EG', 'G', 'A', 'PP']
   },
   getters: {
     getNameTypeById: function getNameTypeById(state) {
@@ -97303,9 +99118,6 @@ __webpack_require__.r(__webpack_exports__);
     },
     getIconByCategorie: function getIconByCategorie(state) {
       return function (categorie) {
-        var categorieFind = state.lstIconsByCategorie.find(function (c) {
-          return c.name === categorie;
-        });
         return state.lstIconsByCategorie.find(function (c) {
           return c.name === categorie;
         }).icon;
@@ -97594,6 +99406,54 @@ __webpack_require__.r(__webpack_exports__);
     },
     setImgBase64: function setImgBase64(state, img) {
       state.imgBase64 = img;
+    },
+    addJoueurToList: function addJoueurToList(state, joueur) {
+      state.lstJoueurs.push(joueur);
+    },
+    deleteJoueur: function deleteJoueur(state, index) {
+      state.lstJoueurs.splice(index, 1);
+    },
+    clearJoueurList: function clearJoueurList(state) {
+      state.lstJoueurs = [];
+    },
+    addEntraineurToList: function addEntraineurToList(state, entraineur) {
+      state.lstEntraineurs.push(entraineur);
+    },
+    deleteEntraineur: function deleteEntraineur(state, index) {
+      state.lstEntraineurs.splice(index, 1);
+    },
+    clearEntraineurList: function clearEntraineurList(state) {
+      state.lstEntraineurs = [];
+    },
+    addPratiqueToList: function addPratiqueToList(state, pratique) {
+      state.lstPratiques.push(pratique);
+    },
+    deletePratique: function deletePratique(state, index) {
+      state.lstPratiques.splice(index, 1);
+    },
+    clearPratiqueList: function clearPratiqueList(state) {
+      state.lstPratiques = [];
+    },
+    addMatchToList: function addMatchToList(state, match) {
+      state.lstMatchs.push(match);
+    },
+    deleteMatch: function deleteMatch(state, index) {
+      state.lstMatchs.splice(index, 1);
+    },
+    clearMatchList: function clearMatchList(state) {
+      state.lstMatchs = [];
+    },
+    setJoueurList: function setJoueurList(state, list) {
+      state.lstJoueurs = list;
+    },
+    setEntraineurList: function setEntraineurList(state, list) {
+      state.lstEntraineurs = list;
+    },
+    setPratiquesList: function setPratiquesList(state, list) {
+      state.lstPratiques = list;
+    },
+    setMatchsList: function setMatchsList(state, list) {
+      state.lstMatchs = list;
     }
   }
 });

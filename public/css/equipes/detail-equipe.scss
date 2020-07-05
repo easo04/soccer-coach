@@ -1,0 +1,176 @@
+@import '../../../resources/sass/variables';
+
+.detail-equipe{
+    .info-equipe{
+        h4{
+            padding-bottom: 10px;
+        }
+
+        .saison-equipe{
+            margin-bottom: 20px;
+            span{
+                font-size: 12px;
+                &.label{
+                    font-weight: bold;
+                }
+            }
+
+            .nom-saison{
+                font-size: 14px!important;
+                font-weight: bold;
+                color:$gris-obscur-soccer-coach;
+            }
+        }
+
+        .nav-item{
+            a{
+                color:$color-soccer-coach;
+            }
+        }
+
+        .lst-joueurs{
+            margin-top: 20px;
+
+            .btn-ajouter{
+                height: 40px;
+                .btn-rigth{
+                    float: right;
+                }      
+            }
+
+            .item-joueur{
+                margin-top: 20px;
+                border-radius: 0 !important;
+                height: 50px;
+                border-bottom: 1px solid $color-border;
+                position: relative;
+                display: flex;
+                //span{
+                    //margin-top: 10px;
+                //}
+
+                &.with-seance{
+                    height: 70px!important;
+
+                    .btn-actions-joueur{
+                        .btns{
+                            margin-top: 20px;
+                        }
+                    }
+                }
+                
+                .d-joueur{
+                    width: 33%;
+                    margin-right: 5px;
+                    &:last-child{
+                        margin-right: 0px;
+                    }
+
+                    .actions{
+                        float: right;
+                        margin-right: 15px;
+                    }
+                }
+
+                .infos-activite-lien{
+                    cursor: pointer;
+                }
+
+                .d-joueur-g{
+                    width: 70%;
+                    margin-right: 5px;
+                    &:last-child{
+                        margin-right: 0px;
+                    }
+
+                    .actions{
+                        float: right;
+                        margin-right: 15px;
+                    }
+
+                    .details-activite{
+                        .nom{
+                            font-weight: bold;
+                        }
+                        .terrain{
+                            color:$gris-obscur-soccer-coach;
+                        }
+
+                        
+                    }
+
+                    .date-activite{
+                        .heure-debut{
+                            font-weight: bold;
+                            //color:$gris-soccer-coach;
+                        }
+
+                        .time{
+                            color:$gris-clair-soccer-coach;
+                        }
+                    }
+                    .seance{
+                        a{
+                            text-decoration: underline;
+                            color:$color-soccer-coach;
+                            font-weight: 600;
+                            cursor: pointer;
+                            &:hover{
+                                text-decoration: none;
+                            }
+                        }
+                    }
+                }
+
+                .d-joueur-s{
+                    width: 30%;
+                    margin-right: 5px;
+                    &:last-child{
+                        margin-right: 0px;
+                    }
+
+                    .actions{
+                        float: right;
+                        margin-right: 15px;
+                    }
+
+                    .details-activite{
+                        .nom{
+                            font-weight: bold;
+                        }
+                        .terrain{
+                            color:$gris-obscur-soccer-coach;
+                        }
+
+                        
+                    }
+
+                    .date-activite{
+                        .heure-debut{
+                            font-weight: bold;
+                            //color:$gris-soccer-coach;
+                        }
+
+                        .time{
+                            color:$gris-clair-soccer-coach;
+                        }
+                    }
+                }
+
+                .position{
+                    font-weight: bold;
+                }
+
+                .btn-actions-joueur{
+                    .btns{
+                        float: right;
+                        display: flex;
+                        .btn{
+                            margin-right: 5px;
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

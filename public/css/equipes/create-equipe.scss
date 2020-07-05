@@ -1,0 +1,158 @@
+@import '../../../resources/sass/variables';
+
+.create-equipe, .update-equipe{
+    .show-saison{
+        a{
+            text-decoration: underline;
+            cursor: pointer;
+        }
+    }
+    .saison{
+        margin-top: 10px;
+        display: flex;
+        border:1px solid $gris-soccer-coach;
+        box-shadow: 0 2px 3px -1px #DCDCDC;
+        padding: 5px;
+        .form-group{
+            width: 33%;
+            margin-right: 10px;
+            margin-bottom: 0px !important;
+            .nom-saison{
+                margin-top: 7px;
+            }
+            &:last-child{
+                margin-right: 0;
+            }
+            .input-text{
+                input{
+                    height: 44px!important;
+                }
+            }     
+        }
+    }
+
+    .entraineurs{
+        margin-top: 20px;
+        .btn-action-joueurs{
+            height: 35px;
+            .btns{
+                float: right;
+            }
+        }
+
+        .lst-entraineurs{
+            border:1px solid $gris-soccer-coach;
+            padding: 0 10px 10px 10px;
+            border:1px solid $color-border;  
+            margin-top: 7px;   
+            height: auto;
+            
+            &.lst-vide{
+                min-height: 200px !important;
+            }
+    
+            .aucun-exercice{
+                text-align: center;
+                margin-top: 80px;
+                color: $color-border;
+            }
+
+            .joueur-item{
+                margin-top: 20px;
+                border-radius: 0 !important;
+                height: 50px;
+                border-bottom: 1px solid $color-border;
+                position: relative;
+                display: flex;
+                //span{
+                    //margin-top: 10px;
+                //}
+                
+                .d-joueur{
+                    width: 33%;
+                    margin-right: 5px;
+                    &:last-child{
+                        margin-right: 0px;
+                    }
+
+                    .actions-joueur{
+                        float: right;
+                        margin-right: 15px;
+                    }
+                }
+
+                .position{
+                    font-weight: bold;
+                }
+
+                .btn-actions-joueur{
+                    float: right;
+                }
+            }
+        }
+    }
+
+    .joueurs{
+        margin-top: 20px;
+        .btn-action-joueurs{
+            height: 35px;
+            .btns{
+                float: right;
+            }
+        }
+
+        .lst-joueurs{
+            border:1px solid $gris-soccer-coach;
+            padding: 0 10px 10px 10px;
+            border:1px solid $color-border;  
+            margin-top: 7px;   
+            height:  auto;
+            
+            &.lst-vide{
+                min-height: 200px !important;
+            }
+    
+            .aucun-exercice{
+                text-align: center;
+                margin-top: 80px;
+                color: $color-border;
+            }
+
+            .joueur-item{
+                margin-top: 20px;
+                border-radius: 0 !important;
+                height: 50px;
+                border-bottom: 1px solid $color-border;
+                position: relative;
+                display: flex;
+                //span{
+                    //margin-top: 10px;
+                //}
+                
+                .d-joueur{
+                    width: 33%;
+                    margin-right: 5px;
+                    &:last-child{
+                        margin-right: 0px;
+                    }
+                }
+
+                .position{
+                    font-weight: bold;
+                }
+
+                .btn-actions-joueur{
+                    float: right;
+                }
+            }
+        }
+    }
+
+    .btn-action-sauvegarder{
+        margin-top: 20px;
+        height: 35px;
+        .btn{
+            float: right;
+        }
+    }
+}

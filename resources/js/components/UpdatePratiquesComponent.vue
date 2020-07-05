@@ -70,7 +70,7 @@
                     <div class="btn-action-exercices">
                         <div class="btns">
                             <mes-exercices-modal />
-                            <button class="btn btn-soccer-coach-action"><i class="ti-star"></i> Mes favoris</button>
+                            <mes-favoris-modal />
                             <create-exercice-modal />
                             <a class="btn btn-soccer-coach-action" @click="addMatch()"><i class="ti-plus"></i> Ajouter match</a>
                         </div>
@@ -289,7 +289,6 @@
         },
         mounted() {
             this.setUpdateForm(true);
-
             this.$root.$on('discardFormChanges', () =>{
                 this.initFormInputs();
                 this.setUpdateForm(false);

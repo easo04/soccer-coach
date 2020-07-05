@@ -101,10 +101,23 @@
 .btn-soccer-coach-action{
     background-color: $color-action;
     color:white!important;
-    border-radius: 0;
+    border-radius: 20px;
     &:hover{
         background-color: $color-action-selected!important;
         color:white;
+    }
+}
+
+.btn-soccer-coach-action-list{
+    height: 43px;
+    width: 45px;
+    border-radius: 50%;
+    background: transparent;
+    border: 2px solid $color-action;
+    color: $color-action !important;
+    &:hover{
+        border: 1px solid $color-action-selected!important;
+        color:$color-action-selected!important;
     }
 }
 
@@ -112,7 +125,7 @@
     /*background-color: #b87e17!important;*/
     background-color: $color-soccer-coach!important;
     color:white;
-    border-radius: 0;
+    border-radius: 20px;
     &:hover{
         background-color: $color-soccer-coach-selected!important;
         color:white;
@@ -131,6 +144,7 @@
     h6{
         position: absolute;
         bottom: 0;
+        margin-bottom: 0px;
     }
 }
 
@@ -272,6 +286,20 @@ textarea{
     /*.btn-create-exercice{
         float: right;
     }*/
+    .nav-type-exercice{
+        .navbar-nav{
+            .nav-item{
+                &:first-child{
+                    border-top-left-radius:20px;
+                }
+                &:last-child{
+                    border-top-right-radius:20px;
+                    border-bottom-right-radius:20px;
+                }
+            }
+        }
+    }
+    
 }
 
 .nav-type-exercice{

@@ -11,25 +11,25 @@
                     </div>
                     <div class="btns">                
                         <a class="btn btn-soccer-coach-action" href="#"><i class="fa fa-file-pdf-o"></i> Télecharger</a>
-                        <router-link :to="{ name: 'UpdateSeance', params: { seance } }" class="btn btn-soccer-coach-action"><i class="ti-pencil"></i> Modifier</router-link>
+                        <router-link :to="{ name: 'UpdateSeance', params: { 'seance': seanceDetail } }" class="btn btn-soccer-coach-action"><i class="ti-pencil"></i> Modifier</router-link>
                         <a class="btn btn-soccer-coach-action" data-toggle="modal" data-target="#modalDeleteSeance"><i class="ti-trash"></i> Supprimer</a>                      
                     </div>
                 </div>
             </div>
             <div class="details-seance">  
-                <span class="date-creation">Créé le {{ seance.created_at | moment('YYYY-MM-DD') }}</span><br>
+                <span class="date-creation">Créé le {{ seanceDetail.created_at | moment('YYYY-MM-DD') }}</span><br>
                 <div class="infos-seance">
-                    <h4>{{seance.theme}}</h4>
-                    <span class="titre"><i class="ti-timer color-soccer-coach"></i> {{seance.temps}}</span>  
+                    <h4>{{seanceDetail.theme}}</h4>
+                    <span class="titre"><i class="ti-timer color-soccer-coach"></i> {{seanceDetail.temps}}</span>  
                     <span class="separateur">|</span>
                     <span class="titre"> Effectif:</span>
-                    <span>{{seance.effectif}}</span> 
-                    <div class="info" v-show="seance.endroit && seance.endroit !== ''"><i class="ti-map-alt color-soccer-coach"></i> <span class="titre">Endroit:</span> {{seance.endroit}}</div>
-                    <div class="info" v-show="seance.time && seance.time !== ''"><i class="fa fa-calendar-o color-soccer-coach"></i> <span class="titre">Date:</span> {{seance.time}}</div>
-                    <p class="info" v-show="seance.context && seance.context !== ''"><i class="ti-direction color-soccer-coach"></i> <span class="titre">Context:</span> {{seance.context}}</p>
-                    <span class="bought" v-if="seance.categorie !== 'None'">
-                        <i :class="getIconByCategorie(seance.categorie)"></i>
-                        {{seance.categorie}}
+                    <span>{{seanceDetail.effectif}}</span> 
+                    <div class="info" v-show="seanceDetail.endroit && seanceDetail.endroit !== ''"><i class="ti-map-alt color-soccer-coach"></i> <span class="titre">Endroit:</span> {{seanceDetail.endroit}}</div>
+                    <div class="info" v-show="seanceDetail.time && seanceDetail.time !== ''"><i class="fa fa-calendar-o color-soccer-coach"></i> <span class="titre">Date:</span> {{seanceDetail.time}}</div>
+                    <p class="info" v-show="seanceDetail.context && seanceDetail.context !== ''"><i class="ti-direction color-soccer-coach"></i> <span class="titre">Context:</span> {{seanceDetail.context}}</p>
+                    <span class="bought" v-if="seanceDetail.categorie !== 'None'">
+                        <i :class="getIconByCategorie(seanceDetail.categorie)"></i>
+                        {{seanceDetail.categorie}}
                     </span>
                 </div> 
                 <h5><i class="ti-star color-soccer-coach"></i> Exercices</h5>
@@ -133,7 +133,8 @@ export default {
     props:['seance'],
     data(){
         return{
-            lstExercices : this.seance.exercices ? this.seance.exercices : [],
+            seanceDetail : this.seance ? this.seance : {},
+            lstExercices : this.seance && this.seance.exercices ? this.seance.exercices : [],
             isLoading:true,
         }
     },
@@ -145,23 +146,41 @@ export default {
             this.$router.push('mes-seances');
         },
         deleteSeance(){
-            axios.delete('/seance/'+  this.seance.id).then(reponse =>{
+            axios.delete('/seance/'+  this.seanceDetail.id).then(reponse =>{
                 $("#modalDeleteSeance").modal("hide");
                 this.$router.push('mes-seances');
             });
         }
     },
     mounted(){
-        if(this.lstExercices && this.lstExercices.length === 0){
-            this.isLoading = true;
-            axios.get('/seances/get-exercice-by-seance/' + this.seance.id).then(response =>{
-                this.lstExercices = response.data.exercices;
-                this.seance.exercices = this.lstExercices;
-                this.isLoading = false;
-            });
-        }else{
+        //vérifier s'il y a déjà un seance dans le locale storage
+        if(localStorage.getItem('seanceLocale')){				
+            this.seanceDetail = JSON.parse(localStorage.getItem('seanceLocale'));
+            this.lstExercices = this.seanceDetail.exercices;
             this.isLoading = false;
+        }else{
+            if(this.lstExercices && this.lstExercices.length === 0){
+                this.isLoading = true;
+                axios.get('/seances/get-exercice-by-seance/' + this.seance.id).then(response =>{
+                    this.lstExercices = response.data.exercices;
+                    this.seanceDetail.exercices = this.lstExercices;
+                    this.isLoading = false;
+
+                    //add seance to local storage
+                    const seanceParsed = JSON.stringify(this.seanceDetail);
+                    localStorage.setItem('seanceLocale', seanceParsed);
+                });
+            }else{
+                this.isLoading = false;
+
+                //add seance to local storage
+                const seanceParsed = JSON.stringify(this.seanceDetail);
+                localStorage.setItem('seanceLocale', seanceParsed);
+            }
         }
+    },
+    beforeDestroy(){
+        localStorage.removeItem('seanceLocale');
     }
 }
 </script>

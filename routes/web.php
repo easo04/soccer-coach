@@ -54,6 +54,18 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/favoris/add-favoris', 'FavorisController@addExerciceToFavoris'); //API
     Route::delete('/favoris/delete-exercice/{id}', 'FavorisController@deleteFavoris'); //API
 
+    //EQUIPES
+    Route::get('/equipes/get-equipes-by-user', 'UserController@getEquipesToAuthUser'); //API
+    Route::post('/equipes/create', 'EquipeController@createEquipe'); //API
+    Route::get('/equipes/get-joueurs-and-saison-by-equipe/{id}', 'EquipeController@getJoueursAndSaisonByEquipe'); //API
+    Route::post('/equipes/createJoueur', 'EquipeController@createJoueur'); //API
+    Route::post('/equipes/deleteJoueur', 'EquipeController@deleteJoueur'); //API
+    Route::post('/equipes/createEntraineur', 'EquipeController@createEntraineur'); //API
+    Route::post('/equipes/deleteEntraineur', 'EquipeController@deleteEntraineur'); //API
+    Route::delete('/equipes/delete-equipe/{id}', 'EquipeController@deleteEquipe'); //API
+    Route::post('/equipes/createActivite', 'EquipeController@createActivite'); //API
+    Route::delete('/equipes/delete-activite/{id}', 'EquipeController@deleteActivite'); //API
+
     //ROUTE OUTIL DESIGNER
     Route::get('/create-exercice', 'CreateExercice@getPage');
 });

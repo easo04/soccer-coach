@@ -106,7 +106,7 @@ export default {
                 selected:false,
                 nomFr:'Mes équipes',
                 icon:'fa fa-cubes',
-                url:''
+                url:'mes-equipes'
             },
             {
                 name:'mon_club',
