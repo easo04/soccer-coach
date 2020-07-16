@@ -22,8 +22,10 @@
     <script src="js/drag.js"></script>
   </head>
   <body>
-    <div class="row container actions">
-      <div class="col-sm-8 outils">
+    <div class="actions">
+      <div class="outils-act-2">
+      </div>
+      <div class="outils-act-1">
         <div class="color-icons icons-soccer">
           <div class="color-outil color-red action-outil" id="color-red" onclick="changerCouleurOutil('red');"></div>
           <div class="color-outil color-blue-claro action-outil" id="color-blue-claro" onclick="changerCouleurOutil('blue-claro');"></div>
@@ -41,7 +43,7 @@
           <i class="fa fa-trash" data-toggle="modal" data-target="#modalDeleteAll" id="deleteAll"></i>
         </div>
       </div>
-      <div class="col-sm-4 outils">
+      <div class="outils-act-2">
         <div class="actions-icons icons-soccer">
           <i class="fa fa-rotate-right action-outil" id="btnRotate" onclick="selectedActionForm('btnRotate');rotate();"></i>
           <i class="fa fa-plus-square action-outil" id="btnZoomPlus" onclick="selectedActionForm('btnZoomPlus');zoomPlus();"></i>
@@ -61,14 +63,13 @@
         </div>
       </div>
     </div>
-    <div class="row container conteneur">
-      <div class="col-sm-8 terrain">
-        <div class="row terrain-space" id="terrainSoccer">
-            <!--<img src="images/imageA.svg"/>-->
-            <!-- <object id="star-demos" type="image/svg+xml" data="/images/imageA.svg" alt="embedded svg"></object>-->
-        </div>
+    <div class="conteneur">
+      <div class="outils">
+      </div> 
+      <div class="terrain">
+        <div class="row terrain-space" id="terrainSoccer"></div>
       </div>
-      <div class="col-sm-4 outils">
+      <div class="outils">
         <ul class="nav nav-tabs">
           <li class="nav-item">
             <a class="nav-link active" data-toggle="tab" href="#terrainsDiv" onclick="initButtons(false);initButtonsFormes(false);">Terrains</a>
@@ -140,7 +141,7 @@
               <button type="button" class="close" data-dismiss="modal">&times;</button>
             </div>
             <div class="modal-body">
-               <p>Voulez-vous tout supprimer?</p>
+              <p>Voulez-vous tout supprimer?</p>
             </div>
             <div class="modal-footer">
               <button type="button" class="btn btn-default" data-dismiss="modal" onclick="deleteAll()">Oui</button>
@@ -151,6 +152,6 @@
         </div>
       </div>
     </div>
-    <div class="container styles-lignes"></div>
- </body>
+    <div class="styles-lignes"></div>
+  </body>
 </html>

@@ -10,7 +10,8 @@
             <h4>Bonjour {{user}}!</h4>
             <ul class="list-unstyled components mb-5">
                 <li :class="{'selected-link' : link.selected}" v-for="(link, index) in lstLinks" :key="index">
-                    <a @click="goToLink(link.url, index)"><span :class="link.icon" class="mr-3"></span> {{link.nomFr}}</a>
+                    <a :href="link.url" target="_blank" v-if="link.name === 'designer'"><span :class="link.icon" class="mr-3"></span> {{link.nomFr}}</a>
+                    <a @click="goToLink(link.url, index)" v-else><span :class="link.icon" class="mr-3"></span> {{link.nomFr}}</a>
                 </li>
             </ul>
         </nav>
@@ -71,7 +72,7 @@ export default {
                 selected:false,
                 nomFr:'Designer',
                 icon:'fa fa-paint-brush',
-                url:''
+                url:'/create-exercice'
             },
             {
                 name:'mes_favoris',

@@ -1,0 +1,32 @@
+@import '../../../resources/sass/variables';
+
+.add-activite{
+
+    .btn-close{
+        outline: none;
+    }
+    .btn-action-exercices{
+        .btns{
+            float: right;
+        }
+    }
+
+    .form-add-activite{
+        .temps-chexbox{
+            width: 100%;
+            .type-item{
+                label{
+                    width: auto;
+                    height: 60px;
+                }
+            }
+        } 
+
+        .terrain{
+            margin-bottom: 10px;
+            padding: 5px;
+            border: 1px solid $gris-soccer-coach;
+            box-shadow: 0 2px 3px -1px #DCDCDC;
+        }
+    }
+}

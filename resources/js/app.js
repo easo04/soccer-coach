@@ -21,6 +21,10 @@ import VueSpinners from 'vue-spinners';
 import 'vue-spinners/dist/vue-spinners.css';
 Vue.use(VueSpinners);
 
+import Autocomplete from '@trevoreyre/autocomplete-vue';
+import '@trevoreyre/autocomplete-vue/dist/style.css';
+Vue.use(Autocomplete);
+
 Vue.component('types-exercices-select', require('./components/TypesExercicesSelect.vue').default);
 Vue.component('image-upload', require('./components/ImageUpload.vue').default);
 Vue.component('add-variables', require('./components/AddVariables.vue').default);
@@ -43,6 +47,7 @@ Vue.component('add-favoris', require('./components/AddFavorisComponent.vue').def
 Vue.component('input-text', require('./components/form/InputTextComponent.vue').default);
 Vue.component('text-area', require('./components/form/TextAreaComponent.vue').default);
 Vue.component('input-number', require('./components/form/InputNumberComponent.vue').default);
+Vue.component('input-autocomplete', require('./components/form/InputAutocompleteComponent.vue').default);
 
 //Components modal
 Vue.component('images-exercices-modal', require('./components/modals/ImagesExercicesComponent.vue').default);
@@ -56,6 +61,8 @@ Vue.component('create-joueur-modal', require('./components/modals/CreateJoueurCo
 Vue.component('create-entraineur-modal', require('./components/modals/CreateEntraineurComponent.vue').default);
 Vue.component('delete-joueur-modal', require('./components/modals/DeleteJoueurComponent.vue').default);
 Vue.component('delete-entraineur-modal', require('./components/modals/DeleteEntraineurComponent.vue').default);
+Vue.component('create-activite-modal', require('./components/modals/CreateActiviteComponent.vue').default);
+Vue.component('delete-activite-modal', require('./components/modals/DeleteActiviteComponent.vue').default);
 
 
 //Components menu

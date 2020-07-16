@@ -290,7 +290,8 @@ textarea{
         .navbar-nav{
             .nav-item{
                 &:first-child{
-                    border-top-left-radius:20px;
+                    border-top-left-radius:20px;                 
+                    border-bottom-left-radius:20px;
                 }
                 &:last-child{
                     border-top-right-radius:20px;

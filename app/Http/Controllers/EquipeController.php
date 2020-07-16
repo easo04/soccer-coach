@@ -6,6 +6,8 @@ use App\Repositories\EquipeRepository;
 use Illuminate\Http\Request;
 
 use Auth;
+use DateTime;
+use DateInterval;
 
 class EquipeController extends Controller{
 
@@ -43,6 +45,17 @@ class EquipeController extends Controller{
         return response()->json($reponse, 200);
     }
 
+    public function getTerrainsAndEquipes(){
+        $terrains = $this->equipeRepository->getAllTerrainsByUser(Auth::user()->id);
+        $adversaires = $this->equipeRepository->getAllEquipesByUser(Auth::user()->id);
+        $equipes = collect();
+        foreach ($adversaires as $adversaire) {
+            $equipes->push($adversaire->adversaire);
+        }
+        $reponse = ['terrains' => $terrains, 'equipes' => $equipes];
+        return response()->json($reponse, 200);
+    }
+
     public function createJoueur(Request $request){
         $joueur = $request->all();
         $idEquipe = $joueur['equipe'];
@@ -72,6 +85,22 @@ class EquipeController extends Controller{
         $idEntraineur = $entraineur['idEntraineur'];
         $this->equipeRepository->deleteEntraineurById($idEntraineur);
         $reponse = ['message' => 'entraineur supprimé', 'succes' => 'OK'];
+        return response()->json($reponse, 200);
+    }
+
+    public function createActivite(Request $request){
+        $activite = $request->all();
+        $idEquipe = $activite['equipe'];
+        $lstIdActivites = $this->equipeRepository->createActiviteAndGetId($idEquipe, $activite);
+        $reponse = ['activites' => $lstIdActivites, 'succes' => 'OK'];
+        return response()->json($reponse, 200);
+    }
+
+    public function deleteActivite(Request $request){
+        $activite = $request->all();
+        $idActivite = $activite['idActivite'];
+        $this->equipeRepository->deleteActiviteById($idActivite);
+        $reponse = ['message' => 'actovoté supprimé', 'succes' => 'OK'];
         return response()->json($reponse, 200);
     }
 }

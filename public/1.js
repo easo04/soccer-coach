@@ -222,6 +222,9 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: ['equipe', 'searchInfo'],
@@ -733,23 +736,19 @@ var render = function() {
                       { staticClass: "lst-joueurs" },
                       [
                         _c("div", { staticClass: "btn-ajouter" }, [
-                          _c("div", { staticClass: "btn-rigth" }, [
-                            _c(
-                              "button",
-                              {
-                                staticClass: "btn btn-soccer-coach-action",
-                                on: {
-                                  click: function($event) {
-                                    return _vm.ajouterJoueur()
-                                  }
+                          _c(
+                            "div",
+                            { staticClass: "btn-rigth" },
+                            [
+                              _c("create-activite-modal", {
+                                attrs: {
+                                  equipe: _vm.equipeDetail,
+                                  "is-match": false
                                 }
-                              },
-                              [
-                                _c("i", { staticClass: "ti-plus" }),
-                                _vm._v(" Ajouter")
-                              ]
-                            )
-                          ])
+                              })
+                            ],
+                            1
+                          )
                         ]),
                         _vm._v(" "),
                         _vm._l(_vm.lstPratiques, function(pratique, indexP) {
@@ -767,9 +766,31 @@ var render = function() {
                                     _vm._v(_vm._s(pratique.nom))
                                   ]),
                                   _vm._v(" "),
-                                  _c("span", { staticClass: "nom terrain" }, [
-                                    _vm._v(" @ " + _vm._s(pratique.nomTerrain))
-                                  ])
+                                  pratique.urlTerrain
+                                    ? _c(
+                                        "a",
+                                        {
+                                          staticClass: "nom terrain",
+                                          attrs: {
+                                            href: pratique.urlTerrain,
+                                            target: "_blank"
+                                          }
+                                        },
+                                        [
+                                          _vm._v(
+                                            "@ " + _vm._s(pratique.nomTerrain)
+                                          )
+                                        ]
+                                      )
+                                    : _c(
+                                        "span",
+                                        { staticClass: "nom terrain" },
+                                        [
+                                          _vm._v(
+                                            " @ " + _vm._s(pratique.nomTerrain)
+                                          )
+                                        ]
+                                      )
                                 ]),
                                 _vm._v(" "),
                                 _c("div", { staticClass: "date-activite" }, [
@@ -824,55 +845,79 @@ var render = function() {
                                   "div",
                                   { staticClass: "btn-actions-joueur" },
                                   [
-                                    _c("div", { staticClass: "btns" }, [
-                                      _c(
-                                        "button",
-                                        {
-                                          staticClass:
-                                            "btn btn-soccer-coach-action-list",
-                                          on: {
-                                            click: function($event) {
-                                              return _vm.updateJoueur(_vm.match)
+                                    _c(
+                                      "div",
+                                      { staticClass: "btns" },
+                                      [
+                                        _c(
+                                          "button",
+                                          {
+                                            staticClass:
+                                              "btn btn-soccer-coach-action-list",
+                                            on: {
+                                              click: function($event) {
+                                                return _vm.updateJoueur(
+                                                  pratique
+                                                )
+                                              }
                                             }
-                                          }
-                                        },
-                                        [
-                                          _c("i", {
-                                            staticClass: "fa fa-group"
-                                          })
-                                        ]
-                                      ),
-                                      _vm._v(" "),
-                                      _c(
-                                        "button",
-                                        {
-                                          staticClass:
-                                            "btn btn-soccer-coach-action-list",
-                                          on: {
-                                            click: function($event) {
-                                              return _vm.updateJoueur(_vm.match)
+                                          },
+                                          [
+                                            _c("i", {
+                                              staticClass: "fa fa-group"
+                                            })
+                                          ]
+                                        ),
+                                        _vm._v(" "),
+                                        _c(
+                                          "button",
+                                          {
+                                            staticClass:
+                                              "btn btn-soccer-coach-action-list",
+                                            on: {
+                                              click: function($event) {
+                                                return _vm.updateJoueur(
+                                                  pratique
+                                                )
+                                              }
                                             }
-                                          }
-                                        },
-                                        [_c("i", { staticClass: "ti-pencil" })]
-                                      ),
-                                      _vm._v(" "),
-                                      _c(
-                                        "button",
-                                        {
-                                          staticClass:
-                                            "btn btn-soccer-coach-action-list",
-                                          on: {
-                                            click: function($event) {
-                                              return _vm.deletePratique(
-                                                pratique
-                                              )
+                                          },
+                                          [
+                                            _c("i", {
+                                              staticClass: "fa fa-futbol-o"
+                                            })
+                                          ]
+                                        ),
+                                        _vm._v(" "),
+                                        _c(
+                                          "button",
+                                          {
+                                            staticClass:
+                                              "btn btn-soccer-coach-action-list",
+                                            on: {
+                                              click: function($event) {
+                                                return _vm.updateJoueur(
+                                                  pratique
+                                                )
+                                              }
                                             }
+                                          },
+                                          [
+                                            _c("i", {
+                                              staticClass: "ti-pencil"
+                                            })
+                                          ]
+                                        ),
+                                        _vm._v(" "),
+                                        _c("delete-activite-modal", {
+                                          attrs: {
+                                            activite: pratique,
+                                            indexActivite: indexP
                                           }
-                                        },
-                                        [_c("i", { staticClass: "ti-trash" })]
-                                      )
-                                    ])
+                                        })
+                                      ],
+                                      1
+                                    )
                                   ]
                                 )
                               ])
@@ -897,23 +942,19 @@ var render = function() {
                       { staticClass: "lst-joueurs" },
                       [
                         _c("div", { staticClass: "btn-ajouter" }, [
-                          _c("div", { staticClass: "btn-rigth" }, [
-                            _c(
-                              "button",
-                              {
-                                staticClass: "btn btn-soccer-coach-action",
-                                on: {
-                                  click: function($event) {
-                                    return _vm.ajouterJoueur()
-                                  }
+                          _c(
+                            "div",
+                            { staticClass: "btn-rigth" },
+                            [
+                              _c("create-activite-modal", {
+                                attrs: {
+                                  equipe: _vm.equipeDetail,
+                                  "is-match": true
                                 }
-                              },
-                              [
-                                _c("i", { staticClass: "ti-plus" }),
-                                _vm._v(" Ajouter")
-                              ]
-                            )
-                          ])
+                              })
+                            ],
+                            1
+                          )
                         ]),
                         _vm._v(" "),
                         _vm._l(_vm.lstMatchs, function(match, indexM) {
@@ -933,9 +974,31 @@ var render = function() {
                                     _vm._v(_vm._s(match.adversaire))
                                   ]),
                                   _vm._v(" "),
-                                  _c("span", { staticClass: "nom terrain" }, [
-                                    _vm._v(" @ " + _vm._s(match.nomTerrain))
-                                  ])
+                                  match.urlTerrain
+                                    ? _c(
+                                        "a",
+                                        {
+                                          staticClass: "nom terrain",
+                                          attrs: {
+                                            href: match.urlTerrain,
+                                            target: "_blank"
+                                          }
+                                        },
+                                        [
+                                          _vm._v(
+                                            "@ " + _vm._s(_vm.v.nomTerrain)
+                                          )
+                                        ]
+                                      )
+                                    : _c(
+                                        "span",
+                                        { staticClass: "nom terrain" },
+                                        [
+                                          _vm._v(
+                                            " @ " + _vm._s(match.nomTerrain)
+                                          )
+                                        ]
+                                      )
                                 ]),
                                 _vm._v(" "),
                                 _c("div", { staticClass: "date-activite" }, [
@@ -964,71 +1027,73 @@ var render = function() {
                                   "div",
                                   { staticClass: "btn-actions-joueur" },
                                   [
-                                    _c("div", { staticClass: "btns" }, [
-                                      _c(
-                                        "button",
-                                        {
-                                          staticClass:
-                                            "btn btn-soccer-coach-action-list",
-                                          on: {
-                                            click: function($event) {
-                                              return _vm.updateJoueur(match)
+                                    _c(
+                                      "div",
+                                      { staticClass: "btns" },
+                                      [
+                                        _c(
+                                          "button",
+                                          {
+                                            staticClass:
+                                              "btn btn-soccer-coach-action-list",
+                                            on: {
+                                              click: function($event) {
+                                                return _vm.updateJoueur(match)
+                                              }
                                             }
-                                          }
-                                        },
-                                        [
-                                          _c("i", {
-                                            staticClass: "fa fa-group"
-                                          })
-                                        ]
-                                      ),
-                                      _vm._v(" "),
-                                      _c(
-                                        "button",
-                                        {
-                                          staticClass:
-                                            "btn btn-soccer-coach-action-list",
-                                          on: {
-                                            click: function($event) {
-                                              return _vm.updateJoueur(match)
+                                          },
+                                          [
+                                            _c("i", {
+                                              staticClass: "fa fa-group"
+                                            })
+                                          ]
+                                        ),
+                                        _vm._v(" "),
+                                        _c(
+                                          "button",
+                                          {
+                                            staticClass:
+                                              "btn btn-soccer-coach-action-list",
+                                            on: {
+                                              click: function($event) {
+                                                return _vm.updateJoueur(match)
+                                              }
                                             }
-                                          }
-                                        },
-                                        [
-                                          _c("i", {
-                                            staticClass: "fa fa-comment"
-                                          })
-                                        ]
-                                      ),
-                                      _vm._v(" "),
-                                      _c(
-                                        "button",
-                                        {
-                                          staticClass:
-                                            "btn btn-soccer-coach-action-list",
-                                          on: {
-                                            click: function($event) {
-                                              return _vm.updateJoueur(match)
+                                          },
+                                          [
+                                            _c("i", {
+                                              staticClass: "fa fa-comment"
+                                            })
+                                          ]
+                                        ),
+                                        _vm._v(" "),
+                                        _c(
+                                          "button",
+                                          {
+                                            staticClass:
+                                              "btn btn-soccer-coach-action-list",
+                                            on: {
+                                              click: function($event) {
+                                                return _vm.updateJoueur(match)
+                                              }
                                             }
+                                          },
+                                          [
+                                            _c("i", {
+                                              staticClass: "ti-pencil"
+                                            })
+                                          ]
+                                        ),
+                                        _vm._v(" "),
+                                        _c("delete-activite-modal", {
+                                          attrs: {
+                                            activite: match,
+                                            indexActivite: indexM
                                           }
-                                        },
-                                        [_c("i", { staticClass: "ti-pencil" })]
-                                      ),
-                                      _vm._v(" "),
-                                      _c(
-                                        "button",
-                                        {
-                                          staticClass:
-                                            "btn btn-soccer-coach-action-list",
-                                          on: {
-                                            click: function($event) {
-                                              return _vm.deleteJoueur(match)
-                                            }
-                                          }
-                                        },
-                                        [_c("i", { staticClass: "ti-trash" })]
-                                      )
-                                    ])
+                                        })
+                                      ],
+                                      1
+                                    )
                                   ]
                                 )
                               ])

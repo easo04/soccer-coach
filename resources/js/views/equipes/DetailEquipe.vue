@@ -116,15 +116,16 @@
                         <div class="tab-pane container fade" id="entrainements">
                             <div class="lst-joueurs">
                                 <div class="btn-ajouter">
-                                    <div class="btn-rigth">     
-                                        <button class="btn btn-soccer-coach-action" @click="ajouterJoueur()"><i class="ti-plus"></i> Ajouter</button>
+                                    <div class="btn-rigth">  
+                                        <create-activite-modal :equipe="equipeDetail" :is-match="false" />
                                     </div>
                                 </div> 
                                 <div class="item-joueur" :class="{'with-seance' : pratique.seance_id}" v-for="(pratique, indexP) in lstPratiques" :key="indexP">
                                     <div class="d-joueur-g">                          
                                         <div class="details-activite">                                       
                                             <span class="nom">{{pratique.nom}}</span> 
-                                            <span class="nom terrain"> @ {{pratique.nomTerrain}}</span>
+                                            <a class="nom terrain" :href="pratique.urlTerrain"  target="_blank" v-if="pratique.urlTerrain">@ {{pratique.nomTerrain}}</a>
+                                            <span class="nom terrain" v-else> @ {{pratique.nomTerrain}}</span>
                                         </div> 
                                         <div class="date-activite">
                                             <span class="date-debut">{{pratique.date_debut}}</span> à
@@ -140,9 +141,10 @@
                                     <div class="d-joueur-s">
                                         <div class="btn-actions-joueur">
                                             <div class="btns">
-                                                <button class="btn btn-soccer-coach-action-list" @click="updateJoueur(match)"><i class="fa fa-group"></i></button>
-                                                <button class="btn btn-soccer-coach-action-list" @click="updateJoueur(match)"><i class="ti-pencil"></i></button>
-                                                <button class="btn btn-soccer-coach-action-list" @click="deletePratique(pratique)"><i class="ti-trash"></i></button>
+                                                <button class="btn btn-soccer-coach-action-list" @click="updateJoueur(pratique)"><i class="fa fa-group"></i></button>
+                                                <button class="btn btn-soccer-coach-action-list" @click="updateJoueur(pratique)"><i class="fa fa-futbol-o"></i></button>
+                                                <button class="btn btn-soccer-coach-action-list" @click="updateJoueur(pratique)"><i class="ti-pencil"></i></button>
+                                                <delete-activite-modal :activite="pratique" :indexActivite="indexP" />
                                             </div>
                                         </div>    
                                     </div> 
@@ -153,7 +155,7 @@
                             <div class="lst-joueurs">
                                 <div class="btn-ajouter">
                                     <div class="btn-rigth">     
-                                        <button class="btn btn-soccer-coach-action" @click="ajouterJoueur()"><i class="ti-plus"></i> Ajouter</button>
+                                        <create-activite-modal :equipe="equipeDetail" :is-match="true" />
                                     </div>
                                 </div> 
                                 <div class="item-joueur" v-for="(match, indexM) in lstMatchs" :key="indexM">
@@ -161,7 +163,8 @@
                                         <div class="details-activite">                                       
                                             <span class="nom">{{match.nom}}</span> contre 
                                             <span class="nom">{{match.adversaire}}</span>
-                                            <span class="nom terrain"> @ {{match.nomTerrain}}</span>
+                                            <a class="nom terrain" :href="match.urlTerrain" target="_blank" v-if="match.urlTerrain">@ {{v.nomTerrain}}</a>
+                                            <span class="nom terrain" v-else> @ {{match.nomTerrain}}</span>
                                         </div> 
                                         <div class="date-activite">
                                             <span class="date-debut">{{match.date_debut}}</span> à
@@ -175,7 +178,7 @@
                                                 <button class="btn btn-soccer-coach-action-list" @click="updateJoueur(match)"><i class="fa fa-group"></i></button>
                                                 <button class="btn btn-soccer-coach-action-list" @click="updateJoueur(match)"><i class="fa fa-comment"></i></button>
                                                 <button class="btn btn-soccer-coach-action-list" @click="updateJoueur(match)"><i class="ti-pencil"></i></button>
-                                                <button class="btn btn-soccer-coach-action-list" @click="deleteJoueur(match)"><i class="ti-trash"></i></button>
+                                                <delete-activite-modal :activite="match" :indexActivite="indexM" />
                                             </div>
                                         </div>    
                                     </div> 

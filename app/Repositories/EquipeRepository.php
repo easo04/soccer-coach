@@ -5,6 +5,8 @@ namespace App\Repositories;
 use App\Equipe;
 
 use DB;
+use DateInterval;
+use DateTime;
 
 class EquipeRepository{
 
@@ -116,27 +118,77 @@ class EquipeRepository{
 		);
 	}
 
-	public function createActiviteAndGetId($idEquipe, $activite, $terrain, $type){
-		$arrival = isset($entraineur['arrival']) ? $entraineur['arrival'] : '';
-		$time = isset($entraineur['time']) ? $entraineur['time'] : '';
-		$adversaire = isset($entraineur['adversaire']) ? $entraineur['adversaire'] : '';
+	public function createActiviteAndGetId($idEquipe, $activite){
+		$arrival = isset($activite['arrival']) ? $activite['arrival'] : '';
+		$time = isset($activite['time']) ? $activite['time'] : '';
+		$adversaire = isset($activite['adversaire']) ? $activite['adversaire'] : null;
+		$saison = isset($activite['saisonId']) ? $activite['saisonId'] : null;
+		$type = $activite['type'];
+		$lstIdActivites = collect();
 
 		//create terrain
-		$idTerrain = $this->createTerrain($terrain);
+		$idTerrain = $this->createTerrain($activite['terrain']);
 
-		return DB::table('activites')->insertGetId(
-			['nom' => $activite['nom'], 'type' => $type,
-			'date_debut' => $activite['dateDebut'], 'arrival' => $arrival,
-			'time' => $time, 'adversaire' => $adversaire, 'equipe_id' => $idEquipe,
-			'terrain_id' => $idTerrain, 'saison_id' => $activite['saison']]
-		);
+		//vérifier s'il y a un période
+		if($type == 'pratique' && $activite['periode'] != 'une'){
+			$dateDebut = new DateTime($activite['dateDebut']);
+			$dateFin = new DateTime($activite['dateFin']);
+			$periode = $this->getPeriodeToAdd($activite['periode']);
+			$datePratique = $dateDebut;
+
+			do {
+				$idAdded = DB::table('activites')->insertGetId(
+					['nom' => $activite['nom'], 'type' => $type,
+					'date_debut' => $datePratique, 'heure_debut' => $activite['heureDebut'], 'arrival' => $arrival,
+					'time' => $time, 'adversaire' => $adversaire, 'equipe_id' => $idEquipe,
+					'terrain_id' => $idTerrain, 'saison_id' => $saison]
+				);
+
+				//ajouter l'id à la liste
+				$lstIdActivites->push($idAdded);
+
+				//ajouter la période à la date de la pratique
+				$datePratique = $datePratique->add(new DateInterval($periode));
+			} while($datePratique <= $dateFin);
+		}else{
+			$idAdded = DB::table('activites')->insertGetId(
+				['nom' => $activite['nom'], 'type' => $type,
+				'date_debut' => $activite['dateDebut'], 'heure_debut' => $activite['heureDebut'], 'arrival' => $arrival,
+				'time' => $time, 'adversaire' => $adversaire, 'equipe_id' => $idEquipe,
+				'terrain_id' => $idTerrain, 'saison_id' => $saison]
+			);
+			$lstIdActivites->push($idAdded);
+		}
+		return $lstIdActivites;
+	}
+
+	private function getPeriodeToAdd($periode){
+		$retval = '';
+		switch ($periode) {
+			case 'deux':
+				$retval = 'P14D';
+			break;
+			case 'hebdo':
+				$retval = 'P7D';
+			break;
+			case 'mensuel':
+				$retval = 'P1M';
+			break;
+		}
+
+		return $retval;
 	}
 
 	public function createTerrain($terrain){
+		$adresseLigne1 = isset($terrain['adresseLigne1']) ? $terrain['adresseLigne1'] : '';
+		$adresseLigne2 = isset($terrain['adresseLigne2']) ? $terrain['adresseLigne2'] : '';
+		$codePostal = isset($terrain['codePostal']) ? $terrain['codePostal'] : '';
+		$urlTerrain = isset($terrain['urlTerrain']) ? $terrain['urlTerrain'] : '';
+
 		return DB::table('terrains')->insertGetId(
-			['nom' => $terrain['nom'], 'code_postal' => $terrain['codePostal'],
-			'adresse_ligne1' => $terrain['adresseLigne1'], 'adresse_ligne2' => $terrain['adresseLigne2'],
-			'url_terrain' => $terrain['urlTerrain']]
+			['nom' => $terrain['nom'], 'code_postal' => $codePostal,
+			'adresse_ligne1' => $adresseLigne1, 'adresse_ligne2' => $adresseLigne2,
+			'url_terrain' => $urlTerrain]
 		);
 	}
 
@@ -174,7 +226,8 @@ class EquipeRepository{
 
 	public function getPratiquesByEquipe($idEquipe){
 		return DB::table('activites')
-		->select(DB::raw('activites.*, terrains.nom AS nomTerrain, terrains.id AS idTerrain, pratique.theme AS theme'))
+		->select(DB::raw('activites.*, terrains.nom AS nomTerrain, terrains.id AS idTerrain, 
+						pratique.theme AS theme, terrains.url_terrain AS urlTerrain'))
 		->leftJoin('terrains', 'activites.terrain_id', '=',  'terrains.id')
 		->leftJoin('pratique', 'activites.seance_id', '=',  'pratique.id')
 		->where('activites.equipe_id', '=', $idEquipe)
@@ -202,6 +255,10 @@ class EquipeRepository{
 		DB::table('entraineurs')->where('id', '=', $id)->delete();
 	}
 
+	public function deleteActiviteById($id){
+		DB::table('activites')->where('id', '=', $id)->delete();
+	}
+
 	public function deleteJoueursByIdEquipe($idEquipe){
 		DB::table('joueurs')->where('equipe_id', '=', $idEquipe)->delete();
 	}
@@ -211,8 +268,48 @@ class EquipeRepository{
 	}
 
 	public function deleteEntraineursByIdEquipe($idEquipe){
-		//supprimer usagers liés aux entraineurs
+		//TODO supprimer usagers liés aux entraineurs
 		DB::table('entraineurs')->where('equipe_id', '=', $idEquipe)->delete();
+	}
+
+	public function deletePratiquesByIdEquipe($idEquipe){
+		//TODO supprimer pratiques liés aux activités de type entraînements
+		//TODO supprimer présences liées aux activités
+		DB::table('activites')
+		->where('equipe_id', '=', $idEquipe)
+		->where('type', '=', 'pratique')
+		->delete();
+	}
+
+	public function deleteMatchsByIdEquipe($idEquipe){
+		//TODO supprimer présences liées aux activités
+		//todo supprimer notes
+		DB::table('activites')
+		->where('equipe_id', '=', $idEquipe)
+		->where('type', '=', 'match')
+		->delete();
+	}
+
+	public function getAllTerrainsByUser($idUser){
+		return DB::table('terrains')
+		->select('terrains.*')
+		->rightJoin('activites', 'activites.terrain_id', '=',  'terrains.id')
+		->leftJoin('equipes', 'equipes.id', '=',  'activites.equipe_id')
+		->where('equipes.users_id', '=', $idUser)
+		->orderBy('terrains.nom', 'asc')
+		->groupBy('terrains.id')
+		->get();
+	}
+
+	public function getAllEquipesByUser($idUser){
+		return DB::table('activites')
+		->select('activites.adversaire')
+		->leftJoin('equipes', 'equipes.id', '=',  'activites.equipe_id')
+		->where('equipes.users_id', '=', $idUser)
+		->where('activites.type', '=', 'match')
+		->orderBy('activites.adversaire', 'asc')
+		->distinct()
+		->get();
 	}
 
 	public function deleteEquipe($id){
@@ -225,11 +322,14 @@ class EquipeRepository{
 		//supprimer entraineurs
 		$this->deleteEntraineursByIdEquipe($id);
 
-		//TODO supprimer matchs
+		//supprimer matchs
+		$this->deletePratiquesByIdEquipe($id);
 
-		//TODO supprimer pratiques
+		//supprimer pratiques
+		$this->deleteMatchsByIdEquipe($id);
 
 		//supprimer équipe
 		DB::table('equipes')->where('id', '=', $id)->delete();
 	}
 }
+

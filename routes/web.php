@@ -64,7 +64,8 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/equipes/deleteEntraineur', 'EquipeController@deleteEntraineur'); //API
     Route::delete('/equipes/delete-equipe/{id}', 'EquipeController@deleteEquipe'); //API
     Route::post('/equipes/createActivite', 'EquipeController@createActivite'); //API
-    Route::delete('/equipes/delete-activite/{id}', 'EquipeController@deleteActivite'); //API
+    Route::post('/equipes/deleteActivite', 'EquipeController@deleteActivite'); //API
+    Route::get('/equipes/get-terrains-and-equipes', 'EquipeController@getTerrainsAndEquipes'); //API
 
     //ROUTE OUTIL DESIGNER
     Route::get('/create-exercice', 'CreateExercice@getPage');
@@ -77,10 +78,4 @@ Route::resource('seance', 'PratiquesController')->except(['store', 'update', 'ed
 
 //ROUTES TESTS
 Route::get('/seance/get-id-exercices/{id}', 'PratiquesController@getIdExercices');
-
-
-//TODO supprimer tout ça
-Route::get('/pratique/{n}', function ($n) {
-    return view('pratique')->withNumero($n); 
-})->where('n', '[0-9]+');
 
