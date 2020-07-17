@@ -57,7 +57,7 @@
                                         <span class="position actions">Actions</span>   
                                     </div> 
                                 </div> 
-                                <div class="item-joueur" v-for="(joueur, index) in lstJoueurs" :key="index">
+                                <div class="item-joueur" v-for="(joueur, index) in displayListJoueurs" :key="index">
                                     <div class="nom d-joueur">
                                         <span>{{joueur.nom}}</span>
                                     </div> 
@@ -69,7 +69,7 @@
                                     <div class="d-joueur">
                                         <div class="btn-actions-joueur">
                                             <div class="btns">
-                                                <button class="btn btn-soccer-coach-action-list" @click="updateJoueur(joueur)"><i class="ti-pencil"></i></button>
+                                                <update-joueur-modal :joueur="joueur" :indexJoueur="index" />
                                                 <delete-joueur-modal :joueur="joueur.id" :indexJoueur="index" :nom="joueur.nom" />
                                             </div> 
                                         </div>    
@@ -218,6 +218,9 @@
             }
         },
         computed:{
+            displayListJoueurs(){
+                return this.lstJoueurs.sort((a,b) =>(a.nom > b.nom ? 1 : -1));
+            },
             ...mapState(['lstJoueurs', 'lstEntraineurs', 'lstMatchs', 'lstPratiques']),
         },
         methods:{
@@ -304,6 +307,7 @@
                 this.equipeDetail.lstJoueurs = this.lstJoueurs;
                 const equipeParsed = JSON.stringify(this.equipeDetail);
                 localStorage.setItem('equipeLocale', equipeParsed);
+                location.reload();
             });
 
             this.$root.$on('setEntraineurLocalStorage', () =>{
@@ -311,6 +315,7 @@
                 this.equipeDetail.lstEntraineurs = this.lstEntraineurs;
                 const equipeParsed = JSON.stringify(this.equipeDetail);
                 localStorage.setItem('equipeLocale', equipeParsed);
+                location.reload();
             });
 
             this.$root.$on('setPratiqueLocalStorage', () =>{
@@ -318,6 +323,7 @@
                 this.equipeDetail.lstPratiques = this.lstPratiques;
                 const equipeParsed = JSON.stringify(this.equipeDetail);
                 localStorage.setItem('equipeLocale', equipeParsed);
+                location.reload();
             });
 
             this.$root.$on('setMatchLocalStorage', () =>{
@@ -325,6 +331,7 @@
                 this.equipeDetail.lstMatchs = this.lstMatchs;
                 const equipeParsed = JSON.stringify(this.equipeDetail);
                 localStorage.setItem('equipeLocale', equipeParsed);
+                location.reload();
             });
         },
         beforeDestroy(){

@@ -7293,6 +7293,178 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
+/***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/modals/UpdateJoueurComponent.vue?vue&type=script&lang=js&":
+/*!***************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/modals/UpdateJoueurComponent.vue?vue&type=script&lang=js& ***!
+  \***************************************************************************************************************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm.js");
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
+
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+  props: ['joueur', 'indexJoueur'],
+  data: function data() {
+    return {
+      joueurDTO: {
+        nom: {
+          value: undefined,
+          validations: {
+            require: true
+          },
+          validate: false
+        },
+        email: {
+          value: undefined,
+          validations: {
+            require: false
+          },
+          validate: true
+        },
+        position1: {
+          value: undefined,
+          validations: {
+            require: false
+          },
+          validate: true
+        },
+        position2: {
+          value: undefined,
+          validations: {
+            require: false
+          },
+          validate: true
+        },
+        position3: {
+          value: undefined,
+          validations: {
+            require: false
+          },
+          validate: true
+        }
+      }
+    };
+  },
+  computed: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapState"])(['positions'])),
+  methods: _objectSpread({
+    addJoueur: function addJoueur() {
+      var _this = this;
+
+      var params = {
+        id: this.joueur.id,
+        nom: this.joueurDTO.nom.value,
+        email: this.joueurDTO.email.value,
+        position1: this.joueurDTO.position1.value,
+        position2: this.joueurDTO.position2.value,
+        position3: this.joueurDTO.position3.value
+      };
+      axios.post("/equipes/updateJoueur", params).then(function (response) {
+        params.equipe_id = _this.joueur.equipe_id;
+        params.prenom = _this.joueur.prenom;
+        params.users_id = _this.joueur.users_id; //supprimer le joueur dans la liste de joueurs avant de le mettre à jour
+
+        _this.deleteJoueur(_this.indexJoueur); //ajouter le joueur mis à jour
+
+
+        _this.addJoueurToList(params); //mettre à jour la liste de joueurs dans le locale storage
+
+
+        _this.$root.$emit('setJoueurLocalStorage');
+
+        _this.closeModal();
+      });
+    },
+    formValid: function formValid() {
+      var values = Object.values(this.joueurDTO);
+      var valueNotValidate = values.find(function (value) {
+        return !value.validate;
+      });
+
+      if (valueNotValidate) {
+        this.$root.$emit('formInvalid');
+        return false;
+      }
+
+      return true;
+    },
+    openModal: function openModal() {},
+    closeModal: function closeModal() {
+      $("#modalUpdatePlayer" + this.joueur.id).modal("hide");
+    }
+  }, Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapMutations"])(['addJoueurToList', 'deleteJoueur'])),
+  created: function created() {
+    //initialiser les valeurs du joueurDTO
+    this.joueurDTO.nom.value = this.joueur.nom;
+    this.joueurDTO.email.value = this.joueur.email;
+    this.joueurDTO.position1.value = this.joueur.position1;
+    this.joueurDTO.position2.value = this.joueur.position2;
+    this.joueurDTO.position3.value = this.joueur.position3;
+  },
+  mounted: function mounted() {}
+});
+
+/***/ }),
+
 /***/ "./node_modules/bootstrap/dist/js/bootstrap.js":
 /*!*****************************************************!*\
   !*** ./node_modules/bootstrap/dist/js/bootstrap.js ***!
@@ -12407,6 +12579,25 @@ exports = module.exports = __webpack_require__(/*! ../../../../node_modules/css-
 
 // module
 exports.push([module.i, ".modalUpdateForm .modal-content .modal-footer[data-v-586abddc] {\n  display: inline;\n}\n.modalUpdateForm .modal-content .modal-footer .btn-non[data-v-586abddc] {\n  float: left;\n}\n.modalUpdateForm .modal-content .modal-footer .btn-oui[data-v-586abddc] {\n  float: right;\n}", ""]);
+
+// exports
+
+
+/***/ }),
+
+/***/ "./node_modules/css-loader/index.js!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src/index.js?!./node_modules/sass-loader/dist/cjs.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/modals/UpdateJoueurComponent.vue?vue&type=style&index=0&id=0df49864&lang=scss&scoped=true&":
+/*!**************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/css-loader!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src??ref--7-2!./node_modules/sass-loader/dist/cjs.js??ref--7-3!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/modals/UpdateJoueurComponent.vue?vue&type=style&index=0&id=0df49864&lang=scss&scoped=true& ***!
+  \**************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__(/*! ../../../../node_modules/css-loader/lib/css-base.js */ "./node_modules/css-loader/lib/css-base.js")(false);
+// imports
+
+
+// module
+exports.push([module.i, ".form-control[data-v-0df49864] {\n  border: none;\n  border-bottom: 2px solid #03aca4;\n  border-right: 1px solid #F3F3F3;\n}\n.form-group.input-sm .input-text[data-v-0df49864], .form-group.input-sm .date-time-picker[data-v-0df49864] {\n  width: 100%;\n}\n@media screen and (min-width: 768px) {\n.form-group.input-sm .input-text[data-v-0df49864], .form-group.input-sm .date-time-picker[data-v-0df49864] {\n    width: 33.3%;\n}\n}\n.form-group .temps-input[data-v-0df49864] {\n  display: flex;\n}\n.form-group .select-form[data-v-0df49864] {\n  width: 100%;\n  height: 30px;\n  border: none;\n  border-bottom: 2px solid #03aca4;\n  border-right: 1px solid #F3F3F3;\n}\n.form-group .select-form[data-v-0df49864]:focus {\n  outline: none;\n}\n.temps-chexbox > div[data-v-0df49864] {\n  flex: 1;\n  padding-left: 5px;\n}\n.temps-chexbox[data-v-0df49864] {\n  display: flex;\n  flex-flow: row wrap;\n}\n.temps-chexbox .type-item[data-v-0df49864] {\n  height: auto;\n}\n.temps-chexbox .type-item .icon-exercice[data-v-0df49864] {\n  bottom: 0;\n  position: absolute;\n}\n.temps-chexbox .type-item input[type=radio][data-v-0df49864] {\n  display: none;\n}\n.temps-chexbox .type-item input[type=radio]:not(:disabled) ~ label[data-v-0df49864] {\n  cursor: pointer;\n}\n.temps-chexbox .type-item input[type=radio]:disabled ~ label[data-v-0df49864] {\n  color: #bcc2bf;\n  border-color: #bcc2bf;\n  box-shadow: none;\n  cursor: not-allowed;\n}\n.temps-chexbox .type-item label[data-v-0df49864] {\n  height: 2.4rem;\n  width: 2.4rem;\n  display: block;\n  background: white;\n  border: 1px solid #03aca4;\n  border-radius: 12px;\n  padding: 2px;\n  text-align: center;\n  margin-bottom: 0 !important;\n  box-shadow: 0px 3px 10px -2px rgba(161, 170, 166, 0.5);\n  position: relative;\n}\n.temps-chexbox .type-item label .details-type[data-v-0df49864] {\n  margin-top: 5px;\n}\n.temps-chexbox .type-item input[type=radio]:checked + label[data-v-0df49864] {\n  background: #03aca4;\n  color: white;\n  box-shadow: 0px 0px 20px #F3F3F3;\n}\n.temps-chexbox .type-item input[type=radio]:checked + label i[data-v-0df49864] {\n  color: white;\n}\n.temps-chexbox .type-item p[data-v-0df49864] {\n  font-weight: 900;\n  margin-bottom: 0 !important;\n}\n.error[data-v-0df49864] {\n  color: red;\n  font-weight: 600;\n}\n.input-error[data-v-0df49864] {\n  border-bottom: 2px solid red;\n}\n.input-error[data-v-0df49864]:focus {\n  border-color: red;\n  box-shadow: 0 0 0 0.2rem rgba(255, 0, 0, 0.2);\n}\n.add-joueur .btn-close[data-v-0df49864] {\n  outline: none;\n}\n.add-joueur .btn-action-exercices .btns[data-v-0df49864] {\n  float: right;\n}", ""]);
 
 // exports
 
@@ -44510,6 +44701,36 @@ if(false) {}
 
 /***/ }),
 
+/***/ "./node_modules/style-loader/index.js!./node_modules/css-loader/index.js!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src/index.js?!./node_modules/sass-loader/dist/cjs.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/modals/UpdateJoueurComponent.vue?vue&type=style&index=0&id=0df49864&lang=scss&scoped=true&":
+/*!******************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/style-loader!./node_modules/css-loader!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src??ref--7-2!./node_modules/sass-loader/dist/cjs.js??ref--7-3!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/modals/UpdateJoueurComponent.vue?vue&type=style&index=0&id=0df49864&lang=scss&scoped=true& ***!
+  \******************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+
+var content = __webpack_require__(/*! !../../../../node_modules/css-loader!../../../../node_modules/vue-loader/lib/loaders/stylePostLoader.js!../../../../node_modules/postcss-loader/src??ref--7-2!../../../../node_modules/sass-loader/dist/cjs.js??ref--7-3!../../../../node_modules/vue-loader/lib??vue-loader-options!./UpdateJoueurComponent.vue?vue&type=style&index=0&id=0df49864&lang=scss&scoped=true& */ "./node_modules/css-loader/index.js!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src/index.js?!./node_modules/sass-loader/dist/cjs.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/modals/UpdateJoueurComponent.vue?vue&type=style&index=0&id=0df49864&lang=scss&scoped=true&");
+
+if(typeof content === 'string') content = [[module.i, content, '']];
+
+var transform;
+var insertInto;
+
+
+
+var options = {"hmr":true}
+
+options.transform = transform
+options.insertInto = undefined;
+
+var update = __webpack_require__(/*! ../../../../node_modules/style-loader/lib/addStyles.js */ "./node_modules/style-loader/lib/addStyles.js")(content, options);
+
+if(content.locals) module.exports = content.locals;
+
+if(false) {}
+
+/***/ }),
+
 /***/ "./node_modules/style-loader/lib/addStyles.js":
 /*!****************************************************!*\
   !*** ./node_modules/style-loader/lib/addStyles.js ***!
@@ -76140,7 +76361,7 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div", { staticClass: "modal-delete-joueur" }, [
+  return _c("div", { staticClass: "modal-delete-joueur modal-btn" }, [
     _c(
       "button",
       {
@@ -77250,6 +77471,331 @@ var staticRenderFns = [
     ])
   }
 ]
+render._withStripped = true
+
+
+
+/***/ }),
+
+/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/modals/UpdateJoueurComponent.vue?vue&type=template&id=0df49864&scoped=true&":
+/*!*******************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/modals/UpdateJoueurComponent.vue?vue&type=template&id=0df49864&scoped=true& ***!
+  \*******************************************************************************************************************************************************************************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "render", function() { return render; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return staticRenderFns; });
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c("div", { staticClass: "add-joueur modal-btn" }, [
+    _c(
+      "button",
+      {
+        staticClass: "btn btn-soccer-coach-action-list",
+        attrs: {
+          "data-toggle": "modal",
+          "data-target": "#modalUpdatePlayer" + _vm.joueur.id
+        },
+        on: {
+          click: function($event) {
+            return _vm.openModal()
+          }
+        }
+      },
+      [_c("i", { staticClass: "ti-pencil" })]
+    ),
+    _vm._v(" "),
+    _c(
+      "div",
+      {
+        staticClass: "modal fade",
+        attrs: { id: "modalUpdatePlayer" + _vm.joueur.id, role: "dialog" }
+      },
+      [
+        _c("div", { staticClass: "modal-dialog" }, [
+          _c("div", { staticClass: "modal-content" }, [
+            _c("div", { staticClass: "modal-header" }, [
+              _c("h4", { staticClass: "modal-title" }, [
+                _vm._v("Modifier un joueur")
+              ]),
+              _vm._v(" "),
+              _c(
+                "button",
+                {
+                  staticClass: "close btn-close",
+                  attrs: {
+                    type: "button",
+                    id: "closeModalUpdatePlayer" + _vm.joueur.id
+                  },
+                  on: {
+                    click: function($event) {
+                      return _vm.closeModal()
+                    }
+                  }
+                },
+                [_vm._v("×")]
+              )
+            ]),
+            _vm._v(" "),
+            _c("div", { staticClass: "modal-body" }, [
+              _c("div", { staticClass: "form-add-joueur" }, [
+                _c(
+                  "div",
+                  { staticClass: "form-group" },
+                  [
+                    _c("label", { attrs: { for: "nomJoueur" } }, [
+                      _vm.joueurDTO.nom.validations.require
+                        ? _c("span", [_vm._v(" * ")])
+                        : _vm._e(),
+                      _vm._v(" Nom:")
+                    ]),
+                    _vm._v(" "),
+                    _c("input-text", {
+                      attrs: {
+                        placeholder: "Ex: Lionel Messi",
+                        name: "nomJoueur",
+                        model: _vm.joueurDTO.nom
+                      },
+                      on: {
+                        validation: function($event) {
+                          _vm.joueurDTO.nom.validate = $event
+                        }
+                      },
+                      model: {
+                        value: _vm.joueurDTO.nom.value,
+                        callback: function($$v) {
+                          _vm.$set(_vm.joueurDTO.nom, "value", $$v)
+                        },
+                        expression: "joueurDTO.nom.value"
+                      }
+                    })
+                  ],
+                  1
+                ),
+                _vm._v(" "),
+                _c(
+                  "div",
+                  { staticClass: "form-group" },
+                  [
+                    _c("label", { attrs: { for: "emailJoueur" } }, [
+                      _vm.joueurDTO.email.validations.require
+                        ? _c("span", [_vm._v(" * ")])
+                        : _vm._e(),
+                      _vm._v(" Email:")
+                    ]),
+                    _vm._v(" "),
+                    _c("input-text", {
+                      attrs: {
+                        placeholder: "Ex: lionel.messi@gmail.com",
+                        name: "emailJoueur",
+                        model: _vm.joueurDTO.email
+                      },
+                      on: {
+                        validation: function($event) {
+                          _vm.joueurDTO.email.validate = $event
+                        }
+                      },
+                      model: {
+                        value: _vm.joueurDTO.email.value,
+                        callback: function($$v) {
+                          _vm.$set(_vm.joueurDTO.email, "value", $$v)
+                        },
+                        expression: "joueurDTO.email.value"
+                      }
+                    })
+                  ],
+                  1
+                ),
+                _vm._v(" "),
+                _c("div", { staticClass: "form-group" }, [
+                  _c("label", { attrs: { for: "position2" } }, [
+                    _vm.joueurDTO.position1.validations.require
+                      ? _c("span", [_vm._v(" * ")])
+                      : _vm._e(),
+                    _vm._v(" Position 1:")
+                  ]),
+                  _vm._v(" "),
+                  _c(
+                    "select",
+                    {
+                      directives: [
+                        {
+                          name: "model",
+                          rawName: "v-model",
+                          value: _vm.joueurDTO.position1.value,
+                          expression: "joueurDTO.position1.value"
+                        }
+                      ],
+                      staticClass: "select-form",
+                      attrs: { name: "position1", id: "position2" },
+                      on: {
+                        change: function($event) {
+                          var $$selectedVal = Array.prototype.filter
+                            .call($event.target.options, function(o) {
+                              return o.selected
+                            })
+                            .map(function(o) {
+                              var val = "_value" in o ? o._value : o.value
+                              return val
+                            })
+                          _vm.$set(
+                            _vm.joueurDTO.position1,
+                            "value",
+                            $event.target.multiple
+                              ? $$selectedVal
+                              : $$selectedVal[0]
+                          )
+                        }
+                      }
+                    },
+                    _vm._l(_vm.positions, function(position, index) {
+                      return _c(
+                        "option",
+                        { key: index, domProps: { value: position } },
+                        [_vm._v(_vm._s(position))]
+                      )
+                    }),
+                    0
+                  )
+                ]),
+                _vm._v(" "),
+                _c("div", { staticClass: "form-group" }, [
+                  _c("label", { attrs: { for: "position2" } }, [
+                    _vm.joueurDTO.position2.validations.require
+                      ? _c("span", [_vm._v(" * ")])
+                      : _vm._e(),
+                    _vm._v(" Position 2:")
+                  ]),
+                  _vm._v(" "),
+                  _c(
+                    "select",
+                    {
+                      directives: [
+                        {
+                          name: "model",
+                          rawName: "v-model",
+                          value: _vm.joueurDTO.position2.value,
+                          expression: "joueurDTO.position2.value"
+                        }
+                      ],
+                      staticClass: "select-form",
+                      attrs: { name: "position2", id: "position2" },
+                      on: {
+                        change: function($event) {
+                          var $$selectedVal = Array.prototype.filter
+                            .call($event.target.options, function(o) {
+                              return o.selected
+                            })
+                            .map(function(o) {
+                              var val = "_value" in o ? o._value : o.value
+                              return val
+                            })
+                          _vm.$set(
+                            _vm.joueurDTO.position2,
+                            "value",
+                            $event.target.multiple
+                              ? $$selectedVal
+                              : $$selectedVal[0]
+                          )
+                        }
+                      }
+                    },
+                    _vm._l(_vm.positions, function(position, index) {
+                      return _c(
+                        "option",
+                        { key: index, domProps: { value: position } },
+                        [_vm._v(_vm._s(position))]
+                      )
+                    }),
+                    0
+                  )
+                ]),
+                _vm._v(" "),
+                _c("div", { staticClass: "form-group" }, [
+                  _c("label", { attrs: { for: "position3" } }, [
+                    _vm.joueurDTO.position3.validations.require
+                      ? _c("span", [_vm._v(" * ")])
+                      : _vm._e(),
+                    _vm._v(" Position 3:")
+                  ]),
+                  _vm._v(" "),
+                  _c(
+                    "select",
+                    {
+                      directives: [
+                        {
+                          name: "model",
+                          rawName: "v-model",
+                          value: _vm.joueurDTO.position3.value,
+                          expression: "joueurDTO.position3.value"
+                        }
+                      ],
+                      staticClass: "select-form",
+                      attrs: { name: "position3", id: "position3" },
+                      on: {
+                        change: function($event) {
+                          var $$selectedVal = Array.prototype.filter
+                            .call($event.target.options, function(o) {
+                              return o.selected
+                            })
+                            .map(function(o) {
+                              var val = "_value" in o ? o._value : o.value
+                              return val
+                            })
+                          _vm.$set(
+                            _vm.joueurDTO.position3,
+                            "value",
+                            $event.target.multiple
+                              ? $$selectedVal
+                              : $$selectedVal[0]
+                          )
+                        }
+                      }
+                    },
+                    _vm._l(_vm.positions, function(position, index) {
+                      return _c(
+                        "option",
+                        { key: index, domProps: { value: position } },
+                        [_vm._v(_vm._s(position))]
+                      )
+                    }),
+                    0
+                  )
+                ]),
+                _vm._v(" "),
+                _c("div", { staticClass: "btn-action-exercices" }, [
+                  _c("div", { staticClass: "btns" }, [
+                    _c(
+                      "a",
+                      {
+                        staticClass: "btn btn-soccer-coach-action",
+                        on: {
+                          click: function($event) {
+                            return _vm.addJoueur()
+                          }
+                        }
+                      },
+                      [
+                        _c("i", { staticClass: "ti-pencil" }),
+                        _vm._v(" Modifier joueur")
+                      ]
+                    )
+                  ])
+                ])
+              ])
+            ])
+          ])
+        ])
+      ]
+    )
+  ])
+}
+var staticRenderFns = []
 render._withStripped = true
 
 
@@ -98400,7 +98946,8 @@ Vue.component('create-entraineur-modal', __webpack_require__(/*! ./components/mo
 Vue.component('delete-joueur-modal', __webpack_require__(/*! ./components/modals/DeleteJoueurComponent.vue */ "./resources/js/components/modals/DeleteJoueurComponent.vue")["default"]);
 Vue.component('delete-entraineur-modal', __webpack_require__(/*! ./components/modals/DeleteEntraineurComponent.vue */ "./resources/js/components/modals/DeleteEntraineurComponent.vue")["default"]);
 Vue.component('create-activite-modal', __webpack_require__(/*! ./components/modals/CreateActiviteComponent.vue */ "./resources/js/components/modals/CreateActiviteComponent.vue")["default"]);
-Vue.component('delete-activite-modal', __webpack_require__(/*! ./components/modals/DeleteActiviteComponent.vue */ "./resources/js/components/modals/DeleteActiviteComponent.vue")["default"]); //Components menu
+Vue.component('delete-activite-modal', __webpack_require__(/*! ./components/modals/DeleteActiviteComponent.vue */ "./resources/js/components/modals/DeleteActiviteComponent.vue")["default"]);
+Vue.component('update-joueur-modal', __webpack_require__(/*! ./components/modals/UpdateJoueurComponent.vue */ "./resources/js/components/modals/UpdateJoueurComponent.vue")["default"]); //Components menu
 
 Vue.component('menu-left', __webpack_require__(/*! ./components/menu/MenuLeftComponent.vue */ "./resources/js/components/menu/MenuLeftComponent.vue")["default"]);
 var app = new Vue({
@@ -101387,6 +101934,93 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_UpdateFormComponent_vue_vue_type_template_id_586abddc_scoped_true___WEBPACK_IMPORTED_MODULE_0__["render"]; });
 
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_UpdateFormComponent_vue_vue_type_template_id_586abddc_scoped_true___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
+
+
+
+/***/ }),
+
+/***/ "./resources/js/components/modals/UpdateJoueurComponent.vue":
+/*!******************************************************************!*\
+  !*** ./resources/js/components/modals/UpdateJoueurComponent.vue ***!
+  \******************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _UpdateJoueurComponent_vue_vue_type_template_id_0df49864_scoped_true___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./UpdateJoueurComponent.vue?vue&type=template&id=0df49864&scoped=true& */ "./resources/js/components/modals/UpdateJoueurComponent.vue?vue&type=template&id=0df49864&scoped=true&");
+/* harmony import */ var _UpdateJoueurComponent_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./UpdateJoueurComponent.vue?vue&type=script&lang=js& */ "./resources/js/components/modals/UpdateJoueurComponent.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport *//* harmony import */ var _UpdateJoueurComponent_vue_vue_type_style_index_0_id_0df49864_lang_scss_scoped_true___WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./UpdateJoueurComponent.vue?vue&type=style&index=0&id=0df49864&lang=scss&scoped=true& */ "./resources/js/components/modals/UpdateJoueurComponent.vue?vue&type=style&index=0&id=0df49864&lang=scss&scoped=true&");
+/* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+
+
+
+
+
+
+/* normalize component */
+
+var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_3__["default"])(
+  _UpdateJoueurComponent_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
+  _UpdateJoueurComponent_vue_vue_type_template_id_0df49864_scoped_true___WEBPACK_IMPORTED_MODULE_0__["render"],
+  _UpdateJoueurComponent_vue_vue_type_template_id_0df49864_scoped_true___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"],
+  false,
+  null,
+  "0df49864",
+  null
+  
+)
+
+/* hot reload */
+if (false) { var api; }
+component.options.__file = "resources/js/components/modals/UpdateJoueurComponent.vue"
+/* harmony default export */ __webpack_exports__["default"] = (component.exports);
+
+/***/ }),
+
+/***/ "./resources/js/components/modals/UpdateJoueurComponent.vue?vue&type=script&lang=js&":
+/*!*******************************************************************************************!*\
+  !*** ./resources/js/components/modals/UpdateJoueurComponent.vue?vue&type=script&lang=js& ***!
+  \*******************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_UpdateJoueurComponent_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/babel-loader/lib??ref--4-0!../../../../node_modules/vue-loader/lib??vue-loader-options!./UpdateJoueurComponent.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/modals/UpdateJoueurComponent.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport */ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_UpdateJoueurComponent_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
+
+/***/ }),
+
+/***/ "./resources/js/components/modals/UpdateJoueurComponent.vue?vue&type=style&index=0&id=0df49864&lang=scss&scoped=true&":
+/*!****************************************************************************************************************************!*\
+  !*** ./resources/js/components/modals/UpdateJoueurComponent.vue?vue&type=style&index=0&id=0df49864&lang=scss&scoped=true& ***!
+  \****************************************************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_style_loader_index_js_node_modules_css_loader_index_js_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_7_2_node_modules_sass_loader_dist_cjs_js_ref_7_3_node_modules_vue_loader_lib_index_js_vue_loader_options_UpdateJoueurComponent_vue_vue_type_style_index_0_id_0df49864_lang_scss_scoped_true___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/style-loader!../../../../node_modules/css-loader!../../../../node_modules/vue-loader/lib/loaders/stylePostLoader.js!../../../../node_modules/postcss-loader/src??ref--7-2!../../../../node_modules/sass-loader/dist/cjs.js??ref--7-3!../../../../node_modules/vue-loader/lib??vue-loader-options!./UpdateJoueurComponent.vue?vue&type=style&index=0&id=0df49864&lang=scss&scoped=true& */ "./node_modules/style-loader/index.js!./node_modules/css-loader/index.js!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src/index.js?!./node_modules/sass-loader/dist/cjs.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/modals/UpdateJoueurComponent.vue?vue&type=style&index=0&id=0df49864&lang=scss&scoped=true&");
+/* harmony import */ var _node_modules_style_loader_index_js_node_modules_css_loader_index_js_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_7_2_node_modules_sass_loader_dist_cjs_js_ref_7_3_node_modules_vue_loader_lib_index_js_vue_loader_options_UpdateJoueurComponent_vue_vue_type_style_index_0_id_0df49864_lang_scss_scoped_true___WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_index_js_node_modules_css_loader_index_js_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_7_2_node_modules_sass_loader_dist_cjs_js_ref_7_3_node_modules_vue_loader_lib_index_js_vue_loader_options_UpdateJoueurComponent_vue_vue_type_style_index_0_id_0df49864_lang_scss_scoped_true___WEBPACK_IMPORTED_MODULE_0__);
+/* harmony reexport (unknown) */ for(var __WEBPACK_IMPORT_KEY__ in _node_modules_style_loader_index_js_node_modules_css_loader_index_js_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_7_2_node_modules_sass_loader_dist_cjs_js_ref_7_3_node_modules_vue_loader_lib_index_js_vue_loader_options_UpdateJoueurComponent_vue_vue_type_style_index_0_id_0df49864_lang_scss_scoped_true___WEBPACK_IMPORTED_MODULE_0__) if(__WEBPACK_IMPORT_KEY__ !== 'default') (function(key) { __webpack_require__.d(__webpack_exports__, key, function() { return _node_modules_style_loader_index_js_node_modules_css_loader_index_js_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_7_2_node_modules_sass_loader_dist_cjs_js_ref_7_3_node_modules_vue_loader_lib_index_js_vue_loader_options_UpdateJoueurComponent_vue_vue_type_style_index_0_id_0df49864_lang_scss_scoped_true___WEBPACK_IMPORTED_MODULE_0__[key]; }) }(__WEBPACK_IMPORT_KEY__));
+ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_style_loader_index_js_node_modules_css_loader_index_js_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_7_2_node_modules_sass_loader_dist_cjs_js_ref_7_3_node_modules_vue_loader_lib_index_js_vue_loader_options_UpdateJoueurComponent_vue_vue_type_style_index_0_id_0df49864_lang_scss_scoped_true___WEBPACK_IMPORTED_MODULE_0___default.a); 
+
+/***/ }),
+
+/***/ "./resources/js/components/modals/UpdateJoueurComponent.vue?vue&type=template&id=0df49864&scoped=true&":
+/*!*************************************************************************************************************!*\
+  !*** ./resources/js/components/modals/UpdateJoueurComponent.vue?vue&type=template&id=0df49864&scoped=true& ***!
+  \*************************************************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_UpdateJoueurComponent_vue_vue_type_template_id_0df49864_scoped_true___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../../node_modules/vue-loader/lib??vue-loader-options!./UpdateJoueurComponent.vue?vue&type=template&id=0df49864&scoped=true& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/modals/UpdateJoueurComponent.vue?vue&type=template&id=0df49864&scoped=true&");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_UpdateJoueurComponent_vue_vue_type_template_id_0df49864_scoped_true___WEBPACK_IMPORTED_MODULE_0__["render"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_UpdateJoueurComponent_vue_vue_type_template_id_0df49864_scoped_true___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
 
 
 

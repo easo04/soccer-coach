@@ -165,6 +165,10 @@
                     .btns{
                         float: right;
                         display: flex;
+                        .modal-btn{
+                            margin-right: 5px;
+                        }
+
                         .btn{
                             margin-right: 5px;
                         }

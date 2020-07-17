@@ -84,6 +84,20 @@ class EquipeRepository{
 		);
 	}
 
+	public function updateJoueur($joueur){
+		$email = isset($joueur['email']) ? $joueur['email'] : '';
+		$nom = isset($joueur['nom']) ? $joueur['nom'] : '';
+		$prenom = isset($joueur['prenom']) ? $joueur['prenom'] : '';
+		$position1 = isset($joueur['position1']) ? $joueur['position1'] : '';
+		$position2 = isset($joueur['position2']) ? $joueur['position2'] : '';
+		$position3 = isset($joueur['position3']) ? $joueur['position3'] : '';
+
+		$affected = DB::table('joueurs')
+            ->where('id', $joueur['id'])
+			->update(['nom' => $nom, 'prenom' => $prenom, 'email' => $email, 
+			'position1' => $position1, 'position2' => $position2, 'position3' => $position3]);
+	}
+
 	public function createJoueurAndGetId($idEquipe, $joueur){
 		$email = isset($joueur['email']) ? $joueur['email'] : '';
 		$prenom = isset($joueur['prenom']) ? $joueur['prenom'] : '';

@@ -1,5 +1,5 @@
 <template>
-    <div class="modal-delete-joueur">
+    <div class="modal-delete-joueur modal-btn">
         <button class="btn btn-soccer-coach-action-list" data-toggle="modal" :data-target="'#modalDeletePlayer'+joueur"><i class="ti-trash"></i></button>
         <div :id="'modalDeletePlayer'+joueur" class="modal fade modalUpdateForm" role="dialog">
             <div class="modal-dialog">

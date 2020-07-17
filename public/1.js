@@ -234,7 +234,13 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       isLoading: this.searchInfo ? true : false
     };
   },
-  computed: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapState"])(['lstJoueurs', 'lstEntraineurs', 'lstMatchs', 'lstPratiques'])),
+  computed: _objectSpread({
+    displayListJoueurs: function displayListJoueurs() {
+      return this.lstJoueurs.sort(function (a, b) {
+        return a.nom > b.nom ? 1 : -1;
+      });
+    }
+  }, Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapState"])(['lstJoueurs', 'lstEntraineurs', 'lstMatchs', 'lstPratiques'])),
   methods: _objectSpread({
     back: function back() {
       this.$router.push('mes-equipes');
@@ -314,24 +320,28 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       _this3.equipeDetail.lstJoueurs = _this3.lstJoueurs;
       var equipeParsed = JSON.stringify(_this3.equipeDetail);
       localStorage.setItem('equipeLocale', equipeParsed);
+      location.reload();
     });
     this.$root.$on('setEntraineurLocalStorage', function () {
       //add entraineur to local storage
       _this3.equipeDetail.lstEntraineurs = _this3.lstEntraineurs;
       var equipeParsed = JSON.stringify(_this3.equipeDetail);
       localStorage.setItem('equipeLocale', equipeParsed);
+      location.reload();
     });
     this.$root.$on('setPratiqueLocalStorage', function () {
       //add pratique to local storage
       _this3.equipeDetail.lstPratiques = _this3.lstPratiques;
       var equipeParsed = JSON.stringify(_this3.equipeDetail);
       localStorage.setItem('equipeLocale', equipeParsed);
+      location.reload();
     });
     this.$root.$on('setMatchLocalStorage', function () {
       //add match to local storage
       _this3.equipeDetail.lstMatchs = _this3.lstMatchs;
       var equipeParsed = JSON.stringify(_this3.equipeDetail);
       localStorage.setItem('equipeLocale', equipeParsed);
+      location.reload();
     });
   },
   beforeDestroy: function beforeDestroy() {
@@ -357,7 +367,7 @@ exports = module.exports = __webpack_require__(/*! ../../../../node_modules/css-
 
 
 // module
-exports.push([module.i, ".detail-equipe .info-equipe h4[data-v-4607c196] {\n  padding-bottom: 10px;\n}\n.detail-equipe .info-equipe .saison-equipe[data-v-4607c196] {\n  margin-bottom: 20px;\n}\n.detail-equipe .info-equipe .saison-equipe span[data-v-4607c196] {\n  font-size: 12px;\n}\n.detail-equipe .info-equipe .saison-equipe span.label[data-v-4607c196] {\n  font-weight: bold;\n}\n.detail-equipe .info-equipe .saison-equipe .nom-saison[data-v-4607c196] {\n  font-size: 14px !important;\n  font-weight: bold;\n  color: #919191;\n}\n.detail-equipe .info-equipe .nav-item a[data-v-4607c196] {\n  color: #03aca4;\n}\n.detail-equipe .info-equipe .lst-joueurs[data-v-4607c196] {\n  margin-top: 20px;\n}\n.detail-equipe .info-equipe .lst-joueurs .btn-ajouter[data-v-4607c196] {\n  height: 40px;\n}\n.detail-equipe .info-equipe .lst-joueurs .btn-ajouter .btn-rigth[data-v-4607c196] {\n  float: right;\n}\n.detail-equipe .info-equipe .lst-joueurs .item-joueur[data-v-4607c196] {\n  margin-top: 20px;\n  border-radius: 0 !important;\n  height: 50px;\n  border-bottom: 1px solid #ced4da;\n  position: relative;\n  display: flex;\n}\n.detail-equipe .info-equipe .lst-joueurs .item-joueur.with-seance[data-v-4607c196] {\n  height: 70px !important;\n}\n.detail-equipe .info-equipe .lst-joueurs .item-joueur.with-seance .btn-actions-joueur .btns[data-v-4607c196] {\n  margin-top: 20px;\n}\n.detail-equipe .info-equipe .lst-joueurs .item-joueur .d-joueur[data-v-4607c196] {\n  width: 33%;\n  margin-right: 5px;\n}\n.detail-equipe .info-equipe .lst-joueurs .item-joueur .d-joueur[data-v-4607c196]:last-child {\n  margin-right: 0px;\n}\n.detail-equipe .info-equipe .lst-joueurs .item-joueur .d-joueur .actions[data-v-4607c196] {\n  float: right;\n  margin-right: 15px;\n}\n.detail-equipe .info-equipe .lst-joueurs .item-joueur .infos-activite-lien[data-v-4607c196] {\n  cursor: pointer;\n}\n.detail-equipe .info-equipe .lst-joueurs .item-joueur .d-joueur-g[data-v-4607c196] {\n  width: 70%;\n  margin-right: 5px;\n}\n.detail-equipe .info-equipe .lst-joueurs .item-joueur .d-joueur-g[data-v-4607c196]:last-child {\n  margin-right: 0px;\n}\n.detail-equipe .info-equipe .lst-joueurs .item-joueur .d-joueur-g .actions[data-v-4607c196] {\n  float: right;\n  margin-right: 15px;\n}\n.detail-equipe .info-equipe .lst-joueurs .item-joueur .d-joueur-g .details-activite .nom[data-v-4607c196] {\n  font-weight: bold;\n}\n.detail-equipe .info-equipe .lst-joueurs .item-joueur .d-joueur-g .details-activite .terrain[data-v-4607c196] {\n  color: #919191;\n}\n.detail-equipe .info-equipe .lst-joueurs .item-joueur .d-joueur-g .date-activite .heure-debut[data-v-4607c196] {\n  font-weight: bold;\n}\n.detail-equipe .info-equipe .lst-joueurs .item-joueur .d-joueur-g .date-activite .time[data-v-4607c196] {\n  color: #aaaaaa;\n}\n.detail-equipe .info-equipe .lst-joueurs .item-joueur .d-joueur-g .seance a[data-v-4607c196] {\n  text-decoration: underline;\n  color: #03aca4;\n  font-weight: 600;\n  cursor: pointer;\n}\n.detail-equipe .info-equipe .lst-joueurs .item-joueur .d-joueur-g .seance a[data-v-4607c196]:hover {\n  text-decoration: none;\n}\n.detail-equipe .info-equipe .lst-joueurs .item-joueur .d-joueur-s[data-v-4607c196] {\n  width: 30%;\n  margin-right: 5px;\n}\n.detail-equipe .info-equipe .lst-joueurs .item-joueur .d-joueur-s[data-v-4607c196]:last-child {\n  margin-right: 0px;\n}\n.detail-equipe .info-equipe .lst-joueurs .item-joueur .d-joueur-s .actions[data-v-4607c196] {\n  float: right;\n  margin-right: 15px;\n}\n.detail-equipe .info-equipe .lst-joueurs .item-joueur .d-joueur-s .details-activite .nom[data-v-4607c196] {\n  font-weight: bold;\n}\n.detail-equipe .info-equipe .lst-joueurs .item-joueur .d-joueur-s .details-activite .terrain[data-v-4607c196] {\n  color: #919191;\n}\n.detail-equipe .info-equipe .lst-joueurs .item-joueur .d-joueur-s .date-activite .heure-debut[data-v-4607c196] {\n  font-weight: bold;\n}\n.detail-equipe .info-equipe .lst-joueurs .item-joueur .d-joueur-s .date-activite .time[data-v-4607c196] {\n  color: #aaaaaa;\n}\n.detail-equipe .info-equipe .lst-joueurs .item-joueur .position[data-v-4607c196] {\n  font-weight: bold;\n}\n.detail-equipe .info-equipe .lst-joueurs .item-joueur .btn-actions-joueur .btns[data-v-4607c196] {\n  float: right;\n  display: flex;\n}\n.detail-equipe .info-equipe .lst-joueurs .item-joueur .btn-actions-joueur .btns .btn[data-v-4607c196] {\n  margin-right: 5px;\n}\n.modalUpdateForm .modal-content .modal-footer[data-v-4607c196] {\n  display: inline;\n}\n.modalUpdateForm .modal-content .modal-footer .btn-non[data-v-4607c196] {\n  float: left;\n}\n.modalUpdateForm .modal-content .modal-footer .btn-oui[data-v-4607c196] {\n  float: right;\n}", ""]);
+exports.push([module.i, ".detail-equipe .info-equipe h4[data-v-4607c196] {\n  padding-bottom: 10px;\n}\n.detail-equipe .info-equipe .saison-equipe[data-v-4607c196] {\n  margin-bottom: 20px;\n}\n.detail-equipe .info-equipe .saison-equipe span[data-v-4607c196] {\n  font-size: 12px;\n}\n.detail-equipe .info-equipe .saison-equipe span.label[data-v-4607c196] {\n  font-weight: bold;\n}\n.detail-equipe .info-equipe .saison-equipe .nom-saison[data-v-4607c196] {\n  font-size: 14px !important;\n  font-weight: bold;\n  color: #919191;\n}\n.detail-equipe .info-equipe .nav-item a[data-v-4607c196] {\n  color: #03aca4;\n}\n.detail-equipe .info-equipe .lst-joueurs[data-v-4607c196] {\n  margin-top: 20px;\n}\n.detail-equipe .info-equipe .lst-joueurs .btn-ajouter[data-v-4607c196] {\n  height: 40px;\n}\n.detail-equipe .info-equipe .lst-joueurs .btn-ajouter .btn-rigth[data-v-4607c196] {\n  float: right;\n}\n.detail-equipe .info-equipe .lst-joueurs .item-joueur[data-v-4607c196] {\n  margin-top: 20px;\n  border-radius: 0 !important;\n  height: 50px;\n  border-bottom: 1px solid #ced4da;\n  position: relative;\n  display: flex;\n}\n.detail-equipe .info-equipe .lst-joueurs .item-joueur.with-seance[data-v-4607c196] {\n  height: 70px !important;\n}\n.detail-equipe .info-equipe .lst-joueurs .item-joueur.with-seance .btn-actions-joueur .btns[data-v-4607c196] {\n  margin-top: 20px;\n}\n.detail-equipe .info-equipe .lst-joueurs .item-joueur .d-joueur[data-v-4607c196] {\n  width: 33%;\n  margin-right: 5px;\n}\n.detail-equipe .info-equipe .lst-joueurs .item-joueur .d-joueur[data-v-4607c196]:last-child {\n  margin-right: 0px;\n}\n.detail-equipe .info-equipe .lst-joueurs .item-joueur .d-joueur .actions[data-v-4607c196] {\n  float: right;\n  margin-right: 15px;\n}\n.detail-equipe .info-equipe .lst-joueurs .item-joueur .infos-activite-lien[data-v-4607c196] {\n  cursor: pointer;\n}\n.detail-equipe .info-equipe .lst-joueurs .item-joueur .d-joueur-g[data-v-4607c196] {\n  width: 70%;\n  margin-right: 5px;\n}\n.detail-equipe .info-equipe .lst-joueurs .item-joueur .d-joueur-g[data-v-4607c196]:last-child {\n  margin-right: 0px;\n}\n.detail-equipe .info-equipe .lst-joueurs .item-joueur .d-joueur-g .actions[data-v-4607c196] {\n  float: right;\n  margin-right: 15px;\n}\n.detail-equipe .info-equipe .lst-joueurs .item-joueur .d-joueur-g .details-activite .nom[data-v-4607c196] {\n  font-weight: bold;\n}\n.detail-equipe .info-equipe .lst-joueurs .item-joueur .d-joueur-g .details-activite .terrain[data-v-4607c196] {\n  color: #919191;\n}\n.detail-equipe .info-equipe .lst-joueurs .item-joueur .d-joueur-g .date-activite .heure-debut[data-v-4607c196] {\n  font-weight: bold;\n}\n.detail-equipe .info-equipe .lst-joueurs .item-joueur .d-joueur-g .date-activite .time[data-v-4607c196] {\n  color: #aaaaaa;\n}\n.detail-equipe .info-equipe .lst-joueurs .item-joueur .d-joueur-g .seance a[data-v-4607c196] {\n  text-decoration: underline;\n  color: #03aca4;\n  font-weight: 600;\n  cursor: pointer;\n}\n.detail-equipe .info-equipe .lst-joueurs .item-joueur .d-joueur-g .seance a[data-v-4607c196]:hover {\n  text-decoration: none;\n}\n.detail-equipe .info-equipe .lst-joueurs .item-joueur .d-joueur-s[data-v-4607c196] {\n  width: 30%;\n  margin-right: 5px;\n}\n.detail-equipe .info-equipe .lst-joueurs .item-joueur .d-joueur-s[data-v-4607c196]:last-child {\n  margin-right: 0px;\n}\n.detail-equipe .info-equipe .lst-joueurs .item-joueur .d-joueur-s .actions[data-v-4607c196] {\n  float: right;\n  margin-right: 15px;\n}\n.detail-equipe .info-equipe .lst-joueurs .item-joueur .d-joueur-s .details-activite .nom[data-v-4607c196] {\n  font-weight: bold;\n}\n.detail-equipe .info-equipe .lst-joueurs .item-joueur .d-joueur-s .details-activite .terrain[data-v-4607c196] {\n  color: #919191;\n}\n.detail-equipe .info-equipe .lst-joueurs .item-joueur .d-joueur-s .date-activite .heure-debut[data-v-4607c196] {\n  font-weight: bold;\n}\n.detail-equipe .info-equipe .lst-joueurs .item-joueur .d-joueur-s .date-activite .time[data-v-4607c196] {\n  color: #aaaaaa;\n}\n.detail-equipe .info-equipe .lst-joueurs .item-joueur .position[data-v-4607c196] {\n  font-weight: bold;\n}\n.detail-equipe .info-equipe .lst-joueurs .item-joueur .btn-actions-joueur .btns[data-v-4607c196] {\n  float: right;\n  display: flex;\n}\n.detail-equipe .info-equipe .lst-joueurs .item-joueur .btn-actions-joueur .btns .modal-btn[data-v-4607c196] {\n  margin-right: 5px;\n}\n.detail-equipe .info-equipe .lst-joueurs .item-joueur .btn-actions-joueur .btns .btn[data-v-4607c196] {\n  margin-right: 5px;\n}\n.modalUpdateForm .modal-content .modal-footer[data-v-4607c196] {\n  display: inline;\n}\n.modalUpdateForm .modal-content .modal-footer .btn-non[data-v-4607c196] {\n  float: left;\n}\n.modalUpdateForm .modal-content .modal-footer .btn-oui[data-v-4607c196] {\n  float: right;\n}", ""]);
 
 // exports
 
@@ -542,7 +552,7 @@ var render = function() {
                             ])
                           : _vm._e(),
                         _vm._v(" "),
-                        _vm._l(_vm.lstJoueurs, function(joueur, index) {
+                        _vm._l(_vm.displayListJoueurs, function(joueur, index) {
                           return _c(
                             "div",
                             { key: index, staticClass: "item-joueur" },
@@ -578,23 +588,12 @@ var render = function() {
                                       "div",
                                       { staticClass: "btns" },
                                       [
-                                        _c(
-                                          "button",
-                                          {
-                                            staticClass:
-                                              "btn btn-soccer-coach-action-list",
-                                            on: {
-                                              click: function($event) {
-                                                return _vm.updateJoueur(joueur)
-                                              }
-                                            }
-                                          },
-                                          [
-                                            _c("i", {
-                                              staticClass: "ti-pencil"
-                                            })
-                                          ]
-                                        ),
+                                        _c("update-joueur-modal", {
+                                          attrs: {
+                                            joueur: joueur,
+                                            indexJoueur: index
+                                          }
+                                        }),
                                         _vm._v(" "),
                                         _c("delete-joueur-modal", {
                                           attrs: {

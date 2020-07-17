@@ -63,6 +63,7 @@ Vue.component('delete-joueur-modal', require('./components/modals/DeleteJoueurCo
 Vue.component('delete-entraineur-modal', require('./components/modals/DeleteEntraineurComponent.vue').default);
 Vue.component('create-activite-modal', require('./components/modals/CreateActiviteComponent.vue').default);
 Vue.component('delete-activite-modal', require('./components/modals/DeleteActiviteComponent.vue').default);
+Vue.component('update-joueur-modal', require('./components/modals/UpdateJoueurComponent.vue').default);
 
 
 //Components menu
