@@ -95,7 +95,7 @@
                                         <span class="position actions">Actions</span>   
                                     </div> 
                                 </div> 
-                                <div class="item-joueur" v-for="(entraineur, indexE) in lstEntraineurs" :key="indexE">
+                                <div class="item-joueur" v-for="(entraineur, indexE) in displayListEntraineurs" :key="indexE">
                                     <div class="nom d-joueur">
                                         <span>{{entraineur.nom}}</span>
                                     </div> 
@@ -105,7 +105,7 @@
                                     <div class="d-joueur">
                                         <div class="btn-actions-joueur">
                                             <div class="btns">
-                                                <button class="btn btn-soccer-coach-action-list" @click="updateJoueur(entraineur)"><i class="ti-pencil"></i></button>
+                                                <update-entraineur-modal :entraineur="entraineur" :indexEntraineur="indexE" />
                                                 <delete-entraineur-modal :entraineur="entraineur.id" :indexEntraineur="indexE" :nom="entraineur.nom" />
                                             </div>
                                         </div>    
@@ -221,6 +221,9 @@
             displayListJoueurs(){
                 return this.lstJoueurs.sort((a,b) =>(a.nom > b.nom ? 1 : -1));
             },
+            displayListEntraineurs(){
+                return this.lstEntraineurs.sort((a,b) =>(a.nom > b.nom ? 1 : -1));
+            },
             ...mapState(['lstJoueurs', 'lstEntraineurs', 'lstMatchs', 'lstPratiques']),
         },
         methods:{
@@ -237,15 +240,6 @@
                 });
             },
             goToSeance(idSeance){
-
-            },
-            detailPratique(pratique){
-
-            },
-            deletePratique(pra){
-
-            },
-            deleteMatch(match){
 
             },
             ...mapMutations(['setJoueurList', 'setEntraineurList', 'setMatchsList', 'setPratiquesList',

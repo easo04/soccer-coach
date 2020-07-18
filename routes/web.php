@@ -67,6 +67,7 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/equipes/deleteActivite', 'EquipeController@deleteActivite'); //API
     Route::get('/equipes/get-terrains-and-equipes', 'EquipeController@getTerrainsAndEquipes'); //API
     Route::post('/equipes/updateJoueur', 'EquipeController@updateJoueur'); //API
+    Route::post('/equipes/updateEntraineur', 'EquipeController@updateEntraineur'); //API
 
     //ROUTE OUTIL DESIGNER
     Route::get('/create-exercice', 'CreateExercice@getPage');

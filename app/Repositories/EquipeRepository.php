@@ -96,6 +96,19 @@ class EquipeRepository{
             ->where('id', $joueur['id'])
 			->update(['nom' => $nom, 'prenom' => $prenom, 'email' => $email, 
 			'position1' => $position1, 'position2' => $position2, 'position3' => $position3]);
+		
+		return $affected;
+	}
+
+	public function updateEntraineur($entraineur){
+		$nom = isset($entraineur['nom']) ? $entraineur['nom'] : '';
+		$role = isset($entraineur['role']) ? $entraineur['role'] : '';
+
+		$affected = DB::table('entraineurs')
+            ->where('id', $entraineur['id'])
+			->update(['nom' => $nom, 'role' => $role]);
+		
+		return $affected;
 	}
 
 	public function createJoueurAndGetId($idEquipe, $joueur){

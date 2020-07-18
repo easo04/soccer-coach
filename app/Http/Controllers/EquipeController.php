@@ -70,6 +70,12 @@ class EquipeController extends Controller{
         return response()->json($reponse, 200);
     }
 
+    public function updateEntraineur(Request $request){
+        $entraineur = $this->equipeRepository->updateEntraineur($request->all());
+        $reponse = ['entraineur' => $entraineur, 'succes' => 'OK'];
+        return response()->json($reponse, 200);
+    }
+
     public function deleteJoueur(Request $request){
         $joueur = $request->all();
         $idJoueur = $joueur['idJoueur'];

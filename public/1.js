@@ -239,6 +239,11 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       return this.lstJoueurs.sort(function (a, b) {
         return a.nom > b.nom ? 1 : -1;
       });
+    },
+    displayListEntraineurs: function displayListEntraineurs() {
+      return this.lstEntraineurs.sort(function (a, b) {
+        return a.nom > b.nom ? 1 : -1;
+      });
     }
   }, Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapState"])(['lstJoueurs', 'lstEntraineurs', 'lstMatchs', 'lstPratiques'])),
   methods: _objectSpread({
@@ -257,10 +262,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         _this.back();
       });
     },
-    goToSeance: function goToSeance(idSeance) {},
-    detailPratique: function detailPratique(pratique) {},
-    deletePratique: function deletePratique(pra) {},
-    deleteMatch: function deleteMatch(match) {}
+    goToSeance: function goToSeance(idSeance) {}
   }, Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapMutations"])(['setJoueurList', 'setEntraineurList', 'setMatchsList', 'setPratiquesList', 'clearJoueurList', 'clearEntraineurList', 'clearMatchList', 'clearPratiqueList'])),
   created: function created() {
     var _this2 = this;
@@ -654,7 +656,7 @@ var render = function() {
                             ])
                           : _vm._e(),
                         _vm._v(" "),
-                        _vm._l(_vm.lstEntraineurs, function(
+                        _vm._l(_vm.displayListEntraineurs, function(
                           entraineur,
                           indexE
                         ) {
@@ -681,25 +683,12 @@ var render = function() {
                                       "div",
                                       { staticClass: "btns" },
                                       [
-                                        _c(
-                                          "button",
-                                          {
-                                            staticClass:
-                                              "btn btn-soccer-coach-action-list",
-                                            on: {
-                                              click: function($event) {
-                                                return _vm.updateJoueur(
-                                                  entraineur
-                                                )
-                                              }
-                                            }
-                                          },
-                                          [
-                                            _c("i", {
-                                              staticClass: "ti-pencil"
-                                            })
-                                          ]
-                                        ),
+                                        _c("update-entraineur-modal", {
+                                          attrs: {
+                                            entraineur: entraineur,
+                                            indexEntraineur: indexE
+                                          }
+                                        }),
                                         _vm._v(" "),
                                         _c("delete-entraineur-modal", {
                                           attrs: {
