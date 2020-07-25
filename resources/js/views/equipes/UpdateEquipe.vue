@@ -39,58 +39,6 @@
                                 button-now-translation="Aujourd'hui" :right="true" :auto-close="true" :only-date="true" id="dateFin"/>
                         </div>
                     </div> 
-                    <div class="entraineurs">
-                        <label for="entraineurs"><i class="fa fa-users color-soccer-coach"></i> Entraîneurs</label>
-                        <br><span class="error" v-if="error.isError">{{error.message}}</span>  
-                        <div class="btn-action-joueurs">
-                            <div class="btns">
-                                <create-entraineur-modal />
-                            </div>
-                        </div>
-                        <div class="lst-entraineurs" :class="{'lst-vide':lstEntraineurs.length === 0}">
-                            <div class="aucun-exercice" v-if="lstEntraineurs.length === 0">Aucun entraîneur</div>
-                            <div class="joueur-item" v-for="(entraineur, index) in lstEntraineurs" :key="index">
-                                <div class="nom d-joueur">
-                                    <span>{{entraineur.nom}}</span>
-                                </div> 
-                                <div class="positions d-joueur">
-                                    <span class="position">{{entraineur.role}}</span>
-                                </div> 
-                                <div class="d-joueur">
-                                    <div class="btn-actions-joueur ">
-                                        <button class="btn btn-soccer-coach-action-list" @click="deleteEntraineur(index)"><i class="ti-trash"></i></button>
-                                    </div>    
-                                </div> 
-                            </div>
-                        </div>
-                    </div> 
-                    <div class="joueurs">
-                        <label for="joueurs"><i class="fa fa-users color-soccer-coach"></i> Joueurs</label>
-                        <br><span class="error" v-if="error.isError">{{error.message}}</span>  
-                        <div class="btn-action-joueurs">
-                            <div class="btns">
-                                <create-joueur-modal />
-                            </div>
-                        </div>
-                        <div class="lst-joueurs" :class="{'lst-vide':lstJoueurs.length === 0}">
-                            <div class="aucun-exercice" v-if="lstJoueurs.length === 0">Aucun joueur</div>
-                            <div class="joueur-item" v-for="(joueur, index) in lstJoueurs" :key="index">
-                                <div class="nom d-joueur">
-                                    <span>{{joueur.nom}}</span>
-                                </div> 
-                                <div class="positions d-joueur">
-                                    <span class="position">{{joueur.position1}}</span>
-                                    <span class="position" v-if="joueur.position2">/ {{joueur.position2}}</span>
-                                    <span class="position" v-if="joueur.position3">/ {{joueur.position3}}</span>
-                                </div> 
-                                <div class="d-joueur">
-                                    <div class="btn-actions-joueur ">
-                                        <button class="btn btn-soccer-coach-action-list" @click="deleteJoueur(index)"><i class="ti-trash"></i></button>
-                                    </div>    
-                                </div> 
-                            </div>
-                        </div>
-                    </div>
                 </div>
             </div>
             <div class="btn-action-sauvegarder">
@@ -111,7 +59,7 @@ export default {
         }
     },
     computed:{
-        ...mapState(['equipeStoreDTO', 'positions', 'lstJoueurs', 'lstEntraineurs']),
+        ...mapState(['equipeStoreDTO']),
     },
     methods:{
         updateEquipe(equipeDTO){
@@ -121,20 +69,27 @@ export default {
             }
 
             let param = {
+                id:this.equipe.id,
                 nom:equipeDTO.nom.value,
                 saison:{
+                    id:equipeDTO.saison.id,
                     nom:equipeDTO.saison.nom.value,
                     dateDebut:equipeDTO.saison.dateDebut.value,
                     dateFin:equipeDTO.saison.dateFin.value
                 },
-                joueurs:this.lstJoueurs,
-                entraineurs:this.lstEntraineurs
             };
             axios.post('/equipes/update', param).then(response =>{
                 console.log('update equipe resultat');
-                console.log(response.data);
                 this.initFormInputs();
-                this.$router.push({name: 'DetailsEquipe', params:{'equipe' : response.data.equipe}}); //go to détail équipe
+                this.equipe.nom = param.nom;
+                if(param.saison.nom){          
+                    this.equipe.saison = {
+                        nom : param.saison.nom,
+                        date_debut : param.saison.dateDebut,
+                        date_fin : param.saison.dateFin,
+                    }
+                }
+                this.$router.push({name: 'DetailsEquipe', params:{'equipe' : this.equipe}}); //go to détail équipe
             });
         },
         formValid(){
@@ -148,17 +103,9 @@ export default {
         showSaisonAction(){
             this.showSaison = this.showSaison ? false : true;
         },
-        deleteEntraineur(index){
-            this.deleteEntraineur(index);
-        },
-        deleteJoueur(index){
-            this.deleteJoueur(index);
-        },
         initFormInputs(){
-            this.clearJoueurList();
-            this.clearEntraineurList();
         },
-        ...mapMutations(['setUpdateForm', 'deleteJoueur', 'clearJoueurList', 'deleteEntraineur', 'clearEntraineurList', 'setEntraineurList', 'setJoueurList'])
+        ...mapMutations(['setUpdateForm'])
     },
     created(){
         this.equipeDTO = this.equipeStoreDTO;
@@ -169,21 +116,12 @@ export default {
         if(this.equipe.saison){
             this.equipeDTO.saison.nom.value = this.equipe.saison.nom;
             this.equipeDTO.saison.dateDebut.value = this.equipe.saison.date_debut;
-            this.equipeDTO.saison.dateFin.value = this.equipe.saison.date_fin;   
+            this.equipeDTO.saison.dateFin.value = this.equipe.saison.date_fin;
+            this.equipeDTO.saison.id = this.equipe.saison.id;
             this.showSaison = true;     
         }
     },
     mounted(){
-          //set entraineurs
-        if(this.equipe.lstEntraineurs){
-            this.setEntraineurList(this.equipe.lstEntraineurs);
-        }
-
-        // set joueurs
-        if(this.equipe.lstJoueurs){
-            this.setJoueurList(this.equipe.lstJoueurs);
-        }
-
         this.setUpdateForm(true);
 
         this.$root.$on('discardFormChanges', () =>{

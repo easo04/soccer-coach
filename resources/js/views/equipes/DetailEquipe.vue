@@ -120,7 +120,7 @@
                                         <create-activite-modal :equipe="equipeDetail" :is-match="false" />
                                     </div>
                                 </div> 
-                                <div class="item-joueur" :class="{'with-seance' : pratique.seance_id}" v-for="(pratique, indexP) in lstPratiques" :key="indexP">
+                                <div class="item-joueur" :class="{'with-seance' : pratique.seance_id}" v-for="(pratique, indexP) in displayListPratiques" :key="indexP">
                                     <div class="d-joueur-g">                          
                                         <div class="details-activite">                                       
                                             <span class="nom">{{pratique.nom}}</span> 
@@ -143,7 +143,7 @@
                                             <div class="btns">
                                                 <button class="btn btn-soccer-coach-action-list" @click="updateJoueur(pratique)"><i class="fa fa-group"></i></button>
                                                 <button class="btn btn-soccer-coach-action-list" @click="updateJoueur(pratique)"><i class="fa fa-futbol-o"></i></button>
-                                                <button class="btn btn-soccer-coach-action-list" @click="updateJoueur(pratique)"><i class="ti-pencil"></i></button>
+                                                <update-activite-modal :activite="pratique" :indexAct="indexP" :isMatch="false"/>
                                                 <delete-activite-modal :activite="pratique" :indexActivite="indexP" />
                                             </div>
                                         </div>    
@@ -163,7 +163,7 @@
                                         <div class="details-activite">                                       
                                             <span class="nom">{{match.nom}}</span> contre 
                                             <span class="nom">{{match.adversaire}}</span>
-                                            <a class="nom terrain" :href="match.urlTerrain" target="_blank" v-if="match.urlTerrain">@ {{v.nomTerrain}}</a>
+                                            <a class="nom terrain" :href="match.urlTerrain" target="_blank" v-if="match.urlTerrain">@ {{match.nomTerrain}}</a>
                                             <span class="nom terrain" v-else> @ {{match.nomTerrain}}</span>
                                         </div> 
                                         <div class="date-activite">
@@ -177,7 +177,7 @@
                                             <div class="btns">
                                                 <button class="btn btn-soccer-coach-action-list" @click="updateJoueur(match)"><i class="fa fa-group"></i></button>
                                                 <button class="btn btn-soccer-coach-action-list" @click="updateJoueur(match)"><i class="fa fa-comment"></i></button>
-                                                <button class="btn btn-soccer-coach-action-list" @click="updateJoueur(match)"><i class="ti-pencil"></i></button>
+                                                <update-activite-modal :activite="match" :indexAct="indexM" :isMatch="true"/>
                                                 <delete-activite-modal :activite="match" :indexActivite="indexM" />
                                             </div>
                                         </div>    
@@ -223,6 +223,12 @@
             },
             displayListEntraineurs(){
                 return this.lstEntraineurs.sort((a,b) =>(a.nom > b.nom ? 1 : -1));
+            },
+            displayListPratiques(){
+                return this.lstPratiques.sort((a,b) =>(new Date(a.date_debut) > new Date(b.date_debut) ? 1 : -1));
+            },
+            displayListMatchs(){
+                return this.lstMatchs.sort((a,b) =>(new Date(a.date_debut) > new Date(b.date_debut) ? 1 : -1));
             },
             ...mapState(['lstJoueurs', 'lstEntraineurs', 'lstMatchs', 'lstPratiques']),
         },

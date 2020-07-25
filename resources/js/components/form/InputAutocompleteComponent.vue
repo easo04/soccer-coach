@@ -1,11 +1,11 @@
 <template>
     <div class="input-text">
-        <autocomplete :search="search" @blur="handleBlur" @submit="handleSubmit" base-class="input-autocomplete" :placeholder="placeholder"></autocomplete>
+        <autocomplete :search="search" @blur="handleBlur" :default-value="valueDefault" @submit="handleSubmit" base-class="input-autocomplete" :placeholder="placeholder"></autocomplete>
     </div>
 </template>
 <script>
     export default {
-        props:['lstItems', 'model', 'placeholder'],
+        props:['lstItems', 'model', 'placeholder', 'valueDefault'],
         data(){
             return{
                 lstAutocomplete: this.lstItems ? this.lstItems : []

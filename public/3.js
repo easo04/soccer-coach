@@ -65,58 +65,6 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: ['equipe'],
@@ -130,7 +78,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       showSaison: false
     };
   },
-  computed: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapState"])(['equipeStoreDTO', 'positions', 'lstJoueurs', 'lstEntraineurs'])),
+  computed: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapState"])(['equipeStoreDTO'])),
   methods: _objectSpread({
     updateEquipe: function updateEquipe(equipeDTO) {
       var _this = this;
@@ -140,25 +88,34 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       }
 
       var param = {
+        id: this.equipe.id,
         nom: equipeDTO.nom.value,
         saison: {
+          id: equipeDTO.saison.id,
           nom: equipeDTO.saison.nom.value,
           dateDebut: equipeDTO.saison.dateDebut.value,
           dateFin: equipeDTO.saison.dateFin.value
-        },
-        joueurs: this.lstJoueurs,
-        entraineurs: this.lstEntraineurs
+        }
       };
       axios.post('/equipes/update', param).then(function (response) {
         console.log('update equipe resultat');
-        console.log(response.data);
 
         _this.initFormInputs();
+
+        _this.equipe.nom = param.nom;
+
+        if (param.saison.nom) {
+          _this.equipe.saison = {
+            nom: param.saison.nom,
+            date_debut: param.saison.dateDebut,
+            date_fin: param.saison.dateFin
+          };
+        }
 
         _this.$router.push({
           name: 'DetailsEquipe',
           params: {
-            'equipe': response.data.equipe
+            'equipe': _this.equipe
           }
         }); //go to détail équipe
 
@@ -181,17 +138,8 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     showSaisonAction: function showSaisonAction() {
       this.showSaison = this.showSaison ? false : true;
     },
-    deleteEntraineur: function deleteEntraineur(index) {
-      this.deleteEntraineur(index);
-    },
-    deleteJoueur: function deleteJoueur(index) {
-      this.deleteJoueur(index);
-    },
-    initFormInputs: function initFormInputs() {
-      this.clearJoueurList();
-      this.clearEntraineurList();
-    }
-  }, Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapMutations"])(['setUpdateForm', 'deleteJoueur', 'clearJoueurList', 'deleteEntraineur', 'clearEntraineurList', 'setEntraineurList', 'setJoueurList'])),
+    initFormInputs: function initFormInputs() {}
+  }, Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapMutations"])(['setUpdateForm'])),
   created: function created() {
     this.equipeDTO = this.equipeStoreDTO;
     this.equipeDTO.nom.value = this.equipe.nom; //set saison
@@ -200,21 +148,12 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       this.equipeDTO.saison.nom.value = this.equipe.saison.nom;
       this.equipeDTO.saison.dateDebut.value = this.equipe.saison.date_debut;
       this.equipeDTO.saison.dateFin.value = this.equipe.saison.date_fin;
+      this.equipeDTO.saison.id = this.equipe.saison.id;
       this.showSaison = true;
     }
   },
   mounted: function mounted() {
     var _this2 = this;
-
-    //set entraineurs
-    if (this.equipe.lstEntraineurs) {
-      this.setEntraineurList(this.equipe.lstEntraineurs);
-    } // set joueurs
-
-
-    if (this.equipe.lstJoueurs) {
-      this.setJoueurList(this.equipe.lstJoueurs);
-    }
 
     this.setUpdateForm(true);
     this.$root.$on('discardFormChanges', function () {
@@ -485,188 +424,16 @@ var render = function() {
                     1
                   )
                 ])
-              : _vm._e(),
-            _vm._v(" "),
-            _c("div", { staticClass: "entraineurs" }, [
-              _vm._m(0),
-              _vm._v(" "),
-              _c("br"),
-              _vm.error.isError
-                ? _c("span", { staticClass: "error" }, [
-                    _vm._v(_vm._s(_vm.error.message))
-                  ])
-                : _vm._e(),
-              _vm._v(" "),
-              _c("div", { staticClass: "btn-action-joueurs" }, [
-                _c(
-                  "div",
-                  { staticClass: "btns" },
-                  [_c("create-entraineur-modal")],
-                  1
-                )
-              ]),
-              _vm._v(" "),
-              _c(
-                "div",
-                {
-                  staticClass: "lst-entraineurs",
-                  class: { "lst-vide": _vm.lstEntraineurs.length === 0 }
-                },
-                [
-                  _vm.lstEntraineurs.length === 0
-                    ? _c("div", { staticClass: "aucun-exercice" }, [
-                        _vm._v("Aucun entraîneur")
-                      ])
-                    : _vm._e(),
-                  _vm._v(" "),
-                  _vm._l(_vm.lstEntraineurs, function(entraineur, index) {
-                    return _c(
-                      "div",
-                      { key: index, staticClass: "joueur-item" },
-                      [
-                        _c("div", { staticClass: "nom d-joueur" }, [
-                          _c("span", [_vm._v(_vm._s(entraineur.nom))])
-                        ]),
-                        _vm._v(" "),
-                        _c("div", { staticClass: "positions d-joueur" }, [
-                          _c("span", { staticClass: "position" }, [
-                            _vm._v(_vm._s(entraineur.role))
-                          ])
-                        ]),
-                        _vm._v(" "),
-                        _c("div", { staticClass: "d-joueur" }, [
-                          _c("div", { staticClass: "btn-actions-joueur " }, [
-                            _c(
-                              "button",
-                              {
-                                staticClass: "btn btn-soccer-coach-action-list",
-                                on: {
-                                  click: function($event) {
-                                    return _vm.deleteEntraineur(index)
-                                  }
-                                }
-                              },
-                              [_c("i", { staticClass: "ti-trash" })]
-                            )
-                          ])
-                        ])
-                      ]
-                    )
-                  })
-                ],
-                2
-              )
-            ]),
-            _vm._v(" "),
-            _c("div", { staticClass: "joueurs" }, [
-              _vm._m(1),
-              _vm._v(" "),
-              _c("br"),
-              _vm.error.isError
-                ? _c("span", { staticClass: "error" }, [
-                    _vm._v(_vm._s(_vm.error.message))
-                  ])
-                : _vm._e(),
-              _vm._v(" "),
-              _c("div", { staticClass: "btn-action-joueurs" }, [
-                _c(
-                  "div",
-                  { staticClass: "btns" },
-                  [_c("create-joueur-modal")],
-                  1
-                )
-              ]),
-              _vm._v(" "),
-              _c(
-                "div",
-                {
-                  staticClass: "lst-joueurs",
-                  class: { "lst-vide": _vm.lstJoueurs.length === 0 }
-                },
-                [
-                  _vm.lstJoueurs.length === 0
-                    ? _c("div", { staticClass: "aucun-exercice" }, [
-                        _vm._v("Aucun joueur")
-                      ])
-                    : _vm._e(),
-                  _vm._v(" "),
-                  _vm._l(_vm.lstJoueurs, function(joueur, index) {
-                    return _c(
-                      "div",
-                      { key: index, staticClass: "joueur-item" },
-                      [
-                        _c("div", { staticClass: "nom d-joueur" }, [
-                          _c("span", [_vm._v(_vm._s(joueur.nom))])
-                        ]),
-                        _vm._v(" "),
-                        _c("div", { staticClass: "positions d-joueur" }, [
-                          _c("span", { staticClass: "position" }, [
-                            _vm._v(_vm._s(joueur.position1))
-                          ]),
-                          _vm._v(" "),
-                          joueur.position2
-                            ? _c("span", { staticClass: "position" }, [
-                                _vm._v("/ " + _vm._s(joueur.position2))
-                              ])
-                            : _vm._e(),
-                          _vm._v(" "),
-                          joueur.position3
-                            ? _c("span", { staticClass: "position" }, [
-                                _vm._v("/ " + _vm._s(joueur.position3))
-                              ])
-                            : _vm._e()
-                        ]),
-                        _vm._v(" "),
-                        _c("div", { staticClass: "d-joueur" }, [
-                          _c("div", { staticClass: "btn-actions-joueur " }, [
-                            _c(
-                              "button",
-                              {
-                                staticClass: "btn btn-soccer-coach-action-list",
-                                on: {
-                                  click: function($event) {
-                                    return _vm.deleteJoueur(index)
-                                  }
-                                }
-                              },
-                              [_c("i", { staticClass: "ti-trash" })]
-                            )
-                          ])
-                        ])
-                      ]
-                    )
-                  })
-                ],
-                2
-              )
-            ])
+              : _vm._e()
           ])
         ]),
         _vm._v(" "),
-        _vm._m(2)
+        _vm._m(0)
       ]
     )
   ])
 }
 var staticRenderFns = [
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("label", { attrs: { for: "entraineurs" } }, [
-      _c("i", { staticClass: "fa fa-users color-soccer-coach" }),
-      _vm._v(" Entraîneurs")
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("label", { attrs: { for: "joueurs" } }, [
-      _c("i", { staticClass: "fa fa-users color-soccer-coach" }),
-      _vm._v(" Joueurs")
-    ])
-  },
   function() {
     var _vm = this
     var _h = _vm.$createElement

@@ -62,6 +62,31 @@ class EquipeRepository{
 		
 		return $equipe;
 	}
+
+	public function update(Array $inputs){
+
+		//modifier ou ajouter saison
+		$this->updateOrCreateSaison($inputs['id'], $inputs['saison']);
+
+		//modifier équipe
+		$affectedEquipe = DB::table('equipes')
+            ->where('id', $inputs['id'])
+			->update(['nom' => $inputs['nom']]);
+		
+		return $affectedEquipe;
+	}
+
+	private function updateOrCreateSaison($idEquipe, $saison){
+		if(isset($saison['id'])){
+			DB::table('saison_equipes')
+            ->where('id', $saison['id'])
+			->update(['nom' => $saison['nom'],
+					'date_debut' => $saison['dateDebut'],
+					'date_fin' => $saison['dateFin']]);
+		}else if(isset($saison['nom'])){
+			$this->createSaisonByEquipe($idEquipe, $saison);
+		}
+	}
 	
 	public function createSaisonByEquipe($idEquipe, $saison){
 		return DB::table('saison_equipes')->insert(
@@ -189,6 +214,27 @@ class EquipeRepository{
 		return $lstIdActivites;
 	}
 
+	public function updateActivite($idEquipe, $activite){
+		$arrival = isset($activite['arrival']) ? $activite['arrival'] : '';
+		$time = isset($activite['time']) ? $activite['time'] : '';
+		$adversaire = isset($activite['adversaire']) ? $activite['adversaire'] : null;
+		$saison = isset($activite['saisonId']) ? $activite['saisonId'] : null;
+
+		//get id terrain
+		$idTerrain = $this->createTerrain($activite['terrain']);
+
+		//make update
+		$affected = DB::table('activites')->where('id', $activite['id'])
+			->update(['nom' => $activite['nom'],
+				'date_debut' => $activite['dateDebut'], 'heure_debut' => $activite['heureDebut'], 
+				'arrival' => $arrival, 'time' => $time, 
+				'adversaire' => $adversaire, 'equipe_id' => $idEquipe,
+				'terrain_id' => $idTerrain, 'saison_id' => $saison]
+		);
+		
+		return $idTerrain;
+	}
+
 	private function getPeriodeToAdd($periode){
 		$retval = '';
 		switch ($periode) {
@@ -207,21 +253,29 @@ class EquipeRepository{
 	}
 
 	public function createTerrain($terrain){
-		$adresseLigne1 = isset($terrain['adresseLigne1']) ? $terrain['adresseLigne1'] : '';
-		$adresseLigne2 = isset($terrain['adresseLigne2']) ? $terrain['adresseLigne2'] : '';
-		$codePostal = isset($terrain['codePostal']) ? $terrain['codePostal'] : '';
-		$urlTerrain = isset($terrain['urlTerrain']) ? $terrain['urlTerrain'] : '';
+		$idTerrain = isset($terrain['id']) ? $terrain['id'] : null;
 
-		return DB::table('terrains')->insertGetId(
-			['nom' => $terrain['nom'], 'code_postal' => $codePostal,
-			'adresse_ligne1' => $adresseLigne1, 'adresse_ligne2' => $adresseLigne2,
-			'url_terrain' => $urlTerrain]
-		);
+		if($idTerrain == null){
+			$adresseLigne1 = isset($terrain['adresseLigne1']) ? $terrain['adresseLigne1'] : '';
+			$adresseLigne2 = isset($terrain['adresseLigne2']) ? $terrain['adresseLigne2'] : '';
+			$codePostal = isset($terrain['codePostal']) ? $terrain['codePostal'] : '';
+			$urlTerrain = isset($terrain['urlTerrain']) ? $terrain['urlTerrain'] : '';
+	
+			return DB::table('terrains')->insertGetId(
+				['nom' => $terrain['nom'], 'code_postal' => $codePostal,
+				'adresse_ligne1' => $adresseLigne1, 'adresse_ligne2' => $adresseLigne2,
+				'url_terrain' => $urlTerrain]
+			);
+		}
+
+		return $idTerrain;
 	}
 
     public function getEquipesByIdUser($idUser){
 		return DB::table('equipes')
-		->select('equipes.*')
+		->select(DB::raw('equipes.*, saison_equipes.nom AS nomSaison, saison_equipes.date_debut as dateDebutSaison,
+						date_fin as dateFinSaison'))
+		->leftJoin('saison_equipes', 'saison_equipes.equipe_id', '=',  'equipes.id')
 		->where('equipes.users_id', '=', $idUser)
 		->orderBy('equipes.created_at', 'desc')
 		->get();
@@ -254,7 +308,9 @@ class EquipeRepository{
 	public function getPratiquesByEquipe($idEquipe){
 		return DB::table('activites')
 		->select(DB::raw('activites.*, terrains.nom AS nomTerrain, terrains.id AS idTerrain, 
-						pratique.theme AS theme, terrains.url_terrain AS urlTerrain'))
+						pratique.theme AS theme, terrains.url_terrain AS urlTerrain, 
+						terrains.adresse_ligne1 AS adresseLigne1, terrains.adresse_ligne2 AS adresseLigne2,
+						terrains.code_postal AS codePostalTerrain'))
 		->leftJoin('terrains', 'activites.terrain_id', '=',  'terrains.id')
 		->leftJoin('pratique', 'activites.seance_id', '=',  'pratique.id')
 		->where('activites.equipe_id', '=', $idEquipe)
@@ -265,7 +321,10 @@ class EquipeRepository{
 
 	public function getMatchsByEquipe($idEquipe){
 		return DB::table('activites')
-		->select(DB::raw('activites.*, terrains.nom AS nomTerrain, terrains.id AS idTerrain'))
+		->select(DB::raw('activites.*, terrains.nom AS nomTerrain, terrains.id AS idTerrain,
+						terrains.url_terrain AS urlTerrain, 
+						terrains.adresse_ligne1 AS adresseLigne1, terrains.adresse_ligne2 AS adresseLigne2,
+						terrains.code_postal AS codePostalTerrain'))
 		->leftJoin('terrains', 'activites.terrain_id', '=',  'terrains.id')
 		->leftJoin('pratique', 'activites.seance_id', '=',  'pratique.id')
 		->where('activites.equipe_id', '=', $idEquipe)

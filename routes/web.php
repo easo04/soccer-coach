@@ -68,6 +68,8 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/equipes/get-terrains-and-equipes', 'EquipeController@getTerrainsAndEquipes'); //API
     Route::post('/equipes/updateJoueur', 'EquipeController@updateJoueur'); //API
     Route::post('/equipes/updateEntraineur', 'EquipeController@updateEntraineur'); //API
+    Route::post('/equipes/updateActivite', 'EquipeController@updateActivite'); //API
+    Route::post('/equipes/update', 'EquipeController@updatequipe'); //API
 
     //ROUTE OUTIL DESIGNER
     Route::get('/create-exercice', 'CreateExercice@getPage');

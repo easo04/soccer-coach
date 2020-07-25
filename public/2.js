@@ -37,6 +37,16 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
@@ -70,7 +80,7 @@ exports = module.exports = __webpack_require__(/*! ../../../../node_modules/css-
 
 
 // module
-exports.push([module.i, ".mes-equipes .actions[data-v-325b2cef] {\n  height: 100px;\n  position: relative;\n}\n.mes-equipes .actions .btn-create-equipe[data-v-325b2cef] {\n  float: right;\n  position: absolute;\n  bottom: 0;\n  right: 0;\n}\n.mes-equipes .card-equipe[data-v-325b2cef] {\n  border: none;\n  padding: 10px;\n  background-color: #F3F3F3;\n  margin-bottom: 10px;\n  height: 70px;\n}\n.mes-equipes .card-equipe .info-equipe[data-v-325b2cef] {\n  float: left;\n  vertical-align: baseline;\n  height: 60px;\n  position: relative;\n  width: 500px;\n}\n.mes-equipes .card-equipe .info-equipe h5[data-v-325b2cef] {\n  position: absolute;\n  top: 25%;\n}\n.mes-equipes .card-equipe .voir-equipe[data-v-325b2cef] {\n  float: right;\n  margin-top: 8px;\n  width: 200px;\n}", ""]);
+exports.push([module.i, ".mes-equipes .actions[data-v-325b2cef] {\n  height: 100px;\n  position: relative;\n}\n.mes-equipes .actions .btn-create-equipe[data-v-325b2cef] {\n  float: right;\n  position: absolute;\n  bottom: 0;\n  right: 0;\n}\n.mes-equipes .card-equipe[data-v-325b2cef] {\n  border: none;\n  padding: 10px;\n  background-color: #F3F3F3;\n  margin-bottom: 10px;\n  height: 70px;\n}\n.mes-equipes .card-equipe .info-equipe[data-v-325b2cef] {\n  float: left;\n  vertical-align: baseline;\n  height: 60px;\n  position: relative;\n  width: 500px;\n}\n.mes-equipes .card-equipe .info-equipe .saison-equipe h5[data-v-325b2cef] {\n  position: relative !important;\n}\n.mes-equipes .card-equipe .info-equipe .saison-equipe span[data-v-325b2cef] {\n  font-size: 12px;\n}\n.mes-equipes .card-equipe .info-equipe .saison-equipe span.label[data-v-325b2cef] {\n  font-weight: bold;\n}\n.mes-equipes .card-equipe .info-equipe .saison-equipe .nom-saison[data-v-325b2cef] {\n  font-size: 14px !important;\n  font-weight: bold;\n  color: #919191;\n}\n.mes-equipes .card-equipe .info-equipe h5[data-v-325b2cef] {\n  position: absolute;\n  top: 25%;\n}\n.mes-equipes .card-equipe .voir-equipe[data-v-325b2cef] {\n  float: right;\n  margin-top: 8px;\n  width: 200px;\n}", ""]);
 
 // exports
 
@@ -187,7 +197,35 @@ var render = function() {
               _vm._l(_vm.lstEquipes, function(equipe, index) {
                 return _c("div", { key: index, staticClass: "card-equipe" }, [
                   _c("div", { staticClass: "info-equipe" }, [
-                    _c("h5", [_vm._v(_vm._s(equipe.nom))])
+                    equipe.nomSaison
+                      ? _c("div", { staticClass: "saison-equipe" }, [
+                          _c("h5", [_vm._v(_vm._s(equipe.nom))]),
+                          _vm._v(" "),
+                          _c("div", [
+                            _c("span", { staticClass: "nom-saison" }, [
+                              _vm._v(" " + _vm._s(equipe.nomSaison) + " - ")
+                            ]),
+                            _vm._v(" "),
+                            equipe.dateDebutSaison
+                              ? _c("span", { staticClass: "debut-saison" }, [
+                                  _c("span", { staticClass: "label" }, [
+                                    _vm._v("Début: ")
+                                  ]),
+                                  _vm._v(_vm._s(equipe.dateDebutSaison))
+                                ])
+                              : _vm._e(),
+                            _vm._v(" "),
+                            equipe.dateFinSaison
+                              ? _c("span", { staticClass: "fin-saison" }, [
+                                  _c("span", { staticClass: "label" }, [
+                                    _vm._v("Fin: ")
+                                  ]),
+                                  _vm._v(_vm._s(equipe.dateFinSaison))
+                                ])
+                              : _vm._e()
+                          ])
+                        ])
+                      : _c("div", [_c("h5", [_vm._v(_vm._s(equipe.nom))])])
                   ]),
                   _vm._v(" "),
                   _c(

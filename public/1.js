@@ -244,6 +244,16 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       return this.lstEntraineurs.sort(function (a, b) {
         return a.nom > b.nom ? 1 : -1;
       });
+    },
+    displayListPratiques: function displayListPratiques() {
+      return this.lstPratiques.sort(function (a, b) {
+        return new Date(a.date_debut) > new Date(b.date_debut) ? 1 : -1;
+      });
+    },
+    displayListMatchs: function displayListMatchs() {
+      return this.lstMatchs.sort(function (a, b) {
+        return new Date(a.date_debut) > new Date(b.date_debut) ? 1 : -1;
+      });
     }
   }, Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapState"])(['lstJoueurs', 'lstEntraineurs', 'lstMatchs', 'lstPratiques'])),
   methods: _objectSpread({
@@ -739,7 +749,10 @@ var render = function() {
                           )
                         ]),
                         _vm._v(" "),
-                        _vm._l(_vm.lstPratiques, function(pratique, indexP) {
+                        _vm._l(_vm.displayListPratiques, function(
+                          pratique,
+                          indexP
+                        ) {
                           return _c(
                             "div",
                             {
@@ -877,25 +890,13 @@ var render = function() {
                                           ]
                                         ),
                                         _vm._v(" "),
-                                        _c(
-                                          "button",
-                                          {
-                                            staticClass:
-                                              "btn btn-soccer-coach-action-list",
-                                            on: {
-                                              click: function($event) {
-                                                return _vm.updateJoueur(
-                                                  pratique
-                                                )
-                                              }
-                                            }
-                                          },
-                                          [
-                                            _c("i", {
-                                              staticClass: "ti-pencil"
-                                            })
-                                          ]
-                                        ),
+                                        _c("update-activite-modal", {
+                                          attrs: {
+                                            activite: pratique,
+                                            indexAct: indexP,
+                                            isMatch: false
+                                          }
+                                        }),
                                         _vm._v(" "),
                                         _c("delete-activite-modal", {
                                           attrs: {
@@ -974,7 +975,7 @@ var render = function() {
                                         },
                                         [
                                           _vm._v(
-                                            "@ " + _vm._s(_vm.v.nomTerrain)
+                                            "@ " + _vm._s(match.nomTerrain)
                                           )
                                         ]
                                       )
@@ -1055,23 +1056,13 @@ var render = function() {
                                           ]
                                         ),
                                         _vm._v(" "),
-                                        _c(
-                                          "button",
-                                          {
-                                            staticClass:
-                                              "btn btn-soccer-coach-action-list",
-                                            on: {
-                                              click: function($event) {
-                                                return _vm.updateJoueur(match)
-                                              }
-                                            }
-                                          },
-                                          [
-                                            _c("i", {
-                                              staticClass: "ti-pencil"
-                                            })
-                                          ]
-                                        ),
+                                        _c("update-activite-modal", {
+                                          attrs: {
+                                            activite: match,
+                                            indexAct: indexM,
+                                            isMatch: true
+                                          }
+                                        }),
                                         _vm._v(" "),
                                         _c("delete-activite-modal", {
                                           attrs: {

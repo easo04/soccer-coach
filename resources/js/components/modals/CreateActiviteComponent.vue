@@ -223,6 +223,7 @@
                 lstEquipes:[],
                 lstNomsTerrains:[],
                 nomTerrain:'',
+                idTerrainSelected:undefined,
             }
         },
         watch:{
@@ -234,6 +235,7 @@
                     this.activiteDTO.terrain.adresseLigne2.value = terrainSelected.adresse_ligne2;
                     this.activiteDTO.terrain.codePostal.value = terrainSelected.code_postal;
                     this.activiteDTO.terrain.url.value = terrainSelected.url_terrain;
+                    this.idTerrainSelected = terrainSelected.id;
                 }else{
                     this.activiteDTO.terrain.nom.value = this.nomTerrain;
                 }
@@ -263,6 +265,7 @@
                     saisonId:this.equipe.saison ? this.equipe.saison.id : undefined,
                     periode:this.activiteDTO.periode.value,
                     terrain:{
+                        id: this.idTerrainSelected ? this.idTerrainSelected : undefined,
                         nom:this.activiteDTO.terrain.nom.value,
                         adresseLigne1:this.activiteDTO.terrain.adresseLigne1.value,
                         adresseLigne2:this.activiteDTO.terrain.adresseLigne2.value,
@@ -284,7 +287,9 @@
                             nomTerrain:activite.terrain.nom,
                             time:activite.time,
                             adversaire:activite.adversaire,
-                            urlTerrain:activite.terrain.urlTerrain
+                            urlTerrain:activite.terrain.urlTerrain,                          
+                            equipe_id:this.equipe.id,
+
                         };
                         this.addMatchToList(activiteAdded);
                         this.$root.$emit('setMatchLocalStorage');
@@ -298,7 +303,8 @@
                                 heure_debut:activite.heureDebut,
                                 nomTerrain:activite.terrain.nom,
                                 time:activite.time,
-                                urlTerrain:activite.terrain.urlTerrain
+                                urlTerrain:activite.terrain.urlTerrain,                          
+                                equipe_id:this.equipe.id,
                             };
                             this.addPratiqueToList(activiteAdded);
                         });

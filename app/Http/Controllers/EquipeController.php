@@ -22,7 +22,16 @@ class EquipeController extends Controller{
         $requestArray['users_id'] = Auth::user()->id;
         $equipe = $this->equipeRepository->store($requestArray);
 
-        $reponse = ['equipe' => $equipe, 'input' => $request->all(), 'succes' => 'OK'];
+        $reponse = ['equipe' => $equipe, 'succes' => 'OK'];
+        return response()->json($reponse, 200);
+    }
+
+    public function updatequipe(Request $request){
+        $requestArray = $request->all();
+        $requestArray['users_id'] = Auth::user()->id;
+        $equipe = $this->equipeRepository->update($requestArray);
+
+        $reponse = ['equipe' => $equipe, 'succes' => 'OK'];
         return response()->json($reponse, 200);
     }
 
@@ -113,6 +122,14 @@ class EquipeController extends Controller{
         $idActivite = $activite['idActivite'];
         $this->equipeRepository->deleteActiviteById($idActivite);
         $reponse = ['message' => 'actovoté supprimé', 'succes' => 'OK'];
+        return response()->json($reponse, 200);
+    }
+
+    public function updateActivite(Request $request){
+        $activite = $request->all();
+        $idEquipe = $activite['equipe'];
+        $idTerrain = $this->equipeRepository->updateActivite($idEquipe, $activite);
+        $reponse = ['idTerrain' => $idTerrain, 'succes' => 'OK'];
         return response()->json($reponse, 200);
     }
 }
