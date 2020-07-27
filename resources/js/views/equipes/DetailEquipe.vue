@@ -133,7 +133,8 @@
                                             <span class="time" v-if="pratique.time !== ''">(Durée {{pratique.time}})</span>
                                         </div> 
                                         <div class="seance" v-if="pratique.seance_id">
-                                            <a @click="goToSeance(pratique.seance_id)">
+                                            <span class="nom">Séance: </span>
+                                            <a @click="goToSeance(pratique.seance)">
                                                 {{pratique.theme}}
                                             </a>
                                         </div> 
@@ -142,7 +143,7 @@
                                         <div class="btn-actions-joueur">
                                             <div class="btns">
                                                 <button class="btn btn-soccer-coach-action-list" @click="updateJoueur(pratique)"><i class="fa fa-group"></i></button>
-                                                <button class="btn btn-soccer-coach-action-list" @click="updateJoueur(pratique)"><i class="fa fa-futbol-o"></i></button>
+                                                <add-seance-modal :activite="pratique" :indexAct="indexP"/>
                                                 <update-activite-modal :activite="pratique" :indexAct="indexP" :isMatch="false"/>
                                                 <delete-activite-modal :activite="pratique" :indexActivite="indexP" />
                                             </div>
@@ -245,11 +246,11 @@
                     this.back();
                 });
             },
-            goToSeance(idSeance){
-
+            goToSeance(seance){
+                this.$router.push({name: 'DetailSeance', params: {'seance': seance, 'equipe':this.equipeDetail, 'fromEquipe':true}});
             },
             ...mapMutations(['setJoueurList', 'setEntraineurList', 'setMatchsList', 'setPratiquesList',
-                'clearJoueurList', 'clearEntraineurList', 'clearMatchList', 'clearPratiqueList'])
+                'clearJoueurList', 'clearEntraineurList', 'clearMatchList', 'clearPratiqueList', 'clearMesSeances'])
         },
         created(){
             //vérifier s'il y a déjà une équipe dans le locale storage
@@ -339,6 +340,7 @@
             this.clearEntraineurList();
             this.clearPratiqueList();
             this.clearMatchList();
+            this.clearMesSeances();
             localStorage.removeItem('equipeLocale');
         }
     }

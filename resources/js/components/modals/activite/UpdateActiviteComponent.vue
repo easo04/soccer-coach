@@ -325,7 +325,7 @@
     }
 </script>
 <style lang="scss" scoped>
-    @import '../../../../public/css/forms';
-    @import '../../../../public/css/modals/addJoueur';
-    @import '../../../../public/css/modals/addActivite';
+    @import '../../../../../public/css/forms';
+    @import '../../../../../public/css/modals/addJoueur';
+    @import '../../../../../public/css/modals/addActivite';
 </style>

@@ -174,6 +174,15 @@ class PratiqueRepository
 		DB::table('pratique')->where('id', '=', $id)->delete();
 	}
 
+	public function addSeanceToPratique($inputs){
+		DB::table('activites')->where('id', $inputs['idActivite'])
+		->update(['seance_id' => $inputs['idSeance']]);
+	}
+
+	public function getSeanceById($id){
+		return DB::table('pratique')->select('pratique.*')->where('id', $id)->first();
+	}
+
 
 	//ROUTES TESTS
 	public function getTest($id){

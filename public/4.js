@@ -145,9 +145,10 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
-  props: ['seance'],
+  props: ['seance', 'equipe', 'fromEquipe'],
   data: function data() {
     return {
       seanceDetail: this.seance ? this.seance : {},
@@ -158,7 +159,16 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
   computed: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapGetters"])(['getIconByCategorie'])),
   methods: {
     back: function back() {
-      this.$router.push('mes-seances');
+      if (this.fromEquipe && this.equipe) {
+        this.$router.push({
+          name: 'DetailsEquipe',
+          params: {
+            'equipe': this.equipe
+          }
+        }); //go to détail équipe
+      } else {
+        this.$router.push('mes-seances'); //go to mes seances
+      }
     },
     deleteSeance: function deleteSeance() {
       var _this = this;
@@ -293,17 +303,29 @@ var render = function() {
           _c("div", { staticClass: "contenu-seance" }, [
             _c("div", { staticClass: "actions-seance-detail" }, [
               _c("div", { staticClass: "btn-mes-seances" }, [
-                _c(
-                  "a",
-                  {
-                    staticClass: "btn btn-soccer-coach-action",
-                    on: { click: _vm.back }
-                  },
-                  [
-                    _c("i", { staticClass: "fa fa-futbol-o" }),
-                    _vm._v(" Mes séances")
-                  ]
-                )
+                _vm.fromEquipe
+                  ? _c(
+                      "a",
+                      {
+                        staticClass: "btn btn-soccer-coach-action",
+                        on: { click: _vm.back }
+                      },
+                      [
+                        _c("i", { staticClass: "fa fa-futbol-o" }),
+                        _vm._v(" Mon équipe (" + _vm._s(_vm.equipe.nom) + ")")
+                      ]
+                    )
+                  : _c(
+                      "a",
+                      {
+                        staticClass: "btn btn-soccer-coach-action",
+                        on: { click: _vm.back }
+                      },
+                      [
+                        _c("i", { staticClass: "fa fa-futbol-o" }),
+                        _vm._v(" Mes séances")
+                      ]
+                    )
               ]),
               _vm._v(" "),
               _c(

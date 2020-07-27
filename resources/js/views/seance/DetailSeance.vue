@@ -7,7 +7,8 @@
             <div class="contenu-seance">
                 <div class="actions-seance-detail">
                     <div class="btn-mes-seances">
-                        <a class="btn btn-soccer-coach-action" @click="back"> <i class="fa fa-futbol-o"></i> Mes séances</a>
+                        <a class="btn btn-soccer-coach-action" @click="back" v-if="fromEquipe"> <i class="fa fa-futbol-o"></i> Mon équipe ({{equipe.nom}})</a>
+                        <a class="btn btn-soccer-coach-action" @click="back" v-else> <i class="fa fa-futbol-o"></i> Mes séances</a>
                     </div>
                     <div class="btns">                
                         <a class="btn btn-soccer-coach-action" href="#"><i class="fa fa-file-pdf-o"></i> Télecharger</a>
@@ -130,7 +131,7 @@
 <script>
 import { mapGetters } from 'vuex';
 export default {
-    props:['seance'],
+    props:['seance', 'equipe', 'fromEquipe'],
     data(){
         return{
             seanceDetail : this.seance ? this.seance : {},
@@ -143,7 +144,12 @@ export default {
     },
     methods:{
         back(){
-            this.$router.push('mes-seances');
+            if(this.fromEquipe && this.equipe){
+                this.$router.push({name: 'DetailsEquipe', params: {'equipe':this.equipe}}); //go to détail équipe
+            }else{
+                this.$router.push('mes-seances'); //go to mes seances
+            }
+            
         },
         deleteSeance(){
             axios.delete('/seance/'+  this.seanceDetail.id).then(reponse =>{

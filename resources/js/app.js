@@ -61,11 +61,12 @@ Vue.component('create-joueur-modal', require('./components/modals/CreateJoueurCo
 Vue.component('create-entraineur-modal', require('./components/modals/CreateEntraineurComponent.vue').default);
 Vue.component('delete-joueur-modal', require('./components/modals/DeleteJoueurComponent.vue').default);
 Vue.component('delete-entraineur-modal', require('./components/modals/DeleteEntraineurComponent.vue').default);
-Vue.component('create-activite-modal', require('./components/modals/CreateActiviteComponent.vue').default);
-Vue.component('delete-activite-modal', require('./components/modals/DeleteActiviteComponent.vue').default);
+Vue.component('create-activite-modal', require('./components/modals/activite/CreateActiviteComponent.vue').default);
+Vue.component('delete-activite-modal', require('./components/modals/activite/DeleteActiviteComponent.vue').default);
 Vue.component('update-joueur-modal', require('./components/modals/UpdateJoueurComponent.vue').default);
 Vue.component('update-entraineur-modal', require('./components/modals/UpdateEntraineurComponent.vue').default);
-Vue.component('update-activite-modal', require('./components/modals/UpdateActiviteComponent.vue').default);
+Vue.component('update-activite-modal', require('./components/modals/activite/UpdateActiviteComponent.vue').default);
+Vue.component('add-seance-modal', require('./components/modals/activite/AddSeanceComponent.vue').default);
 
 
 //Components menu

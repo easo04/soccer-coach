@@ -44,6 +44,8 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/seance/update', 'PratiquesController@updateSeance'); //API
     Route::post('/seance/create', 'PratiquesController@createSeance'); //API
     Route::get('/seances/get-exercice-by-seance/{id}', 'PratiquesController@getExercicesBySeanceId'); //API
+    Route::post('/seance/add-seance-to-activite', 'PratiquesController@addSeanceToPratique'); //API
+    Route::get('/seances/get-seance-by-id/{id}', 'PratiquesController@getSeanceById'); //API
 
     //USER ROUTES
     Route::get('/user/get-seances-by-user', 'UserController@getSeancesByUser')->name('user.seances'); //API

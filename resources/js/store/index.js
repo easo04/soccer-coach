@@ -5,7 +5,8 @@ export default {
 		lstVariantes: [], //garde la liste des variantes ajoutées
 		lstObjectifs: [], //garde la liste des objectifs sélectionnés
 		lstExercices:[], //garde la liste d'exercices ajoutés
-		exerciceStore:{},
+		lstMesSeances:[], //garde la liste de mes exercices
+		seanceStore:{}, //garde la liste de mes séances
 		errors:[], //garde la liste d'erreurs
 		imgSelect:undefined,  //garde l'image sélectionnée dans le modal
 		lstAllObjectifs:[], //tous les types d'objectifs
@@ -554,6 +555,13 @@ export default {
 		},
 		setMatchsList(state, list){
 			state.lstMatchs = list;
+		},
+		setMesSeancesList(state, list){
+			state.lstMesSeances = list;
+		},
+		clearMesSeances(state){
+			state.lstMesSeances = [];
 		}
+
 	}
 }

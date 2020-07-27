@@ -106,6 +106,20 @@ class PratiquesController extends Controller
         return response()->json('séance supprimé', 200);
     }
 
+    public function addSeanceToPratique(Request $request){
+        $inputs = $request->all();
+        $this->pratiqueRepository->addSeanceToPratique($inputs);
+        $seance = $this->pratiqueRepository->getSeanceById($inputs['idSeance']);
+        $reponse = ['seance' => $seance, 'response' => 'Séance ajouté', 'succes' => 'OK'];
+        return response()->json($reponse, 200);
+    }
+
+    public function getSeanceById($id){
+        $seance = $this->pratiqueRepository->getSeanceById($id);
+        $reponse = ['seance' => $seance, 'succes' => 'OK'];
+        return response()->json($reponse, 200);
+    }
+
 
     //ROUTES TESTS
     public function getIdExercices($id){

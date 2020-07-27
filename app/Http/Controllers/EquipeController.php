@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Repositories\EquipeRepository;
+use App\Repositories\PratiqueRepository;
 use Illuminate\Http\Request;
 
 use Auth;
@@ -12,9 +13,11 @@ use DateInterval;
 class EquipeController extends Controller{
 
     protected $equipeRepository;
+    protected $pratiqueRepository;
 
-    public function __construct(EquipeRepository $equipeRepository){
+    public function __construct(EquipeRepository $equipeRepository, PratiqueRepository $pratiqueRepository){
         $this->equipeRepository = $equipeRepository;
+        $this->pratiqueRepository = $pratiqueRepository;
     }
 
     public function createEquipe(Request $request){
@@ -46,6 +49,14 @@ class EquipeController extends Controller{
         $saison = $this->equipeRepository->getSaisonByEquipe($id);
         $entraineurs = $this->equipeRepository->getEntraineursByEquipe($id);
         $pratiques = $this->equipeRepository->getPratiquesByEquipe($id);
+
+        //attacher les séances pour chaque pratique
+        foreach ($pratiques as $pratique){
+            if(isset($pratique->seance_id)){
+                $pratique->seance = $this->pratiqueRepository->getSeanceById($pratique->seance_id);
+            }
+        }
+        
         $matchs = $this->equipeRepository->getMatchsByEquipe($id);
 
         $reponse = ['joueurs' => $joueurs, 'saison' => $saison,
