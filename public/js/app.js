@@ -7178,7 +7178,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
         _this2.activite.seance_id = seance.id;
         _this2.activite.theme = seance.theme;
-        _this2.activite.seance = response.data.seance;
+        _this2.activite.seance = seance;
 
         _this2.addPratiqueToList(_this2.activite);
 

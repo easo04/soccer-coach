@@ -109,8 +109,8 @@ class PratiquesController extends Controller
     public function addSeanceToPratique(Request $request){
         $inputs = $request->all();
         $this->pratiqueRepository->addSeanceToPratique($inputs);
-        $seance = $this->pratiqueRepository->getSeanceById($inputs['idSeance']);
-        $reponse = ['seance' => $seance, 'response' => 'Séance ajouté', 'succes' => 'OK'];
+        //$seance = $this->pratiqueRepository->getSeanceById($inputs['idSeance']);
+        $reponse = ['response' => 'Séance ajouté', 'succes' => 'OK'];
         return response()->json($reponse, 200);
     }
 

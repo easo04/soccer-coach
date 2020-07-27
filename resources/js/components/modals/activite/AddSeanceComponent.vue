@@ -102,7 +102,7 @@ export default {
                 this.deletePratique(this.indexAct);
                 this.activite.seance_id = seance.id;
                 this.activite.theme = seance.theme;
-                this.activite.seance = response.data.seance;
+                this.activite.seance = seance;
                 this.addPratiqueToList(this.activite);
                 this.$root.$emit('setPratiqueLocalStorage'); 
             });
