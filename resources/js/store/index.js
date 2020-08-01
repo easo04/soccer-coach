@@ -17,6 +17,7 @@ export default {
 		lstMatchs:[], //garde la liste des matchs ajoutés
 		lstPratiques:[], //garde la liste des pratiques ajoutés
 		imgBase64:undefined, //garde l'image en base64
+		mapPresencesActivites: new Map(), //garde les présences des activités
 		lstIconsByType: [['principe-offensif', 'ti-target'], ['principe-defensif', 'ti-hummer'], ['rondos', 'ti-cup'], ['physique', 'ti-heart']],          
 		lstIconsByCategorie:[{ name:'Offensive', icon:'ti-target', id:'off'}, { name:'Défensive', icon:'ti-hummer', id:'def'}, { name:'Tactique', icon:'fa fa-puzzle-piece', id:'tact'}, { name:'Technique', icon:'fa fa-rocket', id:'tec'},
 		{ name:'Organisation du jeu', icon:'fa fa-users', id:'org-jeu'}, { name:'Gardien de but', icon:'fa fa-sign-language', id:'gar'}],
@@ -231,6 +232,9 @@ export default {
 		},
 		getIconByCategorie: (state) => (categorie) =>{
             return state.lstIconsByCategorie.find(c => c.name === categorie).icon;
+		},
+		getPresencesByActivite: (state) => (activite) =>{
+            return state.mapPresencesActivites.get(activite);
 		},
 	},
 
@@ -561,6 +565,18 @@ export default {
 		},
 		clearMesSeances(state){
 			state.lstMesSeances = [];
+		},
+		setMapPresencesActivites(state, map){
+			state.mapPresencesActivites = map;
+		},
+		clearMapPresencesActivites(state){
+			state.mapPresencesActivites = new Map();
+		},
+		addPresenceToActivite(state, param){
+			state.mapPresencesActivites.set(param.idActivite, param.presences);
+		},
+		deletePresencesByActivite(state, idActivite){
+			state.mapPresencesActivites.delete(idActivite);
 		}
 
 	}

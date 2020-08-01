@@ -8121,6 +8121,249 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
 /***/ }),
 
+/***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/modals/activite/UpdateAssistanceActivite.vue?vue&type=script&lang=js&":
+/*!***************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/modals/activite/UpdateAssistanceActivite.vue?vue&type=script&lang=js& ***!
+  \***************************************************************************************************************************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm.js");
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
+
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+  props: ['activite', 'indexAct'],
+  data: function data() {
+    return {
+      lstAssistance: [],
+      presences: [],
+      isLoading: true
+    };
+  },
+  computed: _objectSpread({
+    displayListJoueurs: function displayListJoueurs() {
+      return this.lstAssistance.sort(function (a, b) {
+        return a.nom > b.nom ? 1 : -1;
+      });
+    }
+  }, Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapState"])(['lstJoueurs', 'mapPresencesActivites']), {}, Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapGetters"])(['getPresencesByActivite'])),
+  methods: _objectSpread({
+    closeModal: function closeModal() {
+      this.presences = []; //init la liste de présences    
+
+      this.lstAssistance = []; //init la liste de joueurs avec leurs présences  
+      //mettre à jour la liste de joueurs
+
+      this.lstJoueurs.forEach(function (joueur) {
+        joueur.presence = undefined;
+        joueur.dateUpdated = undefined;
+        joueur.userUpdated = undefined;
+      });
+      $("#modalUpdateAssistance" + this.activite.id).modal("hide");
+    },
+    getAssistancesByActivite: function getAssistancesByActivite() {
+      var _this = this;
+
+      //vérifier s'il y a déjà des présences dans la liste de présences du store pour l'activité
+      var presencesActivite = this.getPresencesByActivite(this.activite.id);
+
+      if (presencesActivite) {
+        var joueurs = this.lstJoueurs;
+        joueurs.forEach(function (joueur) {
+          var assistance = presencesActivite.find(function (a) {
+            return a.idJoueur === joueur.id;
+          });
+          joueur.presence = assistance ? assistance.presence : undefined;
+          joueur.dateUpdated = assistance ? assistance.date : undefined;
+          joueur.userUpdated = assistance ? assistance.nameUser : undefined;
+
+          _this.lstAssistance.push(joueur);
+        });
+        this.isLoading = false;
+      } else {
+        axios.get('/equipes/get-assistances-by-activite/' + this.activite.id).then(function (response) {
+          var assistances = response.data.lstAssistance;
+          var lstPresences = [];
+
+          if (assistances.length > 0) {
+            var _joueurs = _this.lstJoueurs;
+
+            _joueurs.forEach(function (joueur) {
+              var assistance = assistances.find(function (a) {
+                return a.joueur_id === joueur.id;
+              });
+              joueur.presence = assistance ? assistance.presence : undefined;
+              joueur.dateUpdated = assistance ? assistance.date_last_update : undefined;
+              joueur.userUpdated = assistance ? assistance.nameUser : undefined;
+
+              _this.lstAssistance.push(joueur); //ajouter la présence dans la liste de présence
+
+
+              if (assistance) {
+                var _joueur = {
+                  idJoueur: assistance.joueur_id,
+                  presence: assistance.presence,
+                  date: assistance.date_last_update,
+                  userUpdate: assistance.user_updated_id,
+                  nameUser: assistance.nameUser
+                };
+                lstPresences.push(_joueur);
+              }
+            }); //ajouter les présences de l'activité dans la liste du store
+
+
+            var param = {
+              idActivite: _this.activite.id,
+              presences: lstPresences
+            };
+
+            _this.addPresenceToActivite(param);
+          } else {
+            _this.lstAssistance = _this.lstJoueurs;
+          }
+
+          _this.isLoading = false;
+        });
+      }
+    },
+    addToPresent: function addToPresent(idJoueur) {
+      //vérifier si le joueur a déjà une présence
+      var presenceJoueur = this.presences.find(function (presence) {
+        return presence.idJoueur === idJoueur;
+      });
+
+      if (!presenceJoueur) {
+        var presence = {
+          idJoueur: idJoueur,
+          isPresent: true,
+          date: new Date()
+        };
+        this.presences.push(presence);
+      } else {
+        presenceJoueur.isPresent = true;
+      }
+    },
+    addToAbsent: function addToAbsent(idJoueur) {
+      //vérifier si le joueur a déjà une présence
+      var presenceJoueur = this.presences.find(function (presence) {
+        return presence.idJoueur === idJoueur;
+      });
+
+      if (!presenceJoueur) {
+        var presence = {
+          idJoueur: idJoueur,
+          isPresent: false,
+          date: new Date()
+        };
+        this.presences.push(presence);
+      } else {
+        presenceJoueur.isPresent = false;
+      }
+    },
+    savePresences: function savePresences() {
+      var _this2 = this;
+
+      if (this.presences.length > 0) {
+        var params = {
+          idActivite: this.activite.id,
+          presences: this.presences
+        };
+        axios.post('/equipes/save-presences', params).then(function (response) {
+          var param = {
+            idActivite: _this2.activite.id,
+            presences: _this2.presences
+          };
+          var lstPresences = []; //vérifier si le map contien déjà des présences
+
+          if (_this2.mapPresencesActivites.has(_this2.activite.id)) {
+            lstPresences = _this2.getPresencesByActivite(_this2.activite.id);
+
+            _this2.deletePresencesByActivite(_this2.activite.id);
+          } //ajouter la nouvelle liste de présences
+
+
+          params.presences.push(lstPresences);
+
+          _this2.addPresenceToActivite(param); //fermer la modale
+
+
+          _this2.closeModal();
+        });
+      } else {
+        //fermer la modale
+        this.closeModal();
+      }
+    }
+  }, Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapMutations"])(['setMapPresencesActivites', 'clearMapPresencesActivites', 'addPresenceToActivite', 'deletePresencesByActivite'])),
+  mounted: function mounted() {}
+});
+
+/***/ }),
+
 /***/ "./node_modules/bootstrap/dist/js/bootstrap.js":
 /*!*****************************************************!*\
   !*** ./node_modules/bootstrap/dist/js/bootstrap.js ***!
@@ -12664,7 +12907,7 @@ exports = module.exports = __webpack_require__(/*! ../../../node_modules/css-loa
 
 
 // module
-exports.push([module.i, ".form-control[data-v-4b59463f] {\n  border: none;\n  border-bottom: 2px solid #03aca4;\n  border-right: 1px solid #F3F3F3;\n}\n.form-group.input-sm .input-text[data-v-4b59463f], .form-group.input-sm .date-time-picker[data-v-4b59463f] {\n  width: 100%;\n}\n@media screen and (min-width: 768px) {\n.form-group.input-sm .input-text[data-v-4b59463f], .form-group.input-sm .date-time-picker[data-v-4b59463f] {\n    width: 33.3%;\n}\n}\n.form-group .temps-input[data-v-4b59463f] {\n  display: flex;\n}\n.form-group .select-form[data-v-4b59463f] {\n  width: 100%;\n  height: 30px;\n  border: none;\n  border-bottom: 2px solid #03aca4;\n  border-right: 1px solid #F3F3F3;\n}\n.form-group .select-form[data-v-4b59463f]:focus {\n  outline: none;\n}\n.temps-chexbox > div[data-v-4b59463f] {\n  flex: 1;\n  padding-left: 5px;\n}\n.temps-chexbox[data-v-4b59463f] {\n  display: flex;\n  flex-flow: row wrap;\n}\n.temps-chexbox .type-item[data-v-4b59463f] {\n  height: auto;\n}\n.temps-chexbox .type-item .icon-exercice[data-v-4b59463f] {\n  bottom: 0;\n  position: absolute;\n}\n.temps-chexbox .type-item input[type=radio][data-v-4b59463f] {\n  display: none;\n}\n.temps-chexbox .type-item input[type=radio]:not(:disabled) ~ label[data-v-4b59463f] {\n  cursor: pointer;\n}\n.temps-chexbox .type-item input[type=radio]:disabled ~ label[data-v-4b59463f] {\n  color: #bcc2bf;\n  border-color: #bcc2bf;\n  box-shadow: none;\n  cursor: not-allowed;\n}\n.temps-chexbox .type-item label[data-v-4b59463f] {\n  height: 2.4rem;\n  width: 2.4rem;\n  display: block;\n  background: white;\n  border: 1px solid #03aca4;\n  border-radius: 12px;\n  padding: 2px;\n  text-align: center;\n  margin-bottom: 0 !important;\n  box-shadow: 0px 3px 10px -2px rgba(161, 170, 166, 0.5);\n  position: relative;\n}\n.temps-chexbox .type-item label .details-type[data-v-4b59463f] {\n  margin-top: 5px;\n}\n.temps-chexbox .type-item input[type=radio]:checked + label[data-v-4b59463f] {\n  background: #03aca4;\n  color: white;\n  box-shadow: 0px 0px 20px #F3F3F3;\n}\n.temps-chexbox .type-item input[type=radio]:checked + label i[data-v-4b59463f] {\n  color: white;\n}\n.temps-chexbox .type-item p[data-v-4b59463f] {\n  font-weight: 900;\n  margin-bottom: 0 !important;\n}\n.error[data-v-4b59463f] {\n  color: red;\n  font-weight: 600;\n}\n.input-error[data-v-4b59463f] {\n  border-bottom: 2px solid red;\n}\n.input-error[data-v-4b59463f]:focus {\n  border-color: red;\n  box-shadow: 0 0 0 0.2rem rgba(255, 0, 0, 0.2);\n}", ""]);
+exports.push([module.i, ".form-control[data-v-4b59463f] {\n  border: none;\n  border-bottom: 2px solid #03aca4;\n  border-right: 1px solid #F3F3F3;\n}\n.form-group.input-sm .input-text[data-v-4b59463f], .form-group.input-sm .date-time-picker[data-v-4b59463f] {\n  width: 100%;\n}\n@media screen and (min-width: 768px) {\n.form-group.input-sm .input-text[data-v-4b59463f], .form-group.input-sm .date-time-picker[data-v-4b59463f] {\n    width: 33.3%;\n}\n}\n.form-group .temps-input[data-v-4b59463f] {\n  display: flex;\n}\n.form-group .select-form[data-v-4b59463f] {\n  width: 100%;\n  height: 30px;\n  border: none;\n  border-bottom: 2px solid #03aca4;\n  border-right: 1px solid #F3F3F3;\n}\n.form-group .select-form[data-v-4b59463f]:focus {\n  outline: none;\n}\n.temps-chexbox > div[data-v-4b59463f] {\n  flex: 1;\n  padding-left: 5px;\n}\n.temps-chexbox[data-v-4b59463f] {\n  display: flex;\n  flex-flow: row wrap;\n}\n.temps-chexbox .type-item[data-v-4b59463f] {\n  height: auto;\n}\n.temps-chexbox .type-item .icon-exercice[data-v-4b59463f] {\n  bottom: 0;\n  position: absolute;\n}\n.temps-chexbox .type-item input[type=radio][data-v-4b59463f] {\n  display: none;\n}\n.temps-chexbox .type-item input[type=radio]:not(:disabled) ~ label[data-v-4b59463f] {\n  cursor: pointer;\n}\n.temps-chexbox .type-item input[type=radio]:disabled ~ label[data-v-4b59463f] {\n  color: #bcc2bf;\n  border-color: #bcc2bf;\n  box-shadow: none;\n  cursor: not-allowed;\n}\n.temps-chexbox .type-item label[data-v-4b59463f] {\n  height: 2.4rem;\n  width: 2.4rem;\n  display: block;\n  background: white;\n  border: 1px solid #03aca4;\n  border-radius: 20px;\n  padding: 2px;\n  text-align: center;\n  margin-bottom: 0 !important;\n  box-shadow: 0px 3px 10px -2px rgba(161, 170, 166, 0.5);\n  position: relative;\n}\n.temps-chexbox .type-item label .details-type[data-v-4b59463f] {\n  margin-top: 5px;\n}\n.temps-chexbox .type-item input[type=radio]:checked + label[data-v-4b59463f] {\n  background: #03aca4;\n  color: white;\n  box-shadow: 0px 0px 20px #F3F3F3;\n}\n.temps-chexbox .type-item input[type=radio]:checked + label i[data-v-4b59463f] {\n  color: white;\n}\n.temps-chexbox .type-item p[data-v-4b59463f] {\n  font-weight: 900;\n  margin-bottom: 0 !important;\n}\n.error[data-v-4b59463f] {\n  color: red;\n  font-weight: 600;\n}\n.input-error[data-v-4b59463f] {\n  border-bottom: 2px solid red;\n}\n.input-error[data-v-4b59463f]:focus {\n  border-color: red;\n  box-shadow: 0 0 0 0.2rem rgba(255, 0, 0, 0.2);\n}", ""]);
 
 // exports
 
@@ -12683,7 +12926,7 @@ exports = module.exports = __webpack_require__(/*! ../../../node_modules/css-loa
 
 
 // module
-exports.push([module.i, ".form-control[data-v-e33628c6] {\n  border: none;\n  border-bottom: 2px solid #03aca4;\n  border-right: 1px solid #F3F3F3;\n}\n.form-group.input-sm .input-text[data-v-e33628c6], .form-group.input-sm .date-time-picker[data-v-e33628c6] {\n  width: 100%;\n}\n@media screen and (min-width: 768px) {\n.form-group.input-sm .input-text[data-v-e33628c6], .form-group.input-sm .date-time-picker[data-v-e33628c6] {\n    width: 33.3%;\n}\n}\n.form-group .temps-input[data-v-e33628c6] {\n  display: flex;\n}\n.form-group .select-form[data-v-e33628c6] {\n  width: 100%;\n  height: 30px;\n  border: none;\n  border-bottom: 2px solid #03aca4;\n  border-right: 1px solid #F3F3F3;\n}\n.form-group .select-form[data-v-e33628c6]:focus {\n  outline: none;\n}\n.temps-chexbox > div[data-v-e33628c6] {\n  flex: 1;\n  padding-left: 5px;\n}\n.temps-chexbox[data-v-e33628c6] {\n  display: flex;\n  flex-flow: row wrap;\n}\n.temps-chexbox .type-item[data-v-e33628c6] {\n  height: auto;\n}\n.temps-chexbox .type-item .icon-exercice[data-v-e33628c6] {\n  bottom: 0;\n  position: absolute;\n}\n.temps-chexbox .type-item input[type=radio][data-v-e33628c6] {\n  display: none;\n}\n.temps-chexbox .type-item input[type=radio]:not(:disabled) ~ label[data-v-e33628c6] {\n  cursor: pointer;\n}\n.temps-chexbox .type-item input[type=radio]:disabled ~ label[data-v-e33628c6] {\n  color: #bcc2bf;\n  border-color: #bcc2bf;\n  box-shadow: none;\n  cursor: not-allowed;\n}\n.temps-chexbox .type-item label[data-v-e33628c6] {\n  height: 2.4rem;\n  width: 2.4rem;\n  display: block;\n  background: white;\n  border: 1px solid #03aca4;\n  border-radius: 12px;\n  padding: 2px;\n  text-align: center;\n  margin-bottom: 0 !important;\n  box-shadow: 0px 3px 10px -2px rgba(161, 170, 166, 0.5);\n  position: relative;\n}\n.temps-chexbox .type-item label .details-type[data-v-e33628c6] {\n  margin-top: 5px;\n}\n.temps-chexbox .type-item input[type=radio]:checked + label[data-v-e33628c6] {\n  background: #03aca4;\n  color: white;\n  box-shadow: 0px 0px 20px #F3F3F3;\n}\n.temps-chexbox .type-item input[type=radio]:checked + label i[data-v-e33628c6] {\n  color: white;\n}\n.temps-chexbox .type-item p[data-v-e33628c6] {\n  font-weight: 900;\n  margin-bottom: 0 !important;\n}\n.error[data-v-e33628c6] {\n  color: red;\n  font-weight: 600;\n}\n.input-error[data-v-e33628c6] {\n  border-bottom: 2px solid red;\n}\n.input-error[data-v-e33628c6]:focus {\n  border-color: red;\n  box-shadow: 0 0 0 0.2rem rgba(255, 0, 0, 0.2);\n}\n.add-seance-form .exercices .btn-action-exercices[data-v-e33628c6] {\n  height: 35px;\n}\n.add-seance-form .exercices .btn-action-exercices .btns[data-v-e33628c6] {\n  float: right;\n}\n.add-seance-form .exercices .details-exercice-modal[data-v-e33628c6] {\n  float: right;\n  margin-right: 10px;\n}\n.add-seance-form .exercices .lst-exercices[data-v-e33628c6] {\n  padding: 0 10px 10px 10px;\n  border: 1px solid #ced4da;\n  margin-top: 7px;\n  height: auto;\n}\n.add-seance-form .exercices .lst-exercices.lst-vide[data-v-e33628c6] {\n  min-height: 409px;\n}\n.add-seance-form .exercices .lst-exercices .aucun-exercice[data-v-e33628c6] {\n  text-align: center;\n  margin-top: 170px;\n  color: #ced4da;\n}\n.add-seance-form .exercices .lst-exercices .exercice-item[data-v-e33628c6] {\n  margin-top: 7px;\n  border-radius: 0 !important;\n  height: auto;\n  border-bottom: 1px solid #ced4da;\n}\n.add-seance-form .exercices .lst-exercices .exercice-item .exercice-match .details-match .principe-exe[data-v-e33628c6] {\n  border-left: 8px solid #03aca4;\n  background-color: #F3F3F3;\n  padding: 8px;\n  min-height: 40px;\n}\n.add-seance-form .exercices .lst-exercices .exercice-item .exercice-match .details-match .principe-exe h5[data-v-e33628c6] {\n  margin-top: 2px;\n}\n.add-seance-form .exercices .lst-exercices .exercice-item .exercice-match .details-match .items-modifiables[data-v-e33628c6] {\n  display: flex;\n  padding-top: 10px;\n}\n.add-seance-form .exercices .lst-exercices .exercice-item .exercice-match .details-match .items-modifiables .form-group[data-v-e33628c6] {\n  margin-right: 10px;\n}\n.add-seance-form .exercices .lst-exercices .exercice-item .exercice-match .details-match .items-modifiables .form-group .input-text[data-v-e33628c6] {\n  padding-right: 10px;\n}\n.add-seance-form .exercices .lst-exercices .exercice-item .exercice-match .details-match .items-modifiables .form-group .input-text textarea[data-v-e33628c6] {\n  height: 124px !important;\n}\n.add-seance-form .exercices .lst-exercices .exercice-item .exercice-match .description-match[data-v-e33628c6] {\n  padding-top: 10px;\n}\n.add-seance-form .exercices .lst-exercices .exercice-item .actions[data-v-e33628c6] {\n  height: 50px;\n  margin-top: 12px;\n}\n.add-seance-form .exercices .lst-exercices .exercice-item .actions button[data-v-e33628c6] {\n  float: right;\n}\n.add-seance-form .exercices .lst-exercices .exercice-item .details-exe .principe-exe[data-v-e33628c6] {\n  border-left: 8px solid #03aca4;\n  background-color: #F3F3F3;\n  padding: 8px;\n  min-height: 40px;\n}\n.add-seance-form .exercices .lst-exercices .exercice-item .details-exe .principe-exe h5[data-v-e33628c6] {\n  margin-top: 2px;\n}\n.add-seance-form .exercices .lst-exercices .exercice-item .details-exe .items-modifiables[data-v-e33628c6] {\n  display: flex;\n  padding-top: 10px;\n}\n.add-seance-form .exercices .lst-exercices .exercice-item .details-exe .items-modifiables .form-group[data-v-e33628c6] {\n  margin-right: 10px;\n}\n.add-seance-form .exercices .lst-exercices .exercice-item .image-exe[data-v-e33628c6] {\n  margin-top: 4px;\n}\n.add-seance-form .exercices .lst-exercices .exercice-item .image-exe img[data-v-e33628c6] {\n  width: 100%;\n  height: 220px;\n}", ""]);
+exports.push([module.i, ".form-control[data-v-e33628c6] {\n  border: none;\n  border-bottom: 2px solid #03aca4;\n  border-right: 1px solid #F3F3F3;\n}\n.form-group.input-sm .input-text[data-v-e33628c6], .form-group.input-sm .date-time-picker[data-v-e33628c6] {\n  width: 100%;\n}\n@media screen and (min-width: 768px) {\n.form-group.input-sm .input-text[data-v-e33628c6], .form-group.input-sm .date-time-picker[data-v-e33628c6] {\n    width: 33.3%;\n}\n}\n.form-group .temps-input[data-v-e33628c6] {\n  display: flex;\n}\n.form-group .select-form[data-v-e33628c6] {\n  width: 100%;\n  height: 30px;\n  border: none;\n  border-bottom: 2px solid #03aca4;\n  border-right: 1px solid #F3F3F3;\n}\n.form-group .select-form[data-v-e33628c6]:focus {\n  outline: none;\n}\n.temps-chexbox > div[data-v-e33628c6] {\n  flex: 1;\n  padding-left: 5px;\n}\n.temps-chexbox[data-v-e33628c6] {\n  display: flex;\n  flex-flow: row wrap;\n}\n.temps-chexbox .type-item[data-v-e33628c6] {\n  height: auto;\n}\n.temps-chexbox .type-item .icon-exercice[data-v-e33628c6] {\n  bottom: 0;\n  position: absolute;\n}\n.temps-chexbox .type-item input[type=radio][data-v-e33628c6] {\n  display: none;\n}\n.temps-chexbox .type-item input[type=radio]:not(:disabled) ~ label[data-v-e33628c6] {\n  cursor: pointer;\n}\n.temps-chexbox .type-item input[type=radio]:disabled ~ label[data-v-e33628c6] {\n  color: #bcc2bf;\n  border-color: #bcc2bf;\n  box-shadow: none;\n  cursor: not-allowed;\n}\n.temps-chexbox .type-item label[data-v-e33628c6] {\n  height: 2.4rem;\n  width: 2.4rem;\n  display: block;\n  background: white;\n  border: 1px solid #03aca4;\n  border-radius: 20px;\n  padding: 2px;\n  text-align: center;\n  margin-bottom: 0 !important;\n  box-shadow: 0px 3px 10px -2px rgba(161, 170, 166, 0.5);\n  position: relative;\n}\n.temps-chexbox .type-item label .details-type[data-v-e33628c6] {\n  margin-top: 5px;\n}\n.temps-chexbox .type-item input[type=radio]:checked + label[data-v-e33628c6] {\n  background: #03aca4;\n  color: white;\n  box-shadow: 0px 0px 20px #F3F3F3;\n}\n.temps-chexbox .type-item input[type=radio]:checked + label i[data-v-e33628c6] {\n  color: white;\n}\n.temps-chexbox .type-item p[data-v-e33628c6] {\n  font-weight: 900;\n  margin-bottom: 0 !important;\n}\n.error[data-v-e33628c6] {\n  color: red;\n  font-weight: 600;\n}\n.input-error[data-v-e33628c6] {\n  border-bottom: 2px solid red;\n}\n.input-error[data-v-e33628c6]:focus {\n  border-color: red;\n  box-shadow: 0 0 0 0.2rem rgba(255, 0, 0, 0.2);\n}\n.add-seance-form .exercices .btn-action-exercices[data-v-e33628c6] {\n  height: 35px;\n}\n.add-seance-form .exercices .btn-action-exercices .btns[data-v-e33628c6] {\n  float: right;\n}\n.add-seance-form .exercices .details-exercice-modal[data-v-e33628c6] {\n  float: right;\n  margin-right: 10px;\n}\n.add-seance-form .exercices .lst-exercices[data-v-e33628c6] {\n  padding: 0 10px 10px 10px;\n  border: 1px solid #ced4da;\n  margin-top: 7px;\n  height: auto;\n}\n.add-seance-form .exercices .lst-exercices.lst-vide[data-v-e33628c6] {\n  min-height: 409px;\n}\n.add-seance-form .exercices .lst-exercices .aucun-exercice[data-v-e33628c6] {\n  text-align: center;\n  margin-top: 170px;\n  color: #ced4da;\n}\n.add-seance-form .exercices .lst-exercices .exercice-item[data-v-e33628c6] {\n  margin-top: 7px;\n  border-radius: 0 !important;\n  height: auto;\n  border-bottom: 1px solid #ced4da;\n}\n.add-seance-form .exercices .lst-exercices .exercice-item .exercice-match .details-match .principe-exe[data-v-e33628c6] {\n  border-left: 8px solid #03aca4;\n  background-color: #F3F3F3;\n  padding: 8px;\n  min-height: 40px;\n}\n.add-seance-form .exercices .lst-exercices .exercice-item .exercice-match .details-match .principe-exe h5[data-v-e33628c6] {\n  margin-top: 2px;\n}\n.add-seance-form .exercices .lst-exercices .exercice-item .exercice-match .details-match .items-modifiables[data-v-e33628c6] {\n  display: flex;\n  padding-top: 10px;\n}\n.add-seance-form .exercices .lst-exercices .exercice-item .exercice-match .details-match .items-modifiables .form-group[data-v-e33628c6] {\n  margin-right: 10px;\n}\n.add-seance-form .exercices .lst-exercices .exercice-item .exercice-match .details-match .items-modifiables .form-group .input-text[data-v-e33628c6] {\n  padding-right: 10px;\n}\n.add-seance-form .exercices .lst-exercices .exercice-item .exercice-match .details-match .items-modifiables .form-group .input-text textarea[data-v-e33628c6] {\n  height: 124px !important;\n}\n.add-seance-form .exercices .lst-exercices .exercice-item .exercice-match .description-match[data-v-e33628c6] {\n  padding-top: 10px;\n}\n.add-seance-form .exercices .lst-exercices .exercice-item .actions[data-v-e33628c6] {\n  height: 50px;\n  margin-top: 12px;\n}\n.add-seance-form .exercices .lst-exercices .exercice-item .actions button[data-v-e33628c6] {\n  float: right;\n}\n.add-seance-form .exercices .lst-exercices .exercice-item .details-exe .principe-exe[data-v-e33628c6] {\n  border-left: 8px solid #03aca4;\n  background-color: #F3F3F3;\n  padding: 8px;\n  min-height: 40px;\n}\n.add-seance-form .exercices .lst-exercices .exercice-item .details-exe .principe-exe h5[data-v-e33628c6] {\n  margin-top: 2px;\n}\n.add-seance-form .exercices .lst-exercices .exercice-item .details-exe .items-modifiables[data-v-e33628c6] {\n  display: flex;\n  padding-top: 10px;\n}\n.add-seance-form .exercices .lst-exercices .exercice-item .details-exe .items-modifiables .form-group[data-v-e33628c6] {\n  margin-right: 10px;\n}\n.add-seance-form .exercices .lst-exercices .exercice-item .image-exe[data-v-e33628c6] {\n  margin-top: 4px;\n}\n.add-seance-form .exercices .lst-exercices .exercice-item .image-exe img[data-v-e33628c6] {\n  width: 100%;\n  height: 220px;\n}", ""]);
 
 // exports
 
@@ -12702,7 +12945,7 @@ exports = module.exports = __webpack_require__(/*! ../../../node_modules/css-loa
 
 
 // module
-exports.push([module.i, ".form-control[data-v-90683a7e] {\n  border: none;\n  border-bottom: 2px solid #03aca4;\n  border-right: 1px solid #F3F3F3;\n}\n.form-group.input-sm .input-text[data-v-90683a7e], .form-group.input-sm .date-time-picker[data-v-90683a7e] {\n  width: 100%;\n}\n@media screen and (min-width: 768px) {\n.form-group.input-sm .input-text[data-v-90683a7e], .form-group.input-sm .date-time-picker[data-v-90683a7e] {\n    width: 33.3%;\n}\n}\n.form-group .temps-input[data-v-90683a7e] {\n  display: flex;\n}\n.form-group .select-form[data-v-90683a7e] {\n  width: 100%;\n  height: 30px;\n  border: none;\n  border-bottom: 2px solid #03aca4;\n  border-right: 1px solid #F3F3F3;\n}\n.form-group .select-form[data-v-90683a7e]:focus {\n  outline: none;\n}\n.temps-chexbox > div[data-v-90683a7e] {\n  flex: 1;\n  padding-left: 5px;\n}\n.temps-chexbox[data-v-90683a7e] {\n  display: flex;\n  flex-flow: row wrap;\n}\n.temps-chexbox .type-item[data-v-90683a7e] {\n  height: auto;\n}\n.temps-chexbox .type-item .icon-exercice[data-v-90683a7e] {\n  bottom: 0;\n  position: absolute;\n}\n.temps-chexbox .type-item input[type=radio][data-v-90683a7e] {\n  display: none;\n}\n.temps-chexbox .type-item input[type=radio]:not(:disabled) ~ label[data-v-90683a7e] {\n  cursor: pointer;\n}\n.temps-chexbox .type-item input[type=radio]:disabled ~ label[data-v-90683a7e] {\n  color: #bcc2bf;\n  border-color: #bcc2bf;\n  box-shadow: none;\n  cursor: not-allowed;\n}\n.temps-chexbox .type-item label[data-v-90683a7e] {\n  height: 2.4rem;\n  width: 2.4rem;\n  display: block;\n  background: white;\n  border: 1px solid #03aca4;\n  border-radius: 12px;\n  padding: 2px;\n  text-align: center;\n  margin-bottom: 0 !important;\n  box-shadow: 0px 3px 10px -2px rgba(161, 170, 166, 0.5);\n  position: relative;\n}\n.temps-chexbox .type-item label .details-type[data-v-90683a7e] {\n  margin-top: 5px;\n}\n.temps-chexbox .type-item input[type=radio]:checked + label[data-v-90683a7e] {\n  background: #03aca4;\n  color: white;\n  box-shadow: 0px 0px 20px #F3F3F3;\n}\n.temps-chexbox .type-item input[type=radio]:checked + label i[data-v-90683a7e] {\n  color: white;\n}\n.temps-chexbox .type-item p[data-v-90683a7e] {\n  font-weight: 900;\n  margin-bottom: 0 !important;\n}\n.error[data-v-90683a7e] {\n  color: red;\n  font-weight: 600;\n}\n.input-error[data-v-90683a7e] {\n  border-bottom: 2px solid red;\n}\n.input-error[data-v-90683a7e]:focus {\n  border-color: red;\n  box-shadow: 0 0 0 0.2rem rgba(255, 0, 0, 0.2);\n}\n.image-exercice[data-v-90683a7e] {\n  width: inherit;\n  height: 530px;\n}\n.image-exercice img[data-v-90683a7e] {\n  width: inherit;\n}\n.details-items-info[data-v-90683a7e] {\n  background-color: #F3F3F3;\n  box-shadow: 0 2px 3px -1px #DCDCDC;\n}\n.details-items-info div[data-v-90683a7e] {\n  border-right: 1px solid #ededed;\n  line-height: 2;\n}\n.details-items-info div p.text[data-v-90683a7e] {\n  font-weight: 300;\n  font-size: 10px;\n  letter-spacing: 1px;\n  margin: 0;\n  color: #7D8693;\n  font-family: Roboto, sans-serif;\n  /*padding-bottom: 0;\n  border-bottom: 1px solid #b81752;*/\n}\n.details-items-info div p.value[data-v-90683a7e] {\n  margin: 0;\n  font-size: 16px;\n  font-weight: 600;\n  color: #000;\n}\n.detail[data-v-90683a7e] {\n  height: 530px;\n}\n.p-flex[data-v-90683a7e] {\n  padding: 10px;\n  text-align: center;\n  width: 180px;\n  /*border: 1px solid  #17a2b8;*/\n}\n.sous-principes[data-v-90683a7e] {\n  font-size: 20px;\n  font-weight: 300;\n  color: black;\n}\n.sous-principes .titre[data-v-90683a7e] {\n  font-weight: 600;\n}\n.details-exercice p[data-v-90683a7e] {\n  font-size: 16px;\n}\n.description-exercice[data-v-90683a7e] {\n  margin-top: 30px;\n  margin-bottom: 30px;\n}\n.bloc-info[data-v-90683a7e] {\n  box-shadow: 0 2px 3px -1px #DCDCDC;\n  border-bottom: 2px solid #F3F3F3;\n}\n.bloc-info h5[data-v-90683a7e] {\n  border-left: 5px solid #b81752;\n  padding-left: 9px;\n}\n.bloc-sm[data-v-90683a7e] {\n  margin-top: 20px;\n  height: auto;\n}\n.video[data-v-90683a7e], .url[data-v-90683a7e] {\n  margin-top: 20px;\n  width: inherit;\n}\n.video iframe[data-v-90683a7e] {\n  width: inherit;\n}\n.actions-exercice-detail[data-v-90683a7e] {\n  margin-bottom: 20px;\n  height: 80px;\n}\n.actions-exercice-detail .btns[data-v-90683a7e] {\n  float: right;\n}\n.actions-exercice-detail .btn-mes-exercices[data-v-90683a7e] {\n  float: left;\n}\n.bloc-detail-md[data-v-90683a7e] {\n  margin-top: 20px;\n}\n.variantes .variante[data-v-90683a7e] {\n  box-shadow: 0 2px 3px -1px #DCDCDC;\n  height: auto;\n  margin-top: 20px;\n}\n.variantes .variante-header h5.float-left[data-v-90683a7e] {\n  border-left: 5px solid #b81752;\n  padding-left: 9px;\n}\n.variantes .variante-header h5.time[data-v-90683a7e] {\n  margin-right: 11px;\n}\n.variantes .variante-body[data-v-90683a7e] {\n  padding-bottom: 2px;\n}\n.add-seance-form .btn-action-sauvegarder[data-v-90683a7e] {\n  margin-top: 60px;\n  height: 40px;\n  display: block !important;\n}\n.add-seance-form .btn-action-sauvegarder .btn-sauvegarder[data-v-90683a7e] {\n  float: right;\n}\n.update-exercice-form .btn-action-sauvegarder[data-v-90683a7e] {\n  margin-top: 60px;\n  height: 40px;\n  display: block !important;\n}\n.update-exercice-form .btn-action-sauvegarder .btn-sauvegarder[data-v-90683a7e] {\n  float: right;\n}\n.suggestions-exercices[data-v-90683a7e] {\n  margin-top: 20px;\n  border-bottom: 2px solid #F3F3F3;\n  box-shadow: 0 2px 3px -1px #DCDCDC;\n  border-top: 1px solid #F3F3F3;\n  padding-bottom: 10px;\n  padding-top: 10px;\n}\n.suggestions-exercices .lst-suggestions[data-v-90683a7e] {\n  position: relative;\n  display: flex;\n}\n.suggestions-exercices .lst-suggestions .lien-suggestion[data-v-90683a7e] {\n  text-decoration: none;\n  color: black;\n  margin-right: 7px;\n}\n.suggestions-exercices .suggestion-item[data-v-90683a7e] {\n  padding: 5px;\n  width: 320px;\n  height: 300px;\n  background-color: #F3F3F3;\n  position: relative;\n}\n.suggestions-exercices .suggestion-item .time[data-v-90683a7e] {\n  position: absolute;\n  bottom: 0;\n}\n.suggestions-exercices .suggestion-item .principe[data-v-90683a7e] {\n  margin-top: 5px;\n}\n.lien-suggestion[data-v-90683a7e]:last-child {\n  margin-right: 0px !important;\n}\n.suggestions-exercices .suggestion-item .img-suggestion[data-v-90683a7e] {\n  width: 100%;\n  height: 200px;\n}\n.suggestions-exercices .suggestion-item img[data-v-90683a7e] {\n  width: inherit;\n  height: inherit;\n}\n@media screen and (max-width: 480px) {\n.actions-exercice-detail .btn-sauvegarder1[data-v-90683a7e] {\n    display: none;\n}\n.btn-action-sauvegarder[data-v-90683a7e] {\n    display: block;\n    margin-top: 60px;\n    height: 40px;\n}\n.actions-exercice-detail[data-v-90683a7e] {\n    height: auto;\n}\n.actions-exercice-detail .btn-mes-exercices[data-v-90683a7e] {\n    float: none;\n}\n.actions-exercice-detail .btns[data-v-90683a7e] {\n    float: none;\n    margin-top: 10px;\n}\n.actions-exercice-detail .btns .btn-soccer-coach-action[data-v-90683a7e] {\n    width: 100%;\n    margin-bottom: 2px;\n}\n.image-exercice[data-v-90683a7e] {\n    margin-top: 10px;\n    height: auto;\n}\n.details-items-info div p.text[data-v-90683a7e] {\n    font-size: 9px;\n}\n.details-items-info div p.value[data-v-90683a7e] {\n    font-size: 13px;\n}\n.detail[data-v-90683a7e] {\n    height: auto;\n}\n}\n.add-variables[data-v-90683a7e] {\n  margin-top: 20px;\n}\n.add-variables h5[data-v-90683a7e] {\n  margin-bottom: 0;\n}\n.add-variables .form-add-variable form button[data-v-90683a7e] {\n  margin-top: 20px;\n  float: right;\n}\n.add-variables .form-add-variable form textarea[data-v-90683a7e] {\n  height: 234px !important;\n}\n.add-variables .form-add-variable .btn-annuler[data-v-90683a7e] {\n  margin-left: 5px;\n}\n.add-variables .form-add-variable .titre-variantes[data-v-90683a7e] {\n  font-size: 0.9rem;\n  font-weight: 700;\n}\n.add-variables .form-add-variable .lst-variables[data-v-90683a7e] {\n  min-height: 409px;\n  padding: 0 10px 10px 10px;\n  border: 1px solid #ced4da;\n  margin-top: 7px;\n}\n.add-variables .form-add-variable .lst-variables .aucune-variante[data-v-90683a7e] {\n  text-align: center;\n  margin-top: 170px;\n  color: #ced4da;\n}\n.add-variables .form-add-variable .lst-variables .variante-item[data-v-90683a7e] {\n  margin-top: 7px;\n  border-radius: 0 !important;\n  height: auto;\n}\n.add-variables .form-add-variable .lst-variables .variante-item .item-header[data-v-90683a7e] {\n  border-left: 8px solid #03aca4;\n  border-top: 1px solid #03aca4;\n  border-right: 1px solid #03aca4;\n  border-bottom: 1px solid #03aca4;\n  height: 40px;\n  padding-left: 10px;\n  background-color: white;\n  padding-top: 6px;\n  padding-right: 18px;\n}\n.add-variables .form-add-variable .lst-variables .variante-item .item-header[data-v-90683a7e]:first-child {\n  border-radius: 0;\n}\n.add-variables .form-add-variable .lst-variables .variante-item .item-header .btn-delete[data-v-90683a7e] {\n  float: right;\n  border: 0;\n}\n.add-variables .form-add-variable .lst-variables .variante-item .item-body[data-v-90683a7e] {\n  height: auto;\n  border-left: 1px solid #03aca4;\n  border-right: 1px solid #03aca4;\n  border-bottom: 1px solid #03aca4;\n  padding: 18px;\n}\n.add-variables .form-add-variable .lst-variables .variante-item .item-body.row[data-v-90683a7e] {\n  height: auto;\n  margin-left: 0;\n  margin-right: 0;\n}\n.add-variables .form-add-variable .lst-variables .variante-item .item-body .img-variante img[data-v-90683a7e] {\n  width: inherit;\n  height: 318px;\n}", ""]);
+exports.push([module.i, ".form-control[data-v-90683a7e] {\n  border: none;\n  border-bottom: 2px solid #03aca4;\n  border-right: 1px solid #F3F3F3;\n}\n.form-group.input-sm .input-text[data-v-90683a7e], .form-group.input-sm .date-time-picker[data-v-90683a7e] {\n  width: 100%;\n}\n@media screen and (min-width: 768px) {\n.form-group.input-sm .input-text[data-v-90683a7e], .form-group.input-sm .date-time-picker[data-v-90683a7e] {\n    width: 33.3%;\n}\n}\n.form-group .temps-input[data-v-90683a7e] {\n  display: flex;\n}\n.form-group .select-form[data-v-90683a7e] {\n  width: 100%;\n  height: 30px;\n  border: none;\n  border-bottom: 2px solid #03aca4;\n  border-right: 1px solid #F3F3F3;\n}\n.form-group .select-form[data-v-90683a7e]:focus {\n  outline: none;\n}\n.temps-chexbox > div[data-v-90683a7e] {\n  flex: 1;\n  padding-left: 5px;\n}\n.temps-chexbox[data-v-90683a7e] {\n  display: flex;\n  flex-flow: row wrap;\n}\n.temps-chexbox .type-item[data-v-90683a7e] {\n  height: auto;\n}\n.temps-chexbox .type-item .icon-exercice[data-v-90683a7e] {\n  bottom: 0;\n  position: absolute;\n}\n.temps-chexbox .type-item input[type=radio][data-v-90683a7e] {\n  display: none;\n}\n.temps-chexbox .type-item input[type=radio]:not(:disabled) ~ label[data-v-90683a7e] {\n  cursor: pointer;\n}\n.temps-chexbox .type-item input[type=radio]:disabled ~ label[data-v-90683a7e] {\n  color: #bcc2bf;\n  border-color: #bcc2bf;\n  box-shadow: none;\n  cursor: not-allowed;\n}\n.temps-chexbox .type-item label[data-v-90683a7e] {\n  height: 2.4rem;\n  width: 2.4rem;\n  display: block;\n  background: white;\n  border: 1px solid #03aca4;\n  border-radius: 20px;\n  padding: 2px;\n  text-align: center;\n  margin-bottom: 0 !important;\n  box-shadow: 0px 3px 10px -2px rgba(161, 170, 166, 0.5);\n  position: relative;\n}\n.temps-chexbox .type-item label .details-type[data-v-90683a7e] {\n  margin-top: 5px;\n}\n.temps-chexbox .type-item input[type=radio]:checked + label[data-v-90683a7e] {\n  background: #03aca4;\n  color: white;\n  box-shadow: 0px 0px 20px #F3F3F3;\n}\n.temps-chexbox .type-item input[type=radio]:checked + label i[data-v-90683a7e] {\n  color: white;\n}\n.temps-chexbox .type-item p[data-v-90683a7e] {\n  font-weight: 900;\n  margin-bottom: 0 !important;\n}\n.error[data-v-90683a7e] {\n  color: red;\n  font-weight: 600;\n}\n.input-error[data-v-90683a7e] {\n  border-bottom: 2px solid red;\n}\n.input-error[data-v-90683a7e]:focus {\n  border-color: red;\n  box-shadow: 0 0 0 0.2rem rgba(255, 0, 0, 0.2);\n}\n.image-exercice[data-v-90683a7e] {\n  width: inherit;\n  height: 530px;\n}\n.image-exercice img[data-v-90683a7e] {\n  width: inherit;\n}\n.details-items-info[data-v-90683a7e] {\n  background-color: #F3F3F3;\n  box-shadow: 0 2px 3px -1px #DCDCDC;\n}\n.details-items-info div[data-v-90683a7e] {\n  border-right: 1px solid #ededed;\n  line-height: 2;\n}\n.details-items-info div p.text[data-v-90683a7e] {\n  font-weight: 300;\n  font-size: 10px;\n  letter-spacing: 1px;\n  margin: 0;\n  color: #7D8693;\n  font-family: Roboto, sans-serif;\n  /*padding-bottom: 0;\n  border-bottom: 1px solid #b81752;*/\n}\n.details-items-info div p.value[data-v-90683a7e] {\n  margin: 0;\n  font-size: 16px;\n  font-weight: 600;\n  color: #000;\n}\n.detail[data-v-90683a7e] {\n  height: 530px;\n}\n.p-flex[data-v-90683a7e] {\n  padding: 10px;\n  text-align: center;\n  width: 180px;\n  /*border: 1px solid  #17a2b8;*/\n}\n.sous-principes[data-v-90683a7e] {\n  font-size: 20px;\n  font-weight: 300;\n  color: black;\n}\n.sous-principes .titre[data-v-90683a7e] {\n  font-weight: 600;\n}\n.details-exercice p[data-v-90683a7e] {\n  font-size: 16px;\n}\n.description-exercice[data-v-90683a7e] {\n  margin-top: 30px;\n  margin-bottom: 30px;\n}\n.bloc-info[data-v-90683a7e] {\n  box-shadow: 0 2px 3px -1px #DCDCDC;\n  border-bottom: 2px solid #F3F3F3;\n}\n.bloc-info h5[data-v-90683a7e] {\n  border-left: 5px solid #b81752;\n  padding-left: 9px;\n}\n.bloc-sm[data-v-90683a7e] {\n  margin-top: 20px;\n  height: auto;\n}\n.video[data-v-90683a7e], .url[data-v-90683a7e] {\n  margin-top: 20px;\n  width: inherit;\n}\n.video iframe[data-v-90683a7e] {\n  width: inherit;\n}\n.actions-exercice-detail[data-v-90683a7e] {\n  margin-bottom: 20px;\n  height: 80px;\n}\n.actions-exercice-detail .btns[data-v-90683a7e] {\n  float: right;\n}\n.actions-exercice-detail .btn-mes-exercices[data-v-90683a7e] {\n  float: left;\n}\n.bloc-detail-md[data-v-90683a7e] {\n  margin-top: 20px;\n}\n.variantes .variante[data-v-90683a7e] {\n  box-shadow: 0 2px 3px -1px #DCDCDC;\n  height: auto;\n  margin-top: 20px;\n}\n.variantes .variante-header h5.float-left[data-v-90683a7e] {\n  border-left: 5px solid #b81752;\n  padding-left: 9px;\n}\n.variantes .variante-header h5.time[data-v-90683a7e] {\n  margin-right: 11px;\n}\n.variantes .variante-body[data-v-90683a7e] {\n  padding-bottom: 2px;\n}\n.add-seance-form .btn-action-sauvegarder[data-v-90683a7e] {\n  margin-top: 60px;\n  height: 40px;\n  display: block !important;\n}\n.add-seance-form .btn-action-sauvegarder .btn-sauvegarder[data-v-90683a7e] {\n  float: right;\n}\n.update-exercice-form .btn-action-sauvegarder[data-v-90683a7e] {\n  margin-top: 60px;\n  height: 40px;\n  display: block !important;\n}\n.update-exercice-form .btn-action-sauvegarder .btn-sauvegarder[data-v-90683a7e] {\n  float: right;\n}\n.suggestions-exercices[data-v-90683a7e] {\n  margin-top: 20px;\n  border-bottom: 2px solid #F3F3F3;\n  box-shadow: 0 2px 3px -1px #DCDCDC;\n  border-top: 1px solid #F3F3F3;\n  padding-bottom: 10px;\n  padding-top: 10px;\n}\n.suggestions-exercices .lst-suggestions[data-v-90683a7e] {\n  position: relative;\n  display: flex;\n}\n.suggestions-exercices .lst-suggestions .lien-suggestion[data-v-90683a7e] {\n  text-decoration: none;\n  color: black;\n  margin-right: 7px;\n}\n.suggestions-exercices .suggestion-item[data-v-90683a7e] {\n  padding: 5px;\n  width: 320px;\n  height: 300px;\n  background-color: #F3F3F3;\n  position: relative;\n}\n.suggestions-exercices .suggestion-item .time[data-v-90683a7e] {\n  position: absolute;\n  bottom: 0;\n}\n.suggestions-exercices .suggestion-item .principe[data-v-90683a7e] {\n  margin-top: 5px;\n}\n.lien-suggestion[data-v-90683a7e]:last-child {\n  margin-right: 0px !important;\n}\n.suggestions-exercices .suggestion-item .img-suggestion[data-v-90683a7e] {\n  width: 100%;\n  height: 200px;\n}\n.suggestions-exercices .suggestion-item img[data-v-90683a7e] {\n  width: inherit;\n  height: inherit;\n}\n@media screen and (max-width: 480px) {\n.actions-exercice-detail .btn-sauvegarder1[data-v-90683a7e] {\n    display: none;\n}\n.btn-action-sauvegarder[data-v-90683a7e] {\n    display: block;\n    margin-top: 60px;\n    height: 40px;\n}\n.actions-exercice-detail[data-v-90683a7e] {\n    height: auto;\n}\n.actions-exercice-detail .btn-mes-exercices[data-v-90683a7e] {\n    float: none;\n}\n.actions-exercice-detail .btns[data-v-90683a7e] {\n    float: none;\n    margin-top: 10px;\n}\n.actions-exercice-detail .btns .btn-soccer-coach-action[data-v-90683a7e] {\n    width: 100%;\n    margin-bottom: 2px;\n}\n.image-exercice[data-v-90683a7e] {\n    margin-top: 10px;\n    height: auto;\n}\n.details-items-info div p.text[data-v-90683a7e] {\n    font-size: 9px;\n}\n.details-items-info div p.value[data-v-90683a7e] {\n    font-size: 13px;\n}\n.detail[data-v-90683a7e] {\n    height: auto;\n}\n}\n.add-variables[data-v-90683a7e] {\n  margin-top: 20px;\n}\n.add-variables h5[data-v-90683a7e] {\n  margin-bottom: 0;\n}\n.add-variables .form-add-variable form button[data-v-90683a7e] {\n  margin-top: 20px;\n  float: right;\n}\n.add-variables .form-add-variable form textarea[data-v-90683a7e] {\n  height: 234px !important;\n}\n.add-variables .form-add-variable .btn-annuler[data-v-90683a7e] {\n  margin-left: 5px;\n}\n.add-variables .form-add-variable .titre-variantes[data-v-90683a7e] {\n  font-size: 0.9rem;\n  font-weight: 700;\n}\n.add-variables .form-add-variable .lst-variables[data-v-90683a7e] {\n  min-height: 409px;\n  padding: 0 10px 10px 10px;\n  border: 1px solid #ced4da;\n  margin-top: 7px;\n}\n.add-variables .form-add-variable .lst-variables .aucune-variante[data-v-90683a7e] {\n  text-align: center;\n  margin-top: 170px;\n  color: #ced4da;\n}\n.add-variables .form-add-variable .lst-variables .variante-item[data-v-90683a7e] {\n  margin-top: 7px;\n  border-radius: 0 !important;\n  height: auto;\n}\n.add-variables .form-add-variable .lst-variables .variante-item .item-header[data-v-90683a7e] {\n  border-left: 8px solid #03aca4;\n  border-top: 1px solid #03aca4;\n  border-right: 1px solid #03aca4;\n  border-bottom: 1px solid #03aca4;\n  height: 40px;\n  padding-left: 10px;\n  background-color: white;\n  padding-top: 6px;\n  padding-right: 18px;\n}\n.add-variables .form-add-variable .lst-variables .variante-item .item-header[data-v-90683a7e]:first-child {\n  border-radius: 0;\n}\n.add-variables .form-add-variable .lst-variables .variante-item .item-header .btn-delete[data-v-90683a7e] {\n  float: right;\n  border: 0;\n}\n.add-variables .form-add-variable .lst-variables .variante-item .item-body[data-v-90683a7e] {\n  height: auto;\n  border-left: 1px solid #03aca4;\n  border-right: 1px solid #03aca4;\n  border-bottom: 1px solid #03aca4;\n  padding: 18px;\n}\n.add-variables .form-add-variable .lst-variables .variante-item .item-body.row[data-v-90683a7e] {\n  height: auto;\n  margin-left: 0;\n  margin-right: 0;\n}\n.add-variables .form-add-variable .lst-variables .variante-item .item-body .img-variante img[data-v-90683a7e] {\n  width: inherit;\n  height: 318px;\n}", ""]);
 
 // exports
 
@@ -12892,7 +13135,7 @@ exports = module.exports = __webpack_require__(/*! ../../../node_modules/css-loa
 
 
 // module
-exports.push([module.i, ".form-control[data-v-ffb5a4de] {\n  border: none;\n  border-bottom: 2px solid #03aca4;\n  border-right: 1px solid #F3F3F3;\n}\n.form-group.input-sm .input-text[data-v-ffb5a4de], .form-group.input-sm .date-time-picker[data-v-ffb5a4de] {\n  width: 100%;\n}\n@media screen and (min-width: 768px) {\n.form-group.input-sm .input-text[data-v-ffb5a4de], .form-group.input-sm .date-time-picker[data-v-ffb5a4de] {\n    width: 33.3%;\n}\n}\n.form-group .temps-input[data-v-ffb5a4de] {\n  display: flex;\n}\n.form-group .select-form[data-v-ffb5a4de] {\n  width: 100%;\n  height: 30px;\n  border: none;\n  border-bottom: 2px solid #03aca4;\n  border-right: 1px solid #F3F3F3;\n}\n.form-group .select-form[data-v-ffb5a4de]:focus {\n  outline: none;\n}\n.temps-chexbox > div[data-v-ffb5a4de] {\n  flex: 1;\n  padding-left: 5px;\n}\n.temps-chexbox[data-v-ffb5a4de] {\n  display: flex;\n  flex-flow: row wrap;\n}\n.temps-chexbox .type-item[data-v-ffb5a4de] {\n  height: auto;\n}\n.temps-chexbox .type-item .icon-exercice[data-v-ffb5a4de] {\n  bottom: 0;\n  position: absolute;\n}\n.temps-chexbox .type-item input[type=radio][data-v-ffb5a4de] {\n  display: none;\n}\n.temps-chexbox .type-item input[type=radio]:not(:disabled) ~ label[data-v-ffb5a4de] {\n  cursor: pointer;\n}\n.temps-chexbox .type-item input[type=radio]:disabled ~ label[data-v-ffb5a4de] {\n  color: #bcc2bf;\n  border-color: #bcc2bf;\n  box-shadow: none;\n  cursor: not-allowed;\n}\n.temps-chexbox .type-item label[data-v-ffb5a4de] {\n  height: 2.4rem;\n  width: 2.4rem;\n  display: block;\n  background: white;\n  border: 1px solid #03aca4;\n  border-radius: 12px;\n  padding: 2px;\n  text-align: center;\n  margin-bottom: 0 !important;\n  box-shadow: 0px 3px 10px -2px rgba(161, 170, 166, 0.5);\n  position: relative;\n}\n.temps-chexbox .type-item label .details-type[data-v-ffb5a4de] {\n  margin-top: 5px;\n}\n.temps-chexbox .type-item input[type=radio]:checked + label[data-v-ffb5a4de] {\n  background: #03aca4;\n  color: white;\n  box-shadow: 0px 0px 20px #F3F3F3;\n}\n.temps-chexbox .type-item input[type=radio]:checked + label i[data-v-ffb5a4de] {\n  color: white;\n}\n.temps-chexbox .type-item p[data-v-ffb5a4de] {\n  font-weight: 900;\n  margin-bottom: 0 !important;\n}\n.error[data-v-ffb5a4de] {\n  color: red;\n  font-weight: 600;\n}\n.input-error[data-v-ffb5a4de] {\n  border-bottom: 2px solid red;\n}\n.input-error[data-v-ffb5a4de]:focus {\n  border-color: red;\n  box-shadow: 0 0 0 0.2rem rgba(255, 0, 0, 0.2);\n}", ""]);
+exports.push([module.i, ".form-control[data-v-ffb5a4de] {\n  border: none;\n  border-bottom: 2px solid #03aca4;\n  border-right: 1px solid #F3F3F3;\n}\n.form-group.input-sm .input-text[data-v-ffb5a4de], .form-group.input-sm .date-time-picker[data-v-ffb5a4de] {\n  width: 100%;\n}\n@media screen and (min-width: 768px) {\n.form-group.input-sm .input-text[data-v-ffb5a4de], .form-group.input-sm .date-time-picker[data-v-ffb5a4de] {\n    width: 33.3%;\n}\n}\n.form-group .temps-input[data-v-ffb5a4de] {\n  display: flex;\n}\n.form-group .select-form[data-v-ffb5a4de] {\n  width: 100%;\n  height: 30px;\n  border: none;\n  border-bottom: 2px solid #03aca4;\n  border-right: 1px solid #F3F3F3;\n}\n.form-group .select-form[data-v-ffb5a4de]:focus {\n  outline: none;\n}\n.temps-chexbox > div[data-v-ffb5a4de] {\n  flex: 1;\n  padding-left: 5px;\n}\n.temps-chexbox[data-v-ffb5a4de] {\n  display: flex;\n  flex-flow: row wrap;\n}\n.temps-chexbox .type-item[data-v-ffb5a4de] {\n  height: auto;\n}\n.temps-chexbox .type-item .icon-exercice[data-v-ffb5a4de] {\n  bottom: 0;\n  position: absolute;\n}\n.temps-chexbox .type-item input[type=radio][data-v-ffb5a4de] {\n  display: none;\n}\n.temps-chexbox .type-item input[type=radio]:not(:disabled) ~ label[data-v-ffb5a4de] {\n  cursor: pointer;\n}\n.temps-chexbox .type-item input[type=radio]:disabled ~ label[data-v-ffb5a4de] {\n  color: #bcc2bf;\n  border-color: #bcc2bf;\n  box-shadow: none;\n  cursor: not-allowed;\n}\n.temps-chexbox .type-item label[data-v-ffb5a4de] {\n  height: 2.4rem;\n  width: 2.4rem;\n  display: block;\n  background: white;\n  border: 1px solid #03aca4;\n  border-radius: 20px;\n  padding: 2px;\n  text-align: center;\n  margin-bottom: 0 !important;\n  box-shadow: 0px 3px 10px -2px rgba(161, 170, 166, 0.5);\n  position: relative;\n}\n.temps-chexbox .type-item label .details-type[data-v-ffb5a4de] {\n  margin-top: 5px;\n}\n.temps-chexbox .type-item input[type=radio]:checked + label[data-v-ffb5a4de] {\n  background: #03aca4;\n  color: white;\n  box-shadow: 0px 0px 20px #F3F3F3;\n}\n.temps-chexbox .type-item input[type=radio]:checked + label i[data-v-ffb5a4de] {\n  color: white;\n}\n.temps-chexbox .type-item p[data-v-ffb5a4de] {\n  font-weight: 900;\n  margin-bottom: 0 !important;\n}\n.error[data-v-ffb5a4de] {\n  color: red;\n  font-weight: 600;\n}\n.input-error[data-v-ffb5a4de] {\n  border-bottom: 2px solid red;\n}\n.input-error[data-v-ffb5a4de]:focus {\n  border-color: red;\n  box-shadow: 0 0 0 0.2rem rgba(255, 0, 0, 0.2);\n}", ""]);
 
 // exports
 
@@ -12911,7 +13154,7 @@ exports = module.exports = __webpack_require__(/*! ../../../node_modules/css-loa
 
 
 // module
-exports.push([module.i, ".form-control[data-v-19d422ea] {\n  border: none;\n  border-bottom: 2px solid #03aca4;\n  border-right: 1px solid #F3F3F3;\n}\n.form-group.input-sm .input-text[data-v-19d422ea], .form-group.input-sm .date-time-picker[data-v-19d422ea] {\n  width: 100%;\n}\n@media screen and (min-width: 768px) {\n.form-group.input-sm .input-text[data-v-19d422ea], .form-group.input-sm .date-time-picker[data-v-19d422ea] {\n    width: 33.3%;\n}\n}\n.form-group .temps-input[data-v-19d422ea] {\n  display: flex;\n}\n.form-group .select-form[data-v-19d422ea] {\n  width: 100%;\n  height: 30px;\n  border: none;\n  border-bottom: 2px solid #03aca4;\n  border-right: 1px solid #F3F3F3;\n}\n.form-group .select-form[data-v-19d422ea]:focus {\n  outline: none;\n}\n.temps-chexbox > div[data-v-19d422ea] {\n  flex: 1;\n  padding-left: 5px;\n}\n.temps-chexbox[data-v-19d422ea] {\n  display: flex;\n  flex-flow: row wrap;\n}\n.temps-chexbox .type-item[data-v-19d422ea] {\n  height: auto;\n}\n.temps-chexbox .type-item .icon-exercice[data-v-19d422ea] {\n  bottom: 0;\n  position: absolute;\n}\n.temps-chexbox .type-item input[type=radio][data-v-19d422ea] {\n  display: none;\n}\n.temps-chexbox .type-item input[type=radio]:not(:disabled) ~ label[data-v-19d422ea] {\n  cursor: pointer;\n}\n.temps-chexbox .type-item input[type=radio]:disabled ~ label[data-v-19d422ea] {\n  color: #bcc2bf;\n  border-color: #bcc2bf;\n  box-shadow: none;\n  cursor: not-allowed;\n}\n.temps-chexbox .type-item label[data-v-19d422ea] {\n  height: 2.4rem;\n  width: 2.4rem;\n  display: block;\n  background: white;\n  border: 1px solid #03aca4;\n  border-radius: 12px;\n  padding: 2px;\n  text-align: center;\n  margin-bottom: 0 !important;\n  box-shadow: 0px 3px 10px -2px rgba(161, 170, 166, 0.5);\n  position: relative;\n}\n.temps-chexbox .type-item label .details-type[data-v-19d422ea] {\n  margin-top: 5px;\n}\n.temps-chexbox .type-item input[type=radio]:checked + label[data-v-19d422ea] {\n  background: #03aca4;\n  color: white;\n  box-shadow: 0px 0px 20px #F3F3F3;\n}\n.temps-chexbox .type-item input[type=radio]:checked + label i[data-v-19d422ea] {\n  color: white;\n}\n.temps-chexbox .type-item p[data-v-19d422ea] {\n  font-weight: 900;\n  margin-bottom: 0 !important;\n}\n.error[data-v-19d422ea] {\n  color: red;\n  font-weight: 600;\n}\n.input-error[data-v-19d422ea] {\n  border-bottom: 2px solid red;\n}\n.input-error[data-v-19d422ea]:focus {\n  border-color: red;\n  box-shadow: 0 0 0 0.2rem rgba(255, 0, 0, 0.2);\n}\n.add-seance-form .exercices .btn-action-exercices[data-v-19d422ea] {\n  height: 35px;\n}\n.add-seance-form .exercices .btn-action-exercices .btns[data-v-19d422ea] {\n  float: right;\n}\n.add-seance-form .exercices .details-exercice-modal[data-v-19d422ea] {\n  float: right;\n  margin-right: 10px;\n}\n.add-seance-form .exercices .lst-exercices[data-v-19d422ea] {\n  padding: 0 10px 10px 10px;\n  border: 1px solid #ced4da;\n  margin-top: 7px;\n  height: auto;\n}\n.add-seance-form .exercices .lst-exercices.lst-vide[data-v-19d422ea] {\n  min-height: 409px;\n}\n.add-seance-form .exercices .lst-exercices .aucun-exercice[data-v-19d422ea] {\n  text-align: center;\n  margin-top: 170px;\n  color: #ced4da;\n}\n.add-seance-form .exercices .lst-exercices .exercice-item[data-v-19d422ea] {\n  margin-top: 7px;\n  border-radius: 0 !important;\n  height: auto;\n  border-bottom: 1px solid #ced4da;\n}\n.add-seance-form .exercices .lst-exercices .exercice-item .exercice-match .details-match .principe-exe[data-v-19d422ea] {\n  border-left: 8px solid #03aca4;\n  background-color: #F3F3F3;\n  padding: 8px;\n  min-height: 40px;\n}\n.add-seance-form .exercices .lst-exercices .exercice-item .exercice-match .details-match .principe-exe h5[data-v-19d422ea] {\n  margin-top: 2px;\n}\n.add-seance-form .exercices .lst-exercices .exercice-item .exercice-match .details-match .items-modifiables[data-v-19d422ea] {\n  display: flex;\n  padding-top: 10px;\n}\n.add-seance-form .exercices .lst-exercices .exercice-item .exercice-match .details-match .items-modifiables .form-group[data-v-19d422ea] {\n  margin-right: 10px;\n}\n.add-seance-form .exercices .lst-exercices .exercice-item .exercice-match .details-match .items-modifiables .form-group .input-text[data-v-19d422ea] {\n  padding-right: 10px;\n}\n.add-seance-form .exercices .lst-exercices .exercice-item .exercice-match .details-match .items-modifiables .form-group .input-text textarea[data-v-19d422ea] {\n  height: 124px !important;\n}\n.add-seance-form .exercices .lst-exercices .exercice-item .exercice-match .description-match[data-v-19d422ea] {\n  padding-top: 10px;\n}\n.add-seance-form .exercices .lst-exercices .exercice-item .actions[data-v-19d422ea] {\n  height: 50px;\n  margin-top: 12px;\n}\n.add-seance-form .exercices .lst-exercices .exercice-item .actions button[data-v-19d422ea] {\n  float: right;\n}\n.add-seance-form .exercices .lst-exercices .exercice-item .details-exe .principe-exe[data-v-19d422ea] {\n  border-left: 8px solid #03aca4;\n  background-color: #F3F3F3;\n  padding: 8px;\n  min-height: 40px;\n}\n.add-seance-form .exercices .lst-exercices .exercice-item .details-exe .principe-exe h5[data-v-19d422ea] {\n  margin-top: 2px;\n}\n.add-seance-form .exercices .lst-exercices .exercice-item .details-exe .items-modifiables[data-v-19d422ea] {\n  display: flex;\n  padding-top: 10px;\n}\n.add-seance-form .exercices .lst-exercices .exercice-item .details-exe .items-modifiables .form-group[data-v-19d422ea] {\n  margin-right: 10px;\n}\n.add-seance-form .exercices .lst-exercices .exercice-item .image-exe[data-v-19d422ea] {\n  margin-top: 4px;\n}\n.add-seance-form .exercices .lst-exercices .exercice-item .image-exe img[data-v-19d422ea] {\n  width: 100%;\n  height: 220px;\n}", ""]);
+exports.push([module.i, ".form-control[data-v-19d422ea] {\n  border: none;\n  border-bottom: 2px solid #03aca4;\n  border-right: 1px solid #F3F3F3;\n}\n.form-group.input-sm .input-text[data-v-19d422ea], .form-group.input-sm .date-time-picker[data-v-19d422ea] {\n  width: 100%;\n}\n@media screen and (min-width: 768px) {\n.form-group.input-sm .input-text[data-v-19d422ea], .form-group.input-sm .date-time-picker[data-v-19d422ea] {\n    width: 33.3%;\n}\n}\n.form-group .temps-input[data-v-19d422ea] {\n  display: flex;\n}\n.form-group .select-form[data-v-19d422ea] {\n  width: 100%;\n  height: 30px;\n  border: none;\n  border-bottom: 2px solid #03aca4;\n  border-right: 1px solid #F3F3F3;\n}\n.form-group .select-form[data-v-19d422ea]:focus {\n  outline: none;\n}\n.temps-chexbox > div[data-v-19d422ea] {\n  flex: 1;\n  padding-left: 5px;\n}\n.temps-chexbox[data-v-19d422ea] {\n  display: flex;\n  flex-flow: row wrap;\n}\n.temps-chexbox .type-item[data-v-19d422ea] {\n  height: auto;\n}\n.temps-chexbox .type-item .icon-exercice[data-v-19d422ea] {\n  bottom: 0;\n  position: absolute;\n}\n.temps-chexbox .type-item input[type=radio][data-v-19d422ea] {\n  display: none;\n}\n.temps-chexbox .type-item input[type=radio]:not(:disabled) ~ label[data-v-19d422ea] {\n  cursor: pointer;\n}\n.temps-chexbox .type-item input[type=radio]:disabled ~ label[data-v-19d422ea] {\n  color: #bcc2bf;\n  border-color: #bcc2bf;\n  box-shadow: none;\n  cursor: not-allowed;\n}\n.temps-chexbox .type-item label[data-v-19d422ea] {\n  height: 2.4rem;\n  width: 2.4rem;\n  display: block;\n  background: white;\n  border: 1px solid #03aca4;\n  border-radius: 20px;\n  padding: 2px;\n  text-align: center;\n  margin-bottom: 0 !important;\n  box-shadow: 0px 3px 10px -2px rgba(161, 170, 166, 0.5);\n  position: relative;\n}\n.temps-chexbox .type-item label .details-type[data-v-19d422ea] {\n  margin-top: 5px;\n}\n.temps-chexbox .type-item input[type=radio]:checked + label[data-v-19d422ea] {\n  background: #03aca4;\n  color: white;\n  box-shadow: 0px 0px 20px #F3F3F3;\n}\n.temps-chexbox .type-item input[type=radio]:checked + label i[data-v-19d422ea] {\n  color: white;\n}\n.temps-chexbox .type-item p[data-v-19d422ea] {\n  font-weight: 900;\n  margin-bottom: 0 !important;\n}\n.error[data-v-19d422ea] {\n  color: red;\n  font-weight: 600;\n}\n.input-error[data-v-19d422ea] {\n  border-bottom: 2px solid red;\n}\n.input-error[data-v-19d422ea]:focus {\n  border-color: red;\n  box-shadow: 0 0 0 0.2rem rgba(255, 0, 0, 0.2);\n}\n.add-seance-form .exercices .btn-action-exercices[data-v-19d422ea] {\n  height: 35px;\n}\n.add-seance-form .exercices .btn-action-exercices .btns[data-v-19d422ea] {\n  float: right;\n}\n.add-seance-form .exercices .details-exercice-modal[data-v-19d422ea] {\n  float: right;\n  margin-right: 10px;\n}\n.add-seance-form .exercices .lst-exercices[data-v-19d422ea] {\n  padding: 0 10px 10px 10px;\n  border: 1px solid #ced4da;\n  margin-top: 7px;\n  height: auto;\n}\n.add-seance-form .exercices .lst-exercices.lst-vide[data-v-19d422ea] {\n  min-height: 409px;\n}\n.add-seance-form .exercices .lst-exercices .aucun-exercice[data-v-19d422ea] {\n  text-align: center;\n  margin-top: 170px;\n  color: #ced4da;\n}\n.add-seance-form .exercices .lst-exercices .exercice-item[data-v-19d422ea] {\n  margin-top: 7px;\n  border-radius: 0 !important;\n  height: auto;\n  border-bottom: 1px solid #ced4da;\n}\n.add-seance-form .exercices .lst-exercices .exercice-item .exercice-match .details-match .principe-exe[data-v-19d422ea] {\n  border-left: 8px solid #03aca4;\n  background-color: #F3F3F3;\n  padding: 8px;\n  min-height: 40px;\n}\n.add-seance-form .exercices .lst-exercices .exercice-item .exercice-match .details-match .principe-exe h5[data-v-19d422ea] {\n  margin-top: 2px;\n}\n.add-seance-form .exercices .lst-exercices .exercice-item .exercice-match .details-match .items-modifiables[data-v-19d422ea] {\n  display: flex;\n  padding-top: 10px;\n}\n.add-seance-form .exercices .lst-exercices .exercice-item .exercice-match .details-match .items-modifiables .form-group[data-v-19d422ea] {\n  margin-right: 10px;\n}\n.add-seance-form .exercices .lst-exercices .exercice-item .exercice-match .details-match .items-modifiables .form-group .input-text[data-v-19d422ea] {\n  padding-right: 10px;\n}\n.add-seance-form .exercices .lst-exercices .exercice-item .exercice-match .details-match .items-modifiables .form-group .input-text textarea[data-v-19d422ea] {\n  height: 124px !important;\n}\n.add-seance-form .exercices .lst-exercices .exercice-item .exercice-match .description-match[data-v-19d422ea] {\n  padding-top: 10px;\n}\n.add-seance-form .exercices .lst-exercices .exercice-item .actions[data-v-19d422ea] {\n  height: 50px;\n  margin-top: 12px;\n}\n.add-seance-form .exercices .lst-exercices .exercice-item .actions button[data-v-19d422ea] {\n  float: right;\n}\n.add-seance-form .exercices .lst-exercices .exercice-item .details-exe .principe-exe[data-v-19d422ea] {\n  border-left: 8px solid #03aca4;\n  background-color: #F3F3F3;\n  padding: 8px;\n  min-height: 40px;\n}\n.add-seance-form .exercices .lst-exercices .exercice-item .details-exe .principe-exe h5[data-v-19d422ea] {\n  margin-top: 2px;\n}\n.add-seance-form .exercices .lst-exercices .exercice-item .details-exe .items-modifiables[data-v-19d422ea] {\n  display: flex;\n  padding-top: 10px;\n}\n.add-seance-form .exercices .lst-exercices .exercice-item .details-exe .items-modifiables .form-group[data-v-19d422ea] {\n  margin-right: 10px;\n}\n.add-seance-form .exercices .lst-exercices .exercice-item .image-exe[data-v-19d422ea] {\n  margin-top: 4px;\n}\n.add-seance-form .exercices .lst-exercices .exercice-item .image-exe img[data-v-19d422ea] {\n  width: 100%;\n  height: 220px;\n}", ""]);
 
 // exports
 
@@ -12949,7 +13192,7 @@ exports = module.exports = __webpack_require__(/*! ../../../../node_modules/css-
 
 
 // module
-exports.push([module.i, ".form-control[data-v-495b20da] {\n  border: none;\n  border-bottom: 2px solid #03aca4;\n  border-right: 1px solid #F3F3F3;\n}\n.form-group.input-sm .input-text[data-v-495b20da], .form-group.input-sm .date-time-picker[data-v-495b20da] {\n  width: 100%;\n}\n@media screen and (min-width: 768px) {\n.form-group.input-sm .input-text[data-v-495b20da], .form-group.input-sm .date-time-picker[data-v-495b20da] {\n    width: 33.3%;\n}\n}\n.form-group .temps-input[data-v-495b20da] {\n  display: flex;\n}\n.form-group .select-form[data-v-495b20da] {\n  width: 100%;\n  height: 30px;\n  border: none;\n  border-bottom: 2px solid #03aca4;\n  border-right: 1px solid #F3F3F3;\n}\n.form-group .select-form[data-v-495b20da]:focus {\n  outline: none;\n}\n.temps-chexbox > div[data-v-495b20da] {\n  flex: 1;\n  padding-left: 5px;\n}\n.temps-chexbox[data-v-495b20da] {\n  display: flex;\n  flex-flow: row wrap;\n}\n.temps-chexbox .type-item[data-v-495b20da] {\n  height: auto;\n}\n.temps-chexbox .type-item .icon-exercice[data-v-495b20da] {\n  bottom: 0;\n  position: absolute;\n}\n.temps-chexbox .type-item input[type=radio][data-v-495b20da] {\n  display: none;\n}\n.temps-chexbox .type-item input[type=radio]:not(:disabled) ~ label[data-v-495b20da] {\n  cursor: pointer;\n}\n.temps-chexbox .type-item input[type=radio]:disabled ~ label[data-v-495b20da] {\n  color: #bcc2bf;\n  border-color: #bcc2bf;\n  box-shadow: none;\n  cursor: not-allowed;\n}\n.temps-chexbox .type-item label[data-v-495b20da] {\n  height: 2.4rem;\n  width: 2.4rem;\n  display: block;\n  background: white;\n  border: 1px solid #03aca4;\n  border-radius: 12px;\n  padding: 2px;\n  text-align: center;\n  margin-bottom: 0 !important;\n  box-shadow: 0px 3px 10px -2px rgba(161, 170, 166, 0.5);\n  position: relative;\n}\n.temps-chexbox .type-item label .details-type[data-v-495b20da] {\n  margin-top: 5px;\n}\n.temps-chexbox .type-item input[type=radio]:checked + label[data-v-495b20da] {\n  background: #03aca4;\n  color: white;\n  box-shadow: 0px 0px 20px #F3F3F3;\n}\n.temps-chexbox .type-item input[type=radio]:checked + label i[data-v-495b20da] {\n  color: white;\n}\n.temps-chexbox .type-item p[data-v-495b20da] {\n  font-weight: 900;\n  margin-bottom: 0 !important;\n}\n.error[data-v-495b20da] {\n  color: red;\n  font-weight: 600;\n}\n.input-error[data-v-495b20da] {\n  border-bottom: 2px solid red;\n}\n.input-error[data-v-495b20da]:focus {\n  border-color: red;\n  box-shadow: 0 0 0 0.2rem rgba(255, 0, 0, 0.2);\n}", ""]);
+exports.push([module.i, ".form-control[data-v-495b20da] {\n  border: none;\n  border-bottom: 2px solid #03aca4;\n  border-right: 1px solid #F3F3F3;\n}\n.form-group.input-sm .input-text[data-v-495b20da], .form-group.input-sm .date-time-picker[data-v-495b20da] {\n  width: 100%;\n}\n@media screen and (min-width: 768px) {\n.form-group.input-sm .input-text[data-v-495b20da], .form-group.input-sm .date-time-picker[data-v-495b20da] {\n    width: 33.3%;\n}\n}\n.form-group .temps-input[data-v-495b20da] {\n  display: flex;\n}\n.form-group .select-form[data-v-495b20da] {\n  width: 100%;\n  height: 30px;\n  border: none;\n  border-bottom: 2px solid #03aca4;\n  border-right: 1px solid #F3F3F3;\n}\n.form-group .select-form[data-v-495b20da]:focus {\n  outline: none;\n}\n.temps-chexbox > div[data-v-495b20da] {\n  flex: 1;\n  padding-left: 5px;\n}\n.temps-chexbox[data-v-495b20da] {\n  display: flex;\n  flex-flow: row wrap;\n}\n.temps-chexbox .type-item[data-v-495b20da] {\n  height: auto;\n}\n.temps-chexbox .type-item .icon-exercice[data-v-495b20da] {\n  bottom: 0;\n  position: absolute;\n}\n.temps-chexbox .type-item input[type=radio][data-v-495b20da] {\n  display: none;\n}\n.temps-chexbox .type-item input[type=radio]:not(:disabled) ~ label[data-v-495b20da] {\n  cursor: pointer;\n}\n.temps-chexbox .type-item input[type=radio]:disabled ~ label[data-v-495b20da] {\n  color: #bcc2bf;\n  border-color: #bcc2bf;\n  box-shadow: none;\n  cursor: not-allowed;\n}\n.temps-chexbox .type-item label[data-v-495b20da] {\n  height: 2.4rem;\n  width: 2.4rem;\n  display: block;\n  background: white;\n  border: 1px solid #03aca4;\n  border-radius: 20px;\n  padding: 2px;\n  text-align: center;\n  margin-bottom: 0 !important;\n  box-shadow: 0px 3px 10px -2px rgba(161, 170, 166, 0.5);\n  position: relative;\n}\n.temps-chexbox .type-item label .details-type[data-v-495b20da] {\n  margin-top: 5px;\n}\n.temps-chexbox .type-item input[type=radio]:checked + label[data-v-495b20da] {\n  background: #03aca4;\n  color: white;\n  box-shadow: 0px 0px 20px #F3F3F3;\n}\n.temps-chexbox .type-item input[type=radio]:checked + label i[data-v-495b20da] {\n  color: white;\n}\n.temps-chexbox .type-item p[data-v-495b20da] {\n  font-weight: 900;\n  margin-bottom: 0 !important;\n}\n.error[data-v-495b20da] {\n  color: red;\n  font-weight: 600;\n}\n.input-error[data-v-495b20da] {\n  border-bottom: 2px solid red;\n}\n.input-error[data-v-495b20da]:focus {\n  border-color: red;\n  box-shadow: 0 0 0 0.2rem rgba(255, 0, 0, 0.2);\n}", ""]);
 
 // exports
 
@@ -12968,7 +13211,7 @@ exports = module.exports = __webpack_require__(/*! ../../../../node_modules/css-
 
 
 // module
-exports.push([module.i, ".form-control[data-v-2763b4f6] {\n  border: none;\n  border-bottom: 2px solid #03aca4;\n  border-right: 1px solid #F3F3F3;\n}\n.form-group.input-sm .input-text[data-v-2763b4f6], .form-group.input-sm .date-time-picker[data-v-2763b4f6] {\n  width: 100%;\n}\n@media screen and (min-width: 768px) {\n.form-group.input-sm .input-text[data-v-2763b4f6], .form-group.input-sm .date-time-picker[data-v-2763b4f6] {\n    width: 33.3%;\n}\n}\n.form-group .temps-input[data-v-2763b4f6] {\n  display: flex;\n}\n.form-group .select-form[data-v-2763b4f6] {\n  width: 100%;\n  height: 30px;\n  border: none;\n  border-bottom: 2px solid #03aca4;\n  border-right: 1px solid #F3F3F3;\n}\n.form-group .select-form[data-v-2763b4f6]:focus {\n  outline: none;\n}\n.temps-chexbox > div[data-v-2763b4f6] {\n  flex: 1;\n  padding-left: 5px;\n}\n.temps-chexbox[data-v-2763b4f6] {\n  display: flex;\n  flex-flow: row wrap;\n}\n.temps-chexbox .type-item[data-v-2763b4f6] {\n  height: auto;\n}\n.temps-chexbox .type-item .icon-exercice[data-v-2763b4f6] {\n  bottom: 0;\n  position: absolute;\n}\n.temps-chexbox .type-item input[type=radio][data-v-2763b4f6] {\n  display: none;\n}\n.temps-chexbox .type-item input[type=radio]:not(:disabled) ~ label[data-v-2763b4f6] {\n  cursor: pointer;\n}\n.temps-chexbox .type-item input[type=radio]:disabled ~ label[data-v-2763b4f6] {\n  color: #bcc2bf;\n  border-color: #bcc2bf;\n  box-shadow: none;\n  cursor: not-allowed;\n}\n.temps-chexbox .type-item label[data-v-2763b4f6] {\n  height: 2.4rem;\n  width: 2.4rem;\n  display: block;\n  background: white;\n  border: 1px solid #03aca4;\n  border-radius: 12px;\n  padding: 2px;\n  text-align: center;\n  margin-bottom: 0 !important;\n  box-shadow: 0px 3px 10px -2px rgba(161, 170, 166, 0.5);\n  position: relative;\n}\n.temps-chexbox .type-item label .details-type[data-v-2763b4f6] {\n  margin-top: 5px;\n}\n.temps-chexbox .type-item input[type=radio]:checked + label[data-v-2763b4f6] {\n  background: #03aca4;\n  color: white;\n  box-shadow: 0px 0px 20px #F3F3F3;\n}\n.temps-chexbox .type-item input[type=radio]:checked + label i[data-v-2763b4f6] {\n  color: white;\n}\n.temps-chexbox .type-item p[data-v-2763b4f6] {\n  font-weight: 900;\n  margin-bottom: 0 !important;\n}\n.error[data-v-2763b4f6] {\n  color: red;\n  font-weight: 600;\n}\n.input-error[data-v-2763b4f6] {\n  border-bottom: 2px solid red;\n}\n.input-error[data-v-2763b4f6]:focus {\n  border-color: red;\n  box-shadow: 0 0 0 0.2rem rgba(255, 0, 0, 0.2);\n}", ""]);
+exports.push([module.i, ".form-control[data-v-2763b4f6] {\n  border: none;\n  border-bottom: 2px solid #03aca4;\n  border-right: 1px solid #F3F3F3;\n}\n.form-group.input-sm .input-text[data-v-2763b4f6], .form-group.input-sm .date-time-picker[data-v-2763b4f6] {\n  width: 100%;\n}\n@media screen and (min-width: 768px) {\n.form-group.input-sm .input-text[data-v-2763b4f6], .form-group.input-sm .date-time-picker[data-v-2763b4f6] {\n    width: 33.3%;\n}\n}\n.form-group .temps-input[data-v-2763b4f6] {\n  display: flex;\n}\n.form-group .select-form[data-v-2763b4f6] {\n  width: 100%;\n  height: 30px;\n  border: none;\n  border-bottom: 2px solid #03aca4;\n  border-right: 1px solid #F3F3F3;\n}\n.form-group .select-form[data-v-2763b4f6]:focus {\n  outline: none;\n}\n.temps-chexbox > div[data-v-2763b4f6] {\n  flex: 1;\n  padding-left: 5px;\n}\n.temps-chexbox[data-v-2763b4f6] {\n  display: flex;\n  flex-flow: row wrap;\n}\n.temps-chexbox .type-item[data-v-2763b4f6] {\n  height: auto;\n}\n.temps-chexbox .type-item .icon-exercice[data-v-2763b4f6] {\n  bottom: 0;\n  position: absolute;\n}\n.temps-chexbox .type-item input[type=radio][data-v-2763b4f6] {\n  display: none;\n}\n.temps-chexbox .type-item input[type=radio]:not(:disabled) ~ label[data-v-2763b4f6] {\n  cursor: pointer;\n}\n.temps-chexbox .type-item input[type=radio]:disabled ~ label[data-v-2763b4f6] {\n  color: #bcc2bf;\n  border-color: #bcc2bf;\n  box-shadow: none;\n  cursor: not-allowed;\n}\n.temps-chexbox .type-item label[data-v-2763b4f6] {\n  height: 2.4rem;\n  width: 2.4rem;\n  display: block;\n  background: white;\n  border: 1px solid #03aca4;\n  border-radius: 20px;\n  padding: 2px;\n  text-align: center;\n  margin-bottom: 0 !important;\n  box-shadow: 0px 3px 10px -2px rgba(161, 170, 166, 0.5);\n  position: relative;\n}\n.temps-chexbox .type-item label .details-type[data-v-2763b4f6] {\n  margin-top: 5px;\n}\n.temps-chexbox .type-item input[type=radio]:checked + label[data-v-2763b4f6] {\n  background: #03aca4;\n  color: white;\n  box-shadow: 0px 0px 20px #F3F3F3;\n}\n.temps-chexbox .type-item input[type=radio]:checked + label i[data-v-2763b4f6] {\n  color: white;\n}\n.temps-chexbox .type-item p[data-v-2763b4f6] {\n  font-weight: 900;\n  margin-bottom: 0 !important;\n}\n.error[data-v-2763b4f6] {\n  color: red;\n  font-weight: 600;\n}\n.input-error[data-v-2763b4f6] {\n  border-bottom: 2px solid red;\n}\n.input-error[data-v-2763b4f6]:focus {\n  border-color: red;\n  box-shadow: 0 0 0 0.2rem rgba(255, 0, 0, 0.2);\n}", ""]);
 
 // exports
 
@@ -12987,7 +13230,7 @@ exports = module.exports = __webpack_require__(/*! ../../../../node_modules/css-
 
 
 // module
-exports.push([module.i, ".form-control[data-v-e266c3ba] {\n  border: none;\n  border-bottom: 2px solid #03aca4;\n  border-right: 1px solid #F3F3F3;\n}\n.form-group.input-sm .input-text[data-v-e266c3ba], .form-group.input-sm .date-time-picker[data-v-e266c3ba] {\n  width: 100%;\n}\n@media screen and (min-width: 768px) {\n.form-group.input-sm .input-text[data-v-e266c3ba], .form-group.input-sm .date-time-picker[data-v-e266c3ba] {\n    width: 33.3%;\n}\n}\n.form-group .temps-input[data-v-e266c3ba] {\n  display: flex;\n}\n.form-group .select-form[data-v-e266c3ba] {\n  width: 100%;\n  height: 30px;\n  border: none;\n  border-bottom: 2px solid #03aca4;\n  border-right: 1px solid #F3F3F3;\n}\n.form-group .select-form[data-v-e266c3ba]:focus {\n  outline: none;\n}\n.temps-chexbox > div[data-v-e266c3ba] {\n  flex: 1;\n  padding-left: 5px;\n}\n.temps-chexbox[data-v-e266c3ba] {\n  display: flex;\n  flex-flow: row wrap;\n}\n.temps-chexbox .type-item[data-v-e266c3ba] {\n  height: auto;\n}\n.temps-chexbox .type-item .icon-exercice[data-v-e266c3ba] {\n  bottom: 0;\n  position: absolute;\n}\n.temps-chexbox .type-item input[type=radio][data-v-e266c3ba] {\n  display: none;\n}\n.temps-chexbox .type-item input[type=radio]:not(:disabled) ~ label[data-v-e266c3ba] {\n  cursor: pointer;\n}\n.temps-chexbox .type-item input[type=radio]:disabled ~ label[data-v-e266c3ba] {\n  color: #bcc2bf;\n  border-color: #bcc2bf;\n  box-shadow: none;\n  cursor: not-allowed;\n}\n.temps-chexbox .type-item label[data-v-e266c3ba] {\n  height: 2.4rem;\n  width: 2.4rem;\n  display: block;\n  background: white;\n  border: 1px solid #03aca4;\n  border-radius: 12px;\n  padding: 2px;\n  text-align: center;\n  margin-bottom: 0 !important;\n  box-shadow: 0px 3px 10px -2px rgba(161, 170, 166, 0.5);\n  position: relative;\n}\n.temps-chexbox .type-item label .details-type[data-v-e266c3ba] {\n  margin-top: 5px;\n}\n.temps-chexbox .type-item input[type=radio]:checked + label[data-v-e266c3ba] {\n  background: #03aca4;\n  color: white;\n  box-shadow: 0px 0px 20px #F3F3F3;\n}\n.temps-chexbox .type-item input[type=radio]:checked + label i[data-v-e266c3ba] {\n  color: white;\n}\n.temps-chexbox .type-item p[data-v-e266c3ba] {\n  font-weight: 900;\n  margin-bottom: 0 !important;\n}\n.error[data-v-e266c3ba] {\n  color: red;\n  font-weight: 600;\n}\n.input-error[data-v-e266c3ba] {\n  border-bottom: 2px solid red;\n}\n.input-error[data-v-e266c3ba]:focus {\n  border-color: red;\n  box-shadow: 0 0 0 0.2rem rgba(255, 0, 0, 0.2);\n}", ""]);
+exports.push([module.i, ".form-control[data-v-e266c3ba] {\n  border: none;\n  border-bottom: 2px solid #03aca4;\n  border-right: 1px solid #F3F3F3;\n}\n.form-group.input-sm .input-text[data-v-e266c3ba], .form-group.input-sm .date-time-picker[data-v-e266c3ba] {\n  width: 100%;\n}\n@media screen and (min-width: 768px) {\n.form-group.input-sm .input-text[data-v-e266c3ba], .form-group.input-sm .date-time-picker[data-v-e266c3ba] {\n    width: 33.3%;\n}\n}\n.form-group .temps-input[data-v-e266c3ba] {\n  display: flex;\n}\n.form-group .select-form[data-v-e266c3ba] {\n  width: 100%;\n  height: 30px;\n  border: none;\n  border-bottom: 2px solid #03aca4;\n  border-right: 1px solid #F3F3F3;\n}\n.form-group .select-form[data-v-e266c3ba]:focus {\n  outline: none;\n}\n.temps-chexbox > div[data-v-e266c3ba] {\n  flex: 1;\n  padding-left: 5px;\n}\n.temps-chexbox[data-v-e266c3ba] {\n  display: flex;\n  flex-flow: row wrap;\n}\n.temps-chexbox .type-item[data-v-e266c3ba] {\n  height: auto;\n}\n.temps-chexbox .type-item .icon-exercice[data-v-e266c3ba] {\n  bottom: 0;\n  position: absolute;\n}\n.temps-chexbox .type-item input[type=radio][data-v-e266c3ba] {\n  display: none;\n}\n.temps-chexbox .type-item input[type=radio]:not(:disabled) ~ label[data-v-e266c3ba] {\n  cursor: pointer;\n}\n.temps-chexbox .type-item input[type=radio]:disabled ~ label[data-v-e266c3ba] {\n  color: #bcc2bf;\n  border-color: #bcc2bf;\n  box-shadow: none;\n  cursor: not-allowed;\n}\n.temps-chexbox .type-item label[data-v-e266c3ba] {\n  height: 2.4rem;\n  width: 2.4rem;\n  display: block;\n  background: white;\n  border: 1px solid #03aca4;\n  border-radius: 20px;\n  padding: 2px;\n  text-align: center;\n  margin-bottom: 0 !important;\n  box-shadow: 0px 3px 10px -2px rgba(161, 170, 166, 0.5);\n  position: relative;\n}\n.temps-chexbox .type-item label .details-type[data-v-e266c3ba] {\n  margin-top: 5px;\n}\n.temps-chexbox .type-item input[type=radio]:checked + label[data-v-e266c3ba] {\n  background: #03aca4;\n  color: white;\n  box-shadow: 0px 0px 20px #F3F3F3;\n}\n.temps-chexbox .type-item input[type=radio]:checked + label i[data-v-e266c3ba] {\n  color: white;\n}\n.temps-chexbox .type-item p[data-v-e266c3ba] {\n  font-weight: 900;\n  margin-bottom: 0 !important;\n}\n.error[data-v-e266c3ba] {\n  color: red;\n  font-weight: 600;\n}\n.input-error[data-v-e266c3ba] {\n  border-bottom: 2px solid red;\n}\n.input-error[data-v-e266c3ba]:focus {\n  border-color: red;\n  box-shadow: 0 0 0 0.2rem rgba(255, 0, 0, 0.2);\n}", ""]);
 
 // exports
 
@@ -13025,7 +13268,7 @@ exports = module.exports = __webpack_require__(/*! ../../../../node_modules/css-
 
 
 // module
-exports.push([module.i, ".form-control[data-v-8b378900] {\n  border: none;\n  border-bottom: 2px solid #03aca4;\n  border-right: 1px solid #F3F3F3;\n}\n.form-group.input-sm .input-text[data-v-8b378900], .form-group.input-sm .date-time-picker[data-v-8b378900] {\n  width: 100%;\n}\n@media screen and (min-width: 768px) {\n.form-group.input-sm .input-text[data-v-8b378900], .form-group.input-sm .date-time-picker[data-v-8b378900] {\n    width: 33.3%;\n}\n}\n.form-group .temps-input[data-v-8b378900] {\n  display: flex;\n}\n.form-group .select-form[data-v-8b378900] {\n  width: 100%;\n  height: 30px;\n  border: none;\n  border-bottom: 2px solid #03aca4;\n  border-right: 1px solid #F3F3F3;\n}\n.form-group .select-form[data-v-8b378900]:focus {\n  outline: none;\n}\n.temps-chexbox > div[data-v-8b378900] {\n  flex: 1;\n  padding-left: 5px;\n}\n.temps-chexbox[data-v-8b378900] {\n  display: flex;\n  flex-flow: row wrap;\n}\n.temps-chexbox .type-item[data-v-8b378900] {\n  height: auto;\n}\n.temps-chexbox .type-item .icon-exercice[data-v-8b378900] {\n  bottom: 0;\n  position: absolute;\n}\n.temps-chexbox .type-item input[type=radio][data-v-8b378900] {\n  display: none;\n}\n.temps-chexbox .type-item input[type=radio]:not(:disabled) ~ label[data-v-8b378900] {\n  cursor: pointer;\n}\n.temps-chexbox .type-item input[type=radio]:disabled ~ label[data-v-8b378900] {\n  color: #bcc2bf;\n  border-color: #bcc2bf;\n  box-shadow: none;\n  cursor: not-allowed;\n}\n.temps-chexbox .type-item label[data-v-8b378900] {\n  height: 2.4rem;\n  width: 2.4rem;\n  display: block;\n  background: white;\n  border: 1px solid #03aca4;\n  border-radius: 12px;\n  padding: 2px;\n  text-align: center;\n  margin-bottom: 0 !important;\n  box-shadow: 0px 3px 10px -2px rgba(161, 170, 166, 0.5);\n  position: relative;\n}\n.temps-chexbox .type-item label .details-type[data-v-8b378900] {\n  margin-top: 5px;\n}\n.temps-chexbox .type-item input[type=radio]:checked + label[data-v-8b378900] {\n  background: #03aca4;\n  color: white;\n  box-shadow: 0px 0px 20px #F3F3F3;\n}\n.temps-chexbox .type-item input[type=radio]:checked + label i[data-v-8b378900] {\n  color: white;\n}\n.temps-chexbox .type-item p[data-v-8b378900] {\n  font-weight: 900;\n  margin-bottom: 0 !important;\n}\n.error[data-v-8b378900] {\n  color: red;\n  font-weight: 600;\n}\n.input-error[data-v-8b378900] {\n  border-bottom: 2px solid red;\n}\n.input-error[data-v-8b378900]:focus {\n  border-color: red;\n  box-shadow: 0 0 0 0.2rem rgba(255, 0, 0, 0.2);\n}\n.add-joueur .btn-close[data-v-8b378900] {\n  outline: none;\n}\n.add-joueur .btn-action-exercices .btns[data-v-8b378900] {\n  float: right;\n}", ""]);
+exports.push([module.i, ".form-control[data-v-8b378900] {\n  border: none;\n  border-bottom: 2px solid #03aca4;\n  border-right: 1px solid #F3F3F3;\n}\n.form-group.input-sm .input-text[data-v-8b378900], .form-group.input-sm .date-time-picker[data-v-8b378900] {\n  width: 100%;\n}\n@media screen and (min-width: 768px) {\n.form-group.input-sm .input-text[data-v-8b378900], .form-group.input-sm .date-time-picker[data-v-8b378900] {\n    width: 33.3%;\n}\n}\n.form-group .temps-input[data-v-8b378900] {\n  display: flex;\n}\n.form-group .select-form[data-v-8b378900] {\n  width: 100%;\n  height: 30px;\n  border: none;\n  border-bottom: 2px solid #03aca4;\n  border-right: 1px solid #F3F3F3;\n}\n.form-group .select-form[data-v-8b378900]:focus {\n  outline: none;\n}\n.temps-chexbox > div[data-v-8b378900] {\n  flex: 1;\n  padding-left: 5px;\n}\n.temps-chexbox[data-v-8b378900] {\n  display: flex;\n  flex-flow: row wrap;\n}\n.temps-chexbox .type-item[data-v-8b378900] {\n  height: auto;\n}\n.temps-chexbox .type-item .icon-exercice[data-v-8b378900] {\n  bottom: 0;\n  position: absolute;\n}\n.temps-chexbox .type-item input[type=radio][data-v-8b378900] {\n  display: none;\n}\n.temps-chexbox .type-item input[type=radio]:not(:disabled) ~ label[data-v-8b378900] {\n  cursor: pointer;\n}\n.temps-chexbox .type-item input[type=radio]:disabled ~ label[data-v-8b378900] {\n  color: #bcc2bf;\n  border-color: #bcc2bf;\n  box-shadow: none;\n  cursor: not-allowed;\n}\n.temps-chexbox .type-item label[data-v-8b378900] {\n  height: 2.4rem;\n  width: 2.4rem;\n  display: block;\n  background: white;\n  border: 1px solid #03aca4;\n  border-radius: 20px;\n  padding: 2px;\n  text-align: center;\n  margin-bottom: 0 !important;\n  box-shadow: 0px 3px 10px -2px rgba(161, 170, 166, 0.5);\n  position: relative;\n}\n.temps-chexbox .type-item label .details-type[data-v-8b378900] {\n  margin-top: 5px;\n}\n.temps-chexbox .type-item input[type=radio]:checked + label[data-v-8b378900] {\n  background: #03aca4;\n  color: white;\n  box-shadow: 0px 0px 20px #F3F3F3;\n}\n.temps-chexbox .type-item input[type=radio]:checked + label i[data-v-8b378900] {\n  color: white;\n}\n.temps-chexbox .type-item p[data-v-8b378900] {\n  font-weight: 900;\n  margin-bottom: 0 !important;\n}\n.error[data-v-8b378900] {\n  color: red;\n  font-weight: 600;\n}\n.input-error[data-v-8b378900] {\n  border-bottom: 2px solid red;\n}\n.input-error[data-v-8b378900]:focus {\n  border-color: red;\n  box-shadow: 0 0 0 0.2rem rgba(255, 0, 0, 0.2);\n}\n.add-joueur .btn-close[data-v-8b378900] {\n  outline: none;\n}\n.add-joueur .btn-action-exercices .btns[data-v-8b378900] {\n  float: right;\n}", ""]);
 
 // exports
 
@@ -13063,7 +13306,7 @@ exports = module.exports = __webpack_require__(/*! ../../../../node_modules/css-
 
 
 // module
-exports.push([module.i, ".form-control[data-v-04c3e551] {\n  border: none;\n  border-bottom: 2px solid #03aca4;\n  border-right: 1px solid #F3F3F3;\n}\n.form-group.input-sm .input-text[data-v-04c3e551], .form-group.input-sm .date-time-picker[data-v-04c3e551] {\n  width: 100%;\n}\n@media screen and (min-width: 768px) {\n.form-group.input-sm .input-text[data-v-04c3e551], .form-group.input-sm .date-time-picker[data-v-04c3e551] {\n    width: 33.3%;\n}\n}\n.form-group .temps-input[data-v-04c3e551] {\n  display: flex;\n}\n.form-group .select-form[data-v-04c3e551] {\n  width: 100%;\n  height: 30px;\n  border: none;\n  border-bottom: 2px solid #03aca4;\n  border-right: 1px solid #F3F3F3;\n}\n.form-group .select-form[data-v-04c3e551]:focus {\n  outline: none;\n}\n.temps-chexbox > div[data-v-04c3e551] {\n  flex: 1;\n  padding-left: 5px;\n}\n.temps-chexbox[data-v-04c3e551] {\n  display: flex;\n  flex-flow: row wrap;\n}\n.temps-chexbox .type-item[data-v-04c3e551] {\n  height: auto;\n}\n.temps-chexbox .type-item .icon-exercice[data-v-04c3e551] {\n  bottom: 0;\n  position: absolute;\n}\n.temps-chexbox .type-item input[type=radio][data-v-04c3e551] {\n  display: none;\n}\n.temps-chexbox .type-item input[type=radio]:not(:disabled) ~ label[data-v-04c3e551] {\n  cursor: pointer;\n}\n.temps-chexbox .type-item input[type=radio]:disabled ~ label[data-v-04c3e551] {\n  color: #bcc2bf;\n  border-color: #bcc2bf;\n  box-shadow: none;\n  cursor: not-allowed;\n}\n.temps-chexbox .type-item label[data-v-04c3e551] {\n  height: 2.4rem;\n  width: 2.4rem;\n  display: block;\n  background: white;\n  border: 1px solid #03aca4;\n  border-radius: 12px;\n  padding: 2px;\n  text-align: center;\n  margin-bottom: 0 !important;\n  box-shadow: 0px 3px 10px -2px rgba(161, 170, 166, 0.5);\n  position: relative;\n}\n.temps-chexbox .type-item label .details-type[data-v-04c3e551] {\n  margin-top: 5px;\n}\n.temps-chexbox .type-item input[type=radio]:checked + label[data-v-04c3e551] {\n  background: #03aca4;\n  color: white;\n  box-shadow: 0px 0px 20px #F3F3F3;\n}\n.temps-chexbox .type-item input[type=radio]:checked + label i[data-v-04c3e551] {\n  color: white;\n}\n.temps-chexbox .type-item p[data-v-04c3e551] {\n  font-weight: 900;\n  margin-bottom: 0 !important;\n}\n.error[data-v-04c3e551] {\n  color: red;\n  font-weight: 600;\n}\n.input-error[data-v-04c3e551] {\n  border-bottom: 2px solid red;\n}\n.input-error[data-v-04c3e551]:focus {\n  border-color: red;\n  box-shadow: 0 0 0 0.2rem rgba(255, 0, 0, 0.2);\n}\n.add-joueur .btn-close[data-v-04c3e551] {\n  outline: none;\n}\n.add-joueur .btn-action-exercices .btns[data-v-04c3e551] {\n  float: right;\n}", ""]);
+exports.push([module.i, ".form-control[data-v-04c3e551] {\n  border: none;\n  border-bottom: 2px solid #03aca4;\n  border-right: 1px solid #F3F3F3;\n}\n.form-group.input-sm .input-text[data-v-04c3e551], .form-group.input-sm .date-time-picker[data-v-04c3e551] {\n  width: 100%;\n}\n@media screen and (min-width: 768px) {\n.form-group.input-sm .input-text[data-v-04c3e551], .form-group.input-sm .date-time-picker[data-v-04c3e551] {\n    width: 33.3%;\n}\n}\n.form-group .temps-input[data-v-04c3e551] {\n  display: flex;\n}\n.form-group .select-form[data-v-04c3e551] {\n  width: 100%;\n  height: 30px;\n  border: none;\n  border-bottom: 2px solid #03aca4;\n  border-right: 1px solid #F3F3F3;\n}\n.form-group .select-form[data-v-04c3e551]:focus {\n  outline: none;\n}\n.temps-chexbox > div[data-v-04c3e551] {\n  flex: 1;\n  padding-left: 5px;\n}\n.temps-chexbox[data-v-04c3e551] {\n  display: flex;\n  flex-flow: row wrap;\n}\n.temps-chexbox .type-item[data-v-04c3e551] {\n  height: auto;\n}\n.temps-chexbox .type-item .icon-exercice[data-v-04c3e551] {\n  bottom: 0;\n  position: absolute;\n}\n.temps-chexbox .type-item input[type=radio][data-v-04c3e551] {\n  display: none;\n}\n.temps-chexbox .type-item input[type=radio]:not(:disabled) ~ label[data-v-04c3e551] {\n  cursor: pointer;\n}\n.temps-chexbox .type-item input[type=radio]:disabled ~ label[data-v-04c3e551] {\n  color: #bcc2bf;\n  border-color: #bcc2bf;\n  box-shadow: none;\n  cursor: not-allowed;\n}\n.temps-chexbox .type-item label[data-v-04c3e551] {\n  height: 2.4rem;\n  width: 2.4rem;\n  display: block;\n  background: white;\n  border: 1px solid #03aca4;\n  border-radius: 20px;\n  padding: 2px;\n  text-align: center;\n  margin-bottom: 0 !important;\n  box-shadow: 0px 3px 10px -2px rgba(161, 170, 166, 0.5);\n  position: relative;\n}\n.temps-chexbox .type-item label .details-type[data-v-04c3e551] {\n  margin-top: 5px;\n}\n.temps-chexbox .type-item input[type=radio]:checked + label[data-v-04c3e551] {\n  background: #03aca4;\n  color: white;\n  box-shadow: 0px 0px 20px #F3F3F3;\n}\n.temps-chexbox .type-item input[type=radio]:checked + label i[data-v-04c3e551] {\n  color: white;\n}\n.temps-chexbox .type-item p[data-v-04c3e551] {\n  font-weight: 900;\n  margin-bottom: 0 !important;\n}\n.error[data-v-04c3e551] {\n  color: red;\n  font-weight: 600;\n}\n.input-error[data-v-04c3e551] {\n  border-bottom: 2px solid red;\n}\n.input-error[data-v-04c3e551]:focus {\n  border-color: red;\n  box-shadow: 0 0 0 0.2rem rgba(255, 0, 0, 0.2);\n}\n.add-joueur .btn-close[data-v-04c3e551] {\n  outline: none;\n}\n.add-joueur .btn-action-exercices .btns[data-v-04c3e551] {\n  float: right;\n}", ""]);
 
 // exports
 
@@ -13196,7 +13439,7 @@ exports = module.exports = __webpack_require__(/*! ../../../../node_modules/css-
 
 
 // module
-exports.push([module.i, ".form-control[data-v-f1e1a5da] {\n  border: none;\n  border-bottom: 2px solid #03aca4;\n  border-right: 1px solid #F3F3F3;\n}\n.form-group.input-sm .input-text[data-v-f1e1a5da], .form-group.input-sm .date-time-picker[data-v-f1e1a5da] {\n  width: 100%;\n}\n@media screen and (min-width: 768px) {\n.form-group.input-sm .input-text[data-v-f1e1a5da], .form-group.input-sm .date-time-picker[data-v-f1e1a5da] {\n    width: 33.3%;\n}\n}\n.form-group .temps-input[data-v-f1e1a5da] {\n  display: flex;\n}\n.form-group .select-form[data-v-f1e1a5da] {\n  width: 100%;\n  height: 30px;\n  border: none;\n  border-bottom: 2px solid #03aca4;\n  border-right: 1px solid #F3F3F3;\n}\n.form-group .select-form[data-v-f1e1a5da]:focus {\n  outline: none;\n}\n.temps-chexbox > div[data-v-f1e1a5da] {\n  flex: 1;\n  padding-left: 5px;\n}\n.temps-chexbox[data-v-f1e1a5da] {\n  display: flex;\n  flex-flow: row wrap;\n}\n.temps-chexbox .type-item[data-v-f1e1a5da] {\n  height: auto;\n}\n.temps-chexbox .type-item .icon-exercice[data-v-f1e1a5da] {\n  bottom: 0;\n  position: absolute;\n}\n.temps-chexbox .type-item input[type=radio][data-v-f1e1a5da] {\n  display: none;\n}\n.temps-chexbox .type-item input[type=radio]:not(:disabled) ~ label[data-v-f1e1a5da] {\n  cursor: pointer;\n}\n.temps-chexbox .type-item input[type=radio]:disabled ~ label[data-v-f1e1a5da] {\n  color: #bcc2bf;\n  border-color: #bcc2bf;\n  box-shadow: none;\n  cursor: not-allowed;\n}\n.temps-chexbox .type-item label[data-v-f1e1a5da] {\n  height: 2.4rem;\n  width: 2.4rem;\n  display: block;\n  background: white;\n  border: 1px solid #03aca4;\n  border-radius: 12px;\n  padding: 2px;\n  text-align: center;\n  margin-bottom: 0 !important;\n  box-shadow: 0px 3px 10px -2px rgba(161, 170, 166, 0.5);\n  position: relative;\n}\n.temps-chexbox .type-item label .details-type[data-v-f1e1a5da] {\n  margin-top: 5px;\n}\n.temps-chexbox .type-item input[type=radio]:checked + label[data-v-f1e1a5da] {\n  background: #03aca4;\n  color: white;\n  box-shadow: 0px 0px 20px #F3F3F3;\n}\n.temps-chexbox .type-item input[type=radio]:checked + label i[data-v-f1e1a5da] {\n  color: white;\n}\n.temps-chexbox .type-item p[data-v-f1e1a5da] {\n  font-weight: 900;\n  margin-bottom: 0 !important;\n}\n.error[data-v-f1e1a5da] {\n  color: red;\n  font-weight: 600;\n}\n.input-error[data-v-f1e1a5da] {\n  border-bottom: 2px solid red;\n}\n.input-error[data-v-f1e1a5da]:focus {\n  border-color: red;\n  box-shadow: 0 0 0 0.2rem rgba(255, 0, 0, 0.2);\n}\n.add-joueur .btn-close[data-v-f1e1a5da] {\n  outline: none;\n}\n.add-joueur .btn-action-exercices .btns[data-v-f1e1a5da] {\n  float: right;\n}", ""]);
+exports.push([module.i, ".form-control[data-v-f1e1a5da] {\n  border: none;\n  border-bottom: 2px solid #03aca4;\n  border-right: 1px solid #F3F3F3;\n}\n.form-group.input-sm .input-text[data-v-f1e1a5da], .form-group.input-sm .date-time-picker[data-v-f1e1a5da] {\n  width: 100%;\n}\n@media screen and (min-width: 768px) {\n.form-group.input-sm .input-text[data-v-f1e1a5da], .form-group.input-sm .date-time-picker[data-v-f1e1a5da] {\n    width: 33.3%;\n}\n}\n.form-group .temps-input[data-v-f1e1a5da] {\n  display: flex;\n}\n.form-group .select-form[data-v-f1e1a5da] {\n  width: 100%;\n  height: 30px;\n  border: none;\n  border-bottom: 2px solid #03aca4;\n  border-right: 1px solid #F3F3F3;\n}\n.form-group .select-form[data-v-f1e1a5da]:focus {\n  outline: none;\n}\n.temps-chexbox > div[data-v-f1e1a5da] {\n  flex: 1;\n  padding-left: 5px;\n}\n.temps-chexbox[data-v-f1e1a5da] {\n  display: flex;\n  flex-flow: row wrap;\n}\n.temps-chexbox .type-item[data-v-f1e1a5da] {\n  height: auto;\n}\n.temps-chexbox .type-item .icon-exercice[data-v-f1e1a5da] {\n  bottom: 0;\n  position: absolute;\n}\n.temps-chexbox .type-item input[type=radio][data-v-f1e1a5da] {\n  display: none;\n}\n.temps-chexbox .type-item input[type=radio]:not(:disabled) ~ label[data-v-f1e1a5da] {\n  cursor: pointer;\n}\n.temps-chexbox .type-item input[type=radio]:disabled ~ label[data-v-f1e1a5da] {\n  color: #bcc2bf;\n  border-color: #bcc2bf;\n  box-shadow: none;\n  cursor: not-allowed;\n}\n.temps-chexbox .type-item label[data-v-f1e1a5da] {\n  height: 2.4rem;\n  width: 2.4rem;\n  display: block;\n  background: white;\n  border: 1px solid #03aca4;\n  border-radius: 20px;\n  padding: 2px;\n  text-align: center;\n  margin-bottom: 0 !important;\n  box-shadow: 0px 3px 10px -2px rgba(161, 170, 166, 0.5);\n  position: relative;\n}\n.temps-chexbox .type-item label .details-type[data-v-f1e1a5da] {\n  margin-top: 5px;\n}\n.temps-chexbox .type-item input[type=radio]:checked + label[data-v-f1e1a5da] {\n  background: #03aca4;\n  color: white;\n  box-shadow: 0px 0px 20px #F3F3F3;\n}\n.temps-chexbox .type-item input[type=radio]:checked + label i[data-v-f1e1a5da] {\n  color: white;\n}\n.temps-chexbox .type-item p[data-v-f1e1a5da] {\n  font-weight: 900;\n  margin-bottom: 0 !important;\n}\n.error[data-v-f1e1a5da] {\n  color: red;\n  font-weight: 600;\n}\n.input-error[data-v-f1e1a5da] {\n  border-bottom: 2px solid red;\n}\n.input-error[data-v-f1e1a5da]:focus {\n  border-color: red;\n  box-shadow: 0 0 0 0.2rem rgba(255, 0, 0, 0.2);\n}\n.add-joueur .btn-close[data-v-f1e1a5da] {\n  outline: none;\n}\n.add-joueur .btn-action-exercices .btns[data-v-f1e1a5da] {\n  float: right;\n}", ""]);
 
 // exports
 
@@ -13234,7 +13477,7 @@ exports = module.exports = __webpack_require__(/*! ../../../../node_modules/css-
 
 
 // module
-exports.push([module.i, ".form-control[data-v-0df49864] {\n  border: none;\n  border-bottom: 2px solid #03aca4;\n  border-right: 1px solid #F3F3F3;\n}\n.form-group.input-sm .input-text[data-v-0df49864], .form-group.input-sm .date-time-picker[data-v-0df49864] {\n  width: 100%;\n}\n@media screen and (min-width: 768px) {\n.form-group.input-sm .input-text[data-v-0df49864], .form-group.input-sm .date-time-picker[data-v-0df49864] {\n    width: 33.3%;\n}\n}\n.form-group .temps-input[data-v-0df49864] {\n  display: flex;\n}\n.form-group .select-form[data-v-0df49864] {\n  width: 100%;\n  height: 30px;\n  border: none;\n  border-bottom: 2px solid #03aca4;\n  border-right: 1px solid #F3F3F3;\n}\n.form-group .select-form[data-v-0df49864]:focus {\n  outline: none;\n}\n.temps-chexbox > div[data-v-0df49864] {\n  flex: 1;\n  padding-left: 5px;\n}\n.temps-chexbox[data-v-0df49864] {\n  display: flex;\n  flex-flow: row wrap;\n}\n.temps-chexbox .type-item[data-v-0df49864] {\n  height: auto;\n}\n.temps-chexbox .type-item .icon-exercice[data-v-0df49864] {\n  bottom: 0;\n  position: absolute;\n}\n.temps-chexbox .type-item input[type=radio][data-v-0df49864] {\n  display: none;\n}\n.temps-chexbox .type-item input[type=radio]:not(:disabled) ~ label[data-v-0df49864] {\n  cursor: pointer;\n}\n.temps-chexbox .type-item input[type=radio]:disabled ~ label[data-v-0df49864] {\n  color: #bcc2bf;\n  border-color: #bcc2bf;\n  box-shadow: none;\n  cursor: not-allowed;\n}\n.temps-chexbox .type-item label[data-v-0df49864] {\n  height: 2.4rem;\n  width: 2.4rem;\n  display: block;\n  background: white;\n  border: 1px solid #03aca4;\n  border-radius: 12px;\n  padding: 2px;\n  text-align: center;\n  margin-bottom: 0 !important;\n  box-shadow: 0px 3px 10px -2px rgba(161, 170, 166, 0.5);\n  position: relative;\n}\n.temps-chexbox .type-item label .details-type[data-v-0df49864] {\n  margin-top: 5px;\n}\n.temps-chexbox .type-item input[type=radio]:checked + label[data-v-0df49864] {\n  background: #03aca4;\n  color: white;\n  box-shadow: 0px 0px 20px #F3F3F3;\n}\n.temps-chexbox .type-item input[type=radio]:checked + label i[data-v-0df49864] {\n  color: white;\n}\n.temps-chexbox .type-item p[data-v-0df49864] {\n  font-weight: 900;\n  margin-bottom: 0 !important;\n}\n.error[data-v-0df49864] {\n  color: red;\n  font-weight: 600;\n}\n.input-error[data-v-0df49864] {\n  border-bottom: 2px solid red;\n}\n.input-error[data-v-0df49864]:focus {\n  border-color: red;\n  box-shadow: 0 0 0 0.2rem rgba(255, 0, 0, 0.2);\n}\n.add-joueur .btn-close[data-v-0df49864] {\n  outline: none;\n}\n.add-joueur .btn-action-exercices .btns[data-v-0df49864] {\n  float: right;\n}", ""]);
+exports.push([module.i, ".form-control[data-v-0df49864] {\n  border: none;\n  border-bottom: 2px solid #03aca4;\n  border-right: 1px solid #F3F3F3;\n}\n.form-group.input-sm .input-text[data-v-0df49864], .form-group.input-sm .date-time-picker[data-v-0df49864] {\n  width: 100%;\n}\n@media screen and (min-width: 768px) {\n.form-group.input-sm .input-text[data-v-0df49864], .form-group.input-sm .date-time-picker[data-v-0df49864] {\n    width: 33.3%;\n}\n}\n.form-group .temps-input[data-v-0df49864] {\n  display: flex;\n}\n.form-group .select-form[data-v-0df49864] {\n  width: 100%;\n  height: 30px;\n  border: none;\n  border-bottom: 2px solid #03aca4;\n  border-right: 1px solid #F3F3F3;\n}\n.form-group .select-form[data-v-0df49864]:focus {\n  outline: none;\n}\n.temps-chexbox > div[data-v-0df49864] {\n  flex: 1;\n  padding-left: 5px;\n}\n.temps-chexbox[data-v-0df49864] {\n  display: flex;\n  flex-flow: row wrap;\n}\n.temps-chexbox .type-item[data-v-0df49864] {\n  height: auto;\n}\n.temps-chexbox .type-item .icon-exercice[data-v-0df49864] {\n  bottom: 0;\n  position: absolute;\n}\n.temps-chexbox .type-item input[type=radio][data-v-0df49864] {\n  display: none;\n}\n.temps-chexbox .type-item input[type=radio]:not(:disabled) ~ label[data-v-0df49864] {\n  cursor: pointer;\n}\n.temps-chexbox .type-item input[type=radio]:disabled ~ label[data-v-0df49864] {\n  color: #bcc2bf;\n  border-color: #bcc2bf;\n  box-shadow: none;\n  cursor: not-allowed;\n}\n.temps-chexbox .type-item label[data-v-0df49864] {\n  height: 2.4rem;\n  width: 2.4rem;\n  display: block;\n  background: white;\n  border: 1px solid #03aca4;\n  border-radius: 20px;\n  padding: 2px;\n  text-align: center;\n  margin-bottom: 0 !important;\n  box-shadow: 0px 3px 10px -2px rgba(161, 170, 166, 0.5);\n  position: relative;\n}\n.temps-chexbox .type-item label .details-type[data-v-0df49864] {\n  margin-top: 5px;\n}\n.temps-chexbox .type-item input[type=radio]:checked + label[data-v-0df49864] {\n  background: #03aca4;\n  color: white;\n  box-shadow: 0px 0px 20px #F3F3F3;\n}\n.temps-chexbox .type-item input[type=radio]:checked + label i[data-v-0df49864] {\n  color: white;\n}\n.temps-chexbox .type-item p[data-v-0df49864] {\n  font-weight: 900;\n  margin-bottom: 0 !important;\n}\n.error[data-v-0df49864] {\n  color: red;\n  font-weight: 600;\n}\n.input-error[data-v-0df49864] {\n  border-bottom: 2px solid red;\n}\n.input-error[data-v-0df49864]:focus {\n  border-color: red;\n  box-shadow: 0 0 0 0.2rem rgba(255, 0, 0, 0.2);\n}\n.add-joueur .btn-close[data-v-0df49864] {\n  outline: none;\n}\n.add-joueur .btn-action-exercices .btns[data-v-0df49864] {\n  float: right;\n}", ""]);
 
 // exports
 
@@ -13253,7 +13496,7 @@ exports = module.exports = __webpack_require__(/*! ../../../../../node_modules/c
 
 
 // module
-exports.push([module.i, ".form-control[data-v-69258591] {\n  border: none;\n  border-bottom: 2px solid #03aca4;\n  border-right: 1px solid #F3F3F3;\n}\n.form-group.input-sm .input-text[data-v-69258591], .form-group.input-sm .date-time-picker[data-v-69258591] {\n  width: 100%;\n}\n@media screen and (min-width: 768px) {\n.form-group.input-sm .input-text[data-v-69258591], .form-group.input-sm .date-time-picker[data-v-69258591] {\n    width: 33.3%;\n}\n}\n.form-group .temps-input[data-v-69258591] {\n  display: flex;\n}\n.form-group .select-form[data-v-69258591] {\n  width: 100%;\n  height: 30px;\n  border: none;\n  border-bottom: 2px solid #03aca4;\n  border-right: 1px solid #F3F3F3;\n}\n.form-group .select-form[data-v-69258591]:focus {\n  outline: none;\n}\n.temps-chexbox > div[data-v-69258591] {\n  flex: 1;\n  padding-left: 5px;\n}\n.temps-chexbox[data-v-69258591] {\n  display: flex;\n  flex-flow: row wrap;\n}\n.temps-chexbox .type-item[data-v-69258591] {\n  height: auto;\n}\n.temps-chexbox .type-item .icon-exercice[data-v-69258591] {\n  bottom: 0;\n  position: absolute;\n}\n.temps-chexbox .type-item input[type=radio][data-v-69258591] {\n  display: none;\n}\n.temps-chexbox .type-item input[type=radio]:not(:disabled) ~ label[data-v-69258591] {\n  cursor: pointer;\n}\n.temps-chexbox .type-item input[type=radio]:disabled ~ label[data-v-69258591] {\n  color: #bcc2bf;\n  border-color: #bcc2bf;\n  box-shadow: none;\n  cursor: not-allowed;\n}\n.temps-chexbox .type-item label[data-v-69258591] {\n  height: 2.4rem;\n  width: 2.4rem;\n  display: block;\n  background: white;\n  border: 1px solid #03aca4;\n  border-radius: 12px;\n  padding: 2px;\n  text-align: center;\n  margin-bottom: 0 !important;\n  box-shadow: 0px 3px 10px -2px rgba(161, 170, 166, 0.5);\n  position: relative;\n}\n.temps-chexbox .type-item label .details-type[data-v-69258591] {\n  margin-top: 5px;\n}\n.temps-chexbox .type-item input[type=radio]:checked + label[data-v-69258591] {\n  background: #03aca4;\n  color: white;\n  box-shadow: 0px 0px 20px #F3F3F3;\n}\n.temps-chexbox .type-item input[type=radio]:checked + label i[data-v-69258591] {\n  color: white;\n}\n.temps-chexbox .type-item p[data-v-69258591] {\n  font-weight: 900;\n  margin-bottom: 0 !important;\n}\n.error[data-v-69258591] {\n  color: red;\n  font-weight: 600;\n}\n.input-error[data-v-69258591] {\n  border-bottom: 2px solid red;\n}\n.input-error[data-v-69258591]:focus {\n  border-color: red;\n  box-shadow: 0 0 0 0.2rem rgba(255, 0, 0, 0.2);\n}\n.add-activite .btn-close[data-v-69258591] {\n  outline: none;\n}\n.add-activite .btn-action-exercices .btns[data-v-69258591] {\n  float: right;\n}\n.add-activite .form-add-activite .temps-chexbox[data-v-69258591] {\n  width: 100%;\n}\n.add-activite .form-add-activite .temps-chexbox .type-item label[data-v-69258591] {\n  width: auto;\n  height: 60px;\n}\n.add-activite .form-add-activite .terrain[data-v-69258591] {\n  margin-bottom: 10px;\n  padding: 5px;\n  border: 1px solid #F3F3F3;\n  box-shadow: 0 2px 3px -1px #DCDCDC;\n}\n.seances-modal[data-v-69258591] {\n  display: inline;\n  padding-bottom: 2px;\n}\n@media screen and (max-width: 480px) {\n.seances-modal .btn-soccer-coach-action[data-v-69258591] {\n    margin-top: 1px;\n}\n}\n@media screen and (max-width: 480px) {\n.seances-modal .create-exe-designer[data-v-69258591] {\n    display: none;\n}\n}\n.seances-modal .modal .modal-header[data-v-69258591] {\n  border-bottom: 1px solid #03aca4;\n}\n.seances-modal .modal .image-exericie[data-v-69258591] {\n  padding-top: 15px;\n  padding-bottom: 15px;\n}\n.seances-modal .modal .image-exericie .exe-select[data-v-69258591] {\n  border: 1px solid #F3F3F3;\n  box-shadow: 0px 3px 10px -2px rgba(161, 170, 166, 0.5);\n  z-index: 1;\n  height: inherit;\n  width: inherit;\n}\n.seances-modal .modal .image-exericie .exe-select .exe-img[data-v-69258591] {\n  height: auto;\n  width: inherit;\n  margin: 0;\n  display: block;\n  position: relative;\n}\n.seances-modal .modal .image-exericie .exe-select .exe-img .bought[data-v-69258591] {\n  font-size: 12px;\n}\n.seances-modal .modal .image-exericie .exe-select .exe-img img[data-v-69258591] {\n  height: 200px;\n  width: inherit;\n}\n.seances-modal .modal .image-exericie .exe-select .infos-exercice .principe[data-v-69258591] {\n  height: 60px;\n  border-bottom: 1px solid #03aca4;\n  margin-bottom: 5px;\n  padding: 2px;\n}\n.seances-modal .modal .image-exericie .file-upload-infos-modal[data-v-69258591] {\n  cursor: pointer;\n  position: absolute;\n  left: 0;\n  top: 0;\n  right: 0;\n  bottom: 0;\n  z-index: 2;\n  background: rgba(0, 0, 0, 0.7);\n  opacity: 0;\n  transition: opacity 0.15s linear;\n}\n.seances-modal .modal .image-exericie .file-upload-infos-modal .file-upload-infos-inner[data-v-69258591] {\n  position: absolute;\n  top: 50%;\n  transform: translate(0, -40%);\n  -webkit-backface-visibility: hidden;\n  backface-visibility: hidden;\n  width: 100%;\n  padding: 0 20px;\n  transition: all 0.2s ease;\n}\n.seances-modal .modal .image-exericie .file-upload-infos-modal .file-upload-infos-inner p[data-v-69258591] {\n  padding: 0;\n  margin: 0;\n  position: relative;\n  width: 100%;\n  white-space: nowrap;\n  overflow: hidden;\n  text-overflow: ellipsis;\n  color: #fff;\n  text-align: center;\n  line-height: 25px;\n  font-weight: 700;\n}\n.seances-modal .modal .image-exericie .file-upload-infos-modal .file-upload-infos-inner p.file-upload-infos-message[data-v-69258591] {\n  margin-top: 15px;\n  padding-top: 15px;\n  font-size: 12px;\n  position: relative;\n  opacity: 0.5;\n  color: #17a2b8;\n}\n.seances-modal .modal .image-exericie .file-upload-infos-modal .file-upload-infos-inner p.file-upload-infos-message[data-v-69258591]::before {\n  content: \"\";\n  position: absolute;\n  top: 0;\n  left: 50%;\n  transform: translate(-50%, 0);\n  background: #fff;\n  width: 30px;\n  height: 2px;\n}\n.seances-modal .modal .image-exericie .file-upload-infos-modal .file-upload-infos-inner i[data-v-69258591] {\n  opacity: 0.5;\n}", ""]);
+exports.push([module.i, ".form-control[data-v-69258591] {\n  border: none;\n  border-bottom: 2px solid #03aca4;\n  border-right: 1px solid #F3F3F3;\n}\n.form-group.input-sm .input-text[data-v-69258591], .form-group.input-sm .date-time-picker[data-v-69258591] {\n  width: 100%;\n}\n@media screen and (min-width: 768px) {\n.form-group.input-sm .input-text[data-v-69258591], .form-group.input-sm .date-time-picker[data-v-69258591] {\n    width: 33.3%;\n}\n}\n.form-group .temps-input[data-v-69258591] {\n  display: flex;\n}\n.form-group .select-form[data-v-69258591] {\n  width: 100%;\n  height: 30px;\n  border: none;\n  border-bottom: 2px solid #03aca4;\n  border-right: 1px solid #F3F3F3;\n}\n.form-group .select-form[data-v-69258591]:focus {\n  outline: none;\n}\n.temps-chexbox > div[data-v-69258591] {\n  flex: 1;\n  padding-left: 5px;\n}\n.temps-chexbox[data-v-69258591] {\n  display: flex;\n  flex-flow: row wrap;\n}\n.temps-chexbox .type-item[data-v-69258591] {\n  height: auto;\n}\n.temps-chexbox .type-item .icon-exercice[data-v-69258591] {\n  bottom: 0;\n  position: absolute;\n}\n.temps-chexbox .type-item input[type=radio][data-v-69258591] {\n  display: none;\n}\n.temps-chexbox .type-item input[type=radio]:not(:disabled) ~ label[data-v-69258591] {\n  cursor: pointer;\n}\n.temps-chexbox .type-item input[type=radio]:disabled ~ label[data-v-69258591] {\n  color: #bcc2bf;\n  border-color: #bcc2bf;\n  box-shadow: none;\n  cursor: not-allowed;\n}\n.temps-chexbox .type-item label[data-v-69258591] {\n  height: 2.4rem;\n  width: 2.4rem;\n  display: block;\n  background: white;\n  border: 1px solid #03aca4;\n  border-radius: 20px;\n  padding: 2px;\n  text-align: center;\n  margin-bottom: 0 !important;\n  box-shadow: 0px 3px 10px -2px rgba(161, 170, 166, 0.5);\n  position: relative;\n}\n.temps-chexbox .type-item label .details-type[data-v-69258591] {\n  margin-top: 5px;\n}\n.temps-chexbox .type-item input[type=radio]:checked + label[data-v-69258591] {\n  background: #03aca4;\n  color: white;\n  box-shadow: 0px 0px 20px #F3F3F3;\n}\n.temps-chexbox .type-item input[type=radio]:checked + label i[data-v-69258591] {\n  color: white;\n}\n.temps-chexbox .type-item p[data-v-69258591] {\n  font-weight: 900;\n  margin-bottom: 0 !important;\n}\n.error[data-v-69258591] {\n  color: red;\n  font-weight: 600;\n}\n.input-error[data-v-69258591] {\n  border-bottom: 2px solid red;\n}\n.input-error[data-v-69258591]:focus {\n  border-color: red;\n  box-shadow: 0 0 0 0.2rem rgba(255, 0, 0, 0.2);\n}\n.add-activite .btn-close[data-v-69258591] {\n  outline: none;\n}\n.add-activite .btn-action-exercices .btns[data-v-69258591] {\n  float: right;\n}\n.add-activite .form-add-activite .temps-chexbox[data-v-69258591] {\n  width: 100%;\n}\n.add-activite .form-add-activite .temps-chexbox .type-item label[data-v-69258591] {\n  width: auto;\n  height: 60px;\n}\n.add-activite .form-add-activite .terrain[data-v-69258591] {\n  margin-bottom: 10px;\n  padding: 5px;\n  border: 1px solid #F3F3F3;\n  box-shadow: 0 2px 3px -1px #DCDCDC;\n}\n.seances-modal[data-v-69258591] {\n  display: inline;\n  padding-bottom: 2px;\n}\n@media screen and (max-width: 480px) {\n.seances-modal .btn-soccer-coach-action[data-v-69258591] {\n    margin-top: 1px;\n}\n}\n@media screen and (max-width: 480px) {\n.seances-modal .create-exe-designer[data-v-69258591] {\n    display: none;\n}\n}\n.seances-modal .modal .modal-header[data-v-69258591] {\n  border-bottom: 1px solid #03aca4;\n}\n.seances-modal .modal .image-exericie[data-v-69258591] {\n  padding-top: 15px;\n  padding-bottom: 15px;\n}\n.seances-modal .modal .image-exericie .exe-select[data-v-69258591] {\n  border: 1px solid #F3F3F3;\n  box-shadow: 0px 3px 10px -2px rgba(161, 170, 166, 0.5);\n  z-index: 1;\n  height: inherit;\n  width: inherit;\n}\n.seances-modal .modal .image-exericie .exe-select .exe-img[data-v-69258591] {\n  height: auto;\n  width: inherit;\n  margin: 0;\n  display: block;\n  position: relative;\n}\n.seances-modal .modal .image-exericie .exe-select .exe-img .bought[data-v-69258591] {\n  font-size: 12px;\n}\n.seances-modal .modal .image-exericie .exe-select .exe-img img[data-v-69258591] {\n  height: 200px;\n  width: inherit;\n}\n.seances-modal .modal .image-exericie .exe-select .infos-exercice .principe[data-v-69258591] {\n  height: 60px;\n  border-bottom: 1px solid #03aca4;\n  margin-bottom: 5px;\n  padding: 2px;\n}\n.seances-modal .modal .image-exericie .file-upload-infos-modal[data-v-69258591] {\n  cursor: pointer;\n  position: absolute;\n  left: 0;\n  top: 0;\n  right: 0;\n  bottom: 0;\n  z-index: 2;\n  background: rgba(0, 0, 0, 0.7);\n  opacity: 0;\n  transition: opacity 0.15s linear;\n}\n.seances-modal .modal .image-exericie .file-upload-infos-modal .file-upload-infos-inner[data-v-69258591] {\n  position: absolute;\n  top: 50%;\n  transform: translate(0, -40%);\n  -webkit-backface-visibility: hidden;\n  backface-visibility: hidden;\n  width: 100%;\n  padding: 0 20px;\n  transition: all 0.2s ease;\n}\n.seances-modal .modal .image-exericie .file-upload-infos-modal .file-upload-infos-inner p[data-v-69258591] {\n  padding: 0;\n  margin: 0;\n  position: relative;\n  width: 100%;\n  white-space: nowrap;\n  overflow: hidden;\n  text-overflow: ellipsis;\n  color: #fff;\n  text-align: center;\n  line-height: 25px;\n  font-weight: 700;\n}\n.seances-modal .modal .image-exericie .file-upload-infos-modal .file-upload-infos-inner p.file-upload-infos-message[data-v-69258591] {\n  margin-top: 15px;\n  padding-top: 15px;\n  font-size: 12px;\n  position: relative;\n  opacity: 0.5;\n  color: #17a2b8;\n}\n.seances-modal .modal .image-exericie .file-upload-infos-modal .file-upload-infos-inner p.file-upload-infos-message[data-v-69258591]::before {\n  content: \"\";\n  position: absolute;\n  top: 0;\n  left: 50%;\n  transform: translate(-50%, 0);\n  background: #fff;\n  width: 30px;\n  height: 2px;\n}\n.seances-modal .modal .image-exericie .file-upload-infos-modal .file-upload-infos-inner i[data-v-69258591] {\n  opacity: 0.5;\n}", ""]);
 
 // exports
 
@@ -13272,7 +13515,7 @@ exports = module.exports = __webpack_require__(/*! ../../../../../node_modules/c
 
 
 // module
-exports.push([module.i, ".form-control[data-v-094b7500] {\n  border: none;\n  border-bottom: 2px solid #03aca4;\n  border-right: 1px solid #F3F3F3;\n}\n.form-group.input-sm .input-text[data-v-094b7500], .form-group.input-sm .date-time-picker[data-v-094b7500] {\n  width: 100%;\n}\n@media screen and (min-width: 768px) {\n.form-group.input-sm .input-text[data-v-094b7500], .form-group.input-sm .date-time-picker[data-v-094b7500] {\n    width: 33.3%;\n}\n}\n.form-group .temps-input[data-v-094b7500] {\n  display: flex;\n}\n.form-group .select-form[data-v-094b7500] {\n  width: 100%;\n  height: 30px;\n  border: none;\n  border-bottom: 2px solid #03aca4;\n  border-right: 1px solid #F3F3F3;\n}\n.form-group .select-form[data-v-094b7500]:focus {\n  outline: none;\n}\n.temps-chexbox > div[data-v-094b7500] {\n  flex: 1;\n  padding-left: 5px;\n}\n.temps-chexbox[data-v-094b7500] {\n  display: flex;\n  flex-flow: row wrap;\n}\n.temps-chexbox .type-item[data-v-094b7500] {\n  height: auto;\n}\n.temps-chexbox .type-item .icon-exercice[data-v-094b7500] {\n  bottom: 0;\n  position: absolute;\n}\n.temps-chexbox .type-item input[type=radio][data-v-094b7500] {\n  display: none;\n}\n.temps-chexbox .type-item input[type=radio]:not(:disabled) ~ label[data-v-094b7500] {\n  cursor: pointer;\n}\n.temps-chexbox .type-item input[type=radio]:disabled ~ label[data-v-094b7500] {\n  color: #bcc2bf;\n  border-color: #bcc2bf;\n  box-shadow: none;\n  cursor: not-allowed;\n}\n.temps-chexbox .type-item label[data-v-094b7500] {\n  height: 2.4rem;\n  width: 2.4rem;\n  display: block;\n  background: white;\n  border: 1px solid #03aca4;\n  border-radius: 12px;\n  padding: 2px;\n  text-align: center;\n  margin-bottom: 0 !important;\n  box-shadow: 0px 3px 10px -2px rgba(161, 170, 166, 0.5);\n  position: relative;\n}\n.temps-chexbox .type-item label .details-type[data-v-094b7500] {\n  margin-top: 5px;\n}\n.temps-chexbox .type-item input[type=radio]:checked + label[data-v-094b7500] {\n  background: #03aca4;\n  color: white;\n  box-shadow: 0px 0px 20px #F3F3F3;\n}\n.temps-chexbox .type-item input[type=radio]:checked + label i[data-v-094b7500] {\n  color: white;\n}\n.temps-chexbox .type-item p[data-v-094b7500] {\n  font-weight: 900;\n  margin-bottom: 0 !important;\n}\n.error[data-v-094b7500] {\n  color: red;\n  font-weight: 600;\n}\n.input-error[data-v-094b7500] {\n  border-bottom: 2px solid red;\n}\n.input-error[data-v-094b7500]:focus {\n  border-color: red;\n  box-shadow: 0 0 0 0.2rem rgba(255, 0, 0, 0.2);\n}\n.add-activite .btn-close[data-v-094b7500] {\n  outline: none;\n}\n.add-activite .btn-action-exercices .btns[data-v-094b7500] {\n  float: right;\n}\n.add-activite .form-add-activite .temps-chexbox[data-v-094b7500] {\n  width: 100%;\n}\n.add-activite .form-add-activite .temps-chexbox .type-item label[data-v-094b7500] {\n  width: auto;\n  height: 60px;\n}\n.add-activite .form-add-activite .terrain[data-v-094b7500] {\n  margin-bottom: 10px;\n  padding: 5px;\n  border: 1px solid #F3F3F3;\n  box-shadow: 0 2px 3px -1px #DCDCDC;\n}", ""]);
+exports.push([module.i, ".form-control[data-v-094b7500] {\n  border: none;\n  border-bottom: 2px solid #03aca4;\n  border-right: 1px solid #F3F3F3;\n}\n.form-group.input-sm .input-text[data-v-094b7500], .form-group.input-sm .date-time-picker[data-v-094b7500] {\n  width: 100%;\n}\n@media screen and (min-width: 768px) {\n.form-group.input-sm .input-text[data-v-094b7500], .form-group.input-sm .date-time-picker[data-v-094b7500] {\n    width: 33.3%;\n}\n}\n.form-group .temps-input[data-v-094b7500] {\n  display: flex;\n}\n.form-group .select-form[data-v-094b7500] {\n  width: 100%;\n  height: 30px;\n  border: none;\n  border-bottom: 2px solid #03aca4;\n  border-right: 1px solid #F3F3F3;\n}\n.form-group .select-form[data-v-094b7500]:focus {\n  outline: none;\n}\n.temps-chexbox > div[data-v-094b7500] {\n  flex: 1;\n  padding-left: 5px;\n}\n.temps-chexbox[data-v-094b7500] {\n  display: flex;\n  flex-flow: row wrap;\n}\n.temps-chexbox .type-item[data-v-094b7500] {\n  height: auto;\n}\n.temps-chexbox .type-item .icon-exercice[data-v-094b7500] {\n  bottom: 0;\n  position: absolute;\n}\n.temps-chexbox .type-item input[type=radio][data-v-094b7500] {\n  display: none;\n}\n.temps-chexbox .type-item input[type=radio]:not(:disabled) ~ label[data-v-094b7500] {\n  cursor: pointer;\n}\n.temps-chexbox .type-item input[type=radio]:disabled ~ label[data-v-094b7500] {\n  color: #bcc2bf;\n  border-color: #bcc2bf;\n  box-shadow: none;\n  cursor: not-allowed;\n}\n.temps-chexbox .type-item label[data-v-094b7500] {\n  height: 2.4rem;\n  width: 2.4rem;\n  display: block;\n  background: white;\n  border: 1px solid #03aca4;\n  border-radius: 20px;\n  padding: 2px;\n  text-align: center;\n  margin-bottom: 0 !important;\n  box-shadow: 0px 3px 10px -2px rgba(161, 170, 166, 0.5);\n  position: relative;\n}\n.temps-chexbox .type-item label .details-type[data-v-094b7500] {\n  margin-top: 5px;\n}\n.temps-chexbox .type-item input[type=radio]:checked + label[data-v-094b7500] {\n  background: #03aca4;\n  color: white;\n  box-shadow: 0px 0px 20px #F3F3F3;\n}\n.temps-chexbox .type-item input[type=radio]:checked + label i[data-v-094b7500] {\n  color: white;\n}\n.temps-chexbox .type-item p[data-v-094b7500] {\n  font-weight: 900;\n  margin-bottom: 0 !important;\n}\n.error[data-v-094b7500] {\n  color: red;\n  font-weight: 600;\n}\n.input-error[data-v-094b7500] {\n  border-bottom: 2px solid red;\n}\n.input-error[data-v-094b7500]:focus {\n  border-color: red;\n  box-shadow: 0 0 0 0.2rem rgba(255, 0, 0, 0.2);\n}\n.add-activite .btn-close[data-v-094b7500] {\n  outline: none;\n}\n.add-activite .btn-action-exercices .btns[data-v-094b7500] {\n  float: right;\n}\n.add-activite .form-add-activite .temps-chexbox[data-v-094b7500] {\n  width: 100%;\n}\n.add-activite .form-add-activite .temps-chexbox .type-item label[data-v-094b7500] {\n  width: auto;\n  height: 60px;\n}\n.add-activite .form-add-activite .terrain[data-v-094b7500] {\n  margin-bottom: 10px;\n  padding: 5px;\n  border: 1px solid #F3F3F3;\n  box-shadow: 0 2px 3px -1px #DCDCDC;\n}", ""]);
 
 // exports
 
@@ -13310,7 +13553,26 @@ exports = module.exports = __webpack_require__(/*! ../../../../../node_modules/c
 
 
 // module
-exports.push([module.i, ".form-control[data-v-edc8a15a] {\n  border: none;\n  border-bottom: 2px solid #03aca4;\n  border-right: 1px solid #F3F3F3;\n}\n.form-group.input-sm .input-text[data-v-edc8a15a], .form-group.input-sm .date-time-picker[data-v-edc8a15a] {\n  width: 100%;\n}\n@media screen and (min-width: 768px) {\n.form-group.input-sm .input-text[data-v-edc8a15a], .form-group.input-sm .date-time-picker[data-v-edc8a15a] {\n    width: 33.3%;\n}\n}\n.form-group .temps-input[data-v-edc8a15a] {\n  display: flex;\n}\n.form-group .select-form[data-v-edc8a15a] {\n  width: 100%;\n  height: 30px;\n  border: none;\n  border-bottom: 2px solid #03aca4;\n  border-right: 1px solid #F3F3F3;\n}\n.form-group .select-form[data-v-edc8a15a]:focus {\n  outline: none;\n}\n.temps-chexbox > div[data-v-edc8a15a] {\n  flex: 1;\n  padding-left: 5px;\n}\n.temps-chexbox[data-v-edc8a15a] {\n  display: flex;\n  flex-flow: row wrap;\n}\n.temps-chexbox .type-item[data-v-edc8a15a] {\n  height: auto;\n}\n.temps-chexbox .type-item .icon-exercice[data-v-edc8a15a] {\n  bottom: 0;\n  position: absolute;\n}\n.temps-chexbox .type-item input[type=radio][data-v-edc8a15a] {\n  display: none;\n}\n.temps-chexbox .type-item input[type=radio]:not(:disabled) ~ label[data-v-edc8a15a] {\n  cursor: pointer;\n}\n.temps-chexbox .type-item input[type=radio]:disabled ~ label[data-v-edc8a15a] {\n  color: #bcc2bf;\n  border-color: #bcc2bf;\n  box-shadow: none;\n  cursor: not-allowed;\n}\n.temps-chexbox .type-item label[data-v-edc8a15a] {\n  height: 2.4rem;\n  width: 2.4rem;\n  display: block;\n  background: white;\n  border: 1px solid #03aca4;\n  border-radius: 12px;\n  padding: 2px;\n  text-align: center;\n  margin-bottom: 0 !important;\n  box-shadow: 0px 3px 10px -2px rgba(161, 170, 166, 0.5);\n  position: relative;\n}\n.temps-chexbox .type-item label .details-type[data-v-edc8a15a] {\n  margin-top: 5px;\n}\n.temps-chexbox .type-item input[type=radio]:checked + label[data-v-edc8a15a] {\n  background: #03aca4;\n  color: white;\n  box-shadow: 0px 0px 20px #F3F3F3;\n}\n.temps-chexbox .type-item input[type=radio]:checked + label i[data-v-edc8a15a] {\n  color: white;\n}\n.temps-chexbox .type-item p[data-v-edc8a15a] {\n  font-weight: 900;\n  margin-bottom: 0 !important;\n}\n.error[data-v-edc8a15a] {\n  color: red;\n  font-weight: 600;\n}\n.input-error[data-v-edc8a15a] {\n  border-bottom: 2px solid red;\n}\n.input-error[data-v-edc8a15a]:focus {\n  border-color: red;\n  box-shadow: 0 0 0 0.2rem rgba(255, 0, 0, 0.2);\n}\n.add-joueur .btn-close[data-v-edc8a15a] {\n  outline: none;\n}\n.add-joueur .btn-action-exercices .btns[data-v-edc8a15a] {\n  float: right;\n}\n.add-activite .btn-close[data-v-edc8a15a] {\n  outline: none;\n}\n.add-activite .btn-action-exercices .btns[data-v-edc8a15a] {\n  float: right;\n}\n.add-activite .form-add-activite .temps-chexbox[data-v-edc8a15a] {\n  width: 100%;\n}\n.add-activite .form-add-activite .temps-chexbox .type-item label[data-v-edc8a15a] {\n  width: auto;\n  height: 60px;\n}\n.add-activite .form-add-activite .terrain[data-v-edc8a15a] {\n  margin-bottom: 10px;\n  padding: 5px;\n  border: 1px solid #F3F3F3;\n  box-shadow: 0 2px 3px -1px #DCDCDC;\n}", ""]);
+exports.push([module.i, ".form-control[data-v-edc8a15a] {\n  border: none;\n  border-bottom: 2px solid #03aca4;\n  border-right: 1px solid #F3F3F3;\n}\n.form-group.input-sm .input-text[data-v-edc8a15a], .form-group.input-sm .date-time-picker[data-v-edc8a15a] {\n  width: 100%;\n}\n@media screen and (min-width: 768px) {\n.form-group.input-sm .input-text[data-v-edc8a15a], .form-group.input-sm .date-time-picker[data-v-edc8a15a] {\n    width: 33.3%;\n}\n}\n.form-group .temps-input[data-v-edc8a15a] {\n  display: flex;\n}\n.form-group .select-form[data-v-edc8a15a] {\n  width: 100%;\n  height: 30px;\n  border: none;\n  border-bottom: 2px solid #03aca4;\n  border-right: 1px solid #F3F3F3;\n}\n.form-group .select-form[data-v-edc8a15a]:focus {\n  outline: none;\n}\n.temps-chexbox > div[data-v-edc8a15a] {\n  flex: 1;\n  padding-left: 5px;\n}\n.temps-chexbox[data-v-edc8a15a] {\n  display: flex;\n  flex-flow: row wrap;\n}\n.temps-chexbox .type-item[data-v-edc8a15a] {\n  height: auto;\n}\n.temps-chexbox .type-item .icon-exercice[data-v-edc8a15a] {\n  bottom: 0;\n  position: absolute;\n}\n.temps-chexbox .type-item input[type=radio][data-v-edc8a15a] {\n  display: none;\n}\n.temps-chexbox .type-item input[type=radio]:not(:disabled) ~ label[data-v-edc8a15a] {\n  cursor: pointer;\n}\n.temps-chexbox .type-item input[type=radio]:disabled ~ label[data-v-edc8a15a] {\n  color: #bcc2bf;\n  border-color: #bcc2bf;\n  box-shadow: none;\n  cursor: not-allowed;\n}\n.temps-chexbox .type-item label[data-v-edc8a15a] {\n  height: 2.4rem;\n  width: 2.4rem;\n  display: block;\n  background: white;\n  border: 1px solid #03aca4;\n  border-radius: 20px;\n  padding: 2px;\n  text-align: center;\n  margin-bottom: 0 !important;\n  box-shadow: 0px 3px 10px -2px rgba(161, 170, 166, 0.5);\n  position: relative;\n}\n.temps-chexbox .type-item label .details-type[data-v-edc8a15a] {\n  margin-top: 5px;\n}\n.temps-chexbox .type-item input[type=radio]:checked + label[data-v-edc8a15a] {\n  background: #03aca4;\n  color: white;\n  box-shadow: 0px 0px 20px #F3F3F3;\n}\n.temps-chexbox .type-item input[type=radio]:checked + label i[data-v-edc8a15a] {\n  color: white;\n}\n.temps-chexbox .type-item p[data-v-edc8a15a] {\n  font-weight: 900;\n  margin-bottom: 0 !important;\n}\n.error[data-v-edc8a15a] {\n  color: red;\n  font-weight: 600;\n}\n.input-error[data-v-edc8a15a] {\n  border-bottom: 2px solid red;\n}\n.input-error[data-v-edc8a15a]:focus {\n  border-color: red;\n  box-shadow: 0 0 0 0.2rem rgba(255, 0, 0, 0.2);\n}\n.add-joueur .btn-close[data-v-edc8a15a] {\n  outline: none;\n}\n.add-joueur .btn-action-exercices .btns[data-v-edc8a15a] {\n  float: right;\n}\n.add-activite .btn-close[data-v-edc8a15a] {\n  outline: none;\n}\n.add-activite .btn-action-exercices .btns[data-v-edc8a15a] {\n  float: right;\n}\n.add-activite .form-add-activite .temps-chexbox[data-v-edc8a15a] {\n  width: 100%;\n}\n.add-activite .form-add-activite .temps-chexbox .type-item label[data-v-edc8a15a] {\n  width: auto;\n  height: 60px;\n}\n.add-activite .form-add-activite .terrain[data-v-edc8a15a] {\n  margin-bottom: 10px;\n  padding: 5px;\n  border: 1px solid #F3F3F3;\n  box-shadow: 0 2px 3px -1px #DCDCDC;\n}", ""]);
+
+// exports
+
+
+/***/ }),
+
+/***/ "./node_modules/css-loader/index.js!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src/index.js?!./node_modules/sass-loader/dist/cjs.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/modals/activite/UpdateAssistanceActivite.vue?vue&type=style&index=0&id=4ca8e5dc&lang=scss&scoped=true&":
+/*!**************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/css-loader!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src??ref--7-2!./node_modules/sass-loader/dist/cjs.js??ref--7-3!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/modals/activite/UpdateAssistanceActivite.vue?vue&type=style&index=0&id=4ca8e5dc&lang=scss&scoped=true& ***!
+  \**************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__(/*! ../../../../../node_modules/css-loader/lib/css-base.js */ "./node_modules/css-loader/lib/css-base.js")(false);
+// imports
+
+
+// module
+exports.push([module.i, ".form-control[data-v-4ca8e5dc] {\n  border: none;\n  border-bottom: 2px solid #03aca4;\n  border-right: 1px solid #F3F3F3;\n}\n.form-group.input-sm .input-text[data-v-4ca8e5dc], .form-group.input-sm .date-time-picker[data-v-4ca8e5dc] {\n  width: 100%;\n}\n@media screen and (min-width: 768px) {\n.form-group.input-sm .input-text[data-v-4ca8e5dc], .form-group.input-sm .date-time-picker[data-v-4ca8e5dc] {\n    width: 33.3%;\n}\n}\n.form-group .temps-input[data-v-4ca8e5dc] {\n  display: flex;\n}\n.form-group .select-form[data-v-4ca8e5dc] {\n  width: 100%;\n  height: 30px;\n  border: none;\n  border-bottom: 2px solid #03aca4;\n  border-right: 1px solid #F3F3F3;\n}\n.form-group .select-form[data-v-4ca8e5dc]:focus {\n  outline: none;\n}\n.temps-chexbox > div[data-v-4ca8e5dc] {\n  flex: 1;\n  padding-left: 5px;\n}\n.temps-chexbox[data-v-4ca8e5dc] {\n  display: flex;\n  flex-flow: row wrap;\n}\n.temps-chexbox .type-item[data-v-4ca8e5dc] {\n  height: auto;\n}\n.temps-chexbox .type-item .icon-exercice[data-v-4ca8e5dc] {\n  bottom: 0;\n  position: absolute;\n}\n.temps-chexbox .type-item input[type=radio][data-v-4ca8e5dc] {\n  display: none;\n}\n.temps-chexbox .type-item input[type=radio]:not(:disabled) ~ label[data-v-4ca8e5dc] {\n  cursor: pointer;\n}\n.temps-chexbox .type-item input[type=radio]:disabled ~ label[data-v-4ca8e5dc] {\n  color: #bcc2bf;\n  border-color: #bcc2bf;\n  box-shadow: none;\n  cursor: not-allowed;\n}\n.temps-chexbox .type-item label[data-v-4ca8e5dc] {\n  height: 2.4rem;\n  width: 2.4rem;\n  display: block;\n  background: white;\n  border: 1px solid #03aca4;\n  border-radius: 20px;\n  padding: 2px;\n  text-align: center;\n  margin-bottom: 0 !important;\n  box-shadow: 0px 3px 10px -2px rgba(161, 170, 166, 0.5);\n  position: relative;\n}\n.temps-chexbox .type-item label .details-type[data-v-4ca8e5dc] {\n  margin-top: 5px;\n}\n.temps-chexbox .type-item input[type=radio]:checked + label[data-v-4ca8e5dc] {\n  background: #03aca4;\n  color: white;\n  box-shadow: 0px 0px 20px #F3F3F3;\n}\n.temps-chexbox .type-item input[type=radio]:checked + label i[data-v-4ca8e5dc] {\n  color: white;\n}\n.temps-chexbox .type-item p[data-v-4ca8e5dc] {\n  font-weight: 900;\n  margin-bottom: 0 !important;\n}\n.error[data-v-4ca8e5dc] {\n  color: red;\n  font-weight: 600;\n}\n.input-error[data-v-4ca8e5dc] {\n  border-bottom: 2px solid red;\n}\n.input-error[data-v-4ca8e5dc]:focus {\n  border-color: red;\n  box-shadow: 0 0 0 0.2rem rgba(255, 0, 0, 0.2);\n}\n.add-activite .btn-close[data-v-4ca8e5dc] {\n  outline: none;\n}\n.add-activite .btn-action-exercices .btns[data-v-4ca8e5dc] {\n  float: right;\n}\n.add-activite .form-add-activite .temps-chexbox[data-v-4ca8e5dc] {\n  width: 100%;\n}\n.add-activite .form-add-activite .temps-chexbox .type-item label[data-v-4ca8e5dc] {\n  width: auto;\n  height: 60px;\n}\n.add-activite .form-add-activite .terrain[data-v-4ca8e5dc] {\n  margin-bottom: 10px;\n  padding: 5px;\n  border: 1px solid #F3F3F3;\n  box-shadow: 0 2px 3px -1px #DCDCDC;\n}\n.update-assistance-modal[data-v-4ca8e5dc] {\n  display: inline;\n  padding-bottom: 2px;\n}\n@media screen and (max-width: 480px) {\n.update-assistance-modal .btn-soccer-coach-action[data-v-4ca8e5dc] {\n    margin-top: 1px;\n}\n}\n@media screen and (max-width: 480px) {\n.update-assistance-modal .create-exe-designer[data-v-4ca8e5dc] {\n    display: none;\n}\n}\n.update-assistance-modal .modal .modal-header[data-v-4ca8e5dc] {\n  border-bottom: 1px solid #03aca4;\n}\n.update-assistance-modal .modal .modal-body .joueurs .joueur-item[data-v-4ca8e5dc] {\n  display: flex;\n  width: 100%;\n  border-bottom: 1px solid #ced4da;\n  margin-top: 20px;\n}\n.update-assistance-modal .modal .modal-body .joueurs .joueur-item .nom[data-v-4ca8e5dc] {\n  width: 50%;\n}\n.update-assistance-modal .modal .modal-body .joueurs .joueur-item .actions[data-v-4ca8e5dc] {\n  width: 50%;\n  position: relative;\n}\n.update-assistance-modal .modal .modal-body .joueurs .joueur-item .actions .temps-chexbox[data-v-4ca8e5dc] {\n  float: right;\n}\n.update-assistance-modal .modal .modal-body .joueurs .joueur-item .actions .temps-chexbox .form-assistance[data-v-4ca8e5dc] {\n  display: flex;\n}\n.update-assistance-modal .modal .modal-body .joueurs .joueur-item .actions .temps-chexbox .form-assistance .type-item[data-v-4ca8e5dc] {\n  margin-left: 10px;\n}\n.update-assistance-modal .modal .modal-body .joueurs .joueur-item .actions .temps-chexbox .form-assistance .type-item label[data-v-4ca8e5dc] {\n  width: 100px;\n  padding: 2px 10px;\n}\n.update-assistance-modal .modal .modal-body .joueurs .joueur-item .actions .temps-chexbox .form-assistance .type-item input[type=radio]:checked + label.present[data-v-4ca8e5dc] {\n  background-color: #0bac03;\n}\n.update-assistance-modal .modal .modal-body .joueurs .joueur-item .actions .temps-chexbox .form-assistance .type-item input[type=radio]:checked + label.absent[data-v-4ca8e5dc] {\n  background-color: #ac030b;\n}\n.update-assistance-modal .modal .modal-body .joueurs .joueur-item .actions .updated-by[data-v-4ca8e5dc] {\n  font-size: 12px !important;\n  font-style: italic;\n  color: #919191;\n  position: absolute;\n  bottom: 0;\n  right: 0;\n}\n.update-assistance-modal .modal .modal-body .joueurs .joueur-item .actions .updated-by .date-updated[data-v-4ca8e5dc], .update-assistance-modal .modal .modal-body .joueurs .joueur-item .actions .updated-by .user-updated[data-v-4ca8e5dc] {\n  font-weight: bold;\n}\n.update-assistance-modal .modal .modal-body .btn-action-exercices[data-v-4ca8e5dc] {\n  margin-top: 20px;\n}", ""]);
 
 // exports
 
@@ -45513,6 +45775,36 @@ if(false) {}
 
 
 var content = __webpack_require__(/*! !../../../../../node_modules/css-loader!../../../../../node_modules/vue-loader/lib/loaders/stylePostLoader.js!../../../../../node_modules/postcss-loader/src??ref--7-2!../../../../../node_modules/sass-loader/dist/cjs.js??ref--7-3!../../../../../node_modules/vue-loader/lib??vue-loader-options!./UpdateActiviteComponent.vue?vue&type=style&index=0&id=edc8a15a&lang=scss&scoped=true& */ "./node_modules/css-loader/index.js!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src/index.js?!./node_modules/sass-loader/dist/cjs.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/modals/activite/UpdateActiviteComponent.vue?vue&type=style&index=0&id=edc8a15a&lang=scss&scoped=true&");
+
+if(typeof content === 'string') content = [[module.i, content, '']];
+
+var transform;
+var insertInto;
+
+
+
+var options = {"hmr":true}
+
+options.transform = transform
+options.insertInto = undefined;
+
+var update = __webpack_require__(/*! ../../../../../node_modules/style-loader/lib/addStyles.js */ "./node_modules/style-loader/lib/addStyles.js")(content, options);
+
+if(content.locals) module.exports = content.locals;
+
+if(false) {}
+
+/***/ }),
+
+/***/ "./node_modules/style-loader/index.js!./node_modules/css-loader/index.js!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src/index.js?!./node_modules/sass-loader/dist/cjs.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/modals/activite/UpdateAssistanceActivite.vue?vue&type=style&index=0&id=4ca8e5dc&lang=scss&scoped=true&":
+/*!******************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/style-loader!./node_modules/css-loader!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src??ref--7-2!./node_modules/sass-loader/dist/cjs.js??ref--7-3!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/modals/activite/UpdateAssistanceActivite.vue?vue&type=style&index=0&id=4ca8e5dc&lang=scss&scoped=true& ***!
+  \******************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+
+var content = __webpack_require__(/*! !../../../../../node_modules/css-loader!../../../../../node_modules/vue-loader/lib/loaders/stylePostLoader.js!../../../../../node_modules/postcss-loader/src??ref--7-2!../../../../../node_modules/sass-loader/dist/cjs.js??ref--7-3!../../../../../node_modules/vue-loader/lib??vue-loader-options!./UpdateAssistanceActivite.vue?vue&type=style&index=0&id=4ca8e5dc&lang=scss&scoped=true& */ "./node_modules/css-loader/index.js!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src/index.js?!./node_modules/sass-loader/dist/cjs.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/modals/activite/UpdateAssistanceActivite.vue?vue&type=style&index=0&id=4ca8e5dc&lang=scss&scoped=true&");
 
 if(typeof content === 'string') content = [[module.i, content, '']];
 
@@ -79540,6 +79832,290 @@ render._withStripped = true
 
 /***/ }),
 
+/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/modals/activite/UpdateAssistanceActivite.vue?vue&type=template&id=4ca8e5dc&scoped=true&":
+/*!*******************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/modals/activite/UpdateAssistanceActivite.vue?vue&type=template&id=4ca8e5dc&scoped=true& ***!
+  \*******************************************************************************************************************************************************************************************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "render", function() { return render; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return staticRenderFns; });
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c(
+    "div",
+    { staticClass: "add-activite modal-btn update-assistance-modal" },
+    [
+      _c(
+        "button",
+        {
+          staticClass: "btn btn-soccer-coach-action-list",
+          attrs: {
+            "data-toggle": "modal",
+            "data-target": "#modalUpdateAssistance" + _vm.activite.id
+          },
+          on: {
+            click: function($event) {
+              return _vm.getAssistancesByActivite()
+            }
+          }
+        },
+        [_c("i", { staticClass: "fa fa-group" })]
+      ),
+      _vm._v(" "),
+      _c(
+        "div",
+        {
+          staticClass: "modal fade",
+          attrs: {
+            id: "modalUpdateAssistance" + _vm.activite.id,
+            role: "dialog"
+          }
+        },
+        [
+          _c("div", { staticClass: "modal-dialog" }, [
+            _c("div", { staticClass: "modal-content" }, [
+              _c("div", { staticClass: "modal-header" }, [
+                _c("h4", { staticClass: "modal-title" }, [
+                  _vm._v(
+                    _vm._s(_vm.activite.nom) +
+                      " " +
+                      _vm._s(_vm.activite.date_debut)
+                  )
+                ]),
+                _vm._v(" "),
+                _c(
+                  "button",
+                  {
+                    staticClass: "close btn-close",
+                    attrs: {
+                      type: "button",
+                      id: "closemodalUpdateAssistance" + _vm.activite.id
+                    },
+                    on: {
+                      click: function($event) {
+                        return _vm.closeModal()
+                      }
+                    }
+                  },
+                  [_vm._v("×")]
+                )
+              ]),
+              _vm._v(" "),
+              _c(
+                "div",
+                { staticClass: "modal-body" },
+                [
+                  _c("bounce", {
+                    directives: [
+                      {
+                        name: "show",
+                        rawName: "v-show",
+                        value: _vm.isLoading,
+                        expression: "isLoading"
+                      }
+                    ],
+                    attrs: { color: "17b87d" }
+                  }),
+                  _vm._v(" "),
+                  !_vm.isLoading
+                    ? _c(
+                        "div",
+                        { staticClass: "joueurs" },
+                        _vm._l(_vm.lstJoueurs, function(joueur, indexJ) {
+                          return _c(
+                            "div",
+                            { key: indexJ, staticClass: "joueur-item" },
+                            [
+                              _c("div", { staticClass: "nom" }, [
+                                _vm._v(
+                                  "         \n                                " +
+                                    _vm._s(joueur.nom) +
+                                    " \n                            "
+                                )
+                              ]),
+                              _vm._v(" "),
+                              _c("div", { staticClass: "actions" }, [
+                                _c("div", { staticClass: "temps-chexbox" }, [
+                                  _c(
+                                    "form",
+                                    { staticClass: "form-assistance" },
+                                    [
+                                      _c("div", { staticClass: "type-item" }, [
+                                        _c("input", {
+                                          attrs: {
+                                            type: "radio",
+                                            id:
+                                              "control_present_" +
+                                              joueur.id +
+                                              "_" +
+                                              _vm.activite.id,
+                                            name:
+                                              "typeTempsP_" +
+                                              joueur.id +
+                                              "_" +
+                                              _vm.activite.id,
+                                            value: "present"
+                                          },
+                                          domProps: {
+                                            checked:
+                                              joueur.presence === "present"
+                                          },
+                                          on: {
+                                            click: function($event) {
+                                              return _vm.addToPresent(joueur.id)
+                                            }
+                                          }
+                                        }),
+                                        _vm._v(" "),
+                                        _c(
+                                          "label",
+                                          {
+                                            staticClass: "present",
+                                            attrs: {
+                                              for:
+                                                "control_present_" +
+                                                joueur.id +
+                                                "_" +
+                                                _vm.activite.id
+                                            }
+                                          },
+                                          [_vm._m(0, true)]
+                                        )
+                                      ]),
+                                      _vm._v(" "),
+                                      _c("div", { staticClass: "type-item" }, [
+                                        _c("input", {
+                                          attrs: {
+                                            type: "radio",
+                                            id:
+                                              "control_absent_" +
+                                              joueur.id +
+                                              "_" +
+                                              _vm.activite.id,
+                                            name:
+                                              "typeTempsP_" +
+                                              joueur.id +
+                                              "_" +
+                                              _vm.activite.id,
+                                            value: "absent"
+                                          },
+                                          domProps: {
+                                            checked:
+                                              joueur.presence === "absent"
+                                          },
+                                          on: {
+                                            click: function($event) {
+                                              return _vm.addToAbsent(joueur.id)
+                                            }
+                                          }
+                                        }),
+                                        _vm._v(" "),
+                                        _c(
+                                          "label",
+                                          {
+                                            staticClass: "absent",
+                                            attrs: {
+                                              for:
+                                                "control_absent_" +
+                                                joueur.id +
+                                                "_" +
+                                                _vm.activite.id
+                                            }
+                                          },
+                                          [_vm._m(1, true)]
+                                        )
+                                      ])
+                                    ]
+                                  )
+                                ]),
+                                _vm._v(" "),
+                                joueur.userUpdated && joueur.dateUpdated
+                                  ? _c("div", { staticClass: "updated-by" }, [
+                                      _vm._v(
+                                        "\n                                    Modifié le\n                                    "
+                                      ),
+                                      _c(
+                                        "span",
+                                        { staticClass: "date-updated" },
+                                        [_vm._v(_vm._s(joueur.dateUpdated))]
+                                      ),
+                                      _vm._v(
+                                        " par \n                                    "
+                                      ),
+                                      _c(
+                                        "span",
+                                        { staticClass: "user-updated" },
+                                        [_vm._v(_vm._s(joueur.userUpdated))]
+                                      )
+                                    ])
+                                  : _vm._e()
+                              ])
+                            ]
+                          )
+                        }),
+                        0
+                      )
+                    : _vm._e(),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "btn-action-exercices" }, [
+                    _c("div", { staticClass: "btns" }, [
+                      _c(
+                        "a",
+                        {
+                          staticClass: "btn btn-soccer-coach-action",
+                          on: {
+                            click: function($event) {
+                              return _vm.savePresences()
+                            }
+                          }
+                        },
+                        [
+                          _c("i", { staticClass: "fa fa-save" }),
+                          _vm._v(" Sauvegarder")
+                        ]
+                      )
+                    ])
+                  ])
+                ],
+                1
+              )
+            ])
+          ])
+        ]
+      )
+    ]
+  )
+}
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "details-type" }, [
+      _c("p", { staticClass: "value" }, [_vm._v("Présent(e)")])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "details-type" }, [
+      _c("p", { staticClass: "value" }, [_vm._v("Absent(e)")])
+    ])
+  }
+]
+render._withStripped = true
+
+
+
+/***/ }),
+
 /***/ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js":
 /*!********************************************************************!*\
   !*** ./node_modules/vue-loader/lib/runtime/componentNormalizer.js ***!
@@ -100688,7 +101264,8 @@ Vue.component('delete-activite-modal', __webpack_require__(/*! ./components/moda
 Vue.component('update-joueur-modal', __webpack_require__(/*! ./components/modals/UpdateJoueurComponent.vue */ "./resources/js/components/modals/UpdateJoueurComponent.vue")["default"]);
 Vue.component('update-entraineur-modal', __webpack_require__(/*! ./components/modals/UpdateEntraineurComponent.vue */ "./resources/js/components/modals/UpdateEntraineurComponent.vue")["default"]);
 Vue.component('update-activite-modal', __webpack_require__(/*! ./components/modals/activite/UpdateActiviteComponent.vue */ "./resources/js/components/modals/activite/UpdateActiviteComponent.vue")["default"]);
-Vue.component('add-seance-modal', __webpack_require__(/*! ./components/modals/activite/AddSeanceComponent.vue */ "./resources/js/components/modals/activite/AddSeanceComponent.vue")["default"]); //Components menu
+Vue.component('add-seance-modal', __webpack_require__(/*! ./components/modals/activite/AddSeanceComponent.vue */ "./resources/js/components/modals/activite/AddSeanceComponent.vue")["default"]);
+Vue.component('update-assistance-modal', __webpack_require__(/*! ./components/modals/activite/UpdateAssistanceActivite.vue */ "./resources/js/components/modals/activite/UpdateAssistanceActivite.vue")["default"]); //Components menu
 
 Vue.component('menu-left', __webpack_require__(/*! ./components/menu/MenuLeftComponent.vue */ "./resources/js/components/menu/MenuLeftComponent.vue")["default"]);
 var app = new Vue({
@@ -103684,15 +104261,14 @@ __webpack_require__.r(__webpack_exports__);
 /*!************************************************************************!*\
   !*** ./resources/js/components/modals/activite/AddSeanceComponent.vue ***!
   \************************************************************************/
-/*! no static exports found */
+/*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _AddSeanceComponent_vue_vue_type_template_id_69258591_scoped_true___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./AddSeanceComponent.vue?vue&type=template&id=69258591&scoped=true& */ "./resources/js/components/modals/activite/AddSeanceComponent.vue?vue&type=template&id=69258591&scoped=true&");
 /* harmony import */ var _AddSeanceComponent_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./AddSeanceComponent.vue?vue&type=script&lang=js& */ "./resources/js/components/modals/activite/AddSeanceComponent.vue?vue&type=script&lang=js&");
-/* harmony reexport (unknown) */ for(var __WEBPACK_IMPORT_KEY__ in _AddSeanceComponent_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__) if(__WEBPACK_IMPORT_KEY__ !== 'default') (function(key) { __webpack_require__.d(__webpack_exports__, key, function() { return _AddSeanceComponent_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__[key]; }) }(__WEBPACK_IMPORT_KEY__));
-/* harmony import */ var _AddSeanceComponent_vue_vue_type_style_index_0_id_69258591_lang_scss_scoped_true___WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./AddSeanceComponent.vue?vue&type=style&index=0&id=69258591&lang=scss&scoped=true& */ "./resources/js/components/modals/activite/AddSeanceComponent.vue?vue&type=style&index=0&id=69258591&lang=scss&scoped=true&");
+/* empty/unused harmony star reexport *//* harmony import */ var _AddSeanceComponent_vue_vue_type_style_index_0_id_69258591_lang_scss_scoped_true___WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./AddSeanceComponent.vue?vue&type=style&index=0&id=69258591&lang=scss&scoped=true& */ "./resources/js/components/modals/activite/AddSeanceComponent.vue?vue&type=style&index=0&id=69258591&lang=scss&scoped=true&");
 /* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
 
 
@@ -103724,7 +104300,7 @@ component.options.__file = "resources/js/components/modals/activite/AddSeanceCom
 /*!*************************************************************************************************!*\
   !*** ./resources/js/components/modals/activite/AddSeanceComponent.vue?vue&type=script&lang=js& ***!
   \*************************************************************************************************/
-/*! no static exports found */
+/*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -104029,6 +104605,93 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
+/***/ "./resources/js/components/modals/activite/UpdateAssistanceActivite.vue":
+/*!******************************************************************************!*\
+  !*** ./resources/js/components/modals/activite/UpdateAssistanceActivite.vue ***!
+  \******************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _UpdateAssistanceActivite_vue_vue_type_template_id_4ca8e5dc_scoped_true___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./UpdateAssistanceActivite.vue?vue&type=template&id=4ca8e5dc&scoped=true& */ "./resources/js/components/modals/activite/UpdateAssistanceActivite.vue?vue&type=template&id=4ca8e5dc&scoped=true&");
+/* harmony import */ var _UpdateAssistanceActivite_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./UpdateAssistanceActivite.vue?vue&type=script&lang=js& */ "./resources/js/components/modals/activite/UpdateAssistanceActivite.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport *//* harmony import */ var _UpdateAssistanceActivite_vue_vue_type_style_index_0_id_4ca8e5dc_lang_scss_scoped_true___WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./UpdateAssistanceActivite.vue?vue&type=style&index=0&id=4ca8e5dc&lang=scss&scoped=true& */ "./resources/js/components/modals/activite/UpdateAssistanceActivite.vue?vue&type=style&index=0&id=4ca8e5dc&lang=scss&scoped=true&");
+/* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+
+
+
+
+
+
+/* normalize component */
+
+var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_3__["default"])(
+  _UpdateAssistanceActivite_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
+  _UpdateAssistanceActivite_vue_vue_type_template_id_4ca8e5dc_scoped_true___WEBPACK_IMPORTED_MODULE_0__["render"],
+  _UpdateAssistanceActivite_vue_vue_type_template_id_4ca8e5dc_scoped_true___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"],
+  false,
+  null,
+  "4ca8e5dc",
+  null
+  
+)
+
+/* hot reload */
+if (false) { var api; }
+component.options.__file = "resources/js/components/modals/activite/UpdateAssistanceActivite.vue"
+/* harmony default export */ __webpack_exports__["default"] = (component.exports);
+
+/***/ }),
+
+/***/ "./resources/js/components/modals/activite/UpdateAssistanceActivite.vue?vue&type=script&lang=js&":
+/*!*******************************************************************************************************!*\
+  !*** ./resources/js/components/modals/activite/UpdateAssistanceActivite.vue?vue&type=script&lang=js& ***!
+  \*******************************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_UpdateAssistanceActivite_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../node_modules/babel-loader/lib??ref--4-0!../../../../../node_modules/vue-loader/lib??vue-loader-options!./UpdateAssistanceActivite.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/modals/activite/UpdateAssistanceActivite.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport */ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_UpdateAssistanceActivite_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
+
+/***/ }),
+
+/***/ "./resources/js/components/modals/activite/UpdateAssistanceActivite.vue?vue&type=style&index=0&id=4ca8e5dc&lang=scss&scoped=true&":
+/*!****************************************************************************************************************************************!*\
+  !*** ./resources/js/components/modals/activite/UpdateAssistanceActivite.vue?vue&type=style&index=0&id=4ca8e5dc&lang=scss&scoped=true& ***!
+  \****************************************************************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_style_loader_index_js_node_modules_css_loader_index_js_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_7_2_node_modules_sass_loader_dist_cjs_js_ref_7_3_node_modules_vue_loader_lib_index_js_vue_loader_options_UpdateAssistanceActivite_vue_vue_type_style_index_0_id_4ca8e5dc_lang_scss_scoped_true___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../node_modules/style-loader!../../../../../node_modules/css-loader!../../../../../node_modules/vue-loader/lib/loaders/stylePostLoader.js!../../../../../node_modules/postcss-loader/src??ref--7-2!../../../../../node_modules/sass-loader/dist/cjs.js??ref--7-3!../../../../../node_modules/vue-loader/lib??vue-loader-options!./UpdateAssistanceActivite.vue?vue&type=style&index=0&id=4ca8e5dc&lang=scss&scoped=true& */ "./node_modules/style-loader/index.js!./node_modules/css-loader/index.js!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src/index.js?!./node_modules/sass-loader/dist/cjs.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/modals/activite/UpdateAssistanceActivite.vue?vue&type=style&index=0&id=4ca8e5dc&lang=scss&scoped=true&");
+/* harmony import */ var _node_modules_style_loader_index_js_node_modules_css_loader_index_js_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_7_2_node_modules_sass_loader_dist_cjs_js_ref_7_3_node_modules_vue_loader_lib_index_js_vue_loader_options_UpdateAssistanceActivite_vue_vue_type_style_index_0_id_4ca8e5dc_lang_scss_scoped_true___WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_index_js_node_modules_css_loader_index_js_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_7_2_node_modules_sass_loader_dist_cjs_js_ref_7_3_node_modules_vue_loader_lib_index_js_vue_loader_options_UpdateAssistanceActivite_vue_vue_type_style_index_0_id_4ca8e5dc_lang_scss_scoped_true___WEBPACK_IMPORTED_MODULE_0__);
+/* harmony reexport (unknown) */ for(var __WEBPACK_IMPORT_KEY__ in _node_modules_style_loader_index_js_node_modules_css_loader_index_js_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_7_2_node_modules_sass_loader_dist_cjs_js_ref_7_3_node_modules_vue_loader_lib_index_js_vue_loader_options_UpdateAssistanceActivite_vue_vue_type_style_index_0_id_4ca8e5dc_lang_scss_scoped_true___WEBPACK_IMPORTED_MODULE_0__) if(__WEBPACK_IMPORT_KEY__ !== 'default') (function(key) { __webpack_require__.d(__webpack_exports__, key, function() { return _node_modules_style_loader_index_js_node_modules_css_loader_index_js_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_7_2_node_modules_sass_loader_dist_cjs_js_ref_7_3_node_modules_vue_loader_lib_index_js_vue_loader_options_UpdateAssistanceActivite_vue_vue_type_style_index_0_id_4ca8e5dc_lang_scss_scoped_true___WEBPACK_IMPORTED_MODULE_0__[key]; }) }(__WEBPACK_IMPORT_KEY__));
+ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_style_loader_index_js_node_modules_css_loader_index_js_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_7_2_node_modules_sass_loader_dist_cjs_js_ref_7_3_node_modules_vue_loader_lib_index_js_vue_loader_options_UpdateAssistanceActivite_vue_vue_type_style_index_0_id_4ca8e5dc_lang_scss_scoped_true___WEBPACK_IMPORTED_MODULE_0___default.a); 
+
+/***/ }),
+
+/***/ "./resources/js/components/modals/activite/UpdateAssistanceActivite.vue?vue&type=template&id=4ca8e5dc&scoped=true&":
+/*!*************************************************************************************************************************!*\
+  !*** ./resources/js/components/modals/activite/UpdateAssistanceActivite.vue?vue&type=template&id=4ca8e5dc&scoped=true& ***!
+  \*************************************************************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_UpdateAssistanceActivite_vue_vue_type_template_id_4ca8e5dc_scoped_true___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../../../node_modules/vue-loader/lib??vue-loader-options!./UpdateAssistanceActivite.vue?vue&type=template&id=4ca8e5dc&scoped=true& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/modals/activite/UpdateAssistanceActivite.vue?vue&type=template&id=4ca8e5dc&scoped=true&");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_UpdateAssistanceActivite_vue_vue_type_template_id_4ca8e5dc_scoped_true___WEBPACK_IMPORTED_MODULE_0__["render"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_UpdateAssistanceActivite_vue_vue_type_template_id_4ca8e5dc_scoped_true___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
+
+
+
+/***/ }),
+
 /***/ "./resources/js/router.js":
 /*!********************************!*\
   !*** ./resources/js/router.js ***!
@@ -104180,6 +104843,8 @@ __webpack_require__.r(__webpack_exports__);
     //garde la liste des pratiques ajoutés
     imgBase64: undefined,
     //garde l'image en base64
+    mapPresencesActivites: new Map(),
+    //garde les présences des activités
     lstIconsByType: [['principe-offensif', 'ti-target'], ['principe-defensif', 'ti-hummer'], ['rondos', 'ti-cup'], ['physique', 'ti-heart']],
     lstIconsByCategorie: [{
       name: 'Offensive',
@@ -104424,6 +105089,11 @@ __webpack_require__.r(__webpack_exports__);
         return state.lstIconsByCategorie.find(function (c) {
           return c.name === categorie;
         }).icon;
+      };
+    },
+    getPresencesByActivite: function getPresencesByActivite(state) {
+      return function (activite) {
+        return state.mapPresencesActivites.get(activite);
       };
     }
   },
@@ -104763,6 +105433,18 @@ __webpack_require__.r(__webpack_exports__);
     },
     clearMesSeances: function clearMesSeances(state) {
       state.lstMesSeances = [];
+    },
+    setMapPresencesActivites: function setMapPresencesActivites(state, map) {
+      state.mapPresencesActivites = map;
+    },
+    clearMapPresencesActivites: function clearMapPresencesActivites(state) {
+      state.mapPresencesActivites = new Map();
+    },
+    addPresenceToActivite: function addPresenceToActivite(state, param) {
+      state.mapPresencesActivites.set(param.idActivite, param.presences);
+    },
+    deletePresencesByActivite: function deletePresencesByActivite(state, idActivite) {
+      state.mapPresencesActivites["delete"](idActivite);
     }
   }
 });

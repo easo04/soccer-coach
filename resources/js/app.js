@@ -67,7 +67,7 @@ Vue.component('update-joueur-modal', require('./components/modals/UpdateJoueurCo
 Vue.component('update-entraineur-modal', require('./components/modals/UpdateEntraineurComponent.vue').default);
 Vue.component('update-activite-modal', require('./components/modals/activite/UpdateActiviteComponent.vue').default);
 Vue.component('add-seance-modal', require('./components/modals/activite/AddSeanceComponent.vue').default);
-
+Vue.component('update-assistance-modal', require('./components/modals/activite/UpdateAssistanceActivite.vue').default);
 
 //Components menu
 Vue.component('menu-left', require('./components/menu/MenuLeftComponent.vue').default);

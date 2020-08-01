@@ -865,25 +865,12 @@ var render = function() {
                                       "div",
                                       { staticClass: "btns" },
                                       [
-                                        _c(
-                                          "button",
-                                          {
-                                            staticClass:
-                                              "btn btn-soccer-coach-action-list",
-                                            on: {
-                                              click: function($event) {
-                                                return _vm.updateJoueur(
-                                                  pratique
-                                                )
-                                              }
-                                            }
-                                          },
-                                          [
-                                            _c("i", {
-                                              staticClass: "fa fa-group"
-                                            })
-                                          ]
-                                        ),
+                                        _c("update-assistance-modal", {
+                                          attrs: {
+                                            activite: pratique,
+                                            indexAct: indexP
+                                          }
+                                        }),
                                         _vm._v(" "),
                                         _c("add-seance-modal", {
                                           attrs: {
@@ -1022,23 +1009,12 @@ var render = function() {
                                       "div",
                                       { staticClass: "btns" },
                                       [
-                                        _c(
-                                          "button",
-                                          {
-                                            staticClass:
-                                              "btn btn-soccer-coach-action-list",
-                                            on: {
-                                              click: function($event) {
-                                                return _vm.updateJoueur(match)
-                                              }
-                                            }
-                                          },
-                                          [
-                                            _c("i", {
-                                              staticClass: "fa fa-group"
-                                            })
-                                          ]
-                                        ),
+                                        _c("update-assistance-modal", {
+                                          attrs: {
+                                            activite: match,
+                                            indexAct: indexM
+                                          }
+                                        }),
                                         _vm._v(" "),
                                         _c(
                                           "button",

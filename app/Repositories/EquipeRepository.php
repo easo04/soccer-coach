@@ -417,5 +417,26 @@ class EquipeRepository{
 		//supprimer équipe
 		DB::table('equipes')->where('id', '=', $id)->delete();
 	}
+
+	public function getAssistancesByActivite($idActivite){
+		return DB::table('presences')
+		->select(DB::raw('presences.*, users.name as nameUser'))
+		->join('users', 'users.id', '=', 'presences.user_updated_id')
+		->where('presences.activite_id', $idActivite)
+		->get();
+	}
+
+	public function savePresences($inputs){
+		foreach ($inputs['presences'] as $presence) {
+			$typePresence = $presence['isPresent'] == 'true' ? 'present' : 'absent';
+			DB::table('presences')->insert(
+				['presence' => $typePresence, 'joueur_id' => $presence['idJoueur'],
+				'date_last_update' => new DateTime($presence['date']), 'activite_id' => $inputs['idActivite'], 
+				'user_updated_id' => $inputs['user']]
+			);
+		}
+	}
+
+
 }
 

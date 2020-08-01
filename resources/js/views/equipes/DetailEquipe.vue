@@ -142,7 +142,7 @@
                                     <div class="d-joueur-s">
                                         <div class="btn-actions-joueur">
                                             <div class="btns">
-                                                <button class="btn btn-soccer-coach-action-list" @click="updateJoueur(pratique)"><i class="fa fa-group"></i></button>
+                                                <update-assistance-modal :activite="pratique" :indexAct="indexP"/>
                                                 <add-seance-modal :activite="pratique" :indexAct="indexP"/>
                                                 <update-activite-modal :activite="pratique" :indexAct="indexP" :isMatch="false"/>
                                                 <delete-activite-modal :activite="pratique" :indexActivite="indexP" />
@@ -176,7 +176,7 @@
                                     <div class="d-joueur-s">
                                         <div class="btn-actions-joueur">
                                             <div class="btns">
-                                                <button class="btn btn-soccer-coach-action-list" @click="updateJoueur(match)"><i class="fa fa-group"></i></button>
+                                                <update-assistance-modal :activite="match" :indexAct="indexM"/>
                                                 <button class="btn btn-soccer-coach-action-list" @click="updateJoueur(match)"><i class="fa fa-comment"></i></button>
                                                 <update-activite-modal :activite="match" :indexAct="indexM" :isMatch="true"/>
                                                 <delete-activite-modal :activite="match" :indexActivite="indexM" />

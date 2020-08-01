@@ -1,0 +1,82 @@
+@import '../../../resources/sass/variables';
+
+.update-assistance-modal{
+    display: inline;
+    padding-bottom: 2px;
+
+    .btn-soccer-coach-action{
+        @media screen and (max-width: $screen-xs) {
+            margin-top: 1px;
+        }
+    }
+
+    .create-exe-designer{
+        @media screen and (max-width: $screen-xs) {
+            display: none;
+        }
+    }
+
+    .modal{
+        .modal-header{
+            border-bottom: 1px solid $color-soccer-coach;
+        }
+
+        .modal-body{
+            .joueurs{
+                .joueur-item{
+                    display: flex;
+                    width: 100%;
+                    border-bottom: 1px solid $color-border ;
+                    margin-top: 20px;
+                    .nom{
+                        width: 50%;
+                    }
+
+                    .actions{
+                        width: 50%;
+                        position: relative;
+                        .temps-chexbox{
+                            float: right;
+                            .form-assistance{
+                                display: flex;
+                                .type-item{
+                                    margin-left: 10px;
+                                    label{
+                                        width: 100px;
+                                        padding: 2px 10px;
+                                    }
+
+                                    input[type="radio"]:checked + label {
+                                        &.present{
+                                            background-color: $color-succes;
+                                        }
+                                        &.absent{
+                                            background-color: $color-red;
+                                        }
+                                    }
+                                }
+                            }
+                        }
+
+                        .updated-by{
+                            font-size: 12px !important;
+                            font-style: italic;  
+                            color: #919191;
+                            position: absolute;
+                            bottom: 0;
+                            right: 0;
+    
+                            .date-updated, .user-updated{
+                                font-weight: bold;
+                            }
+                        }
+                    }
+                }
+            }
+
+            .btn-action-exercices{
+                margin-top: 20px;
+            }
+        }
+    }
+}

@@ -72,6 +72,8 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/equipes/updateEntraineur', 'EquipeController@updateEntraineur'); //API
     Route::post('/equipes/updateActivite', 'EquipeController@updateActivite'); //API
     Route::post('/equipes/update', 'EquipeController@updatequipe'); //API
+    Route::get('/equipes/get-assistances-by-activite/{id}', 'EquipeController@getAssistancesByActivite'); //API
+    Route::post('/equipes/save-presences', 'EquipeController@savePresences'); //API
 
     //ROUTE OUTIL DESIGNER
     Route::get('/create-exercice', 'CreateExercice@getPage');

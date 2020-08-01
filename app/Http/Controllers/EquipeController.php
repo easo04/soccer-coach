@@ -143,4 +143,18 @@ class EquipeController extends Controller{
         $reponse = ['idTerrain' => $idTerrain, 'succes' => 'OK'];
         return response()->json($reponse, 200);
     }
+
+    public function getAssistancesByActivite($idActivite){
+        $lstAssistance = $this->equipeRepository->getAssistancesByActivite($idActivite);
+        $reponse = ['lstAssistance' => $lstAssistance, 'succes' => 'OK'];
+        return response()->json($reponse, 200);
+    }
+
+    public function savePresences(Request $request){
+        $inputs = $request->all();
+        $inputs['user'] = Auth::user()->id;
+        $this->equipeRepository->savePresences($inputs);
+        $reponse = ['message' => 'Sauvegardés', 'succes' => 'OK'];
+        return response()->json($reponse, 200);
+    }
 }
