@@ -61,6 +61,11 @@ export default new VueRouter ({
             component:() => import('./views/favoris/FavorisComponent.vue'),
         },
         {
+            path:'/mes-activites',
+            name:'MesActivites',
+            component:() => import('./views/activites/ActivitesComponent.vue'),
+        },
+        {
             path:'/mes-equipes',
             name:'MesEquipes',
             component:() => import('./views/equipes/EquipesComponent.vue'),

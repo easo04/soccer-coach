@@ -86,7 +86,7 @@ export default {
                 selected:false,
                 nomFr:'Mes activités',
                 icon:'fa fa-calendar',
-                url:''
+                url:'mes-activites',
             },
             {
                 name:'mes_exercices',

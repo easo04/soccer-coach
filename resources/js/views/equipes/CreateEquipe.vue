@@ -54,7 +54,7 @@
                                     <span>{{entraineur.nom}}</span>
                                 </div> 
                                 <div class="positions d-joueur">
-                                    <span class="position">{{entraineur.role}}</span>
+                                    <span class="position">{{getDescriptionRoleByKey(entraineur.role)}}</span>
                                 </div> 
                                 <div class="d-joueur">
                                     <div class="btn-actions-joueur ">
@@ -79,9 +79,9 @@
                                     <span>{{joueur.nom}}</span>
                                 </div> 
                                 <div class="positions d-joueur">
-                                    <span class="position">{{joueur.position1}}</span>
-                                    <span class="position" v-if="joueur.position2">/ {{joueur.position2}}</span>
-                                    <span class="position" v-if="joueur.position3">/ {{joueur.position3}}</span>
+                                    <span class="position">{{getDescriptionPositionByKey(joueur.position1)}}</span>
+                                    <span class="position" v-if="joueur.position2">/ {{getDescriptionPositionByKey(joueur.position2)}}</span>
+                                    <span class="position" v-if="joueur.position3">/ {{getDescriptionPositionByKey(joueur.position3)}}</span>
                                 </div> 
                                 <div class="d-joueur">
                                     <div class="btn-actions-joueur ">
@@ -100,7 +100,7 @@
     </div>
 </template>
 <script>
-import { mapState, mapMutations } from 'vuex' 
+import { mapState, mapMutations, mapGetters } from 'vuex' 
 export default {
     data(){
         return{
@@ -110,6 +110,7 @@ export default {
         }
     },
     computed:{
+        ...mapGetters(['getDescriptionRoleByKey', 'getDescriptionPositionByKey']),
         ...mapState(['equipeStoreDTO', 'positions', 'lstJoueurs', 'lstEntraineurs']),
     },
     methods:{
@@ -130,9 +131,8 @@ export default {
                 entraineurs:this.lstEntraineurs
             };
             axios.post('/equipes/create', param).then(response =>{
-                console.log('creation equipe resultat');
-                console.log(response.data);
                 this.initFormInputs();
+                this.setUpdateForm(false);
                 this.$router.push({name: 'DetailsEquipe', params:{'equipe' : response.data.equipe}}); //go to détail équipe
             });
         },
@@ -154,6 +154,10 @@ export default {
             this.deleteJoueur(index);
         },
         initFormInputs(){
+            this.equipeDTO.nom.value = undefined;
+            this.equipeDTO.saison.nom.value = undefined;
+            this.equipeDTO.saison.dateDebut.value = undefined;
+            this.equipeDTO.saison.dateFin.value = undefined;
             this.clearJoueurList();
             this.clearEntraineurList();
         },

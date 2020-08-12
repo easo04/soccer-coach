@@ -68,6 +68,8 @@ Vue.component('update-entraineur-modal', require('./components/modals/UpdateEntr
 Vue.component('update-activite-modal', require('./components/modals/activite/UpdateActiviteComponent.vue').default);
 Vue.component('add-seance-modal', require('./components/modals/activite/AddSeanceComponent.vue').default);
 Vue.component('update-assistance-modal', require('./components/modals/activite/UpdateAssistanceActivite.vue').default);
+Vue.component('add-note-match-modal', require('./components/modals/activite/AddNoteMatchComponent.vue').default);
+Vue.component('liste-notes-match-modal', require('./components/modals/activite/ListeNotesMatchComponent.vue').default);
 
 //Components menu
 Vue.component('menu-left', require('./components/menu/MenuLeftComponent.vue').default);

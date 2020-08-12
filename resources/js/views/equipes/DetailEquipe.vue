@@ -62,9 +62,9 @@
                                         <span>{{joueur.nom}}</span>
                                     </div> 
                                     <div class="positions d-joueur">
-                                        <span class="position">{{joueur.position1}}</span>
-                                        <span class="position" v-if="joueur.position2">/ {{joueur.position2}}</span>
-                                        <span class="position" v-if="joueur.position3">/ {{joueur.position3}}</span>
+                                        <span class="position">{{getDescriptionPositionByKey(joueur.position1)}}</span>
+                                        <span class="position" v-if="joueur.position2">/ {{getDescriptionPositionByKey(joueur.position2)}}</span>
+                                        <span class="position" v-if="joueur.position3">/ {{getDescriptionPositionByKey(joueur.position3)}}</span>
                                     </div> 
                                     <div class="d-joueur">
                                         <div class="btn-actions-joueur">
@@ -100,7 +100,7 @@
                                         <span>{{entraineur.nom}}</span>
                                     </div> 
                                     <div class="positions d-joueur">
-                                        <span class="position">{{entraineur.role}}</span>
+                                        <span class="position">{{getDescriptionRoleByKey(entraineur.role)}}</span>
                                     </div> 
                                     <div class="d-joueur">
                                         <div class="btn-actions-joueur">
@@ -177,7 +177,7 @@
                                         <div class="btn-actions-joueur">
                                             <div class="btns">
                                                 <update-assistance-modal :activite="match" :indexAct="indexM"/>
-                                                <button class="btn btn-soccer-coach-action-list" @click="updateJoueur(match)"><i class="fa fa-comment"></i></button>
+                                                <liste-notes-match-modal :activite="match" :indexAct="indexM"/>
                                                 <update-activite-modal :activite="match" :indexAct="indexM" :isMatch="true"/>
                                                 <delete-activite-modal :activite="match" :indexActivite="indexM" />
                                             </div>
@@ -209,7 +209,7 @@
     </div>
 </template>
 <script>
-    import { mapState, mapMutations } from 'vuex'  
+    import { mapState, mapMutations, mapGetters } from 'vuex'  
     export default {
         props:['equipe', 'searchInfo'],
         data(){
@@ -220,17 +220,18 @@
         },
         computed:{
             displayListJoueurs(){
-                return this.lstJoueurs.sort((a,b) =>(a.nom > b.nom ? 1 : -1));
+                return this.lstJoueurs?.sort((a,b) =>(a.nom > b.nom ? 1 : -1));
             },
             displayListEntraineurs(){
-                return this.lstEntraineurs.sort((a,b) =>(a.nom > b.nom ? 1 : -1));
+                return this.lstEntraineurs?.sort((a,b) =>(a.nom > b.nom ? 1 : -1));
             },
             displayListPratiques(){
-                return this.lstPratiques.sort((a,b) =>(new Date(a.date_debut) > new Date(b.date_debut) ? 1 : -1));
+                return this.lstPratiques?.sort((a,b) =>(new Date(a.date_debut) > new Date(b.date_debut) ? 1 : -1));
             },
             displayListMatchs(){
-                return this.lstMatchs.sort((a,b) =>(new Date(a.date_debut) > new Date(b.date_debut) ? 1 : -1));
+                return this.lstMatchs?.sort((a,b) =>(new Date(a.date_debut) > new Date(b.date_debut) ? 1 : -1));
             },
+            ...mapGetters(['getDescriptionRoleByKey', 'getDescriptionPositionByKey']),
             ...mapState(['lstJoueurs', 'lstEntraineurs', 'lstMatchs', 'lstPratiques']),
         },
         methods:{

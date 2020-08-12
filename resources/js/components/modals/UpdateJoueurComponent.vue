@@ -23,19 +23,19 @@
                             <div class="form-group">
                                 <label for="position2"><span v-if="joueurDTO.position1.validations.require"> * </span> Position 1:</label>
                                 <select class="select-form" name="position1" id="position2" v-model="joueurDTO.position1.value">
-                                    <option :value="position" v-for="(position, index) in positions" :key="index">{{position}}</option>
+                                    <option :value="position.key" v-for="(position, index) in positions" :key="index">{{position.description}}</option>
                                 </select>
                             </div>
                             <div class="form-group">
                                 <label for="position2"><span v-if="joueurDTO.position2.validations.require"> * </span> Position 2:</label>
                                 <select class="select-form" name="position2" id="position2" v-model="joueurDTO.position2.value">
-                                    <option :value="position" v-for="(position, index) in positions" :key="index">{{position}}</option>
+                                    <option :value="position.key" v-for="(position, index) in positions" :key="index">{{position.description}}</option>
                                 </select>
                             </div>
                             <div class="form-group">
                                 <label for="position3"><span v-if="joueurDTO.position3.validations.require"> * </span> Position 3:</label>
                                 <select class="select-form" name="position3" id="position3" v-model="joueurDTO.position3.value">
-                                    <option :value="position" v-for="(position, index) in positions" :key="index">{{position}}</option>
+                                    <option :value="position.key" v-for="(position, index) in positions" :key="index">{{position.description}}</option>
                                 </select>
                             </div>
                             <div class="btn-action-exercices">

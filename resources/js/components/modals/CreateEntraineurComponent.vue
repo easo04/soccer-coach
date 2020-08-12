@@ -19,7 +19,7 @@
                             <div class="form-group">
                                 <label for="role"><span v-if="entraineurDTO.role.validations.require"> * </span> Rôle:</label>
                                 <select class="select-form" name="role" id="role" v-model="entraineurDTO.role.value">
-                                    <option :value="role" v-for="(role, index) in roles" :key="index">{{role}}</option>
+                                    <option :value="role.key" v-for="(role, index) in roles" :key="index">{{role.description}}</option>
                                 </select>
                             </div>
                             <div class="btn-action-exercices">
@@ -35,7 +35,7 @@
     </div>
 </template>
 <script>
-    import { mapState, mapMutations } from 'vuex' 
+    import { mapState, mapMutations, mapGetters } from 'vuex' 
     export default {
         props:['fromDetail', 'equipe'],
         data(){

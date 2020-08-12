@@ -87,6 +87,18 @@ class UserController extends Controller
         return response()->json($reponse, $reponseNo);
     }
 
+    public function getActivitesByEntraineur(){
+        $reponse = array('message' => 'USAGER NON CONNECTÉ');
+        $reponseNo = 500;
+        if(auth()->check()){
+            //TODO vérifier si entraineur ou joueur
+            $activites = $this->equipeRepository->getMesActivitesEntraineurs(Auth::user()->id);
+            $reponse = ['activites' => $activites, 'succes' => 'OK'];
+            $reponseNo = 200;
+        }
+        return response()->json($reponse, $reponseNo);
+    }
+
     private function updateTypeExerciceList($types, $idType){
         foreach($types as $type){
             $type->icon = $this->icons_type_exercice[$type->urlNom];

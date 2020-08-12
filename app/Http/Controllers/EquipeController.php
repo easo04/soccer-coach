@@ -157,4 +157,24 @@ class EquipeController extends Controller{
         $reponse = ['message' => 'Sauvegardés', 'succes' => 'OK'];
         return response()->json($reponse, 200);
     }
+
+    public function getNotesByActivite($idActivite){
+        $lstNotes = $this->equipeRepository->getNotesByActivite($idActivite);
+        $reponse = ['notes' => $lstNotes, 'succes' => 'OK'];
+        return response()->json($reponse, 200);
+    }
+
+    public function createNote(Request $request){
+        $inputs = $request->all();
+        $inputs['user'] = Auth::user()->id;
+        $idNote = $this->equipeRepository->createNote($inputs);
+        $reponse = ['note' => $idNote, 'succes' => 'OK'];
+        return response()->json($reponse, 200);
+    }
+
+    public function deleteNote($id){
+        $this->equipeRepository->deleteNote($id);
+        $reponse = ['message' => 'Note supprimé', 'succes' => 'OK'];
+        return response()->json($reponse, 200);
+    }
 }

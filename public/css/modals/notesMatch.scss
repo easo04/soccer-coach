@@ -1,0 +1,78 @@
+@import '../../../resources/sass/variables';
+
+.list-notes-match{
+    display: inline;
+    padding-bottom: 2px;
+
+    .modal-body{
+        min-height: 200px;
+    }
+
+    .btn-open-list-notes{
+        text-decoration: underline;
+        color: $color-soccer-coach;
+        font-weight: 600;
+        cursor: pointer;
+    }
+
+    .show-form-add-note{
+        text-decoration: underline;
+        color: $color-action;
+        font-weight: 600;
+        cursor: pointer;
+    }
+
+    .btn-action-notes{
+        min-height: 50px;
+        .btns{
+            float: right;
+        }
+    }
+
+    .notes{
+        position: relative;
+        .aucune-note{
+            position: absolute;
+            top:2px;
+            left: 190px;
+            font-style: italic;
+        }
+        .note-item{
+            position: relative;
+            border-bottom:1px solid $color-border;
+            height: auto;
+            margin-bottom: 5px;
+            .note{
+                width: 100%;
+                height: auto;
+                padding: 10px;
+                .note-header{
+                    .date-creation{
+                        font-weight: bold;
+                    }
+                    .user-creation{
+                        color:$gris-obscur-soccer-coach;
+                    }
+                }
+                .note-body{
+                    margin-top: 10px;
+                    width: 100%;
+                }
+            }
+            .actions{
+                position: absolute;
+                top: 0;
+                right: 0;
+                .delete-note{
+                    color:$color-action;
+                    &:hover{
+                        font-size: 1rem;
+                    }
+                }
+            }
+        }
+    }
+    
+
+
+}

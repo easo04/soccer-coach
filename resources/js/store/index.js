@@ -18,6 +18,7 @@ export default {
 		lstPratiques:[], //garde la liste des pratiques ajoutés
 		imgBase64:undefined, //garde l'image en base64
 		mapPresencesActivites: new Map(), //garde les présences des activités
+		mapNotesMatch : new Map(), //garde les notes d'un match
 		lstIconsByType: [['principe-offensif', 'ti-target'], ['principe-defensif', 'ti-hummer'], ['rondos', 'ti-cup'], ['physique', 'ti-heart']],          
 		lstIconsByCategorie:[{ name:'Offensive', icon:'ti-target', id:'off'}, { name:'Défensive', icon:'ti-hummer', id:'def'}, { name:'Tactique', icon:'fa fa-puzzle-piece', id:'tact'}, { name:'Technique', icon:'fa fa-rocket', id:'tec'},
 		{ name:'Organisation du jeu', icon:'fa fa-users', id:'org-jeu'}, { name:'Gardien de but', icon:'fa fa-sign-language', id:'gar'}],
@@ -223,8 +224,11 @@ export default {
 				}
 			}
 		},
-		positions:['G', 'DFC', 'DFD', 'DFG', 'MC', 'MOC', 'MD', 'MG', 'ATT', 'AG', 'AD', 'AC'],
-		roles:['E','EA','EG','G','A','PP'],
+		positions:[{key:'G', description:'Gardien de but'}, {key:'DFC', description:'Défenseur centre'}, {key:'DFD', description:'Défenseur droit'},
+			{key:'DFG', description:'Défenseur gauche'}, {key:'MC', description:'Milieu centre'}, {key:'MOC', description:'Milieu centre offensif'}, {key:'MD', description:'Milieu droit'},
+			{key:'MG', description:'Milieu gauche'}, {key:'ATT', description:'Attaquant'}, {key:'AG', description:'Attaquant gauche'}, {key:'AD', description:'Attaquant droit'}, {key:'AC', description:'Attaquant centre'}],
+		roles:[{key:'E', description:'Entraîneur'}, {key:'EA', description:'Entraîneur assistant'}, {key:'EG', description:'Entraîneur de gardiens'}, {key:'G', description:'Gèrant'},
+			{key:'A', description:'Admin'}, {key:'PP', description:'Préparateur physique'}],
 	},
 	getters: {
 		getNameTypeById: (state) => (id) =>{
@@ -235,6 +239,15 @@ export default {
 		},
 		getPresencesByActivite: (state) => (activite) =>{
             return state.mapPresencesActivites.get(activite);
+		},
+		getNotesByActivite: (state) => (activite) =>{
+            return state.mapNotesMatch.get(activite);
+		},
+		getDescriptionRoleByKey: (state) => (key) =>{
+			return state.roles.find(r => r.key === key)?.description;
+		},
+		getDescriptionPositionByKey: (state) => (key) =>{
+			return state.positions.find(r => r.key === key)?.description;
 		},
 	},
 
@@ -577,6 +590,18 @@ export default {
 		},
 		deletePresencesByActivite(state, idActivite){
 			state.mapPresencesActivites.delete(idActivite);
+		},
+		setMapNotesMatch(state, map){
+			state.mapNotesMatch = map;
+		},
+		clearMapNotesMatch(state){
+			state.mapNotesMatch = new Map();
+		},
+		addNoteToMatch(state, param){
+			state.mapNotesMatch.set(param.idActivite, param.notes);
+		},
+		deleteNotesByActivite(state, idActivite){
+			state.mapNotesMatch.delete(idActivite);
 		}
 
 	}

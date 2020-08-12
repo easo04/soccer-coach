@@ -7,6 +7,7 @@ use App\Equipe;
 use DB;
 use DateInterval;
 use DateTime;
+use Auth;
 
 class EquipeRepository{
 
@@ -52,6 +53,14 @@ class EquipeRepository{
 
 		//create entraineurs
 		$lstEntraineurs = collect();
+
+		//create entraîner principale avec l'usager connecté
+		$entraineurP = array('role' => 'A', 'prenom' => Auth::user()->name, 
+						'nom' => Auth::user()->name, 'equipe_id' => $equipe->id, 'users_id' => Auth::user()->id);
+		if($this->createEntraineurByEquipe($equipe->id, $entraineurP)){
+			$lstEntraineurs->push($entraineurP);
+		}
+	
 		foreach ($inputs['entraineurs'] as $entraineur) {
 			if($this->createEntraineurByEquipe($equipe->id, $entraineur)){
 				$lstEntraineurs->push($entraineur);
@@ -361,6 +370,7 @@ class EquipeRepository{
 	public function deletePratiquesByIdEquipe($idEquipe){
 		//TODO supprimer pratiques liés aux activités de type entraînements
 		//TODO supprimer présences liées aux activités
+		//TODO supprimer notes
 		DB::table('activites')
 		->where('equipe_id', '=', $idEquipe)
 		->where('type', '=', 'pratique')
@@ -416,6 +426,7 @@ class EquipeRepository{
 
 		//supprimer équipe
 		DB::table('equipes')->where('id', '=', $id)->delete();
+		
 	}
 
 	public function getAssistancesByActivite($idActivite){
@@ -435,6 +446,51 @@ class EquipeRepository{
 				'user_updated_id' => $inputs['user']]
 			);
 		}
+	}
+
+	public function getNotesByActivite($idActivite){
+		return DB::table('notes')
+		->select(DB::raw('notes.*, users.name as nameUser'))
+		->join('users', 'users.id', '=', 'notes.user_creation_id')
+		->where('notes.activite_id', $idActivite)
+		->get();
+	}
+	
+	public function getNoteById($id){
+		return DB::table('notes')
+		->select(DB::raw('notes.*, users.name as nameUser'))
+		->join('users', 'users.id', '=', 'notes.user_creation_id')
+		->where('notes.id', $id)
+		->first();
+    }
+
+    public function createNote($inputs){
+        $id = DB::table('notes')->insertGetId(
+			['note' => $inputs['note'], 'date_creation' => new DateTime($inputs['date']),
+			'activite_id' => $inputs['idActivite'], 
+			'user_creation_id' => $inputs['user']]
+		);
+
+		return $this->getNoteById($id);
+    }
+
+    public function deleteNote($id){
+		DB::table('notes')->where('id', '=', $id)->delete();
+	}
+	
+	public function getMesActivitesEntraineurs($user){
+		return DB::table('activites')
+		->select(DB::raw('activites.*, terrains.nom AS nomTerrain, terrains.id AS idTerrain,
+						terrains.url_terrain AS urlTerrain, 
+						terrains.adresse_ligne1 AS adresseLigne1, terrains.adresse_ligne2 AS adresseLigne2,
+						terrains.code_postal AS codePostalTerrain'))
+		->leftJoin('terrains', 'activites.terrain_id', '=',  'terrains.id')
+		->join('equipes', 'equipes.id', '=', 'activites.equipe_id')
+		->join('entraineurs', 'entraineurs.equipe_id', '=', 'equipes.id')
+		->where('entraineurs.users_id', '=', $user)
+		->where('activites.date_debut', '>=', new DateTime())
+		->orderBy('activites.date_debut')
+		->get();
 	}
 
 

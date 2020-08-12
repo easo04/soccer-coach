@@ -30,12 +30,19 @@
                 </button>
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <ul class="navbar-nav mr-auto">
+						@guest
+							<li class="nav-item">
+								<a class="nav-link link-custom" href="{{ url('/') }}">Accueil</a>
+							</li>
+						@endguest
 						<li class="nav-item">
-                            <a class="nav-link link-custom" href="{{ url('/') }}"><i class="ti-home"></i> Accueil</a>
+                            <a class="nav-link link-custom" href="{{ route('exercice.index') }}">Exercices</a>
 						</li>
-						<li class="nav-item">
-                            <a class="nav-link link-custom" href="{{ route('exercice.index') }}"><i class="ti-star"></i> Exercices</a>
-						</li>
+						@auth
+							<li class="nav-item">
+								<a class="nav-link link-custom" href="{{ route('user.services') }}">Mes services</a>
+							</li>
+						@endauth
                     </ul>
                     <ul class="navbar-nav ml-auto">
                         @guest

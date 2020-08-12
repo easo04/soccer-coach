@@ -1,9 +1,9 @@
 (window["webpackJsonp"] = window["webpackJsonp"] || []).push([[4],{
 
-/***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/views/seance/DetailSeance.vue?vue&type=script&lang=js&":
-/*!*************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/views/seance/DetailSeance.vue?vue&type=script&lang=js& ***!
-  \*************************************************************************************************************************************************************************/
+/***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/views/equipes/UpdateEquipe.vue?vue&type=script&lang=js&":
+/*!**************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/views/equipes/UpdateEquipe.vue?vue&type=script&lang=js& ***!
+  \**************************************************************************************************************************************************************************/
 /*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -65,159 +65,113 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
-  props: ['seance', 'equipe', 'fromEquipe'],
+  props: ['equipe'],
   data: function data() {
     return {
-      seanceDetail: this.seance ? this.seance : {},
-      lstExercices: this.seance && this.seance.exercices ? this.seance.exercices : [],
-      isLoading: true
+      equipeDTO: {},
+      error: {
+        isError: false,
+        message: ''
+      },
+      showSaison: false
     };
   },
-  computed: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapGetters"])(['getIconByCategorie'])),
-  methods: {
-    back: function back() {
-      if (this.fromEquipe && this.equipe) {
-        this.$router.push({
-          name: 'DetailsEquipe',
-          params: {
-            'equipe': this.equipe
-          }
-        }); //go to détail équipe
-      } else {
-        this.$router.push('mes-seances'); //go to mes seances
-      }
-    },
-    deleteSeance: function deleteSeance() {
+  computed: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapState"])(['equipeStoreDTO'])),
+  methods: _objectSpread({
+    updateEquipe: function updateEquipe(equipeDTO) {
       var _this = this;
 
-      axios["delete"]('/seance/' + this.seanceDetail.id).then(function (reponse) {
-        $("#modalDeleteSeance").modal("hide");
+      if (!this.formValid()) {
+        return;
+      }
 
-        _this.$router.push('mes-seances');
+      var param = {
+        id: this.equipe.id,
+        nom: equipeDTO.nom.value,
+        saison: {
+          id: equipeDTO.saison.id,
+          nom: equipeDTO.saison.nom.value,
+          dateDebut: equipeDTO.saison.dateDebut.value,
+          dateFin: equipeDTO.saison.dateFin.value
+        }
+      };
+      axios.post('/equipes/update', param).then(function (response) {
+        console.log('update equipe resultat');
+
+        _this.initFormInputs();
+
+        _this.equipe.nom = param.nom;
+
+        if (param.saison.nom) {
+          _this.equipe.saison = {
+            nom: param.saison.nom,
+            date_debut: param.saison.dateDebut,
+            date_fin: param.saison.dateFin
+          };
+        }
+
+        _this.$router.push({
+          name: 'DetailsEquipe',
+          params: {
+            'equipe': _this.equipe
+          }
+        }); //go to détail équipe
+
       });
+    },
+    formValid: function formValid() {
+      return true;
+    },
+    annuler: function annuler() {
+      this.setUpdateForm(false); //set the updateForm variable to false
+
+      this.initFormInputs();
+      this.$router.push({
+        name: 'DetailsEquipe',
+        params: {
+          'equipe': this.equipe
+        }
+      }); //go to détail équipe
+    },
+    showSaisonAction: function showSaisonAction() {
+      this.showSaison = this.showSaison ? false : true;
+    },
+    initFormInputs: function initFormInputs() {}
+  }, Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapMutations"])(['setUpdateForm'])),
+  created: function created() {
+    this.equipeDTO = this.equipeStoreDTO;
+    this.equipeDTO.nom.value = this.equipe.nom; //set saison
+
+    if (this.equipe.saison) {
+      this.equipeDTO.saison.nom.value = this.equipe.saison.nom;
+      this.equipeDTO.saison.dateDebut.value = this.equipe.saison.date_debut;
+      this.equipeDTO.saison.dateFin.value = this.equipe.saison.date_fin;
+      this.equipeDTO.saison.id = this.equipe.saison.id;
+      this.showSaison = true;
     }
   },
   mounted: function mounted() {
     var _this2 = this;
 
-    //vérifier s'il y a déjà un seance dans le locale storage
-    if (localStorage.getItem('seanceLocale')) {
-      this.seanceDetail = JSON.parse(localStorage.getItem('seanceLocale'));
-      this.lstExercices = this.seanceDetail.exercices;
-      this.isLoading = false;
-    } else {
-      if (this.lstExercices && this.lstExercices.length === 0) {
-        this.isLoading = true;
-        axios.get('/seances/get-exercice-by-seance/' + this.seance.id).then(function (response) {
-          _this2.lstExercices = response.data.exercices;
-          _this2.seanceDetail.exercices = _this2.lstExercices;
-          _this2.isLoading = false; //add seance to local storage
+    this.setUpdateForm(true);
+    this.$root.$on('discardFormChanges', function () {
+      _this2.initFormInputs();
 
-          var seanceParsed = JSON.stringify(_this2.seanceDetail);
-          localStorage.setItem('seanceLocale', seanceParsed);
-        });
-      } else {
-        this.isLoading = false; //add seance to local storage
+      _this2.setUpdateForm(false);
 
-        var seanceParsed = JSON.stringify(this.seanceDetail);
-        localStorage.setItem('seanceLocale', seanceParsed);
-      }
-    }
-  },
-  beforeDestroy: function beforeDestroy() {
-    localStorage.removeItem('seanceLocale');
+      _this2.$root.$emit('goToLink');
+    });
   }
 });
 
 /***/ }),
 
-/***/ "./node_modules/css-loader/index.js!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src/index.js?!./node_modules/sass-loader/dist/cjs.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/views/seance/DetailSeance.vue?vue&type=style&index=0&id=05ef341e&lang=scss&scoped=true&":
-/*!************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/css-loader!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src??ref--7-2!./node_modules/sass-loader/dist/cjs.js??ref--7-3!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/views/seance/DetailSeance.vue?vue&type=style&index=0&id=05ef341e&lang=scss&scoped=true& ***!
-  \************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
+/***/ "./node_modules/css-loader/index.js!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src/index.js?!./node_modules/sass-loader/dist/cjs.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/views/equipes/UpdateEquipe.vue?vue&type=style&index=0&id=41a9ac0e&lang=scss&scoped=true&":
+/*!*************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/css-loader!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src??ref--7-2!./node_modules/sass-loader/dist/cjs.js??ref--7-3!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/views/equipes/UpdateEquipe.vue?vue&type=style&index=0&id=41a9ac0e&lang=scss&scoped=true& ***!
+  \*************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -226,22 +180,22 @@ exports = module.exports = __webpack_require__(/*! ../../../../node_modules/css-
 
 
 // module
-exports.push([module.i, ".detail-seance .actions-seance-detail[data-v-05ef341e] {\n  margin-bottom: 20px;\n  height: 80px;\n}\n.detail-seance .actions-seance-detail .btns[data-v-05ef341e] {\n  float: right;\n}\n.detail-seance .actions-seance-detail .btn-mes-seances[data-v-05ef341e] {\n  float: left;\n}\n.detail-seance .details-seance .infos-seance[data-v-05ef341e] {\n  display: block;\n  position: relative;\n  box-shadow: 1px 2px #F3F3F3;\n}\n.detail-seance .details-seance .infos-seance .bought[data-v-05ef341e] {\n  font-size: 18px;\n}\n.detail-seance .details-seance .infos-seance .bought[data-v-05ef341e]:hover {\n  background-color: #370028;\n}\n.detail-seance .details-seance h5[data-v-05ef341e] {\n  margin-top: 40px;\n}\n.detail-seance .details-seance span.titre[data-v-05ef341e] {\n  font-weight: bold;\n}\n.detail-seance .details-seance .row[data-v-05ef341e] {\n  padding-top: 10px;\n  padding-bottom: 10px;\n  padding-right: 10px;\n}\n.detail-seance .details-seance .info[data-v-05ef341e] {\n  margin-top: 10px;\n}\n.detail-seance .details-seance .lst-exercices[data-v-05ef341e] {\n  height: auto;\n  padding: 0 10px 10px 10px;\n  box-shadow: 1px 2px #F3F3F3;\n  margin-top: 7px;\n}\n.detail-seance .details-seance .lst-exercices .item-exercice[data-v-05ef341e] {\n  margin-top: 7px;\n  border-radius: 0 !important;\n  height: auto;\n  border-bottom: 1px solid #ced4da;\n}\n.detail-seance .details-seance .lst-exercices .item-exercice .variantes .variante-titre[data-v-05ef341e] {\n  border-left: 8px solid #03aca4;\n  background-color: #F3F3F3;\n  padding: 8px;\n}\n.detail-seance .details-seance .lst-exercices .item-exercice .variantes .variante-titre h6[data-v-05ef341e] {\n  margin: 0;\n}\n.detail-seance .details-seance .lst-exercices .item-exercice .variantes .items-modifiables[data-v-05ef341e] {\n  display: flex;\n  padding-top: 10px;\n}\n.detail-seance .details-seance .lst-exercices .item-exercice .variantes .items-modifiables .form-group[data-v-05ef341e] {\n  margin-right: 10px;\n}\n.detail-seance .details-seance .lst-exercices .item-exercice .exercice-match .details-exe .input-text[data-v-05ef341e] {\n  padding-right: 10px;\n}\n.detail-seance .details-seance .lst-exercices .item-exercice .exercice-match .details-exe .input-text textarea[data-v-05ef341e] {\n  height: 124px !important;\n}\n.detail-seance .details-seance .lst-exercices .item-exercice .exercice-match .description-match[data-v-05ef341e] {\n  padding-top: 10px;\n}\n.detail-seance .details-seance .lst-exercices .item-exercice .actions[data-v-05ef341e] {\n  height: 50px;\n  margin-top: 12px;\n}\n.detail-seance .details-seance .lst-exercices .item-exercice .actions button[data-v-05ef341e] {\n  float: right;\n  margin-right: 12px;\n}\n.detail-seance .details-seance .lst-exercices .item-exercice .details-exe .principe-titre[data-v-05ef341e] {\n  border-left: 8px solid #8a2539;\n  padding: 8px;\n  background-color: #F3F3F3;\n}\n.detail-seance .details-seance .lst-exercices .item-exercice .details-exe .principe-titre h6[data-v-05ef341e] {\n  font-weight: bold;\n  margin: 0;\n  font-size: 16px;\n}\n.detail-seance .details-seance .lst-exercices .item-exercice .details-exe .items-modifiables[data-v-05ef341e] {\n  display: flex;\n  padding-top: 10px;\n}\n.detail-seance .details-seance .lst-exercices .item-exercice .details-exe .items-modifiables .separateur[data-v-05ef341e] {\n  margin-right: 10px;\n}\n.detail-seance .details-seance .lst-exercices .item-exercice .details-exe .items-modifiables .form-group[data-v-05ef341e] {\n  margin-right: 10px;\n}\n.detail-seance .details-seance .lst-exercices .item-exercice .image-exe[data-v-05ef341e] {\n  margin-top: 4px;\n}\n.detail-seance .details-seance .lst-exercices .item-exercice .image-exe img[data-v-05ef341e] {\n  width: inherit;\n  height: 250px;\n}", ""]);
+exports.push([module.i, ".form-control[data-v-41a9ac0e] {\n  border: none;\n  border-bottom: 2px solid #03aca4;\n  border-right: 1px solid #F3F3F3;\n}\n.form-group.input-sm .input-text[data-v-41a9ac0e], .form-group.input-sm .date-time-picker[data-v-41a9ac0e] {\n  width: 100%;\n}\n@media screen and (min-width: 768px) {\n.form-group.input-sm .input-text[data-v-41a9ac0e], .form-group.input-sm .date-time-picker[data-v-41a9ac0e] {\n    width: 33.3%;\n}\n}\n.form-group .temps-input[data-v-41a9ac0e] {\n  display: flex;\n}\n.form-group .select-form[data-v-41a9ac0e] {\n  width: 100%;\n  height: 30px;\n  border: none;\n  border-bottom: 2px solid #03aca4;\n  border-right: 1px solid #F3F3F3;\n}\n.form-group .select-form[data-v-41a9ac0e]:focus {\n  outline: none;\n}\n.temps-chexbox > div[data-v-41a9ac0e] {\n  flex: 1;\n  padding-left: 5px;\n}\n.temps-chexbox[data-v-41a9ac0e] {\n  display: flex;\n  flex-flow: row wrap;\n}\n.temps-chexbox .type-item[data-v-41a9ac0e] {\n  height: auto;\n}\n.temps-chexbox .type-item .icon-exercice[data-v-41a9ac0e] {\n  bottom: 0;\n  position: absolute;\n}\n.temps-chexbox .type-item input[type=radio][data-v-41a9ac0e] {\n  display: none;\n}\n.temps-chexbox .type-item input[type=radio]:not(:disabled) ~ label[data-v-41a9ac0e] {\n  cursor: pointer;\n}\n.temps-chexbox .type-item input[type=radio]:disabled ~ label[data-v-41a9ac0e] {\n  color: #bcc2bf;\n  border-color: #bcc2bf;\n  box-shadow: none;\n  cursor: not-allowed;\n}\n.temps-chexbox .type-item label[data-v-41a9ac0e] {\n  height: 2.4rem;\n  width: 2.4rem;\n  display: block;\n  background: white;\n  border: 1px solid #03aca4;\n  border-radius: 20px;\n  padding: 2px;\n  text-align: center;\n  margin-bottom: 0 !important;\n  box-shadow: 0px 3px 10px -2px rgba(161, 170, 166, 0.5);\n  position: relative;\n}\n.temps-chexbox .type-item label .details-type[data-v-41a9ac0e] {\n  margin-top: 5px;\n}\n.temps-chexbox .type-item input[type=radio]:checked + label[data-v-41a9ac0e] {\n  background: #03aca4;\n  color: white;\n  box-shadow: 0px 0px 20px #F3F3F3;\n}\n.temps-chexbox .type-item input[type=radio]:checked + label i[data-v-41a9ac0e] {\n  color: white;\n}\n.temps-chexbox .type-item p[data-v-41a9ac0e] {\n  font-weight: 900;\n  margin-bottom: 0 !important;\n}\n.error[data-v-41a9ac0e] {\n  color: red;\n  font-weight: 600;\n}\n.input-error[data-v-41a9ac0e] {\n  border-bottom: 2px solid red;\n}\n.input-error[data-v-41a9ac0e]:focus {\n  border-color: red;\n  box-shadow: 0 0 0 0.2rem rgba(255, 0, 0, 0.2);\n}\n.create-equipe .show-saison a[data-v-41a9ac0e], .update-equipe .show-saison a[data-v-41a9ac0e] {\n  text-decoration: underline;\n  cursor: pointer;\n}\n.create-equipe .saison[data-v-41a9ac0e], .update-equipe .saison[data-v-41a9ac0e] {\n  margin-top: 10px;\n  display: flex;\n  border: 1px solid #F3F3F3;\n  box-shadow: 0 2px 3px -1px #DCDCDC;\n  padding: 5px;\n}\n.create-equipe .saison .form-group[data-v-41a9ac0e], .update-equipe .saison .form-group[data-v-41a9ac0e] {\n  width: 33%;\n  margin-right: 10px;\n  margin-bottom: 0px !important;\n}\n.create-equipe .saison .form-group .nom-saison[data-v-41a9ac0e], .update-equipe .saison .form-group .nom-saison[data-v-41a9ac0e] {\n  margin-top: 7px;\n}\n.create-equipe .saison .form-group[data-v-41a9ac0e]:last-child, .update-equipe .saison .form-group[data-v-41a9ac0e]:last-child {\n  margin-right: 0;\n}\n.create-equipe .saison .form-group .input-text input[data-v-41a9ac0e], .update-equipe .saison .form-group .input-text input[data-v-41a9ac0e] {\n  height: 44px !important;\n}\n.create-equipe .entraineurs[data-v-41a9ac0e], .update-equipe .entraineurs[data-v-41a9ac0e] {\n  margin-top: 20px;\n}\n.create-equipe .entraineurs .btn-action-joueurs[data-v-41a9ac0e], .update-equipe .entraineurs .btn-action-joueurs[data-v-41a9ac0e] {\n  height: 35px;\n}\n.create-equipe .entraineurs .btn-action-joueurs .btns[data-v-41a9ac0e], .update-equipe .entraineurs .btn-action-joueurs .btns[data-v-41a9ac0e] {\n  float: right;\n}\n.create-equipe .entraineurs .lst-entraineurs[data-v-41a9ac0e], .update-equipe .entraineurs .lst-entraineurs[data-v-41a9ac0e] {\n  border: 1px solid #F3F3F3;\n  padding: 0 10px 10px 10px;\n  border: 1px solid #ced4da;\n  margin-top: 7px;\n  height: auto;\n}\n.create-equipe .entraineurs .lst-entraineurs.lst-vide[data-v-41a9ac0e], .update-equipe .entraineurs .lst-entraineurs.lst-vide[data-v-41a9ac0e] {\n  min-height: 200px !important;\n}\n.create-equipe .entraineurs .lst-entraineurs .aucun-exercice[data-v-41a9ac0e], .update-equipe .entraineurs .lst-entraineurs .aucun-exercice[data-v-41a9ac0e] {\n  text-align: center;\n  margin-top: 80px;\n  color: #ced4da;\n}\n.create-equipe .entraineurs .lst-entraineurs .joueur-item[data-v-41a9ac0e], .update-equipe .entraineurs .lst-entraineurs .joueur-item[data-v-41a9ac0e] {\n  margin-top: 20px;\n  border-radius: 0 !important;\n  height: 50px;\n  border-bottom: 1px solid #ced4da;\n  position: relative;\n  display: flex;\n}\n.create-equipe .entraineurs .lst-entraineurs .joueur-item .d-joueur[data-v-41a9ac0e], .update-equipe .entraineurs .lst-entraineurs .joueur-item .d-joueur[data-v-41a9ac0e] {\n  width: 33%;\n  margin-right: 5px;\n}\n.create-equipe .entraineurs .lst-entraineurs .joueur-item .d-joueur[data-v-41a9ac0e]:last-child, .update-equipe .entraineurs .lst-entraineurs .joueur-item .d-joueur[data-v-41a9ac0e]:last-child {\n  margin-right: 0px;\n}\n.create-equipe .entraineurs .lst-entraineurs .joueur-item .d-joueur .actions-joueur[data-v-41a9ac0e], .update-equipe .entraineurs .lst-entraineurs .joueur-item .d-joueur .actions-joueur[data-v-41a9ac0e] {\n  float: right;\n  margin-right: 15px;\n}\n.create-equipe .entraineurs .lst-entraineurs .joueur-item .position[data-v-41a9ac0e], .update-equipe .entraineurs .lst-entraineurs .joueur-item .position[data-v-41a9ac0e] {\n  font-weight: bold;\n}\n.create-equipe .entraineurs .lst-entraineurs .joueur-item .btn-actions-joueur[data-v-41a9ac0e], .update-equipe .entraineurs .lst-entraineurs .joueur-item .btn-actions-joueur[data-v-41a9ac0e] {\n  float: right;\n}\n.create-equipe .joueurs[data-v-41a9ac0e], .update-equipe .joueurs[data-v-41a9ac0e] {\n  margin-top: 20px;\n}\n.create-equipe .joueurs .btn-action-joueurs[data-v-41a9ac0e], .update-equipe .joueurs .btn-action-joueurs[data-v-41a9ac0e] {\n  height: 35px;\n}\n.create-equipe .joueurs .btn-action-joueurs .btns[data-v-41a9ac0e], .update-equipe .joueurs .btn-action-joueurs .btns[data-v-41a9ac0e] {\n  float: right;\n}\n.create-equipe .joueurs .lst-joueurs[data-v-41a9ac0e], .update-equipe .joueurs .lst-joueurs[data-v-41a9ac0e] {\n  border: 1px solid #F3F3F3;\n  padding: 0 10px 10px 10px;\n  border: 1px solid #ced4da;\n  margin-top: 7px;\n  height: auto;\n}\n.create-equipe .joueurs .lst-joueurs.lst-vide[data-v-41a9ac0e], .update-equipe .joueurs .lst-joueurs.lst-vide[data-v-41a9ac0e] {\n  min-height: 200px !important;\n}\n.create-equipe .joueurs .lst-joueurs .aucun-exercice[data-v-41a9ac0e], .update-equipe .joueurs .lst-joueurs .aucun-exercice[data-v-41a9ac0e] {\n  text-align: center;\n  margin-top: 80px;\n  color: #ced4da;\n}\n.create-equipe .joueurs .lst-joueurs .joueur-item[data-v-41a9ac0e], .update-equipe .joueurs .lst-joueurs .joueur-item[data-v-41a9ac0e] {\n  margin-top: 20px;\n  border-radius: 0 !important;\n  height: 50px;\n  border-bottom: 1px solid #ced4da;\n  position: relative;\n  display: flex;\n}\n.create-equipe .joueurs .lst-joueurs .joueur-item .d-joueur[data-v-41a9ac0e], .update-equipe .joueurs .lst-joueurs .joueur-item .d-joueur[data-v-41a9ac0e] {\n  width: 33%;\n  margin-right: 5px;\n}\n.create-equipe .joueurs .lst-joueurs .joueur-item .d-joueur[data-v-41a9ac0e]:last-child, .update-equipe .joueurs .lst-joueurs .joueur-item .d-joueur[data-v-41a9ac0e]:last-child {\n  margin-right: 0px;\n}\n.create-equipe .joueurs .lst-joueurs .joueur-item .position[data-v-41a9ac0e], .update-equipe .joueurs .lst-joueurs .joueur-item .position[data-v-41a9ac0e] {\n  font-weight: bold;\n}\n.create-equipe .joueurs .lst-joueurs .joueur-item .btn-actions-joueur[data-v-41a9ac0e], .update-equipe .joueurs .lst-joueurs .joueur-item .btn-actions-joueur[data-v-41a9ac0e] {\n  float: right;\n}\n.create-equipe .btn-action-sauvegarder[data-v-41a9ac0e], .update-equipe .btn-action-sauvegarder[data-v-41a9ac0e] {\n  margin-top: 20px;\n  height: 35px;\n}\n.create-equipe .btn-action-sauvegarder .btn[data-v-41a9ac0e], .update-equipe .btn-action-sauvegarder .btn[data-v-41a9ac0e] {\n  float: right;\n}", ""]);
 
 // exports
 
 
 /***/ }),
 
-/***/ "./node_modules/style-loader/index.js!./node_modules/css-loader/index.js!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src/index.js?!./node_modules/sass-loader/dist/cjs.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/views/seance/DetailSeance.vue?vue&type=style&index=0&id=05ef341e&lang=scss&scoped=true&":
-/*!****************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/style-loader!./node_modules/css-loader!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src??ref--7-2!./node_modules/sass-loader/dist/cjs.js??ref--7-3!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/views/seance/DetailSeance.vue?vue&type=style&index=0&id=05ef341e&lang=scss&scoped=true& ***!
-  \****************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
+/***/ "./node_modules/style-loader/index.js!./node_modules/css-loader/index.js!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src/index.js?!./node_modules/sass-loader/dist/cjs.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/views/equipes/UpdateEquipe.vue?vue&type=style&index=0&id=41a9ac0e&lang=scss&scoped=true&":
+/*!*****************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/style-loader!./node_modules/css-loader!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src??ref--7-2!./node_modules/sass-loader/dist/cjs.js??ref--7-3!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/views/equipes/UpdateEquipe.vue?vue&type=style&index=0&id=41a9ac0e&lang=scss&scoped=true& ***!
+  \*****************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
 
-var content = __webpack_require__(/*! !../../../../node_modules/css-loader!../../../../node_modules/vue-loader/lib/loaders/stylePostLoader.js!../../../../node_modules/postcss-loader/src??ref--7-2!../../../../node_modules/sass-loader/dist/cjs.js??ref--7-3!../../../../node_modules/vue-loader/lib??vue-loader-options!./DetailSeance.vue?vue&type=style&index=0&id=05ef341e&lang=scss&scoped=true& */ "./node_modules/css-loader/index.js!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src/index.js?!./node_modules/sass-loader/dist/cjs.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/views/seance/DetailSeance.vue?vue&type=style&index=0&id=05ef341e&lang=scss&scoped=true&");
+var content = __webpack_require__(/*! !../../../../node_modules/css-loader!../../../../node_modules/vue-loader/lib/loaders/stylePostLoader.js!../../../../node_modules/postcss-loader/src??ref--7-2!../../../../node_modules/sass-loader/dist/cjs.js??ref--7-3!../../../../node_modules/vue-loader/lib??vue-loader-options!./UpdateEquipe.vue?vue&type=style&index=0&id=41a9ac0e&lang=scss&scoped=true& */ "./node_modules/css-loader/index.js!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src/index.js?!./node_modules/sass-loader/dist/cjs.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/views/equipes/UpdateEquipe.vue?vue&type=style&index=0&id=41a9ac0e&lang=scss&scoped=true&");
 
 if(typeof content === 'string') content = [[module.i, content, '']];
 
@@ -263,10 +217,10 @@ if(false) {}
 
 /***/ }),
 
-/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/views/seance/DetailSeance.vue?vue&type=template&id=05ef341e&scoped=true&":
-/*!*****************************************************************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/views/seance/DetailSeance.vue?vue&type=template&id=05ef341e&scoped=true& ***!
-  \*****************************************************************************************************************************************************************************************************************************/
+/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/views/equipes/UpdateEquipe.vue?vue&type=template&id=41a9ac0e&scoped=true&":
+/*!******************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/views/equipes/UpdateEquipe.vue?vue&type=template&id=41a9ac0e&scoped=true& ***!
+  \******************************************************************************************************************************************************************************************************************************/
 /*! exports provided: render, staticRenderFns */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -278,440 +232,205 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div", { staticClass: "detail-seance" }, [
+  return _c("div", { staticClass: "update-equipe" }, [
     _c(
-      "div",
-      { staticClass: "loading" },
+      "form",
+      {
+        staticClass: "form-horizontal panel",
+        on: {
+          submit: function($event) {
+            $event.preventDefault()
+            return _vm.updateEquipe(_vm.equipeDTO)
+          }
+        }
+      },
       [
-        _c("bounce", {
-          directives: [
-            {
-              name: "show",
-              rawName: "v-show",
-              value: _vm.isLoading,
-              expression: "isLoading"
-            }
-          ],
-          attrs: { color: "#17b87d" }
-        })
-      ],
-      1
-    ),
-    _vm._v(" "),
-    !_vm.isLoading
-      ? _c("div", [
-          _c("div", { staticClass: "contenu-seance" }, [
-            _c("div", { staticClass: "actions-seance-detail" }, [
-              _c("div", { staticClass: "btn-mes-seances" }, [
-                _vm.fromEquipe
-                  ? _c(
-                      "a",
-                      {
-                        staticClass: "btn btn-soccer-coach-action",
-                        on: { click: _vm.back }
-                      },
-                      [
-                        _c("i", { staticClass: "fa fa-futbol-o" }),
-                        _vm._v(" Mon équipe (" + _vm._s(_vm.equipe.nom) + ")")
-                      ]
-                    )
-                  : _c(
-                      "a",
-                      {
-                        staticClass: "btn btn-soccer-coach-action",
-                        on: { click: _vm.back }
-                      },
-                      [
-                        _c("i", { staticClass: "fa fa-futbol-o" }),
-                        _vm._v(" Mes séances")
-                      ]
-                    )
-              ]),
-              _vm._v(" "),
-              _c(
-                "div",
-                { staticClass: "btns" },
-                [
-                  _vm._m(0),
-                  _vm._v(" "),
-                  _c(
-                    "router-link",
-                    {
-                      staticClass: "btn btn-soccer-coach-action",
-                      attrs: {
-                        to: {
-                          name: "UpdateSeance",
-                          params: { seance: _vm.seanceDetail }
-                        }
-                      }
-                    },
-                    [_c("i", { staticClass: "ti-pencil" }), _vm._v(" Modifier")]
-                  ),
-                  _vm._v(" "),
-                  _vm._m(1)
-                ],
-                1
-              )
-            ])
-          ]),
-          _vm._v(" "),
-          _c("div", { staticClass: "details-seance" }, [
-            _c("span", { staticClass: "date-creation" }, [
-              _vm._v(
-                "Créé le " +
-                  _vm._s(
-                    _vm._f("moment")(_vm.seanceDetail.created_at, "YYYY-MM-DD")
-                  )
-              )
-            ]),
-            _c("br"),
-            _vm._v(" "),
-            _c("div", { staticClass: "infos-seance" }, [
-              _c("h4", [_vm._v(_vm._s(_vm.seanceDetail.theme))]),
-              _vm._v(" "),
-              _c("span", { staticClass: "titre" }, [
-                _c("i", { staticClass: "ti-timer color-soccer-coach" }),
-                _vm._v(" " + _vm._s(_vm.seanceDetail.temps))
-              ]),
-              _vm._v(" "),
-              _c("span", { staticClass: "separateur" }, [_vm._v("|")]),
-              _vm._v(" "),
-              _c("span", { staticClass: "titre" }, [_vm._v(" Effectif:")]),
-              _vm._v(" "),
-              _c("span", [_vm._v(_vm._s(_vm.seanceDetail.effectif))]),
-              _vm._v(" "),
-              _c(
-                "div",
-                {
-                  directives: [
-                    {
-                      name: "show",
-                      rawName: "v-show",
-                      value:
-                        _vm.seanceDetail.endroit &&
-                        _vm.seanceDetail.endroit !== "",
-                      expression:
-                        "seanceDetail.endroit && seanceDetail.endroit !== ''"
-                    }
-                  ],
-                  staticClass: "info"
-                },
-                [
-                  _c("i", { staticClass: "ti-map-alt color-soccer-coach" }),
-                  _vm._v(" "),
-                  _c("span", { staticClass: "titre" }, [_vm._v("Endroit:")]),
-                  _vm._v(" " + _vm._s(_vm.seanceDetail.endroit))
-                ]
-              ),
-              _vm._v(" "),
-              _c(
-                "div",
-                {
-                  directives: [
-                    {
-                      name: "show",
-                      rawName: "v-show",
-                      value:
-                        _vm.seanceDetail.time && _vm.seanceDetail.time !== "",
-                      expression:
-                        "seanceDetail.time && seanceDetail.time !== ''"
-                    }
-                  ],
-                  staticClass: "info"
-                },
-                [
-                  _c("i", {
-                    staticClass: "fa fa-calendar-o color-soccer-coach"
-                  }),
-                  _vm._v(" "),
-                  _c("span", { staticClass: "titre" }, [_vm._v("Date:")]),
-                  _vm._v(" " + _vm._s(_vm.seanceDetail.time))
-                ]
-              ),
-              _vm._v(" "),
-              _c(
-                "p",
-                {
-                  directives: [
-                    {
-                      name: "show",
-                      rawName: "v-show",
-                      value:
-                        _vm.seanceDetail.context &&
-                        _vm.seanceDetail.context !== "",
-                      expression:
-                        "seanceDetail.context && seanceDetail.context !== ''"
-                    }
-                  ],
-                  staticClass: "info"
-                },
-                [
-                  _c("i", { staticClass: "ti-direction color-soccer-coach" }),
-                  _vm._v(" "),
-                  _c("span", { staticClass: "titre" }, [_vm._v("Context:")]),
-                  _vm._v(" " + _vm._s(_vm.seanceDetail.context))
-                ]
-              ),
-              _vm._v(" "),
-              _vm.seanceDetail.categorie !== "None"
-                ? _c("span", { staticClass: "bought" }, [
-                    _c("i", {
-                      class: _vm.getIconByCategorie(_vm.seanceDetail.categorie)
-                    }),
-                    _vm._v(
-                      "\n                    " +
-                        _vm._s(_vm.seanceDetail.categorie) +
-                        "\n                "
-                    )
-                  ])
-                : _vm._e()
-            ]),
-            _vm._v(" "),
-            _vm._m(2),
-            _vm._v(" "),
+        _c("div", { staticClass: "actions-exercice-detail" }, [
+          _c("div", { staticClass: "btns" }, [
             _c(
-              "div",
-              { staticClass: "lst-exercices" },
-              _vm._l(_vm.lstExercices, function(exercice, index) {
-                return _c("div", { key: index, staticClass: "item-exercice" }, [
-                  exercice.isMatch === 0
-                    ? _c("div", { staticClass: "row" }, [
-                        _c("div", { staticClass: "col-sm-8 details-exe" }, [
-                          _c("div", { staticClass: "principe-titre" }, [
-                            _c("h6", [
-                              _vm._v(
-                                "Exercice #" +
-                                  _vm._s(index + 1) +
-                                  " - " +
-                                  _vm._s(exercice.principe)
-                              )
-                            ])
-                          ]),
-                          _vm._v(" "),
-                          _c("div", { staticClass: "items-modifiables" }, [
-                            _c("div", { staticClass: "form-group" }, [
-                              _c("span", { staticClass: "titre" }, [
-                                _c("i", {
-                                  staticClass: "ti-timer color-soccer-coach"
-                                }),
-                                _vm._v(" " + _vm._s(exercice.time))
-                              ])
-                            ]),
-                            _vm._v(" "),
-                            _c("span", { staticClass: "separateur" }, [
-                              _vm._v("|")
-                            ]),
-                            _vm._v(" "),
-                            _c("div", { staticClass: "form-group" }, [
-                              _c("span", { staticClass: "titre" }, [
-                                _vm._v(" Nombre de joueurs:")
-                              ]),
-                              _vm._v(" "),
-                              _c("span", [_vm._v(_vm._s(exercice.nbJoueurs))])
-                            ]),
-                            _vm._v(" "),
-                            _c("span", { staticClass: "separateur" }, [
-                              _vm._v("|")
-                            ]),
-                            _vm._v(" "),
-                            _c("div", { staticClass: "form-group" }, [
-                              _c("span", { staticClass: "titre" }, [
-                                _vm._v(" Type:")
-                              ]),
-                              _vm._v(" "),
-                              exercice.typeExerciceNom
-                                ? _c("span", [
-                                    _vm._v(_vm._s(exercice.typeExerciceNom))
-                                  ])
-                                : exercice.typeExercice
-                                ? _c("span", [
-                                    _vm._v(_vm._s(exercice.typeExercice.nom))
-                                  ])
-                                : _vm._e()
-                            ])
-                          ]),
-                          _vm._v(" "),
-                          _c("p", [_vm._v(_vm._s(exercice.description))]),
-                          _vm._v(" "),
-                          _c(
-                            "div",
-                            {
-                              directives: [
-                                {
-                                  name: "show",
-                                  rawName: "v-show",
-                                  value:
-                                    exercice.observations &&
-                                    exercice.observations !== "",
-                                  expression:
-                                    "exercice.observations && exercice.observations !== ''"
-                                }
-                              ],
-                              staticClass: "form-group"
-                            },
-                            [
-                              _c("span", { staticClass: "titre" }, [
-                                _vm._v("Observations: ")
-                              ]),
-                              _vm._v(" "),
-                              _c("span", [
-                                _vm._v(_vm._s(exercice.observations))
-                              ])
-                            ]
-                          )
-                        ]),
-                        _vm._v(" "),
-                        _c("div", { staticClass: "col-sm-4 image-exe" }, [
-                          _c("img", {
-                            attrs: {
-                              src: "../../../images/uploaded/" + exercice.image,
-                              alt: exercice.image
-                            }
-                          })
-                        ])
-                      ])
-                    : _c("div", { staticClass: "exercice-match" }, [
-                        _c("div", { staticClass: "details-exe" }, [
-                          _vm._m(3, true),
-                          _vm._v(" "),
-                          _c("div", { staticClass: "items-modifiables" }, [
-                            _c("div", { staticClass: "form-group" }, [
-                              _c("span", { staticClass: "titre" }, [
-                                _c("i", {
-                                  staticClass: "ti-timer color-soccer-coach"
-                                }),
-                                _vm._v(" " + _vm._s(exercice.time))
-                              ])
-                            ]),
-                            _vm._v(" "),
-                            _c("span", { staticClass: "separateur" }, [
-                              _vm._v("|")
-                            ]),
-                            _vm._v(" "),
-                            _c("div", { staticClass: "form-group" }, [
-                              _c("span", { staticClass: "titre" }, [
-                                _vm._v(" Nombre de joueurs:")
-                              ]),
-                              _vm._v(" "),
-                              _c("span", [_vm._v(_vm._s(exercice.nbJoueurs))])
-                            ])
-                          ]),
-                          _vm._v(" "),
-                          _c("div", { staticClass: "form-group" }, [
-                            _c("span", [_vm._v(_vm._s(exercice.description))])
-                          ]),
-                          _vm._v(" "),
-                          _c(
-                            "div",
-                            {
-                              directives: [
-                                {
-                                  name: "show",
-                                  rawName: "v-show",
-                                  value:
-                                    exercice.observations &&
-                                    exercice.observations !== "",
-                                  expression:
-                                    "exercice.observations && exercice.observations !== ''"
-                                }
-                              ],
-                              staticClass: "form-group"
-                            },
-                            [
-                              _c("span", { staticClass: "titre" }, [
-                                _vm._v("Observations: ")
-                              ]),
-                              _vm._v(" "),
-                              _c("span", [
-                                _vm._v(_vm._s(exercice.observations))
-                              ])
-                            ]
-                          )
-                        ])
-                      ]),
-                  _vm._v(" "),
-                  exercice.variantes && exercice.variantes.length !== 0
-                    ? _c(
-                        "div",
-                        { staticClass: "variantes" },
-                        _vm._l(exercice.variantes, function(variante, index) {
-                          return _c(
-                            "div",
-                            { key: index, staticClass: "item-variante" },
-                            [
-                              _c("div", { staticClass: "variante-titre" }, [
-                                _c("h6", [
-                                  _vm._v("Variante #" + _vm._s(index + 1))
-                                ])
-                              ]),
-                              _vm._v(" "),
-                              _c("div", { staticClass: "items-modifiables" }, [
-                                _c("div", { staticClass: "form-group" }, [
-                                  _c("span", { staticClass: "titre" }, [
-                                    _c("i", {
-                                      staticClass: "ti-timer color-soccer-coach"
-                                    }),
-                                    _vm._v(" " + _vm._s(variante.time))
-                                  ])
-                                ])
-                              ]),
-                              _vm._v(" "),
-                              _c("p", [
-                                _vm._v(
-                                  "\n                                " +
-                                    _vm._s(variante.description) +
-                                    "\n                            "
-                                )
-                              ])
-                            ]
-                          )
-                        }),
-                        0
-                      )
-                    : _vm._e()
-                ])
-              }),
-              0
+              "a",
+              {
+                staticClass: "btn btn-soccer-coach-action",
+                on: { click: _vm.annuler }
+              },
+              [_c("i", { staticClass: "ti-close" }), _vm._v(" Annuler")]
             )
           ]),
           _vm._v(" "),
-          _c(
-            "div",
-            { staticClass: "modal", attrs: { id: "modalDeleteSeance" } },
-            [
-              _c("div", { staticClass: "modal-dialog" }, [
-                _c("div", { staticClass: "modal-content" }, [
-                  _vm._m(4),
-                  _vm._v(" "),
-                  _c("div", { staticClass: "modal-body" }, [
-                    _vm._v(
-                      "\n                        Voulez-vous supprimer la séance?\n                    "
+          _c("span", { staticClass: "msg-required" }, [
+            _vm._v("* indique que le champ est obligatoire")
+          ])
+        ]),
+        _vm._v(" "),
+        _c("div", { staticClass: "details-equipe" }, [
+          _c("div", { staticClass: "details-equipe-info" }, [
+            _c(
+              "div",
+              { staticClass: "form-group" },
+              [
+                _c("label", { attrs: { for: "nomEquipe" } }, [
+                  _vm.equipeDTO.nom.validations.require
+                    ? _c("span", [_vm._v(" * ")])
+                    : _vm._e(),
+                  _vm._v(" Nom:")
+                ]),
+                _vm._v(" "),
+                _c("input-text", {
+                  attrs: {
+                    placeholder: "Ex: Stars U15",
+                    name: "nomEquipe",
+                    model: _vm.equipeDTO.nom
+                  },
+                  on: {
+                    validation: function($event) {
+                      _vm.equipeDTO.nom.validate = $event
+                    }
+                  },
+                  model: {
+                    value: _vm.equipeDTO.nom.value,
+                    callback: function($$v) {
+                      _vm.$set(_vm.equipeDTO.nom, "value", $$v)
+                    },
+                    expression: "equipeDTO.nom.value"
+                  }
+                })
+              ],
+              1
+            ),
+            _vm._v(" "),
+            _c("div", { staticClass: "show-saison" }, [
+              _c(
+                "a",
+                {
+                  on: {
+                    click: function($event) {
+                      return _vm.showSaisonAction()
+                    }
+                  }
+                },
+                [
+                  _vm._v("Ajouter saison "),
+                  !_vm.showSaison
+                    ? _c("span", [_vm._v("+")])
+                    : _c("span", [_vm._v("-")])
+                ]
+              )
+            ]),
+            _vm._v(" "),
+            _vm.showSaison
+              ? _c("div", { staticClass: "saison" }, [
+                  _c("div", { staticClass: "form-group" }, [
+                    _c("label", { attrs: { for: "nomSaison" } }, [
+                      _vm._v(" Nom:")
+                    ]),
+                    _vm._v(" "),
+                    _c(
+                      "div",
+                      { staticClass: "nom-saison" },
+                      [
+                        _c("input-text", {
+                          attrs: {
+                            placeholder: "Ex: Saison hiver",
+                            name: "nomSaison",
+                            model: _vm.equipeDTO.saison.nom
+                          },
+                          on: {
+                            validation: function($event) {
+                              _vm.equipeDTO.saison.nom.validate = $event
+                            }
+                          },
+                          model: {
+                            value: _vm.equipeDTO.saison.nom.value,
+                            callback: function($$v) {
+                              _vm.$set(_vm.equipeDTO.saison.nom, "value", $$v)
+                            },
+                            expression: "equipeDTO.saison.nom.value"
+                          }
+                        })
+                      ],
+                      1
                     )
                   ]),
                   _vm._v(" "),
-                  _c("div", { staticClass: "modal-footer" }, [
-                    _c(
-                      "a",
-                      {
-                        staticClass: "btn btn-soccer-coach-action",
-                        on: {
-                          click: function($event) {
-                            return _vm.deleteSeance()
-                          }
+                  _c(
+                    "div",
+                    { staticClass: "form-group" },
+                    [
+                      _c("label", { attrs: { for: "dateDebut" } }, [
+                        _vm._v(" Début:")
+                      ]),
+                      _vm._v(" "),
+                      _c("VueCtkDateTimePicker", {
+                        attrs: {
+                          locale: "fr",
+                          format: "YYYY-MM-DD",
+                          formatted: "ll",
+                          color: "#03aca4",
+                          label: "Sélectionner une date de début",
+                          "button-color": "#03aca4",
+                          "button-now-translation": "Aujourd'hui",
+                          right: true,
+                          "auto-close": true,
+                          "only-date": true,
+                          id: "dateDebut"
+                        },
+                        model: {
+                          value: _vm.equipeDTO.saison.dateDebut.value,
+                          callback: function($$v) {
+                            _vm.$set(
+                              _vm.equipeDTO.saison.dateDebut,
+                              "value",
+                              $$v
+                            )
+                          },
+                          expression: "equipeDTO.saison.dateDebut.value"
                         }
-                      },
-                      [
-                        _c("i", { staticClass: "ti-trash" }),
-                        _vm._v(" Supprimer")
-                      ]
-                    )
-                  ])
+                      })
+                    ],
+                    1
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "div",
+                    { staticClass: "form-group" },
+                    [
+                      _c("label", { attrs: { for: "dateFin" } }, [
+                        _vm._v(" Fin:")
+                      ]),
+                      _vm._v(" "),
+                      _c("VueCtkDateTimePicker", {
+                        attrs: {
+                          locale: "fr",
+                          format: "YYYY-MM-DD",
+                          formatted: "ll",
+                          color: "#03aca4",
+                          label: "Sélectionner une date de fin",
+                          "button-color": "#03aca4",
+                          "button-now-translation": "Aujourd'hui",
+                          right: true,
+                          "auto-close": true,
+                          "only-date": true,
+                          id: "dateFin"
+                        },
+                        model: {
+                          value: _vm.equipeDTO.saison.dateFin.value,
+                          callback: function($$v) {
+                            _vm.$set(_vm.equipeDTO.saison.dateFin, "value", $$v)
+                          },
+                          expression: "equipeDTO.saison.dateFin.value"
+                        }
+                      })
+                    ],
+                    1
+                  )
                 ])
-              ])
-            ]
-          )
-        ])
-      : _vm._e()
+              : _vm._e()
+          ])
+        ]),
+        _vm._v(" "),
+        _vm._m(0)
+      ]
+    )
   ])
 }
 var staticRenderFns = [
@@ -719,56 +438,14 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c(
-      "a",
-      { staticClass: "btn btn-soccer-coach-action", attrs: { href: "#" } },
-      [_c("i", { staticClass: "fa fa-file-pdf-o" }), _vm._v(" Télecharger")]
-    )
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c(
-      "a",
-      {
-        staticClass: "btn btn-soccer-coach-action",
-        attrs: { "data-toggle": "modal", "data-target": "#modalDeleteSeance" }
-      },
-      [_c("i", { staticClass: "ti-trash" }), _vm._v(" Supprimer")]
-    )
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("h5", [
-      _c("i", { staticClass: "ti-star color-soccer-coach" }),
-      _vm._v(" Exercices")
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "principe-titre" }, [
-      _c("h6", [_vm._v("Match")])
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "modal-header" }, [
-      _c("h4", { staticClass: "modal-title" }, [_vm._v("Supprimer séance")]),
-      _vm._v(" "),
+    return _c("div", { staticClass: "btn-action-sauvegarder" }, [
       _c(
         "button",
         {
-          staticClass: "close",
-          attrs: { type: "button", "data-dismiss": "modal" }
+          staticClass: "btn btn-soccer-coach-action btn-sauvegarder",
+          attrs: { type: "submit" }
         },
-        [_vm._v("×")]
+        [_c("i", { staticClass: "ti-save" }), _vm._v(" Sauvegarder l'équipe")]
       )
     ])
   }
@@ -779,18 +456,18 @@ render._withStripped = true
 
 /***/ }),
 
-/***/ "./resources/js/views/seance/DetailSeance.vue":
-/*!****************************************************!*\
-  !*** ./resources/js/views/seance/DetailSeance.vue ***!
-  \****************************************************/
+/***/ "./resources/js/views/equipes/UpdateEquipe.vue":
+/*!*****************************************************!*\
+  !*** ./resources/js/views/equipes/UpdateEquipe.vue ***!
+  \*****************************************************/
 /*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _DetailSeance_vue_vue_type_template_id_05ef341e_scoped_true___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./DetailSeance.vue?vue&type=template&id=05ef341e&scoped=true& */ "./resources/js/views/seance/DetailSeance.vue?vue&type=template&id=05ef341e&scoped=true&");
-/* harmony import */ var _DetailSeance_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./DetailSeance.vue?vue&type=script&lang=js& */ "./resources/js/views/seance/DetailSeance.vue?vue&type=script&lang=js&");
-/* empty/unused harmony star reexport *//* harmony import */ var _DetailSeance_vue_vue_type_style_index_0_id_05ef341e_lang_scss_scoped_true___WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./DetailSeance.vue?vue&type=style&index=0&id=05ef341e&lang=scss&scoped=true& */ "./resources/js/views/seance/DetailSeance.vue?vue&type=style&index=0&id=05ef341e&lang=scss&scoped=true&");
+/* harmony import */ var _UpdateEquipe_vue_vue_type_template_id_41a9ac0e_scoped_true___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./UpdateEquipe.vue?vue&type=template&id=41a9ac0e&scoped=true& */ "./resources/js/views/equipes/UpdateEquipe.vue?vue&type=template&id=41a9ac0e&scoped=true&");
+/* harmony import */ var _UpdateEquipe_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./UpdateEquipe.vue?vue&type=script&lang=js& */ "./resources/js/views/equipes/UpdateEquipe.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport *//* harmony import */ var _UpdateEquipe_vue_vue_type_style_index_0_id_41a9ac0e_lang_scss_scoped_true___WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./UpdateEquipe.vue?vue&type=style&index=0&id=41a9ac0e&lang=scss&scoped=true& */ "./resources/js/views/equipes/UpdateEquipe.vue?vue&type=style&index=0&id=41a9ac0e&lang=scss&scoped=true&");
 /* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
 
 
@@ -801,66 +478,66 @@ __webpack_require__.r(__webpack_exports__);
 /* normalize component */
 
 var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_3__["default"])(
-  _DetailSeance_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
-  _DetailSeance_vue_vue_type_template_id_05ef341e_scoped_true___WEBPACK_IMPORTED_MODULE_0__["render"],
-  _DetailSeance_vue_vue_type_template_id_05ef341e_scoped_true___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"],
+  _UpdateEquipe_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
+  _UpdateEquipe_vue_vue_type_template_id_41a9ac0e_scoped_true___WEBPACK_IMPORTED_MODULE_0__["render"],
+  _UpdateEquipe_vue_vue_type_template_id_41a9ac0e_scoped_true___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"],
   false,
   null,
-  "05ef341e",
+  "41a9ac0e",
   null
   
 )
 
 /* hot reload */
 if (false) { var api; }
-component.options.__file = "resources/js/views/seance/DetailSeance.vue"
+component.options.__file = "resources/js/views/equipes/UpdateEquipe.vue"
 /* harmony default export */ __webpack_exports__["default"] = (component.exports);
 
 /***/ }),
 
-/***/ "./resources/js/views/seance/DetailSeance.vue?vue&type=script&lang=js&":
-/*!*****************************************************************************!*\
-  !*** ./resources/js/views/seance/DetailSeance.vue?vue&type=script&lang=js& ***!
-  \*****************************************************************************/
+/***/ "./resources/js/views/equipes/UpdateEquipe.vue?vue&type=script&lang=js&":
+/*!******************************************************************************!*\
+  !*** ./resources/js/views/equipes/UpdateEquipe.vue?vue&type=script&lang=js& ***!
+  \******************************************************************************/
 /*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_DetailSeance_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/babel-loader/lib??ref--4-0!../../../../node_modules/vue-loader/lib??vue-loader-options!./DetailSeance.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/views/seance/DetailSeance.vue?vue&type=script&lang=js&");
-/* empty/unused harmony star reexport */ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_DetailSeance_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_UpdateEquipe_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/babel-loader/lib??ref--4-0!../../../../node_modules/vue-loader/lib??vue-loader-options!./UpdateEquipe.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/views/equipes/UpdateEquipe.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport */ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_UpdateEquipe_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
 
 /***/ }),
 
-/***/ "./resources/js/views/seance/DetailSeance.vue?vue&type=style&index=0&id=05ef341e&lang=scss&scoped=true&":
-/*!**************************************************************************************************************!*\
-  !*** ./resources/js/views/seance/DetailSeance.vue?vue&type=style&index=0&id=05ef341e&lang=scss&scoped=true& ***!
-  \**************************************************************************************************************/
+/***/ "./resources/js/views/equipes/UpdateEquipe.vue?vue&type=style&index=0&id=41a9ac0e&lang=scss&scoped=true&":
+/*!***************************************************************************************************************!*\
+  !*** ./resources/js/views/equipes/UpdateEquipe.vue?vue&type=style&index=0&id=41a9ac0e&lang=scss&scoped=true& ***!
+  \***************************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _node_modules_style_loader_index_js_node_modules_css_loader_index_js_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_7_2_node_modules_sass_loader_dist_cjs_js_ref_7_3_node_modules_vue_loader_lib_index_js_vue_loader_options_DetailSeance_vue_vue_type_style_index_0_id_05ef341e_lang_scss_scoped_true___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/style-loader!../../../../node_modules/css-loader!../../../../node_modules/vue-loader/lib/loaders/stylePostLoader.js!../../../../node_modules/postcss-loader/src??ref--7-2!../../../../node_modules/sass-loader/dist/cjs.js??ref--7-3!../../../../node_modules/vue-loader/lib??vue-loader-options!./DetailSeance.vue?vue&type=style&index=0&id=05ef341e&lang=scss&scoped=true& */ "./node_modules/style-loader/index.js!./node_modules/css-loader/index.js!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src/index.js?!./node_modules/sass-loader/dist/cjs.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/views/seance/DetailSeance.vue?vue&type=style&index=0&id=05ef341e&lang=scss&scoped=true&");
-/* harmony import */ var _node_modules_style_loader_index_js_node_modules_css_loader_index_js_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_7_2_node_modules_sass_loader_dist_cjs_js_ref_7_3_node_modules_vue_loader_lib_index_js_vue_loader_options_DetailSeance_vue_vue_type_style_index_0_id_05ef341e_lang_scss_scoped_true___WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_index_js_node_modules_css_loader_index_js_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_7_2_node_modules_sass_loader_dist_cjs_js_ref_7_3_node_modules_vue_loader_lib_index_js_vue_loader_options_DetailSeance_vue_vue_type_style_index_0_id_05ef341e_lang_scss_scoped_true___WEBPACK_IMPORTED_MODULE_0__);
-/* harmony reexport (unknown) */ for(var __WEBPACK_IMPORT_KEY__ in _node_modules_style_loader_index_js_node_modules_css_loader_index_js_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_7_2_node_modules_sass_loader_dist_cjs_js_ref_7_3_node_modules_vue_loader_lib_index_js_vue_loader_options_DetailSeance_vue_vue_type_style_index_0_id_05ef341e_lang_scss_scoped_true___WEBPACK_IMPORTED_MODULE_0__) if(__WEBPACK_IMPORT_KEY__ !== 'default') (function(key) { __webpack_require__.d(__webpack_exports__, key, function() { return _node_modules_style_loader_index_js_node_modules_css_loader_index_js_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_7_2_node_modules_sass_loader_dist_cjs_js_ref_7_3_node_modules_vue_loader_lib_index_js_vue_loader_options_DetailSeance_vue_vue_type_style_index_0_id_05ef341e_lang_scss_scoped_true___WEBPACK_IMPORTED_MODULE_0__[key]; }) }(__WEBPACK_IMPORT_KEY__));
- /* harmony default export */ __webpack_exports__["default"] = (_node_modules_style_loader_index_js_node_modules_css_loader_index_js_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_7_2_node_modules_sass_loader_dist_cjs_js_ref_7_3_node_modules_vue_loader_lib_index_js_vue_loader_options_DetailSeance_vue_vue_type_style_index_0_id_05ef341e_lang_scss_scoped_true___WEBPACK_IMPORTED_MODULE_0___default.a); 
+/* harmony import */ var _node_modules_style_loader_index_js_node_modules_css_loader_index_js_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_7_2_node_modules_sass_loader_dist_cjs_js_ref_7_3_node_modules_vue_loader_lib_index_js_vue_loader_options_UpdateEquipe_vue_vue_type_style_index_0_id_41a9ac0e_lang_scss_scoped_true___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/style-loader!../../../../node_modules/css-loader!../../../../node_modules/vue-loader/lib/loaders/stylePostLoader.js!../../../../node_modules/postcss-loader/src??ref--7-2!../../../../node_modules/sass-loader/dist/cjs.js??ref--7-3!../../../../node_modules/vue-loader/lib??vue-loader-options!./UpdateEquipe.vue?vue&type=style&index=0&id=41a9ac0e&lang=scss&scoped=true& */ "./node_modules/style-loader/index.js!./node_modules/css-loader/index.js!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src/index.js?!./node_modules/sass-loader/dist/cjs.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/views/equipes/UpdateEquipe.vue?vue&type=style&index=0&id=41a9ac0e&lang=scss&scoped=true&");
+/* harmony import */ var _node_modules_style_loader_index_js_node_modules_css_loader_index_js_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_7_2_node_modules_sass_loader_dist_cjs_js_ref_7_3_node_modules_vue_loader_lib_index_js_vue_loader_options_UpdateEquipe_vue_vue_type_style_index_0_id_41a9ac0e_lang_scss_scoped_true___WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_index_js_node_modules_css_loader_index_js_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_7_2_node_modules_sass_loader_dist_cjs_js_ref_7_3_node_modules_vue_loader_lib_index_js_vue_loader_options_UpdateEquipe_vue_vue_type_style_index_0_id_41a9ac0e_lang_scss_scoped_true___WEBPACK_IMPORTED_MODULE_0__);
+/* harmony reexport (unknown) */ for(var __WEBPACK_IMPORT_KEY__ in _node_modules_style_loader_index_js_node_modules_css_loader_index_js_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_7_2_node_modules_sass_loader_dist_cjs_js_ref_7_3_node_modules_vue_loader_lib_index_js_vue_loader_options_UpdateEquipe_vue_vue_type_style_index_0_id_41a9ac0e_lang_scss_scoped_true___WEBPACK_IMPORTED_MODULE_0__) if(__WEBPACK_IMPORT_KEY__ !== 'default') (function(key) { __webpack_require__.d(__webpack_exports__, key, function() { return _node_modules_style_loader_index_js_node_modules_css_loader_index_js_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_7_2_node_modules_sass_loader_dist_cjs_js_ref_7_3_node_modules_vue_loader_lib_index_js_vue_loader_options_UpdateEquipe_vue_vue_type_style_index_0_id_41a9ac0e_lang_scss_scoped_true___WEBPACK_IMPORTED_MODULE_0__[key]; }) }(__WEBPACK_IMPORT_KEY__));
+ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_style_loader_index_js_node_modules_css_loader_index_js_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_7_2_node_modules_sass_loader_dist_cjs_js_ref_7_3_node_modules_vue_loader_lib_index_js_vue_loader_options_UpdateEquipe_vue_vue_type_style_index_0_id_41a9ac0e_lang_scss_scoped_true___WEBPACK_IMPORTED_MODULE_0___default.a); 
 
 /***/ }),
 
-/***/ "./resources/js/views/seance/DetailSeance.vue?vue&type=template&id=05ef341e&scoped=true&":
-/*!***********************************************************************************************!*\
-  !*** ./resources/js/views/seance/DetailSeance.vue?vue&type=template&id=05ef341e&scoped=true& ***!
-  \***********************************************************************************************/
+/***/ "./resources/js/views/equipes/UpdateEquipe.vue?vue&type=template&id=41a9ac0e&scoped=true&":
+/*!************************************************************************************************!*\
+  !*** ./resources/js/views/equipes/UpdateEquipe.vue?vue&type=template&id=41a9ac0e&scoped=true& ***!
+  \************************************************************************************************/
 /*! exports provided: render, staticRenderFns */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_DetailSeance_vue_vue_type_template_id_05ef341e_scoped_true___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../../node_modules/vue-loader/lib??vue-loader-options!./DetailSeance.vue?vue&type=template&id=05ef341e&scoped=true& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/views/seance/DetailSeance.vue?vue&type=template&id=05ef341e&scoped=true&");
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_DetailSeance_vue_vue_type_template_id_05ef341e_scoped_true___WEBPACK_IMPORTED_MODULE_0__["render"]; });
+/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_UpdateEquipe_vue_vue_type_template_id_41a9ac0e_scoped_true___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../../node_modules/vue-loader/lib??vue-loader-options!./UpdateEquipe.vue?vue&type=template&id=41a9ac0e&scoped=true& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/views/equipes/UpdateEquipe.vue?vue&type=template&id=41a9ac0e&scoped=true&");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_UpdateEquipe_vue_vue_type_template_id_41a9ac0e_scoped_true___WEBPACK_IMPORTED_MODULE_0__["render"]; });
 
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_DetailSeance_vue_vue_type_template_id_05ef341e_scoped_true___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_UpdateEquipe_vue_vue_type_template_id_41a9ac0e_scoped_true___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
 
 
 

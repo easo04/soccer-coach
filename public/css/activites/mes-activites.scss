@@ -1,0 +1,50 @@
+@import '../../../resources/sass/variables';
+
+.mes-activites{
+    .lst-activites{
+        .activite-item{
+            margin-top: 40px;
+            border-bottom: 1px solid $color-border;
+            .details-activite{
+                .nom{
+                    font-weight: bold;
+                }
+                .terrain{
+                    color:$gris-obscur-soccer-coach;
+                    text-decoration: underline;
+                    &:hover{
+                        text-decoration: none;
+                    }
+                }         
+            }
+
+            .date-activite{
+                .heure-debut{
+                    font-weight: bold;
+                    //color:$gris-soccer-coach;
+                }
+
+                .time{
+                    color:$gris-clair-soccer-coach;
+                    
+                }
+            }
+
+            .seance{
+                .nom{
+                    font-weight: bold;
+                    color:$gris-clair-soccer-coach;
+                }
+                a{
+                    text-decoration: underline;
+                    color:$color-soccer-coach;
+                    font-weight: 600;
+                    cursor: pointer;
+                    &:hover{
+                        text-decoration: none;
+                    }
+                }
+            }
+        }
+    }
+}
