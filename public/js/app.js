@@ -3968,6 +3968,47 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
 /***/ }),
 
+/***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/ListEquipesComponent.vue?vue&type=script&lang=js&":
+/*!*******************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/ListEquipesComponent.vue?vue&type=script&lang=js& ***!
+  \*******************************************************************************************************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+/* harmony default export */ __webpack_exports__["default"] = ({
+  props: ['lstEquipes', 'byClub']
+});
+
+/***/ }),
+
 /***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/ListObjectifs.vue?vue&type=script&lang=js&":
 /*!************************************************************************************************************************************************************************!*\
   !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/ListObjectifs.vue?vue&type=script&lang=js& ***!
@@ -5642,7 +5683,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       selected: false,
       nomFr: 'Mon club',
       icon: 'fa fa-cube',
-      url: ''
+      url: 'mon-club'
     }, {
       name: 'mon_profil',
       selected: false,
@@ -5712,6 +5753,11 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: ['fromDetail', 'equipe'],
@@ -5731,21 +5777,51 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
             require: false
           },
           validate: true
+        },
+        role2: {
+          value: undefined,
+          validations: {
+            require: false
+          },
+          validate: true
         }
-      }
+      },
+      lstEntraineurs: [],
+      lstNomsEntraineurs: [],
+      entraineurSelected: '',
+      idUserEntraineurSelected: undefined
     };
   },
   computed: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapState"])(['roles'])),
-  methods: _objectSpread({
-    addEntraineur: function addEntraineur() {
+  watch: {
+    entraineurSelected: function entraineurSelected() {
       var _this = this;
 
-      /*if(!this.formValid()){
-          return;
-      }*/
+      var entraineur = this.lstEntraineurs.find(function (e) {
+        return e.nom === _this.entraineurSelected;
+      });
+
+      if (entraineur) {
+        this.entraineurDTO.nom.value = entraineur.nom;
+        this.idUserEntraineurSelected = entraineur.users_id;
+      } else {
+        this.entraineurDTO.nom.value = this.entraineurSelected;
+      }
+    }
+  },
+  methods: _objectSpread({
+    addEntraineur: function addEntraineur() {
+      var _this2 = this;
+
+      if (!this.formValid()) {
+        return;
+      }
+
       var entraineur = {
         nom: this.entraineurDTO.nom.value,
-        role: this.entraineurDTO.role.value
+        role: this.entraineurDTO.role.value,
+        role2: this.entraineurDTO.role2.value,
+        users_id: this.idUserEntraineurSelected
       };
 
       if (this.fromDetail) {
@@ -5753,9 +5829,9 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         axios.post("/equipes/createEntraineur", entraineur).then(function (response) {
           entraineur.id = response.data.entraineur;
 
-          _this.addEntraineurToList(entraineur);
+          _this2.addEntraineurToList(entraineur);
 
-          _this.$root.$emit('setEntraineurLocalStorage');
+          _this2.$root.$emit('setEntraineurLocalStorage');
         });
       } else {
         this.addEntraineurToList(entraineur);
@@ -5781,6 +5857,13 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
             require: false
           },
           validate: true
+        },
+        role2: {
+          value: undefined,
+          validations: {
+            require: false
+          },
+          validate: true
         }
       };
     },
@@ -5790,7 +5873,31 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       this.initJoueurDTO();
       $("#modalAddCoach").modal("hide");
     }
-  }, Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapMutations"])(['addEntraineurToList']))
+  }, Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapMutations"])(['addEntraineurToList'])),
+  created: function created() {
+    var _this3 = this;
+
+    //récupérer la liste d'entraîneurs disponibles
+    if (localStorage.getItem('entraineursClub')) {
+      this.lstEntraineurs = JSON.parse(localStorage.getItem('entraineursClub'));
+      this.lstNomsEntraineurs = this.lstEntraineurs.map(function (entraineur) {
+        return entraineur.nom;
+      });
+    } else {
+      axios.get('/user/get-entraineurs-by-my-club').then(function (response) {
+        _this3.lstEntraineurs = response.data.entraineurs;
+        _this3.lstNomsEntraineurs = _this3.lstEntraineurs.map(function (entraineur) {
+          return entraineur.nom;
+        }); //add terrains to local storage
+
+        var entraineursPrsed = JSON.stringify(_this3.lstEntraineurs);
+        localStorage.setItem('entraineursClub', entraineursPrsed);
+      })["catch"](function (error) {
+        var errorCode = error.data.errorCode;
+        console.log(errorCode);
+      });
+    }
+  }
 });
 
 /***/ }),
@@ -6762,6 +6869,12 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: ['entraineur', 'indexEntraineur'],
@@ -6781,6 +6894,13 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
             require: false
           },
           validate: true
+        },
+        role2: {
+          value: undefined,
+          validations: {
+            require: false
+          },
+          validate: true
         }
       }
     };
@@ -6793,7 +6913,8 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       var params = {
         id: this.entraineur.id,
         nom: this.entraineurDTO.nom.value,
-        role: this.entraineurDTO.role.value
+        role: this.entraineurDTO.role.value,
+        role2: this.entraineurDTO.role2.value
       };
       axios.post("/equipes/updateEntraineur", params).then(function (response) {
         params.equipe_id = _this.entraineur.equipe_id;
@@ -6833,6 +6954,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     //initialiser les valeurs du joueurDTO
     this.entraineurDTO.nom.value = this.entraineur.nom;
     this.entraineurDTO.role.value = this.entraineur.role;
+    this.entraineurDTO.role2.value = this.entraineur.role2;
   },
   mounted: function mounted() {}
 });
@@ -13480,6 +13602,25 @@ exports = module.exports = __webpack_require__(/*! ../../../node_modules/css-loa
 
 // module
 exports.push([module.i, ".file-upload[data-v-e0921fbe] {\n  display: flex;\n  justify-content: center;\n  align-items: center;\n  position: relative;\n  cursor: pointer;\n  overflow: hidden;\n  width: 100%;\n  height: 500px;\n  padding: 5px 10px;\n  font-size: 1rem;\n  text-align: center;\n  color: #ccc;\n  border-radius: 0;\n}\n@media screen and (max-width: 480px) {\n.file-upload[data-v-e0921fbe] {\n    width: 100%;\n    height: 300px;\n}\n}\n.file-upload-wrapper .card.card-body .file-upload-message[data-v-e0921fbe] {\n  position: relative;\n  top: 50px;\n  transform: translateY(-50%);\n}\n.file-upload i[data-v-e0921fbe] {\n  font-size: 3rem;\n}\n.file-upload .mask.rgba-stylish-slight[data-v-e0921fbe] {\n  opacity: 0;\n  transition: all 0.15s linear;\n}\n.view .mask[data-v-e0921fbe] {\n  position: absolute;\n  top: 0;\n  right: 0;\n  bottom: 0;\n  left: 0;\n  width: 100%;\n  height: 100%;\n  overflow: hidden;\n  background-attachment: fixed;\n}\n.rgba-stylish-slight[data-v-e0921fbe] {\n  background-color: rgba(62, 69, 81, 0.1);\n}\n.file-upload-wrapper input[data-v-e0921fbe] {\n  position: absolute;\n  top: 0;\n  right: 0;\n  bottom: 0;\n  left: 0;\n  height: 100%;\n  width: 100%;\n  opacity: 0;\n  cursor: pointer;\n  z-index: 5;\n}\n.file-upload-wrapper .card.card-body .file-upload-preview[data-v-e0921fbe] {\n  display: none;\n  position: absolute;\n  z-index: 1;\n  background-color: #F3F3F3;\n  padding: 5px;\n  width: 100%;\n  height: 100%;\n  top: 0;\n  right: 0;\n  bottom: 0;\n  left: 0;\n  overflow: hidden;\n  text-align: center;\n  border-radius: 0;\n}\n.file-upload-wrapper .card.card-body .file-upload-preview .file-upload-render .file-upload-preview-img[data-v-e0921fbe] {\n  width: 100%;\n  height: 100%;\n  background-color: #fff;\n  transition: border-color 0.15s linear;\n  -o-object-fit: cover;\n  object-fit: cover;\n}\n.view img[data-v-e0921fbe], .view video[data-v-e0921fbe] {\n  position: relative;\n  display: block;\n}\n.file-upload-wrapper .card.card-body .file-upload-preview .file-upload-infos[data-v-e0921fbe] {\n  position: absolute;\n  left: 0;\n  top: 0;\n  right: 0;\n  bottom: 0;\n  z-index: 3;\n  background: rgba(0, 0, 0, 0.7);\n  opacity: 0;\n  transition: opacity 0.15s linear;\n}\n.file-upload-wrapper .card.card-body .file-upload-preview .file-upload-infos .file-upload-infos-inner[data-v-e0921fbe] {\n  position: absolute;\n  top: 50%;\n  transform: translate(0, -40%);\n  -webkit-backface-visibility: hidden;\n  backface-visibility: hidden;\n  width: 100%;\n  padding: 0 20px;\n  transition: all 0.2s ease;\n}\n.file-upload-wrapper .card.card-body .file-upload-preview .file-upload-infos .file-upload-infos-inner p[data-v-e0921fbe] {\n  padding: 0;\n  margin: 0;\n  position: relative;\n  width: 100%;\n  white-space: nowrap;\n  overflow: hidden;\n  text-overflow: ellipsis;\n  color: #fff;\n  text-align: center;\n  line-height: 25px;\n  font-weight: 700;\n}\n.file-upload-wrapper .card.card-body .file-upload-preview .file-upload-infos .file-upload-infos-inner i[data-v-e0921fbe] {\n  opacity: 0.5;\n}\n.file-upload-wrapper .card.card-body .file-upload-preview .file-upload-infos .file-upload-infos-inner p.file-upload-infos-message[data-v-e0921fbe] {\n  margin-top: 15px;\n  padding-top: 15px;\n  font-size: 12px;\n  position: relative;\n  opacity: 0.5;\n  color: #17a2b8;\n}\n.file-upload-wrapper .card.card-body .file-upload-preview .file-upload-infos .file-upload-infos-inner p.file-upload-infos-message[data-v-e0921fbe]::before {\n  content: \"\";\n  position: absolute;\n  top: 0;\n  left: 50%;\n  transform: translate(-50%, 0);\n  background: #fff;\n  width: 30px;\n  height: 2px;\n}\n.img-upload[data-v-e0921fbe] {\n  width: 500px;\n  height: 500px;\n}\n.sm-image[data-v-e0921fbe] {\n  height: 318px;\n}", ""]);
+
+// exports
+
+
+/***/ }),
+
+/***/ "./node_modules/css-loader/index.js!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src/index.js?!./node_modules/sass-loader/dist/cjs.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/ListEquipesComponent.vue?vue&type=style&index=0&id=a4dbde30&lang=scss&scoped=true&":
+/*!******************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/css-loader!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src??ref--7-2!./node_modules/sass-loader/dist/cjs.js??ref--7-3!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/ListEquipesComponent.vue?vue&type=style&index=0&id=a4dbde30&lang=scss&scoped=true& ***!
+  \******************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__(/*! ../../../node_modules/css-loader/lib/css-base.js */ "./node_modules/css-loader/lib/css-base.js")(false);
+// imports
+
+
+// module
+exports.push([module.i, ".lst-equipes-component .lst-equipes .card-equipe[data-v-a4dbde30] {\n  border: none;\n  padding: 10px;\n  background-color: #F3F3F3;\n  margin-bottom: 10px;\n  height: 70px;\n}\n.lst-equipes-component .lst-equipes .card-equipe .info-equipe[data-v-a4dbde30] {\n  float: left;\n  vertical-align: baseline;\n  height: 60px;\n  position: relative;\n  width: 500px;\n}\n.lst-equipes-component .lst-equipes .card-equipe .info-equipe .saison-equipe h5[data-v-a4dbde30] {\n  position: relative !important;\n}\n.lst-equipes-component .lst-equipes .card-equipe .info-equipe .saison-equipe span[data-v-a4dbde30] {\n  font-size: 12px;\n}\n.lst-equipes-component .lst-equipes .card-equipe .info-equipe .saison-equipe span.label[data-v-a4dbde30] {\n  font-weight: bold;\n}\n.lst-equipes-component .lst-equipes .card-equipe .info-equipe .saison-equipe .nom-saison[data-v-a4dbde30] {\n  font-size: 14px !important;\n  font-weight: bold;\n  color: #919191;\n}\n.lst-equipes-component .lst-equipes .card-equipe .info-equipe h5[data-v-a4dbde30] {\n  position: absolute;\n  top: 25%;\n}\n.lst-equipes-component .lst-equipes .card-equipe .voir-equipe[data-v-a4dbde30] {\n  float: right;\n  margin-top: 8px;\n  width: 170px;\n}", ""]);
 
 // exports
 
@@ -45452,6 +45593,36 @@ if(false) {}
 
 /***/ }),
 
+/***/ "./node_modules/style-loader/index.js!./node_modules/css-loader/index.js!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src/index.js?!./node_modules/sass-loader/dist/cjs.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/ListEquipesComponent.vue?vue&type=style&index=0&id=a4dbde30&lang=scss&scoped=true&":
+/*!**********************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/style-loader!./node_modules/css-loader!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src??ref--7-2!./node_modules/sass-loader/dist/cjs.js??ref--7-3!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/ListEquipesComponent.vue?vue&type=style&index=0&id=a4dbde30&lang=scss&scoped=true& ***!
+  \**********************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+
+var content = __webpack_require__(/*! !../../../node_modules/css-loader!../../../node_modules/vue-loader/lib/loaders/stylePostLoader.js!../../../node_modules/postcss-loader/src??ref--7-2!../../../node_modules/sass-loader/dist/cjs.js??ref--7-3!../../../node_modules/vue-loader/lib??vue-loader-options!./ListEquipesComponent.vue?vue&type=style&index=0&id=a4dbde30&lang=scss&scoped=true& */ "./node_modules/css-loader/index.js!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src/index.js?!./node_modules/sass-loader/dist/cjs.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/ListEquipesComponent.vue?vue&type=style&index=0&id=a4dbde30&lang=scss&scoped=true&");
+
+if(typeof content === 'string') content = [[module.i, content, '']];
+
+var transform;
+var insertInto;
+
+
+
+var options = {"hmr":true}
+
+options.transform = transform
+options.insertInto = undefined;
+
+var update = __webpack_require__(/*! ../../../node_modules/style-loader/lib/addStyles.js */ "./node_modules/style-loader/lib/addStyles.js")(content, options);
+
+if(content.locals) module.exports = content.locals;
+
+if(false) {}
+
+/***/ }),
+
 /***/ "./node_modules/style-loader/index.js!./node_modules/css-loader/index.js!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src/index.js?!./node_modules/sass-loader/dist/cjs.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/ListObjectifsByExercice.vue?vue&type=style&index=0&id=196c05fd&lang=scss&scoped=true&":
 /*!*************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
   !*** ./node_modules/style-loader!./node_modules/css-loader!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src??ref--7-2!./node_modules/sass-loader/dist/cjs.js??ref--7-3!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/ListObjectifsByExercice.vue?vue&type=style&index=0&id=196c05fd&lang=scss&scoped=true& ***!
@@ -74046,6 +74217,109 @@ render._withStripped = true
 
 /***/ }),
 
+/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/ListEquipesComponent.vue?vue&type=template&id=a4dbde30&scoped=true&":
+/*!***********************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/ListEquipesComponent.vue?vue&type=template&id=a4dbde30&scoped=true& ***!
+  \***********************************************************************************************************************************************************************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "render", function() { return render; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return staticRenderFns; });
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c("div", { staticClass: "lst-equipes-component" }, [
+    _c("h6", [_vm._v("Nombre d'équipes: " + _vm._s(_vm.lstEquipes.length))]),
+    _vm._v(" "),
+    _c(
+      "div",
+      {
+        staticClass: "lst-equipes",
+        class: { "lst-vide": _vm.lstEquipes.length === 0 }
+      },
+      [
+        _vm.lstEquipes.length === 0 && !_vm.byClub
+          ? _c("span", { staticClass: "aucun-equipe" }, [
+              _vm._v("Aucune équipe")
+            ])
+          : _vm._e(),
+        _vm._v(" "),
+        _vm._l(_vm.lstEquipes, function(equipe, index) {
+          return _c("div", { key: index, staticClass: "card-equipe" }, [
+            _c("div", { staticClass: "info-equipe" }, [
+              equipe.nomSaison
+                ? _c("div", { staticClass: "saison-equipe" }, [
+                    _c("h5", [_vm._v(_vm._s(equipe.nom))]),
+                    _vm._v(" "),
+                    _c("div", [
+                      _c("span", { staticClass: "nom-saison" }, [
+                        _vm._v(" " + _vm._s(equipe.nomSaison) + " - ")
+                      ]),
+                      _vm._v(" "),
+                      equipe.dateDebutSaison
+                        ? _c("span", { staticClass: "debut-saison" }, [
+                            _c("span", { staticClass: "label" }, [
+                              _vm._v("Début: ")
+                            ]),
+                            _vm._v(_vm._s(equipe.dateDebutSaison))
+                          ])
+                        : _vm._e(),
+                      _vm._v(" "),
+                      equipe.dateFinSaison
+                        ? _c("span", { staticClass: "fin-saison" }, [
+                            _c("span", { staticClass: "label" }, [
+                              _vm._v("Fin: ")
+                            ]),
+                            _vm._v(_vm._s(equipe.dateFinSaison))
+                          ])
+                        : _vm._e()
+                    ])
+                  ])
+                : _c("div", [_c("h5", [_vm._v(_vm._s(equipe.nom))])])
+            ]),
+            _vm._v(" "),
+            _c(
+              "div",
+              { staticClass: "voir-equipe" },
+              [
+                _c(
+                  "router-link",
+                  {
+                    staticClass: "btn btn-block btn-soccer-coach",
+                    attrs: {
+                      to: {
+                        name: "DetailsEquipe",
+                        params: {
+                          equipe: equipe,
+                          searchInfo: true,
+                          from: _vm.byClub ? "club" : undefined
+                        }
+                      }
+                    }
+                  },
+                  [_vm._v("Voir")]
+                )
+              ],
+              1
+            )
+          ])
+        })
+      ],
+      2
+    )
+  ])
+}
+var staticRenderFns = []
+render._withStripped = true
+
+
+
+/***/ }),
+
 /***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/ListObjectifs.vue?vue&type=template&id=d2678104&":
 /*!****************************************************************************************************************************************************************************************************************!*\
   !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/ListObjectifs.vue?vue&type=template&id=d2678104& ***!
@@ -76507,23 +76781,15 @@ var render = function() {
                       _vm._v(" Nom:")
                     ]),
                     _vm._v(" "),
-                    _c("input-text", {
+                    _c("input-autocomplete", {
                       attrs: {
-                        placeholder: "Ex: Pep Guardiola",
-                        name: "nomEnt",
-                        model: _vm.entraineurDTO.nom
+                        "lst-items": _vm.lstNomsEntraineurs,
+                        placeholder: "Ex: Pep Guardiola"
                       },
                       on: {
-                        validation: function($event) {
-                          _vm.entraineurDTO.nom.validate = $event
+                        select: function($event) {
+                          _vm.entraineurSelected = $event
                         }
-                      },
-                      model: {
-                        value: _vm.entraineurDTO.nom.value,
-                        callback: function($$v) {
-                          _vm.$set(_vm.entraineurDTO.nom, "value", $$v)
-                        },
-                        expression: "entraineurDTO.nom.value"
                       }
                     })
                   ],
@@ -76535,7 +76801,7 @@ var render = function() {
                     _vm.entraineurDTO.role.validations.require
                       ? _c("span", [_vm._v(" * ")])
                       : _vm._e(),
-                    _vm._v(" Rôle:")
+                    _vm._v(" Rôle 1:")
                   ]),
                   _vm._v(" "),
                   _c(
@@ -76563,6 +76829,58 @@ var render = function() {
                             })
                           _vm.$set(
                             _vm.entraineurDTO.role,
+                            "value",
+                            $event.target.multiple
+                              ? $$selectedVal
+                              : $$selectedVal[0]
+                          )
+                        }
+                      }
+                    },
+                    _vm._l(_vm.roles, function(role, index) {
+                      return _c(
+                        "option",
+                        { key: index, domProps: { value: role.key } },
+                        [_vm._v(_vm._s(role.description))]
+                      )
+                    }),
+                    0
+                  )
+                ]),
+                _vm._v(" "),
+                _c("div", { staticClass: "form-group" }, [
+                  _c("label", { attrs: { for: "role2" } }, [
+                    _vm.entraineurDTO.role2.validations.require
+                      ? _c("span", [_vm._v(" * ")])
+                      : _vm._e(),
+                    _vm._v(" Rôle 2:")
+                  ]),
+                  _vm._v(" "),
+                  _c(
+                    "select",
+                    {
+                      directives: [
+                        {
+                          name: "model",
+                          rawName: "v-model",
+                          value: _vm.entraineurDTO.role2.value,
+                          expression: "entraineurDTO.role2.value"
+                        }
+                      ],
+                      staticClass: "select-form",
+                      attrs: { name: "role2", id: "role2" },
+                      on: {
+                        change: function($event) {
+                          var $$selectedVal = Array.prototype.filter
+                            .call($event.target.options, function(o) {
+                              return o.selected
+                            })
+                            .map(function(o) {
+                              var val = "_value" in o ? o._value : o.value
+                              return val
+                            })
+                          _vm.$set(
+                            _vm.entraineurDTO.role2,
                             "value",
                             $event.target.multiple
                               ? $$selectedVal
@@ -78320,6 +78638,58 @@ var render = function() {
                             })
                           _vm.$set(
                             _vm.entraineurDTO.role,
+                            "value",
+                            $event.target.multiple
+                              ? $$selectedVal
+                              : $$selectedVal[0]
+                          )
+                        }
+                      }
+                    },
+                    _vm._l(_vm.roles, function(role, index) {
+                      return _c(
+                        "option",
+                        { key: index, domProps: { value: role.key } },
+                        [_vm._v(_vm._s(role.description))]
+                      )
+                    }),
+                    0
+                  )
+                ]),
+                _vm._v(" "),
+                _c("div", { staticClass: "form-group" }, [
+                  _c("label", { attrs: { for: "role2" } }, [
+                    _vm.entraineurDTO.role2.validations.require
+                      ? _c("span", [_vm._v(" * ")])
+                      : _vm._e(),
+                    _vm._v(" Rôle 2:")
+                  ]),
+                  _vm._v(" "),
+                  _c(
+                    "select",
+                    {
+                      directives: [
+                        {
+                          name: "model",
+                          rawName: "v-model",
+                          value: _vm.entraineurDTO.role2.value,
+                          expression: "entraineurDTO.role2.value"
+                        }
+                      ],
+                      staticClass: "select-form",
+                      attrs: { name: "role2", id: "role2" },
+                      on: {
+                        change: function($event) {
+                          var $$selectedVal = Array.prototype.filter
+                            .call($event.target.options, function(o) {
+                              return o.selected
+                            })
+                            .map(function(o) {
+                              var val = "_value" in o ? o._value : o.value
+                              return val
+                            })
+                          _vm.$set(
+                            _vm.entraineurDTO.role2,
                             "value",
                             $event.target.multiple
                               ? $$selectedVal
@@ -102405,7 +102775,8 @@ Vue.component('add-pratique', __webpack_require__(/*! ./components/AddPratiquesC
 Vue.component('dashboard-soccer-coach', __webpack_require__(/*! ./components/DashboardSoccerCoach.vue */ "./resources/js/components/DashboardSoccerCoach.vue")["default"]);
 Vue.component('update-pratique', __webpack_require__(/*! ./components/UpdatePratiquesComponent.vue */ "./resources/js/components/UpdatePratiquesComponent.vue")["default"]);
 Vue.component('types-seances-select', __webpack_require__(/*! ./components/TypesSeancesSelect.vue */ "./resources/js/components/TypesSeancesSelect.vue")["default"]);
-Vue.component('add-favoris', __webpack_require__(/*! ./components/AddFavorisComponent.vue */ "./resources/js/components/AddFavorisComponent.vue")["default"]); //Components forms
+Vue.component('add-favoris', __webpack_require__(/*! ./components/AddFavorisComponent.vue */ "./resources/js/components/AddFavorisComponent.vue")["default"]);
+Vue.component('list-equipes', __webpack_require__(/*! ./components/ListEquipesComponent.vue */ "./resources/js/components/ListEquipesComponent.vue")["default"]); //Components forms
 
 Vue.component('input-text', __webpack_require__(/*! ./components/form/InputTextComponent.vue */ "./resources/js/components/form/InputTextComponent.vue")["default"]);
 Vue.component('text-area', __webpack_require__(/*! ./components/form/TextAreaComponent.vue */ "./resources/js/components/form/TextAreaComponent.vue")["default"]);
@@ -103160,6 +103531,93 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_ImageUpload_vue_vue_type_template_id_e0921fbe_scoped_true___WEBPACK_IMPORTED_MODULE_0__["render"]; });
 
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_ImageUpload_vue_vue_type_template_id_e0921fbe_scoped_true___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
+
+
+
+/***/ }),
+
+/***/ "./resources/js/components/ListEquipesComponent.vue":
+/*!**********************************************************!*\
+  !*** ./resources/js/components/ListEquipesComponent.vue ***!
+  \**********************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _ListEquipesComponent_vue_vue_type_template_id_a4dbde30_scoped_true___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./ListEquipesComponent.vue?vue&type=template&id=a4dbde30&scoped=true& */ "./resources/js/components/ListEquipesComponent.vue?vue&type=template&id=a4dbde30&scoped=true&");
+/* harmony import */ var _ListEquipesComponent_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./ListEquipesComponent.vue?vue&type=script&lang=js& */ "./resources/js/components/ListEquipesComponent.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport *//* harmony import */ var _ListEquipesComponent_vue_vue_type_style_index_0_id_a4dbde30_lang_scss_scoped_true___WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./ListEquipesComponent.vue?vue&type=style&index=0&id=a4dbde30&lang=scss&scoped=true& */ "./resources/js/components/ListEquipesComponent.vue?vue&type=style&index=0&id=a4dbde30&lang=scss&scoped=true&");
+/* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+
+
+
+
+
+
+/* normalize component */
+
+var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_3__["default"])(
+  _ListEquipesComponent_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
+  _ListEquipesComponent_vue_vue_type_template_id_a4dbde30_scoped_true___WEBPACK_IMPORTED_MODULE_0__["render"],
+  _ListEquipesComponent_vue_vue_type_template_id_a4dbde30_scoped_true___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"],
+  false,
+  null,
+  "a4dbde30",
+  null
+  
+)
+
+/* hot reload */
+if (false) { var api; }
+component.options.__file = "resources/js/components/ListEquipesComponent.vue"
+/* harmony default export */ __webpack_exports__["default"] = (component.exports);
+
+/***/ }),
+
+/***/ "./resources/js/components/ListEquipesComponent.vue?vue&type=script&lang=js&":
+/*!***********************************************************************************!*\
+  !*** ./resources/js/components/ListEquipesComponent.vue?vue&type=script&lang=js& ***!
+  \***********************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_ListEquipesComponent_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/babel-loader/lib??ref--4-0!../../../node_modules/vue-loader/lib??vue-loader-options!./ListEquipesComponent.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/ListEquipesComponent.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport */ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_ListEquipesComponent_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
+
+/***/ }),
+
+/***/ "./resources/js/components/ListEquipesComponent.vue?vue&type=style&index=0&id=a4dbde30&lang=scss&scoped=true&":
+/*!********************************************************************************************************************!*\
+  !*** ./resources/js/components/ListEquipesComponent.vue?vue&type=style&index=0&id=a4dbde30&lang=scss&scoped=true& ***!
+  \********************************************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_style_loader_index_js_node_modules_css_loader_index_js_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_7_2_node_modules_sass_loader_dist_cjs_js_ref_7_3_node_modules_vue_loader_lib_index_js_vue_loader_options_ListEquipesComponent_vue_vue_type_style_index_0_id_a4dbde30_lang_scss_scoped_true___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/style-loader!../../../node_modules/css-loader!../../../node_modules/vue-loader/lib/loaders/stylePostLoader.js!../../../node_modules/postcss-loader/src??ref--7-2!../../../node_modules/sass-loader/dist/cjs.js??ref--7-3!../../../node_modules/vue-loader/lib??vue-loader-options!./ListEquipesComponent.vue?vue&type=style&index=0&id=a4dbde30&lang=scss&scoped=true& */ "./node_modules/style-loader/index.js!./node_modules/css-loader/index.js!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src/index.js?!./node_modules/sass-loader/dist/cjs.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/ListEquipesComponent.vue?vue&type=style&index=0&id=a4dbde30&lang=scss&scoped=true&");
+/* harmony import */ var _node_modules_style_loader_index_js_node_modules_css_loader_index_js_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_7_2_node_modules_sass_loader_dist_cjs_js_ref_7_3_node_modules_vue_loader_lib_index_js_vue_loader_options_ListEquipesComponent_vue_vue_type_style_index_0_id_a4dbde30_lang_scss_scoped_true___WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_index_js_node_modules_css_loader_index_js_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_7_2_node_modules_sass_loader_dist_cjs_js_ref_7_3_node_modules_vue_loader_lib_index_js_vue_loader_options_ListEquipesComponent_vue_vue_type_style_index_0_id_a4dbde30_lang_scss_scoped_true___WEBPACK_IMPORTED_MODULE_0__);
+/* harmony reexport (unknown) */ for(var __WEBPACK_IMPORT_KEY__ in _node_modules_style_loader_index_js_node_modules_css_loader_index_js_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_7_2_node_modules_sass_loader_dist_cjs_js_ref_7_3_node_modules_vue_loader_lib_index_js_vue_loader_options_ListEquipesComponent_vue_vue_type_style_index_0_id_a4dbde30_lang_scss_scoped_true___WEBPACK_IMPORTED_MODULE_0__) if(__WEBPACK_IMPORT_KEY__ !== 'default') (function(key) { __webpack_require__.d(__webpack_exports__, key, function() { return _node_modules_style_loader_index_js_node_modules_css_loader_index_js_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_7_2_node_modules_sass_loader_dist_cjs_js_ref_7_3_node_modules_vue_loader_lib_index_js_vue_loader_options_ListEquipesComponent_vue_vue_type_style_index_0_id_a4dbde30_lang_scss_scoped_true___WEBPACK_IMPORTED_MODULE_0__[key]; }) }(__WEBPACK_IMPORT_KEY__));
+ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_style_loader_index_js_node_modules_css_loader_index_js_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_7_2_node_modules_sass_loader_dist_cjs_js_ref_7_3_node_modules_vue_loader_lib_index_js_vue_loader_options_ListEquipesComponent_vue_vue_type_style_index_0_id_a4dbde30_lang_scss_scoped_true___WEBPACK_IMPORTED_MODULE_0___default.a); 
+
+/***/ }),
+
+/***/ "./resources/js/components/ListEquipesComponent.vue?vue&type=template&id=a4dbde30&scoped=true&":
+/*!*****************************************************************************************************!*\
+  !*** ./resources/js/components/ListEquipesComponent.vue?vue&type=template&id=a4dbde30&scoped=true& ***!
+  \*****************************************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_ListEquipesComponent_vue_vue_type_template_id_a4dbde30_scoped_true___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../node_modules/vue-loader/lib??vue-loader-options!./ListEquipesComponent.vue?vue&type=template&id=a4dbde30&scoped=true& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/ListEquipesComponent.vue?vue&type=template&id=a4dbde30&scoped=true&");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_ListEquipesComponent_vue_vue_type_template_id_a4dbde30_scoped_true___WEBPACK_IMPORTED_MODULE_0__["render"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_ListEquipesComponent_vue_vue_type_template_id_a4dbde30_scoped_true___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
 
 
 
@@ -106051,66 +106509,66 @@ vue__WEBPACK_IMPORTED_MODULE_0___default.a.use(vue_router__WEBPACK_IMPORTED_MODU
   routes: [{
     path: '/',
     component: function component() {
-      return __webpack_require__.e(/*! import() */ 6).then(__webpack_require__.bind(null, /*! ./views/MonDashboard.vue */ "./resources/js/views/MonDashboard.vue"));
+      return __webpack_require__.e(/*! import() */ 7).then(__webpack_require__.bind(null, /*! ./views/MonDashboard.vue */ "./resources/js/views/MonDashboard.vue"));
     },
     children: []
   }, {
     path: '/mes-exercices',
     component: function component() {
-      return __webpack_require__.e(/*! import() */ 12).then(__webpack_require__.bind(null, /*! ./views/exercice/MesExercices.vue */ "./resources/js/views/exercice/MesExercices.vue"));
+      return __webpack_require__.e(/*! import() */ 14).then(__webpack_require__.bind(null, /*! ./views/exercice/MesExercices.vue */ "./resources/js/views/exercice/MesExercices.vue"));
     },
     children: []
   }, {
     path: '/create-exercice',
     name: 'createExercice',
     component: function component() {
-      return __webpack_require__.e(/*! import() */ 11).then(__webpack_require__.bind(null, /*! ./views/exercice/CreateExercice.vue */ "./resources/js/views/exercice/CreateExercice.vue"));
+      return __webpack_require__.e(/*! import() */ 13).then(__webpack_require__.bind(null, /*! ./views/exercice/CreateExercice.vue */ "./resources/js/views/exercice/CreateExercice.vue"));
     }
   }, {
     path: '/update-exercice',
     name: 'UpdateExercice',
     component: function component() {
-      return __webpack_require__.e(/*! import() */ 8).then(__webpack_require__.bind(null, /*! ./views/exercice/UpdateExercice.vue */ "./resources/js/views/exercice/UpdateExercice.vue"));
+      return __webpack_require__.e(/*! import() */ 10).then(__webpack_require__.bind(null, /*! ./views/exercice/UpdateExercice.vue */ "./resources/js/views/exercice/UpdateExercice.vue"));
     },
     props: true
   }, {
     path: '/detail-exercice',
     name: 'DetailExercice',
     component: function component() {
-      return __webpack_require__.e(/*! import() */ 7).then(__webpack_require__.bind(null, /*! ./views/exercice/DetailExercice.vue */ "./resources/js/views/exercice/DetailExercice.vue"));
+      return __webpack_require__.e(/*! import() */ 9).then(__webpack_require__.bind(null, /*! ./views/exercice/DetailExercice.vue */ "./resources/js/views/exercice/DetailExercice.vue"));
     },
     props: true
   }, {
     path: '/mes-seances',
     component: function component() {
-      return __webpack_require__.e(/*! import() */ 14).then(__webpack_require__.bind(null, /*! ./views/seance/MesSeances.vue */ "./resources/js/views/seance/MesSeances.vue"));
+      return __webpack_require__.e(/*! import() */ 16).then(__webpack_require__.bind(null, /*! ./views/seance/MesSeances.vue */ "./resources/js/views/seance/MesSeances.vue"));
     },
     children: []
   }, {
     path: '/detail-seance',
     name: 'DetailSeance',
     component: function component() {
-      return __webpack_require__.e(/*! import() */ 5).then(__webpack_require__.bind(null, /*! ./views/seance/DetailSeance.vue */ "./resources/js/views/seance/DetailSeance.vue"));
+      return __webpack_require__.e(/*! import() */ 6).then(__webpack_require__.bind(null, /*! ./views/seance/DetailSeance.vue */ "./resources/js/views/seance/DetailSeance.vue"));
     },
     props: true
   }, {
     path: '/create-seance',
     name: 'CreateSeance',
     component: function component() {
-      return __webpack_require__.e(/*! import() */ 13).then(__webpack_require__.bind(null, /*! ./views/seance/CreateSeance.vue */ "./resources/js/views/seance/CreateSeance.vue"));
+      return __webpack_require__.e(/*! import() */ 15).then(__webpack_require__.bind(null, /*! ./views/seance/CreateSeance.vue */ "./resources/js/views/seance/CreateSeance.vue"));
     }
   }, {
     path: '/update-seance',
     name: 'UpdateSeance',
     component: function component() {
-      return __webpack_require__.e(/*! import() */ 10).then(__webpack_require__.bind(null, /*! ./views/seance/UpdateSeance.vue */ "./resources/js/views/seance/UpdateSeance.vue"));
+      return __webpack_require__.e(/*! import() */ 12).then(__webpack_require__.bind(null, /*! ./views/seance/UpdateSeance.vue */ "./resources/js/views/seance/UpdateSeance.vue"));
     },
     props: true
   }, {
     path: '/mes-favoris',
     name: 'MesFavoris',
     component: function component() {
-      return __webpack_require__.e(/*! import() */ 9).then(__webpack_require__.bind(null, /*! ./views/favoris/FavorisComponent.vue */ "./resources/js/views/favoris/FavorisComponent.vue"));
+      return __webpack_require__.e(/*! import() */ 11).then(__webpack_require__.bind(null, /*! ./views/favoris/FavorisComponent.vue */ "./resources/js/views/favoris/FavorisComponent.vue"));
     }
   }, {
     path: '/mes-activites',
@@ -106122,26 +106580,41 @@ vue__WEBPACK_IMPORTED_MODULE_0___default.a.use(vue_router__WEBPACK_IMPORTED_MODU
     path: '/mes-equipes',
     name: 'MesEquipes',
     component: function component() {
-      return __webpack_require__.e(/*! import() */ 3).then(__webpack_require__.bind(null, /*! ./views/equipes/EquipesComponent.vue */ "./resources/js/views/equipes/EquipesComponent.vue"));
+      return __webpack_require__.e(/*! import() */ 4).then(__webpack_require__.bind(null, /*! ./views/equipes/EquipesComponent.vue */ "./resources/js/views/equipes/EquipesComponent.vue"));
     }
   }, {
     path: '/create-equipe',
     name: 'CreateEquipe',
     component: function component() {
-      return __webpack_require__.e(/*! import() */ 1).then(__webpack_require__.bind(null, /*! ./views/equipes/CreateEquipe.vue */ "./resources/js/views/equipes/CreateEquipe.vue"));
-    }
+      return __webpack_require__.e(/*! import() */ 2).then(__webpack_require__.bind(null, /*! ./views/equipes/CreateEquipe.vue */ "./resources/js/views/equipes/CreateEquipe.vue"));
+    },
+    props: true
   }, {
     path: '/update-equipe',
     name: 'UpdateEquipe',
     component: function component() {
-      return __webpack_require__.e(/*! import() */ 4).then(__webpack_require__.bind(null, /*! ./views/equipes/UpdateEquipe.vue */ "./resources/js/views/equipes/UpdateEquipe.vue"));
+      return __webpack_require__.e(/*! import() */ 5).then(__webpack_require__.bind(null, /*! ./views/equipes/UpdateEquipe.vue */ "./resources/js/views/equipes/UpdateEquipe.vue"));
     },
     props: true
   }, {
     path: '/details-equipe',
     name: 'DetailsEquipe',
     component: function component() {
-      return __webpack_require__.e(/*! import() */ 2).then(__webpack_require__.bind(null, /*! ./views/equipes/DetailEquipe.vue */ "./resources/js/views/equipes/DetailEquipe.vue"));
+      return __webpack_require__.e(/*! import() */ 3).then(__webpack_require__.bind(null, /*! ./views/equipes/DetailEquipe.vue */ "./resources/js/views/equipes/DetailEquipe.vue"));
+    },
+    props: true
+  }, {
+    path: '/mon-club',
+    name: 'MonClub',
+    component: function component() {
+      return __webpack_require__.e(/*! import() */ 1).then(__webpack_require__.bind(null, /*! ./views/club/DetailsClub.vue */ "./resources/js/views/club/DetailsClub.vue"));
+    },
+    props: true
+  }, {
+    path: '/update-club',
+    name: 'UpdateClub',
+    component: function component() {
+      return __webpack_require__.e(/*! import() */ 8).then(__webpack_require__.bind(null, /*! ./views/club/UpdateClub.vue */ "./resources/js/views/club/UpdateClub.vue"));
     },
     props: true
   }]

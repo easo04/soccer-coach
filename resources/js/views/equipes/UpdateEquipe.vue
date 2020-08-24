@@ -98,7 +98,7 @@ export default {
         annuler(){
             this.setUpdateForm(false); //set the updateForm variable to false
             this.initFormInputs();
-            this.$router.push({name: 'DetailsEquipe', params: {'equipe':this.equipe}}); //go to détail équipe
+            this.$router.push({name: 'MonClub', params: {'equipe':this.equipe}}); //go to détail équipe
         },
         showSaisonAction(){
             this.showSaison = this.showSaison ? false : true;
@@ -129,7 +129,7 @@ export default {
             this.setUpdateForm(false);
             this.$root.$emit('goToLink');
         });
-    }
+    },
 }
 </script>
 <style lang="scss" scoped>

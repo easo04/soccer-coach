@@ -1,3 +1,7 @@
+body{
+    background-color: #F3F3F3;
+}
+
 .drag {
     width: 22px;
     height: 22px;
@@ -38,6 +42,20 @@
     /*border:1px solid #679403; */
     -webkit-transform: translate(0px, 0px);
             transform: translate(0px, 0px);
+}
+
+.nav-tabs .nav-link {
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
+}
+
+.nav-link.active{
+    font-size: 1.25rem;
+    font-weight: 500;
+}
+
+.nav-tabs .nav-link:focus, .nav-tabs .nav-link:hover {
+    border-color: transparent;
 }
 
 .drag-player-list-img{
@@ -151,56 +169,84 @@
 }
 
 .conteneur{
-    padding-left: 0px;
-    padding-right: 0px;
-    margin-right: 5px;
-    margin-left: 5px;
-    height: 440px;
-    width: auto;
-    display: flex;
-}
-
-.actions{
     margin-top: 5px;
     padding-left: 0px;
     padding-right: 0px;
     margin-right: 5px;
     margin-left: 5px;
-    height: 50px;
-    display: flex;
-    /*border: 1px solid black;*/
+    height: auto;
+    width: auto;
+    background-color: white;
 }
 
-.outils-act-1{
-    padding-right: 20px;
-    padding-left: 24px;
-    width: 60%;
-    border: 1px solid black;
-    /*border-left: 1px solid black;
-    border-right: 1px solid black;*/
-}
-
-.outils-act-2{
-    border: 1px solid black;
-    padding-right: 20px;
-    padding-left: 24px;
+.outils{
     width: 20%;
 }
 
+.terrain{
+    width: 60%;
+}
+
+.action{
+    height: 50px;
+    width: 100%;
+    padding-right: 20px;
+    padding-left: 24px;
+}
+
+.content-design{
+    display: flex;
+    height: 532px;
+}
+
+
 .terrain-space{
     position: relative;
-    height: 100%;
+    height: 472px;
     border: 1px solid black;
     width: 100%;
     margin-left: auto;
     margin-right: auto;
-    background-image: url('../images/terrain/terrain9.png');
+    background-image: url('../images/terrain/terrain11.png');
     background-repeat: no-repeat;
+    /*background-size: cover;*/
+    background-size: 100% 472px;
+}
+
+.list-joueur-add{
+    display: flex;
+}
+
+.joueur-add img:hover{
+    cursor: pointer;
+    width: 31px;
+    height: 31px;
+}
+
+.outils-terrains{
+    margin-top:10px;
+}
+
+.list-terrain-add{
+    padding-left: 0px;
+    padding-right: 0px;
+    overflow: scroll;
+    height: 400px;
+    overflow-x: hidden;
+}
+
+.list-group-custom{
+    display: grid;
+    grid:auto / auto auto auto;
+}
+
+.list-group-item:first-child{
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
 }
 
 @media screen and (min-width: 1440px) {
-    .conteneur{
-        /*height: 600px;*/
+    /*.conteneur{
         width: 60%;
         margin-left: auto;
         margin-right: auto;
@@ -212,25 +258,36 @@
 
     .outils{
         width: 221px;
-    }
+    }*/
 }
 
 .tab-onglet{
     padding-left: 0px;
     padding-right: 0px;
     overflow: scroll;
-    height: 385px;
+    height: 455px;
     overflow-x: hidden;
 }
 
+.center {
+    margin: auto;
+    width: 50%;
+    display: block;
+}
+
 .terrain-li{
-    padding: 10px;
+    padding: 0px !important;
 }
 
 .terrain-li-div{
     cursor: pointer;
     height: 180px;
-    border:1px solid black;
+    width:100%;
+}
+
+.terrain-li-div img{
+    width: inherit;
+    height: 178px;
 }
 
 .joueur-li{
@@ -249,13 +306,9 @@
 
 .outil-li-div{
     cursor: pointer;
-    height: 100px;
-    border:1px solid black;
 }
 
 .drag-outil-list{
-    width: 30%;
-    height: 50px;
     margin: 1%;
     margin-top: 15px;
     margin-left: auto;
@@ -272,13 +325,18 @@
 }
 
 .ligne-li{
-    padding: 10px;
+    padding: 0 !important;
 }
 
 .ligne-li-div{
     cursor: pointer;
     height: 180px;
-    border:1px solid black;
+    width: 100%;
+}
+
+.ligne-li-div img{ 
+    width: inherit;
+    height: 178px;
 }
 
 .ligne-li-div-sm{
@@ -393,7 +451,7 @@
 }
 
 .btnNext .btnNextAction{
-  float: right;
+    float: right;
 }
 
 #myCanvas{

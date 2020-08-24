@@ -13,12 +13,17 @@
                         <div class="form-add-joueur">
                             <div class="form-group">
                                 <label for="nomEnt"><span v-if="entraineurDTO.nom.validations.require"> * </span> Nom:</label>
-                                <input-text placeholder="Ex: Pep Guardiola" v-model="entraineurDTO.nom.value" name="nomEnt"
-                                        :model="entraineurDTO.nom" @validation="entraineurDTO.nom.validate = $event"/>
+                                <input-autocomplete :lst-items="lstNomsEntraineurs" @select="entraineurSelected = $event" placeholder="Ex: Pep Guardiola"/>
                             </div>
                             <div class="form-group">
-                                <label for="role"><span v-if="entraineurDTO.role.validations.require"> * </span> Rôle:</label>
+                                <label for="role"><span v-if="entraineurDTO.role.validations.require"> * </span> Rôle 1:</label>
                                 <select class="select-form" name="role" id="role" v-model="entraineurDTO.role.value">
+                                    <option :value="role.key" v-for="(role, index) in roles" :key="index">{{role.description}}</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="role2"><span v-if="entraineurDTO.role2.validations.require"> * </span> Rôle 2:</label>
+                                <select class="select-form" name="role2" id="role2" v-model="entraineurDTO.role2.value">
                                     <option :value="role.key" v-for="(role, index) in roles" :key="index">{{role.description}}</option>
                                 </select>
                             </div>
@@ -55,20 +60,45 @@
                         },
                         validate:true
                     },
+                    role2:{
+                        value:undefined,
+                        validations:{
+                            require:false
+                        },
+                        validate:true
+                    },
                 },
+                lstEntraineurs:[],
+                lstNomsEntraineurs:[],
+                entraineurSelected:'',
+                idUserEntraineurSelected:undefined
             }
         },
         computed:{
             ...mapState(['roles']),
         },
+        watch:{
+            entraineurSelected(){
+                let entraineur = this.lstEntraineurs.find(e => e.nom === this.entraineurSelected);
+                if(entraineur){
+                    this.entraineurDTO.nom.value= entraineur.nom;
+                    this.idUserEntraineurSelected = entraineur.users_id;
+                }else{
+                    this.entraineurDTO.nom.value = this.entraineurSelected;
+                }
+            }
+        },
         methods:{
             addEntraineur(){
-                /*if(!this.formValid()){
+                if(!this.formValid()){
                     return;
-                }*/
+                }
+
                 let entraineur = {
                     nom:this.entraineurDTO.nom.value,
                     role:this.entraineurDTO.role.value,
+                    role2:this.entraineurDTO.role2.value,
+                    users_id: this.idUserEntraineurSelected,
                 };
 
                 if(this.fromDetail){
@@ -103,6 +133,13 @@
                         },
                         validate:true
                     },
+                    role2:{
+                        value:undefined,
+                        validations:{
+                            require:false
+                        },
+                        validate:true
+                    },
                 };
             },
             openModal(){
@@ -113,6 +150,25 @@
                 $("#modalAddCoach").modal("hide");
             },
             ...mapMutations(['addEntraineurToList']),
+        },
+        created(){
+            //récupérer la liste d'entraîneurs disponibles
+            if(localStorage.getItem('entraineursClub')){
+                this.lstEntraineurs = JSON.parse(localStorage.getItem('entraineursClub'));
+                this.lstNomsEntraineurs = this.lstEntraineurs.map((entraineur) =>{ return entraineur.nom});
+            }else{
+                axios.get('/user/get-entraineurs-by-my-club').then(response =>{
+                    this.lstEntraineurs = response.data.entraineurs;
+                    this.lstNomsEntraineurs = this.lstEntraineurs.map((entraineur) =>{ return entraineur.nom});
+
+                    //add terrains to local storage
+                    const entraineursPrsed = JSON.stringify(this.lstEntraineurs);
+                    localStorage.setItem('entraineursClub', entraineursPrsed);
+                }).catch(error =>{
+                    let errorCode = error.data.errorCode;
+                    console.log(errorCode);
+                });
+            }
         }
     }
 </script>

@@ -7,7 +7,8 @@
             <div class="contenu-exercices">
                 <div class="actions-exercice-detail">
                     <div class="btn-mes-exercices">
-                        <a class="btn btn-soccer-coach-action" @click="back"> <i class="fa fa-cubes"></i> Mes équipes</a>
+                        <a class="btn btn-soccer-coach-action" @click="back" v-if="backToClub"> <i class="fa fa-cubes"></i> Mon club</a>
+                        <a class="btn btn-soccer-coach-action" @click="back" v-else> <i class="fa fa-cubes"></i> Mes équipes</a>
                     </div>
                     <div class="btns">                
                         <router-link :to="{ name: 'UpdateEquipe', params: { 'equipe': this.equipeDetail } }" class="btn btn-soccer-coach-action"><i class="ti-pencil"></i> Modifier</router-link>
@@ -100,7 +101,10 @@
                                         <span>{{entraineur.nom}}</span>
                                     </div> 
                                     <div class="positions d-joueur">
-                                        <span class="position">{{getDescriptionRoleByKey(entraineur.role)}}</span>
+                                        <span class="position">
+                                            {{getDescriptionRoleByKey(entraineur.role)}} 
+                                            <span v-if="entraineur.role2"> / {{getDescriptionRoleByKey(entraineur.role2)}}</span>
+                                        </span>
                                     </div> 
                                     <div class="d-joueur">
                                         <div class="btn-actions-joueur">
@@ -211,11 +215,12 @@
 <script>
     import { mapState, mapMutations, mapGetters } from 'vuex'  
     export default {
-        props:['equipe', 'searchInfo'],
+        props:['equipe', 'searchInfo', 'from'],
         data(){
             return{
                 equipeDetail: this.equipe ? this.equipe : {},
                 isLoading: this.searchInfo ? true : false,
+                backToClub: this.from === 'club'
             }
         },
         computed:{
@@ -236,7 +241,11 @@
         },
         methods:{
             back(){
-                this.$router.push('mes-equipes');
+                if(this.backToClub){
+                    this.$router.push({name: 'MonClub'});
+                }else{
+                    this.$router.push('mes-equipes');
+                }
             },
             closeModalDelete(){
                 $("#modalDeleteEquipe").modal("hide");

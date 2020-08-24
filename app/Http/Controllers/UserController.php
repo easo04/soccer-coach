@@ -25,6 +25,8 @@ class UserController extends Controller
     protected $pratiqueRepository;
     protected $equipesRepository;
 
+    private $ERROR_CODE_AUCUN_CLUB = 100;
+
     public function __construct(UserRepository $userRepository, ExerciceRepository $exerciceRepository, TypesExerciceRepository $typesExerciceRepository,
         ObjectifRepository $objectifRepository, PratiqueRepository $pratiqueRepository, EquipeRepository $equipeRepository)
     {
@@ -95,6 +97,44 @@ class UserController extends Controller
             $activites = $this->equipeRepository->getMesActivitesEntraineurs(Auth::user()->id);
             $reponse = ['activites' => $activites, 'succes' => 'OK'];
             $reponseNo = 200;
+        }
+        return response()->json($reponse, $reponseNo);
+    }
+
+    public function getInfosClub(){
+        $reponse = array('message' => 'USAGER NON CONNECTÉ');
+        $reponseNo = 500;
+        if(auth()->check()){
+
+            //obtenir le club de l'usager connecté
+            $club = $this->userRepository->getInfosClub(Auth::user()->id);
+            if($club){
+                $equipes = $this->equipeRepository->getEquipesByClub($club->id);
+                $reponse = ['club' => $club, 'equipes' => $equipes, 'succes' => 'OK'];
+                $reponseNo = 200;
+            }else{
+                $reponse = ['message' => 'aucun club', 'errorCode' => $ERROR_CODE_AUCUN_CLUB];
+            }
+            
+        }
+        return response()->json($reponse, $reponseNo);
+    }
+
+    public function getEntraineursByClub(){
+        $reponse = array('message' => 'USAGER NON CONNECTÉ');
+        $reponseNo = 500;
+        if(auth()->check()){
+
+            //obtenir le club de l'usager connecté
+            $club = $this->userRepository->getInfosClub(Auth::user()->id);
+            if($club){
+                $entraineurs = $this->equipeRepository->getEntraineursByClub($club->id);
+                $reponse = ['entraineurs' => $entraineurs, 'succes' => 'OK'];
+                $reponseNo = 200;
+            }else{
+                $reponse = ['message' => 'aucun club', 'errorCode' => $ERROR_CODE_AUCUN_CLUB];
+            }
+            
         }
         return response()->json($reponse, $reponseNo);
     }

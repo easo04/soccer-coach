@@ -74,6 +74,7 @@ export default new VueRouter ({
             path:'/create-equipe',
             name:'CreateEquipe',
             component:() => import('./views/equipes/CreateEquipe.vue'),
+            props:true
         },
         {
             path:'/update-equipe',
@@ -85,6 +86,18 @@ export default new VueRouter ({
             path:'/details-equipe',
             name:'DetailsEquipe',
             component:() => import('./views/equipes/DetailEquipe.vue'),
+            props: true
+        },
+        {
+            path:'/mon-club',
+            name:'MonClub',
+            component:() => import('./views/club/DetailsClub.vue'),
+            props: true
+        },
+        {
+            path:'/update-club',
+            name:'UpdateClub',
+            component:() => import('./views/club/UpdateClub.vue'),
             props: true
         },
     ]

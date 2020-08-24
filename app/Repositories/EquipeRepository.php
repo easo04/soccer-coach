@@ -21,9 +21,9 @@ class EquipeRepository{
 
     public function save(Equipe $equipe, Array $inputs){
 		$equipe->nom = isset($inputs['nom']) ? $inputs['nom'] : '';
-		$equipe->logo = isset($inputs['logo']) ? $inputs['logo'] : '';
-		if(isset($inputs['club_id'])){
-			$equipe->club_id =$inputs['club_id'];
+		$equipe->logo = isset($inputs['logo']) ? $inputs['logo'] : ''; 
+		if(isset($inputs['clubId'])){
+			$equipe->club_id =$inputs['clubId'];
 		}
 		$equipe->users_id = $inputs['users_id'];
         $equipe->save();
@@ -137,10 +137,11 @@ class EquipeRepository{
 	public function updateEntraineur($entraineur){
 		$nom = isset($entraineur['nom']) ? $entraineur['nom'] : '';
 		$role = isset($entraineur['role']) ? $entraineur['role'] : '';
+		$role2 = isset($entraineur['role2']) ? $entraineur['role2'] : null;
 
 		$affected = DB::table('entraineurs')
             ->where('id', $entraineur['id'])
-			->update(['nom' => $nom, 'role' => $role]);
+			->update(['nom' => $nom, 'role' => $role, 'role2' => $role2]);
 		
 		return $affected;
 	}
@@ -161,21 +162,25 @@ class EquipeRepository{
 
 	public function createEntraineurByEquipe($idEquipe, $entraineur){
 		$role = isset($entraineur['role']) ? $entraineur['role'] : '';
+		$role2 = isset($entraineur['role2']) ? $entraineur['role2'] : null;
 		$prenom = isset($entraineur['prenom']) ? $entraineur['prenom'] : '';
 		$idUser = isset($entraineur['users_id']) ? $entraineur['users_id'] : null;
+
 		return DB::table('entraineurs')->insert(
 			['nom' => $entraineur['nom'], 'prenom' => $prenom,
-			'role' => $role, 'equipe_id' => $idEquipe, 'users_id' => $idUser]
+			'role' => $role, 'equipe_id' => $idEquipe, 'users_id' => $idUser, 'role2' => $role2]
 		);
 	}
 
 	public function createEntraineurAndGetId($idEquipe, $entraineur){
 		$role = isset($entraineur['role']) ? $entraineur['role'] : '';
-		$prenom = isset($entraineur['prenom']) ? $entraineur['prenom'] : '';
+		$role2 = isset($entraineur['role2']) ? $entraineur['role2'] : null;
+		$prenom = isset($entraineur['prenom']) ? $entraineur['prenom'] : '';	
+		$idUser = isset($entraineur['users_id']) ? $entraineur['users_id'] : null;
 
 		return DB::table('entraineurs')->insertGetId(
 			['nom' => $entraineur['nom'], 'prenom' => $prenom,
-			'role' => $role, 'equipe_id' => $idEquipe]
+			'role' => $role, 'equipe_id' => $idEquipe, 'users_id' => $idUser, 'role2' => $role2]
 		);
 	}
 
@@ -491,6 +496,29 @@ class EquipeRepository{
 		->where('entraineurs.users_id', '=', $user)
 		->where('activites.date_debut', '>=', new DateTime())
 		->orderBy('activites.date_debut')
+		->get();
+	}
+
+	public function getEquipesByClub($idClub){
+		return DB::table('equipes')
+		->select(DB::raw('equipes.*, saison_equipes.nom AS nomSaison, saison_equipes.date_debut as dateDebutSaison,
+						date_fin as dateFinSaison'))
+		->leftJoin('saison_equipes', 'saison_equipes.equipe_id', '=',  'equipes.id')
+		->where('equipes.club_id', '=', $idClub)
+		->orderBy('equipes.created_at', 'desc')
+		->get();
+	}
+
+	public function getEntraineursByClub($idClub){
+		return DB::table('entraineurs')
+		->select(DB::raw('entraineurs.nom, entraineurs.users_id'))
+		->join('equipes', 'entraineurs.equipe_id', '=',  'equipes.id')
+		->join('clubs', 'equipes.club_id', '=',  'clubs.id')
+		->where('clubs.id', '=', $idClub)
+		->whereNotNull('entraineurs.users_id')
+		->orderBy('entraineurs.nom', 'asc')
+		->groupBy('entraineurs.nom')
+		->groupBy('entraineurs.users_id')
 		->get();
 	}
 

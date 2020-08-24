@@ -102,11 +102,13 @@
 <script>
 import { mapState, mapMutations, mapGetters } from 'vuex' 
 export default {
+    props:['from', 'clubId'],
     data(){
         return{
             equipeDTO:{},
             error:{isError:false, message:''},
-            showSaison:false
+            showSaison:false,
+            backToClub:this.from === 'club',
         }
     },
     computed:{
@@ -128,12 +130,17 @@ export default {
                     dateFin:equipe.saison.dateFin.value
                 },
                 joueurs:this.lstJoueurs,
-                entraineurs:this.lstEntraineurs
+                entraineurs:this.lstEntraineurs,
+                clubId: this.clubId,
             };
             axios.post('/equipes/create', param).then(response =>{
                 this.initFormInputs();
                 this.setUpdateForm(false);
-                this.$router.push({name: 'DetailsEquipe', params:{'equipe' : response.data.equipe}}); //go to détail équipe
+                if(this.backToClub){
+                    this.$router.push({name: 'MonClub'}); //go to détails club
+                }else{
+                    this.$router.push({name: 'DetailsEquipe', params:{'equipe' : response.data.equipe}}); //go to détail équipe
+                }
             });
         },
         formValid(){
@@ -142,7 +149,11 @@ export default {
         annuler(){
                 this.setUpdateForm(false); //set the updateForm variable to false
                 this.initFormInputs();
-                this.$router.push({name: 'MesEquipes'}); //go to mes équipes
+                if(this.backToClub){
+                    this.$router.push({name: 'MonClub'}); //go to mes équipes
+                }else{
+                    this.$router.push({name: 'MesEquipes'}); //go to mes équipes
+                }             
         },
         showSaisonAction(){
             this.showSaison = this.showSaison ? false : true;

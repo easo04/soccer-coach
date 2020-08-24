@@ -114,7 +114,7 @@ export default {
                 selected:false,
                 nomFr:'Mon club',
                 icon:'fa fa-cube',
-                url:''
+                url:'mon-club'
             },
             {
                 name:'mon_profil',

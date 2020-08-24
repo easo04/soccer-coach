@@ -11,46 +11,4 @@
             right: 0;
         }
     }
-    .card-equipe{
-        border:none;
-        padding: 10px;
-        background-color: $gris-soccer-coach;
-        margin-bottom: 10px;
-        height: 70px;
-        .info-equipe{
-            float: left;
-            vertical-align: baseline;
-            height: 60px;
-            position: relative;
-            width: 500px;
-            .saison-equipe{
-                h5{
-                    position: relative!important;
-                }
-
-                span{
-                    font-size: 12px;
-                    &.label{
-                        font-weight: bold;
-                    }
-                }
-    
-                .nom-saison{
-                    font-size: 14px!important;
-                    font-weight: bold;
-                    color:$gris-obscur-soccer-coach;
-                }
-            }
-            h5{
-                position: absolute;
-                top: 25%;
-            }
-        }
-
-        .voir-equipe{
-            float: right;
-            margin-top: 8px;
-            width: 200px;
-        }
-    }
 }

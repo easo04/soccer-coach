@@ -42,6 +42,7 @@ Vue.component('dashboard-soccer-coach', require('./components/DashboardSoccerCoa
 Vue.component('update-pratique', require('./components/UpdatePratiquesComponent.vue').default);
 Vue.component('types-seances-select', require('./components/TypesSeancesSelect.vue').default);
 Vue.component('add-favoris', require('./components/AddFavorisComponent.vue').default);
+Vue.component('list-equipes', require('./components/ListEquipesComponent.vue').default);
 
 //Components forms
 Vue.component('input-text', require('./components/form/InputTextComponent.vue').default);

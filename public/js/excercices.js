@@ -1,12 +1,11 @@
-var objectSelected = null;
-var lastColorSelected = null;
-var terrainSelected = 'terrain9';
-var lstOptionsActive = [];
-var ligneSelected = null;
-var formeSelected = null;
+let objectSelected;
+let lastColorSelected;
+let terrainSelected = 'terrain11';
+let lstOptionsActive = [];
+let ligneSelected;
+let formeSelected;
 
 $(function() {
-
   //initialiser la liste des boutons
   initListeTerrains();
   initListeJoueurs();
@@ -19,7 +18,7 @@ $(function() {
   //initialiser fonction pour le select de transparence
   $('#select-transparence').change(function (){
       $( "#select-transparence option:selected" ).each(function() {
-         changeOpacity($( this ).val());
+        changeOpacity($( this ).val());
       });
   });
 
@@ -50,28 +49,6 @@ function changeOpacity(pourcentage){
         objectSelected[0].style.opacity = opacity;
         console.log(pourcentage);
     }
-}
-
-
-function initListeTerrains(){
-    var contenu = '';
-
-    listeObjects.liste_terrains.forEach(function (item) {
-        if(item.color !== ''){
-            contenu += '<li class="list-group-item terrain-li"><div class="terrain-li-div terrain-' + item.name + '" onclick="changerTerrain(\'' + item.color + '\');"></div></li>';
-        }else if(item.image !== ''){
-            contenu += '<li class="list-group-item terrain-li"><div class="terrain-li-div" onclick="changerTerrainImg(\'' + item.image + '\', \'' + item.name  + '\');"><img src="images/terrain/' + item.image + '" width="293px" height="178px"/></div></li>';
-        }
-    });
-
-    $("#ul-liste-terrains").html(contenu);
-}
-
-function changerTerrainImg(img, name){
-  $('.terrain-space').css('background-image', 'url(images/terrain/' + img + ')');
-  $('.terrain-space').css('background-repeat', 'no-repeat');
-  terrainSelected = name;
-  initListeLignes();
 }
 
 function changerTerrain(color){
@@ -148,42 +125,6 @@ function creationCanvasPlayer(id){
     context.closePath();
 }
 
-function initListeOutils() {
-    var contenu = '';
-    listeObjects.liste_outils.forEach(function (item) {
-        contenu += '<li class="list-group-item outil-li"><div class="outil-li-div" onclick="ajouterOutil(\'' + item.name + '\', \'' + item.image  + '\');">' +
-        '<div class="drag-outil-list"><img src="images/outils/outils_list/' + item.image + '" alt="' + item.name + '"></div></div></li>';
-    });
-    $('#ul-liste-outils').html(contenu);
-}
-
-function ajouterOutil(outilName, outilImage) {
-    var noOutil = $('.terrain-space')[0].children.length + 1;
-    var contenu = '<div id="drag-outil-' + outilName + '-' + noOutil +  '" class="draggable drag-outil" onclick="selectObject(\'drag-outil-' + outilName + '-' + noOutil + '\')">' +
-        '<img id="' + outilName + '" src="images/outils/' + outilImage + '">' +
-        '</div>';
-    //$('#terrainSoccer').prepend(contenu);
-    $('#terrainSoccer').append(contenu);
-}
-
-function initListeLignes() {
-    var contenu = '';
-    contenu += '<li class="list-group-item ligne-li"><div class="ligne-li-div" onclick="changerTerrainImg(\'' + terrainSelected + '.png\', \'' + terrainSelected  + '\')"><img src="images/lignes/terrain-vide.png" width="293px" height="178px"/></div></li>';
-    listeObjects.liste_lignes.forEach(function (item) {  
-        if(terrainSelected  === item.terrain){
-          contenu += '<li class="list-group-item ligne-li"><div class="ligne-li-div" onclick="changerLigneImg(\'' + item.image + '\', \'' + item.name  + '\');"><img src="images/lignes/' + item.image + '" width="293px" height="178px"/></div></li>';
-        }              
-    });
-    $('#ul-liste-lignes').html(contenu);
-}
-
-
-function changerLigneImg(img, name){
-  ligneSelected = name;
-  updateTerrain(img);
-  initListStyleLignes(name);
-}
-
 function initListStyleLignes(name){
   let contenu = '';
   contenu += '<div class="style-option-ligne" onclick="changerLigneOption(\'' + ligneSelected + '\')"><img src="images/lignes/terrain-vide.png"/></div>';
@@ -199,11 +140,6 @@ function initListStyleLignes(name){
 
 function changerLigneOption(img){
   updateTerrain(img+'.png');
-}
-
-function updateTerrain(img){
-  $('.terrain-space').css('background-image', 'url(images/lignes/' + img + ')');
-  $('.terrain-space').css('background-repeat', 'no-repeat');
 }
 
 function initListForms(){
@@ -381,16 +317,16 @@ function initButtons(showColors) {
   $('#deleteAll').show();
 
   if(showColors){
-     $('.color-icons').show();
-     $('#btnAddText').show();
-     $('#btnColor').show();
-     $('#btnRotate').hide();
-     $('#btnZoomPlus').hide();
-     $('#btnZoomMoins').hide(); 
+    //$('.color-icons').show();
+    $('#btnAddText').show();
+    //$('#btnColor').show();
+    $('#btnRotate').hide();
+    $('#btnZoomPlus').hide();
+    $('#btnZoomMoins').hide(); 
   }
 
   //vérifier s'il y a un objet sélectionné
-  if(objectSelected !== null && objectSelected[0] !== null){
+  if(objectSelected && objectSelected[0]){
 
     //récupérer l'objet sélectionné et vérifier s'il est de type drag-outil
     var idObjectSelected = objectSelected[0].id;
@@ -405,9 +341,9 @@ function initButtons(showColors) {
 
       //pour les buts, echelles et fleches ne pas afficher btn rotation
       if(idObjectSelected.includes('but') || idObjectSelected.includes('stair') || idObjectSelected.includes('arrow')){
-         $('#btnRotate').show();
+        $('#btnRotate').show();
       }else{
-         $('#btnRotate').hide();
+        $('#btnRotate').hide();
       }
 
       //pour les flehces afficher le zoom
@@ -425,17 +361,17 @@ function initButtons(showColors) {
   }
 
   if(!showColors && objectSelected == null){
-     $('.color-icons').hide();
-     $('#btnAddText').hide();
-     $('#btnColor').hide();
-     $('#supprimerObject').hide();
-     $('#deleteAll').hide();
+    $('.color-icons').hide();
+    $('#btnAddText').hide();
+    $('#btnColor').hide();
+    $('#supprimerObject').hide();
+    $('#deleteAll').hide();
   }
 }
 
 function deselectionner(event){
   if(event.target.id === 'terrainSoccer'){
-     var lastObjectSelected = $('.object-selected');
+    var lastObjectSelected = $('.object-selected');
     if(lastObjectSelected.length !== 0){
       lastObjectSelected.removeClass('object-selected');
     }else{
@@ -571,7 +507,7 @@ function zoomPlus(){
 }
 
 function zoomMoins(){
- if(objectSelected != null){
+  if(objectSelected != null){
     var image = objectSelected[0].children[0];
     if(image.height > 80){
       image.height -= 10; 
@@ -593,12 +529,12 @@ function makeCopy(){
 }
 
 function savePNG(){
-   var domElement = document.getElementById("terrainSoccer");
-   html2canvas(domElement, {
+  var domElement = document.getElementById("terrainSoccer");
+  html2canvas(domElement, {
     onrendered: function(canvas) {
         Canvas2Image.saveAsPNG(canvas); 
     }
-   });
+  });
 }
 
 function savePdf(){
@@ -611,4 +547,87 @@ function savePdf(){
             doc.save('exercice.pdf');
         }
     });
+}
+
+
+/* REFONTE */
+
+function addPlayerByColor(color){
+    let noJoueur = $('.terrain-space')[0].children.length + 1;
+    let src = "images/joueurs/player1-" + color + '.png';
+    let contenu = '<div id="drag-joueur-' + noJoueur +  '" class="draggable drag-joueur" onclick="selectObject(\'drag-joueur-' + noJoueur + '\')">' +
+                    '<img id="' + color + '-' + noJoueur +'" src="' + src + '">' +
+                  '</div>';
+    $('#terrainSoccer').append(contenu);
+}
+
+function initListeTerrains(){
+  let contenu = '';
+
+  listeObjects.liste_terrains.forEach(item => {
+    contenu += '<div class="list-group-item terrain-li">' +
+                  '<div class="terrain-li-div" onclick="changerTerrainImg(\'' + item.image + '\', \'' + item.name  + '\');">'+
+                    '<img src="images/terrain/' + item.image + '" title="' + item.name + '"/>' +
+                  '</div>' +
+                '</div>';
+  });
+
+  $(".list-terrain-add").html(contenu);
+}
+
+function changerTerrainImg(img, name){
+  $('.terrain-space').css('background-image', 'url(images/terrain/' + img + ')');
+  $('.terrain-space').css('background-repeat', 'no-repeat');
+  terrainSelected = name;
+  initListeLignes();
+}
+
+function initListeOutils() {
+  let contenu = '';
+  listeObjects.liste_outils.forEach(item => {
+      contenu += '<div class="outil-li-div" onclick="ajouterOutil(\'' + item.name + '\', \'' + item.image  + '\');">' +
+                    '<div class="drag-outil-list">'+
+                      '<img src="images/outils/outils_list/' + item.image + '" alt="' + item.name + '" class="center" title="' + item.name + '">'+
+                    '</div>'+
+                  '</div>';
+  });
+  $('#liste-outils').html(contenu);
+}
+
+function ajouterOutil(outilName, outilImage) {
+  let noOutil = $('.terrain-space')[0].children.length + 1;
+  let contenu = '<div id="drag-outil-' + outilName + '-' + noOutil +  '" class="draggable drag-outil" onclick="selectObject(\'drag-outil-' + outilName + '-' + noOutil + '\')">' +
+                  '<img id="' + outilName + '" src="images/outils/' + outilImage + '">' +
+                '</div>';
+  $('#terrainSoccer').append(contenu);
+}
+
+function initListeLignes() {
+  let contenu = '';
+  /*contenu += '<div class="list-group-item ligne-li">'+
+                '<div class="ligne-li-div" onclick="changerTerrainImg(\'' + terrainSelected + '.png\', \'' + terrainSelected  + '\')">'+
+                  '<img src="images/lignes/terrain-vide.png" width="293px" height="178px"/>'+
+                '</div>'+
+              '</div>';*/
+  listeObjects.liste_lignes.forEach(function (item) {  
+      if(terrainSelected  === item.terrain){
+        contenu += '<div class="list-group-item ligne-li">'+
+                      '<div class="ligne-li-div" onclick="changerLigneImg(\'' + item.image + '\', \'' + item.name  + '\');">'+
+                        '<img src="images/lignes/' + item.image + '" width="293px" height="178px"/>'+
+                      '</div>'+
+                    '</div>';
+      }              
+  });
+  $('#liste-lignes').html(contenu);
+}
+
+function changerLigneImg(img, name){
+  ligneSelected = name;
+  updateTerrain(img);
+  initListStyleLignes(name);
+}
+
+function updateTerrain(img){
+  $('.terrain-space').css('background-image', 'url(images/lignes/' + img + ')');
+  $('.terrain-space').css('background-repeat', 'no-repeat');
 }

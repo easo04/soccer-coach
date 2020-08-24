@@ -51,6 +51,8 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/user/get-seances-by-user', 'UserController@getSeancesByUser')->name('user.seances'); //API
     Route::get('/user/services', 'UserController@getServices')->name('user.services'); //API
     Route::get('/user/get-activites-by-user', 'UserController@getActivitesByEntraineur');  //API
+    Route::get('/user/get-infos-my-club', 'UserController@getInfosClub');  //API
+    Route::get('/user/get-entraineurs-by-my-club', 'UserController@getEntraineursByClub');  //API
 
     //FAVORIS ROUTES
     Route::get('/favoris/get-favoris-by-user', 'FavorisController@getFavorisToAuthUser'); //API
@@ -79,6 +81,9 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/equipes/get-notes-by-activite/{id}', 'EquipeController@getNotesByActivite'); //API
     Route::post('/equipes/create-note', 'EquipeController@createNote'); //API
     Route::delete('/equipes/delete-note/{id}', 'EquipeController@deleteNote'); //API
+
+    //CLUBS
+    Route::post('/club/update-club', 'ClubController@updateClub'); //API
 
     //ROUTE OUTIL DESIGNER
     Route::get('/create-exercice', 'CreateExercice@getPage');

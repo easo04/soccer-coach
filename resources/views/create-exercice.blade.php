@@ -22,91 +22,79 @@
     <script src="js/drag.js"></script>
   </head>
   <body>
-    <div class="actions">
-      <div class="outils-act-2">
-      </div>
-      <div class="outils-act-1">
-        <div class="color-icons icons-soccer">
-          <div class="color-outil color-red action-outil" id="color-red" onclick="changerCouleurOutil('red');"></div>
-          <div class="color-outil color-blue-claro action-outil" id="color-blue-claro" onclick="changerCouleurOutil('blue-claro');"></div>
-          <div class="color-outil color-yellow action-outil" id="color-yellow" onclick="changerCouleurOutil('yellow');"></div>
-          <div class="color-outil color-white action-outil" id="color-white" onclick="changerCouleurOutil('white');"></div>
-          <div class="color-outil color-black action-outil" id="color-black" onclick="changerCouleurOutil('black');"></div>
-        </div>
-        <div class="actions-icons icons-soccer">
-          <i class="fas fa-fill-drip action-outil" id="btnColor" onclick="setChangeBorderColor(false);selectedAction('btnColor')"></i>
-          <i class="fa fa-font action-outil" data-toggle="modal" id="btnAddText" data-target="#modalAddText"></i>
-          <i class="fa fa-file-image-o" onclick="savePNG();"></i>
-          <i class="fa fa-file-pdf-o" onclick="savePdf();"></i>
-          <!--<i class="fa fa-floppy-o"></i>-->
-          <i class="fa fa-eraser" onclick="deleteObject();" id="supprimerObject"></i>
-          <i class="fa fa-trash" data-toggle="modal" data-target="#modalDeleteAll" id="deleteAll"></i>
-        </div>
-      </div>
-      <div class="outils-act-2">
-        <div class="actions-icons icons-soccer">
-          <i class="fa fa-rotate-right action-outil" id="btnRotate" onclick="selectedActionForm('btnRotate');rotate();"></i>
-          <i class="fa fa-plus-square action-outil" id="btnZoomPlus" onclick="selectedActionForm('btnZoomPlus');zoomPlus();"></i>
-          <i class="fa fa-minus-square action-outil" id="btnZoomMoins" onclick="selectedActionForm('btnZoomMoins');zoomMoins();"></i>
-          <i class="fa fa-square action-outil" id="btnSquare" onclick="selectedActionForm('btnSquare')"></i>
-          <i class="fa fa-circle action-outil action" id="btnCircle" onclick="selectedActionForm('btnCircle')"></i>
-          <i class="far fa-clone action-outil action" id="btnMakeCopy" onclick="selectedActionForm('btnMakeCopy');makeCopy();"></i>
-          <!--<i class="fa fa-square-o" data-toggle="modal" id="btnBorderForme" data-target="#modalAddText"></i>-->
-          <select id="select-transparence">
-            <option value="opacite">Opacité</option>
-            <option value="100">100%</option>
-            <option value="70">70%</option>
-            <option value="50">50%</option>
-            <option value="20">20%</option>
-            <option value="0">0%</option>
-          </select>
-        </div>
-      </div>
-    </div>
     <div class="conteneur">
-      <div class="outils">
-      </div> 
-      <div class="terrain">
-        <div class="row terrain-space" id="terrainSoccer"></div>
-      </div>
-      <div class="outils">
-        <ul class="nav nav-tabs">
-          <li class="nav-item">
-            <a class="nav-link active" data-toggle="tab" href="#terrainsDiv" onclick="initButtons(false);initButtonsFormes(false);">Terrains</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" data-toggle="tab" href="#joueursDiv" onclick="initButtons(true);initButtonsFormes(false);">Joueurs</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" data-toggle="tab" href="#outilsDiv" onclick="initButtons(false);initButtonsFormes(false);">Outils</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" data-toggle="tab" href="#lignesDiv" onclick="initButtons(false);">Lignes</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" data-toggle="tab" href="#formsDiv" onclick="initButtons(false);initButtonsFormes(true);">Formes</a>
-          </li>
-        </ul>
+      <div class="content-design">
+        <div class="outils">
+          <div class="outils-joueurs"> 
+            <h5>Joueurs</h5>
+            <div class="list-joueur-add">  
+              <div class="joueur-add">
+                <img id="player1" src="images/joueurs/player1-red.png" onclick="addPlayerByColor('red')">
+              </div> 
+              <div class="joueur-add">
+                <img id="player1" src="images/joueurs/player1-blue-claro.png" onclick="addPlayerByColor('blue-claro')">
+              </div> 
+              <div class="joueur-add">
+                <img id="player1" src="images/joueurs/player1-yellow.png" onclick="addPlayerByColor('yellow')">
+              </div>
+            </div> 
+          </div>
+          <div class="outils-terrains">
+            <h5>Terrains</h5>
+            <div class="list-terrain-add"></div>
+          </div> 
+        </div> 
+        <div class="terrain">
+          <div class="terrain-act action">
+            <div class="color-icons icons-soccer">
+              <div class="color-outil color-red action-outil" id="color-red" onclick="changerCouleurOutil('red');"></div>
+              <div class="color-outil color-blue-claro action-outil" id="color-blue-claro" onclick="changerCouleurOutil('blue-claro');"></div>
+              <div class="color-outil color-yellow action-outil" id="color-yellow" onclick="changerCouleurOutil('yellow');"></div>
+              <div class="color-outil color-white action-outil" id="color-white" onclick="changerCouleurOutil('white');"></div>
+              <div class="color-outil color-black action-outil" id="color-black" onclick="changerCouleurOutil('black');"></div>
+            </div>
+            <div class="actions-icons icons-soccer">
+              <i class="fas fa-fill-drip action-outil" id="btnColor" onclick="setChangeBorderColor(false);selectedAction('btnColor')"></i>
+              <i class="fa fa-font action-outil" data-toggle="modal" id="btnAddText" data-target="#modalAddText"></i>
+              <i class="fa fa-file-image-o" onclick="savePNG();"></i>
+              <i class="fa fa-file-pdf-o" onclick="savePdf();"></i>
+              <!--<i class="fa fa-floppy-o"></i>-->
+              <i class="fa fa-eraser" onclick="deleteObject();" id="supprimerObject"></i>
+              <i class="fa fa-trash" data-toggle="modal" data-target="#modalDeleteAll" id="deleteAll"></i>
+            </div>
+          </div>
+          <div class="row terrain-space" id="terrainSoccer"></div>
+        </div>
+        <div class="outils">
+          <div class="outils-onglets-content">
+            <ul class="nav nav-tabs">
+              <li class="nav-item">
+                <a class="nav-link active" data-toggle="tab" href="#outilsDiv" onclick="initButtons(false);initButtonsFormes(false);">Outils</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" data-toggle="tab" href="#lignesDiv" onclick="initButtons(false);">Lignes</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" data-toggle="tab" href="#formsDiv" onclick="initButtons(false);initButtonsFormes(true);">Formes</a>
+              </li>
+            </ul>
 
-        <!-- Tab panes -->
-        <div class="tab-content">
-          <div class="tab-pane active container tab-onglet" id="terrainsDiv">
-            <ul class="list-group" id="ul-liste-terrains"></ul>
-          </div>
-          <div class="tab-pane container tab-onglet" id="joueursDiv">
-            <ul class="list-group" id="ul-liste-joueurs"></ul>
-          </div>
-          <div class="tab-pane container tab-onglet" id="outilsDiv">
-            <ul class="list-group" id="ul-liste-outils"></ul>
-          </div>
-          <div class="tab-pane container tab-onglet" id="lignesDiv">
-            <ul class="list-group" id="ul-liste-lignes"></ul>
-          </div>
-          <div class="tab-pane container tab-onglet" id="formsDiv">
-            <ul class="list-group" id="ul-liste-formes"></ul>
+            <!-- Tab panes -->
+            <div class="tab-content">
+              <div class="tab-pane active container tab-onglet" id="outilsDiv">
+                <div class="list-group list-group-custom" id="liste-outils"></div>
+              </div>
+              <div class="tab-pane container tab-onglet" id="lignesDiv">
+                <div class="list-group" id="liste-lignes"></div>
+              </div>
+              <div class="tab-pane container tab-onglet" id="formsDiv">
+                <ul class="list-group list-group-custom" id="ul-liste-formes"></ul>
+              </div>
+            </div>
           </div>
         </div>
       </div>
+      <div class="styles-lignes"></div>
 
       <!-- Modal -->
       <div class="modal fade" id="modalAddText" role="dialog">
@@ -152,6 +140,5 @@
         </div>
       </div>
     </div>
-    <div class="styles-lignes"></div>
   </body>
 </html>

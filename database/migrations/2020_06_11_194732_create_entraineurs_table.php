@@ -20,6 +20,7 @@ class CreateEntraineursTable extends Migration
             $table->integer('equipe_id')->unsigned();
             $table->integer('users_id')->unsigned()->nullable();
             $table->set('role', ['E', 'EA', 'EG', 'G', 'A', 'PP']);
+            $table->set('role2', ['E', 'EA', 'EG', 'G', 'A', 'PP']);
             $table->foreign('users_id')
                 ->references('id')
                 ->on('users');

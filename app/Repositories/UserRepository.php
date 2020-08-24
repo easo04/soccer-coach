@@ -31,4 +31,11 @@ class UserRepository{
 		$this->save($variante, $inputs);
 	}
 
+	public function getInfosClub($idUser){
+		return DB::table('clubs')
+		->select('clubs.*')
+		->where('clubs.users_id', '=', $idUser)
+		->first();
+	}
+
 }

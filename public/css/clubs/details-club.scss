@@ -1,0 +1,52 @@
+@import '../../../resources/sass/variables';
+
+.mon-club{
+    .block{
+        display: block;
+    }
+    .label{
+        font-weight: bold;
+    }
+
+    h4{
+        padding-bottom: 10px;
+    }
+    .club{
+        margin-top: 10px;
+        .info-club{
+            .data-club{
+                box-shadow: 1px 2px $color-border;
+            }
+            .lst-equipes{
+                margin-top: 20px;
+                box-shadow: 1px 2px $color-border;
+                .actions{
+                    .btn-create-equipe{
+                        float: right;
+                        .btn{
+                            margin-right: 10px;
+                        }
+                    }
+                }
+                h5{
+                    //border-bottom: 1px solid $color-border;
+                    padding-bottom: 10px;
+                }
+            }
+        }
+    
+        .actions-club-detail{
+            .btns{
+                float: right;
+                display: flex;
+                .modal-btn{
+                    margin-right: 5px;
+                }
+    
+                .btn{
+                    margin-right: 5px;
+                }
+            }
+        }
+    }
+}

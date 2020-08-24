@@ -21,6 +21,12 @@
                                     <option :value="role.key" v-for="(role, index) in roles" :key="index">{{role.description}}</option>
                                 </select>
                             </div>
+                            <div class="form-group">
+                                <label for="role2"><span v-if="entraineurDTO.role2.validations.require"> * </span> Rôle 2:</label>
+                                <select class="select-form" name="role2" id="role2" v-model="entraineurDTO.role2.value">
+                                    <option :value="role.key" v-for="(role, index) in roles" :key="index">{{role.description}}</option>
+                                </select>
+                            </div>
                             <div class="btn-action-exercices">
                                 <div class="btns">
                                     <a class="btn btn-soccer-coach-action" @click="updateCoach()"><i class="ti-plus"></i> Modifier entraîneur</a>
@@ -54,6 +60,13 @@
                         },
                         validate:true
                     },
+                    role2:{
+                        value:undefined,
+                        validations:{
+                            require:false
+                        },
+                        validate:true
+                    },
                 },
             }
         },
@@ -66,6 +79,7 @@
                     id: this.entraineur.id,
                     nom:this.entraineurDTO.nom.value,
                     role:this.entraineurDTO.role.value,
+                    role2:this.entraineurDTO.role2.value
                 };
 
                 axios.post("/equipes/updateEntraineur", params).then(response =>{
@@ -108,6 +122,7 @@
             //initialiser les valeurs du joueurDTO
             this.entraineurDTO.nom.value = this.entraineur.nom;
             this.entraineurDTO.role.value = this.entraineur.role;
+            this.entraineurDTO.role2.value = this.entraineur.role2;
         },
         mounted(){
         }
