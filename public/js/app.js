@@ -106509,7 +106509,7 @@ vue__WEBPACK_IMPORTED_MODULE_0___default.a.use(vue_router__WEBPACK_IMPORTED_MODU
   routes: [{
     path: '/',
     component: function component() {
-      return __webpack_require__.e(/*! import() */ 7).then(__webpack_require__.bind(null, /*! ./views/MonDashboard.vue */ "./resources/js/views/MonDashboard.vue"));
+      return __webpack_require__.e(/*! import() */ 8).then(__webpack_require__.bind(null, /*! ./views/MonDashboard.vue */ "./resources/js/views/MonDashboard.vue"));
     },
     children: []
   }, {
@@ -106548,7 +106548,7 @@ vue__WEBPACK_IMPORTED_MODULE_0___default.a.use(vue_router__WEBPACK_IMPORTED_MODU
     path: '/detail-seance',
     name: 'DetailSeance',
     component: function component() {
-      return __webpack_require__.e(/*! import() */ 6).then(__webpack_require__.bind(null, /*! ./views/seance/DetailSeance.vue */ "./resources/js/views/seance/DetailSeance.vue"));
+      return __webpack_require__.e(/*! import() */ 7).then(__webpack_require__.bind(null, /*! ./views/seance/DetailSeance.vue */ "./resources/js/views/seance/DetailSeance.vue"));
     },
     props: true
   }, {
@@ -106580,27 +106580,27 @@ vue__WEBPACK_IMPORTED_MODULE_0___default.a.use(vue_router__WEBPACK_IMPORTED_MODU
     path: '/mes-equipes',
     name: 'MesEquipes',
     component: function component() {
-      return __webpack_require__.e(/*! import() */ 4).then(__webpack_require__.bind(null, /*! ./views/equipes/EquipesComponent.vue */ "./resources/js/views/equipes/EquipesComponent.vue"));
+      return __webpack_require__.e(/*! import() */ 5).then(__webpack_require__.bind(null, /*! ./views/equipes/EquipesComponent.vue */ "./resources/js/views/equipes/EquipesComponent.vue"));
     }
   }, {
     path: '/create-equipe',
     name: 'CreateEquipe',
     component: function component() {
-      return __webpack_require__.e(/*! import() */ 2).then(__webpack_require__.bind(null, /*! ./views/equipes/CreateEquipe.vue */ "./resources/js/views/equipes/CreateEquipe.vue"));
+      return __webpack_require__.e(/*! import() */ 3).then(__webpack_require__.bind(null, /*! ./views/equipes/CreateEquipe.vue */ "./resources/js/views/equipes/CreateEquipe.vue"));
     },
     props: true
   }, {
     path: '/update-equipe',
     name: 'UpdateEquipe',
     component: function component() {
-      return __webpack_require__.e(/*! import() */ 5).then(__webpack_require__.bind(null, /*! ./views/equipes/UpdateEquipe.vue */ "./resources/js/views/equipes/UpdateEquipe.vue"));
+      return __webpack_require__.e(/*! import() */ 6).then(__webpack_require__.bind(null, /*! ./views/equipes/UpdateEquipe.vue */ "./resources/js/views/equipes/UpdateEquipe.vue"));
     },
     props: true
   }, {
     path: '/details-equipe',
     name: 'DetailsEquipe',
     component: function component() {
-      return __webpack_require__.e(/*! import() */ 3).then(__webpack_require__.bind(null, /*! ./views/equipes/DetailEquipe.vue */ "./resources/js/views/equipes/DetailEquipe.vue"));
+      return __webpack_require__.e(/*! import() */ 4).then(__webpack_require__.bind(null, /*! ./views/equipes/DetailEquipe.vue */ "./resources/js/views/equipes/DetailEquipe.vue"));
     },
     props: true
   }, {
@@ -106614,7 +106614,7 @@ vue__WEBPACK_IMPORTED_MODULE_0___default.a.use(vue_router__WEBPACK_IMPORTED_MODU
     path: '/update-club',
     name: 'UpdateClub',
     component: function component() {
-      return __webpack_require__.e(/*! import() */ 8).then(__webpack_require__.bind(null, /*! ./views/club/UpdateClub.vue */ "./resources/js/views/club/UpdateClub.vue"));
+      return __webpack_require__.e(/*! import() */ 2).then(__webpack_require__.bind(null, /*! ./views/club/UpdateClub.vue */ "./resources/js/views/club/UpdateClub.vue"));
     },
     props: true
   }]

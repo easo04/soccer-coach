@@ -23,6 +23,7 @@
   </head>
   <body>
     <div class="conteneur">
+      <div class="block-p">Hola</div>
       <div class="content-design">
         <div class="outils">
           <div class="outils-joueurs"> 
@@ -54,11 +55,12 @@
               <div class="color-outil color-black action-outil" id="color-black" onclick="changerCouleurOutil('black');"></div>
             </div>
             <div class="actions-icons icons-soccer">
+              <i class="fas fa-plus action-outil" id="btnZoomPlus" onclick="zoomPlus()"></i>
+              <i class="fas fa-minus action-outil" id="btnZoomMoins" onclick="zoomMoins()"></i>
               <i class="fas fa-fill-drip action-outil" id="btnColor" onclick="setChangeBorderColor(false);selectedAction('btnColor')"></i>
               <i class="fa fa-font action-outil" data-toggle="modal" id="btnAddText" data-target="#modalAddText"></i>
               <i class="fa fa-file-image-o" onclick="savePNG();"></i>
               <i class="fa fa-file-pdf-o" onclick="savePdf();"></i>
-              <!--<i class="fa fa-floppy-o"></i>-->
               <i class="fa fa-eraser" onclick="deleteObject();" id="supprimerObject"></i>
               <i class="fa fa-trash" data-toggle="modal" data-target="#modalDeleteAll" id="deleteAll"></i>
             </div>
@@ -88,14 +90,13 @@
                 <div class="list-group" id="liste-lignes"></div>
               </div>
               <div class="tab-pane container tab-onglet" id="formsDiv">
-                <ul class="list-group list-group-custom" id="ul-liste-formes"></ul>
+                <div class="list-group list-group-custom" id="liste-formes"></div>
               </div>
             </div>
           </div>
         </div>
       </div>
       <div class="styles-lignes"></div>
-
       <!-- Modal -->
       <div class="modal fade" id="modalAddText" role="dialog">
         <div class="modal-dialog">

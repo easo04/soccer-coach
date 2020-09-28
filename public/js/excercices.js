@@ -142,53 +142,6 @@ function changerLigneOption(img){
   updateTerrain(img+'.png');
 }
 
-function initListForms(){
-  var contenu = '';
-  listeObjects.liste_formes.forEach(function (item) {
-      contenu += '<li class="list-group-item ligne-li"><div class="ligne-li-div-sm" onclick="ajouterForm(\'' + item.name + '\', \'' + item.image  + '\');">';
-      if(item.forme !== '' && item.forme !== undefined){
-        if(item.forme.includes('ligne')){
-          contenu += '<hr color="blue">';
-        }else{
-          contenu += '<div class="'+ item.forme +'"></div>';
-        }
-      }else{
-        contenu += '<div class="drag-forme-list"><img src="images/formes/forme_list/' + item.image + '" alt="' + item.name + '"></div>';
-      }
-      contenu += '</div></li>';
-  });
-  $('#ul-liste-formes').html(contenu);
-}
-
-function ajouterForm(formeName, formeImage) {
-
-    //il faut d'abord vérifier quelle forme nous allons ajouter
-    var actionSelected = $('.action-selected-form');
-    var form = actionSelected.length !== 0 && actionSelected[0].id === "btnCircle" ? 'circle-form' : 'square-form';
-    var noLigne = $('.terrain-space')[0].children.length + 1;
-    var contenu = '';
-    var color = lastColorSelected != null ? lastColorSelected : 'blue-claro';
-
-    formeSelected = formeName;
-    
-    if(formeName === 'rectangle'){
-      contenu +=  '<div id="drag-lgn-' + noLigne +  '" class="resize-drag ' + form + ' color-' + color + '" onclick="selectObject(\'drag-lgn-' + noLigne + '\')"></div>';
-    }else if(formeName === 'square'){
-      contenu += '<div id="drag-lgn-' + noLigne +  '" class="resize-drag resize-drag-form square-form" onclick="selectObject(\'drag-lgn-' + noLigne + '\')">'
-        + '<img src="images/formes/square.png"/></div>';
-    }else if(formeName.includes('ligne')){
-      contenu += '<div id="drag-lgn-' + noLigne +  '" class="resize-drag resize-drag-form square-form" onclick="selectObject(\'drag-lgn-' + noLigne + '\')">'
-      + '<hr color="white"></div>';
-    }else if(formeImage !== ''){
-      contenu = '<div id="drag-ligne-' + formeName + '-' + noLigne +  '" class="draggable drag-outil" onclick="selectObject(\'drag-ligne-' + formeName + '-' + noLigne + '\')">' +
-        '<img id="' + formeName + '" src="images/formes/' + formeImage + '">' +
-        '</div>';
-    }
-
-    $('#terrainSoccer').append(contenu);
-    initListStyleFormes(formeName);
-}
-
 function initListStyleFormes(name){
   let contenu = '';
   contenu += '<div class="style-option-forme" onclick="changerForm(\'' + formeSelected + '\')"><img src="images/lignes/terrain-vide.png"/></div>';
@@ -274,7 +227,8 @@ function selectObject(dragId){
       objectSelected.addClass('object-selected-img');
     }else if(!objectSelected.hasClass('drag-outil') && !objectSelected.hasClass('resize-drag')){
       objectSelected.addClass('object-selected');
-    }else if(objectSelected.hasClass('drag-outil')){
+    //}else if(objectSelected.hasClass('drag-outil') || objectSelected.hasClass('drag-forme')){
+    }else{
       objectSelected.addClass('object-selected-outil');
     }
 
@@ -493,28 +447,7 @@ function rotate(){
 
 }
 
-function zoomPlus(){
-  if(objectSelected != null){
-    if(objectSelected[0].id.includes('square')){
-      objectSelected[0].childNodes[0].src='images/formes/square-m.png'
-    }
-    var image = objectSelected[0].children[0];
-    if(image.height < 160){
-      image.height += 10; 
-      image.width += 10; 
-    }
-  }
-}
 
-function zoomMoins(){
-  if(objectSelected != null){
-    var image = objectSelected[0].children[0];
-    if(image.height > 80){
-      image.height -= 10; 
-      image.width -= 10; 
-    }
-  }
-}
 
 function makeCopy(){
     if(objectSelected !== undefined){
@@ -613,7 +546,7 @@ function initListeLignes() {
       if(terrainSelected  === item.terrain){
         contenu += '<div class="list-group-item ligne-li">'+
                       '<div class="ligne-li-div" onclick="changerLigneImg(\'' + item.image + '\', \'' + item.name  + '\');">'+
-                        '<img src="images/lignes/' + item.image + '" width="293px" height="178px"/>'+
+                        '<img src="images/lignes/' + item.image + '" width="293px" height="178px" title="' + item.name + '"/>'+
                       '</div>'+
                     '</div>';
       }              
@@ -630,4 +563,60 @@ function changerLigneImg(img, name){
 function updateTerrain(img){
   $('.terrain-space').css('background-image', 'url(images/lignes/' + img + ')');
   $('.terrain-space').css('background-repeat', 'no-repeat');
+}
+
+function initListForms(){
+  let contenu = '';
+  listeObjects.liste_formes.forEach(function (item) {
+      contenu += '<div class="ligne-li-div-sm" onclick="ajouterForm(\'' + item.name + '\', \'' + item.image  + '\');">'+
+                    '<div class="drag-forme-list">'+
+                      '<img src="images/formes/forme_list/' + item.image + '" alt="' + item.name + '" title="' + item.name + '" class="center">'+
+                    '</div>'+
+                  '</div>';
+  });
+  $('#liste-formes').html(contenu);
+}
+
+function ajouterForm(formeName, formeImage) {
+
+    //il faut d'abord vérifier quelle forme nous allons ajouter
+    let actionSelected = $('.action-selected-form');
+    let form = actionSelected.length !== 0 && actionSelected[0].id === "btnCircle" ? 'circle-form' : 'square-form';
+    let noLigne = $('.terrain-space')[0].children.length + 1;
+    let contenu = '';
+    let color = lastColorSelected != null ? lastColorSelected : 'blue-claro';
+
+    formeSelected = formeName;
+    
+    if(formeImage !== ''){
+      contenu = '<div id="drag-ligne-' + formeName + '-' + noLigne +  '" class="draggable drag-forme" onclick="selectObject(\'drag-ligne-' + formeName + '-' + noLigne + '\')">' +
+                  '<img id="' + formeName + '" src="images/formes/' + formeImage + '">' +
+                '</div>';
+    }
+
+    $('#terrainSoccer').append(contenu);
+    initListStyleFormes(formeName);
+}
+
+function zoomPlus(){
+  if(objectSelected){
+    /*if(objectSelected[0].id.includes('square')){
+      objectSelected[0].childNodes[0].src='images/formes/square-black-md.png'
+    }*/
+    let image = objectSelected[0].children[0];
+    if(image.height < 300){
+      image.height += 10; 
+      image.width += 10; 
+    }
+  }
+}
+
+function zoomMoins(){
+  if(objectSelected){
+    let image = objectSelected[0].children[0];
+    if(image.height > 180){
+      image.height -= 10; 
+      image.width -= 10; 
+    }
+  }
 }
