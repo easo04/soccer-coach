@@ -25,6 +25,9 @@ import Autocomplete from '@trevoreyre/autocomplete-vue';
 import '@trevoreyre/autocomplete-vue/dist/style.css';
 Vue.use(Autocomplete);
 
+//Components comuns{
+Vue.component('header-page', require('./components/HeaderComponent.vue').default);
+
 Vue.component('types-exercices-select', require('./components/TypesExercicesSelect.vue').default);
 Vue.component('image-upload', require('./components/ImageUpload.vue').default);
 Vue.component('add-variables', require('./components/AddVariables.vue').default);

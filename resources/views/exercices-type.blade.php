@@ -46,8 +46,6 @@
                             <h4 class="card-title">{!! $exercice->principe !!}</h4>
                             <h6><i class="ti-timer color-soccer-coach"></i> {!! $exercice->time !!}</h6>
                         </div>
-
-                        <p>{!! $exercice->description !!}</p>
                     </div>
                     <div class="card-footer footer-exercice">
                     <a class="btn btn-block btn-soccer-coach" href="{{ route('exercice.show', ['exercice'=>$exercice->id, 'name'=>$exercice->principeUrl]) }}">Voir</a>
@@ -58,7 +56,7 @@
         {!! $links !!}
     </div>
     <div class="col-sm-3 menu-droite-search"> 
-        <div class="search-by-type search-div">
+        <div class="search-by-type search-div soccer-designer">
             Soccer designer image
         </div>     
         <div class="search-by-type search-div">

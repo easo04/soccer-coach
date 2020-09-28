@@ -1,0 +1,182 @@
+@import '../../resources/sass/variables';
+
+.header-page{
+    color:white;
+    font-size: 0.8rem;
+    background-color:$color-soccer-coach;
+    width: 100%;
+    height: 70px;
+    position: fixed;
+    z-index: 900;
+    padding-top: 12px;
+
+    .header-div-1{
+        display: flex;
+        align-items: center;
+        .actions{
+            width: 50%;
+            padding-bottom: 0;
+            @media screen and (max-width: $screen-xs) {
+                width: 100%;
+            }
+            a{
+                margin-right: 10px;
+                font-size: 15px;
+                color: white;
+                font-family: "Lato", sans-serif;
+                font-weight: 600;
+                letter-spacing: 1px;
+                //border-right: 3px solid $color-action;
+                padding-right: 10px;
+                cursor: pointer;
+
+                &.navicon{
+                    margin-left: 15px;
+
+                }
+            }
+        }
+    }
+
+    .menu-left{
+        min-height: 100vh;
+        width: 300px;
+        position: absolute;
+        left: -320px;
+        background-color: $color-action;
+        transition: all 0.5s;
+        padding: 10px 0;
+        font-family: 'Montserrat', sans-serif;
+        letter-spacing: 1px;
+        margin-top: 14px;
+
+        .imet-menu{
+            width: 100%;
+            height: auto;
+            text-align: left;
+            padding-left: 0;
+            line-height: 42px;
+
+            &.informations{
+                li{
+                    a{
+                        background: url(../../../public/images/icons-menu-informations.png) no-repeat left top;
+                    }
+
+                    &:nth-child(2){
+                        a{
+                            background-position: 0 -42px;
+                        }
+                    }
+                }
+            }
+
+            h5{
+                background-color: $color-action-margin-bottom;
+                height: 50px;
+                font-size: 16px;
+                line-height: 50px;
+                color: #1c1b1b;
+                font-weight: 800;
+                padding-left: 10px;
+
+            }
+            ul{
+                padding-left: 0;
+                margin-bottom: 0;
+            }
+            li{
+                box-shadow: 5px 0 $color-action-margin-bottom inset;
+                transition: all .3s;
+                list-style: none;
+                padding-left: 5px;
+                margin-bottom: 5px;
+                border-bottom: 1px solid $color-action-margin-bottom;
+                padding-bottom: 2px;
+
+                &:hover{
+                    box-shadow: 300px 0 $color-action-margin-bottom inset;
+                    //font-size: 14px;
+                }
+
+                &:nth-child(2){
+                    a{
+                        background-position: 0 -42px;
+                    }
+                }
+
+                &:nth-child(3){
+                    a{
+                        background-position: 0 -84px;
+                    }
+                }
+
+                a{
+                    display: block;
+                    color:white;
+                    width: 100%;
+                    //height: 42px;
+                    font-size: 13px;
+                    font-weight: 500;
+                    //line-height: 3;
+                    padding-left: 47px;
+                    text-transform: uppercase;
+                    cursor: pointer;
+                    background: url(../../../public/images/icons-menu.png) no-repeat left top;
+                    transition: all .3s;
+                    text-decoration: none;
+
+                    &.home{
+                        background: url(../../../public/images/icons-menu-home.png) no-repeat left top;
+                    }
+    
+                    &:hover{
+                        //font-size: 14px;
+                        margin-left: 10px;
+                    }
+    
+    
+                }
+            }
+        }
+
+        &.show-menu{
+            left:-1px;
+        }
+    }
+
+    
+
+    .logo{
+        height: 44px; 
+        margin-left: 5px;
+    }
+
+    .actions-header{
+        margin-left: auto;
+        margin-right: 5px;
+        font-size: 18px;
+        border: 2px solid white;
+        width: 38px;
+        height: 38px;
+        border-radius: 50%;
+        text-align: center;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        cursor: pointer;
+
+        &.mode-presentation{
+            color:#101d29;
+            font-size: 16px;            
+            border: 2px solid #101d29;
+            &:hover{
+                font-size: 17px;          
+            }
+        }
+
+        &:hover{
+            font-size: 17px;
+        }
+    }
+}

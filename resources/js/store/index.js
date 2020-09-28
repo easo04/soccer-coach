@@ -17,6 +17,9 @@ export default {
 		lstMatchs:[], //garde la liste des matchs ajoutés
 		lstPratiques:[], //garde la liste des pratiques ajoutés
 		imgBase64:undefined, //garde l'image en base64
+		modePresentation:false,
+		showModePresentation:false,
+		showMenuLeft:false,
 		mapPresencesActivites: new Map(), //garde les présences des activités
 		mapNotesMatch : new Map(), //garde les notes d'un match
 		lstIconsByType: [['principe-offensif', 'ti-target'], ['principe-defensif', 'ti-hummer'], ['rondos', 'ti-cup'], ['physique', 'ti-heart']],          
@@ -602,6 +605,15 @@ export default {
 		},
 		deleteNotesByActivite(state, idActivite){
 			state.mapNotesMatch.delete(idActivite);
+		},
+		setModePresentationStore(store, value){
+			store.modePresentation = value;
+		},
+		setShowModePresentation(store, value){
+			store.showModePresentation = value;
+		},
+		setShowMenuLeft(store, value){
+			store.showMenuLeft = value;
 		}
 
 	}

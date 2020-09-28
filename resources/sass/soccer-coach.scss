@@ -5,8 +5,8 @@ body{
 
     .sous-nav{
         height: 70px;
-        width: 100%;
-        background-color: white;
+        /*width: 100%;
+        background-color: $color-soccer-coach;
         position: fixed;
         top: 0;
         z-index: 110;
@@ -15,26 +15,26 @@ body{
         padding-top: 10px;
         a{
             color:black;
-        }
+        }*/
     }
 
     .menu-top{
         height: 50px;
         position: fixed;
-        top: 0;
+        top: 70px;
         width: 100%;
         z-index: 120;     
-        margin-top: 60px;
-        background-color: $color-soccer-coach !important;
+        background-color: $color-action !important;   
+        font-family: 'Montserrat', sans-serif;
         a{          
             &.link-custom{
-                border-bottom: 1px solid white;
                 padding-bottom: 0px;
                 margin-right: 10px;
                 color:white!important;
                 padding-top: 1px;
-                &:hover{
-                    color:rgba(0, 0, 0, 0.5)!important;
+                &:hover{     
+                    border-bottom: 1px solid white;
+                    //color:rgba(0, 0, 0, 0.5)!important;
                 }
             }
         }
@@ -59,10 +59,16 @@ body{
 
     .container-soccer-coach{
         background-color: white;
-        margin-top: 118px;
+        margin-top: 60px;
         margin-bottom: 10px;
         margin-left: 10px;
         margin-right: 10px;
+        font-family: "Lato",sans-serif;
+
+        h3{
+            color:$color-action;
+            font-size: 1.8rem;
+        }
 
         .carre {
             width: 80px;
@@ -76,6 +82,11 @@ body{
             padding-bottom: 10px;
         }
 
+        .row{
+            margin-left: 0;
+            margin-right: 0;
+        }
+
         .contenu-exercices{
             
             padding:10px;
@@ -83,9 +94,16 @@ body{
                 height: auto;
 
                 .search-div{
-                    border:1px solid $color-soccer-coach;  
+                    border:1px solid $gris-clair-soccer-coach;  
                     padding: 10px;
                     margin-bottom: 20px;
+                    background: $color-card;
+                    border-radius: 10px;
+                    font-family: "Montserrat", sans-serif;
+                }
+
+                .soccer-designer{
+                    height: 300px;
                 }
 
                 .search-by-type{
@@ -103,7 +121,7 @@ body{
                 }
                 padding: 10px;
                 height: 40px;
-                border-bottom: 1px solid $gris-soccer-coach;
+                border-bottom: 1px solid $gris-clair-soccer-coach;
             }
         }
 
@@ -116,7 +134,7 @@ body{
                 padding: 0 20px 0 23px;
                 height: 26px;
                 border-radius: 3px 0 0 3px;
-                background: $color-soccer-coach;
+                background: $color-action;
                 text-decoration: none;
                 font-size: 14px;
                 line-height: 26px;
@@ -130,7 +148,7 @@ body{
                     width: 6px;
                     height: 6px;
                     border-radius: 10px;
-                    background: #fff;
+                    background: $color-card;
                     box-shadow: inset 0 1px rgba(0, 0, 0, 0.25);
                     content: "";
                 }
@@ -140,8 +158,8 @@ body{
                     right: 0;
                     border-top: 13px solid transparent;
                     border-bottom: 13px solid transparent;
-                    border-left: 10px solid $color-soccer-coach;
-                    background: #fff;
+                    border-left: 10px solid $color-action;
+                    background: $color-card;
                     content: "";
                 }
             }

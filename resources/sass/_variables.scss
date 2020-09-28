@@ -20,20 +20,29 @@ $cyan: #6cb2eb;
 
 //CUSTOM COLORS
 //$color-soccer-coach: #17b87d;
-$color-soccer-coach: #03aca4;
+$color-soccer-coach: #193045; 
+$color-soccer-coach2: #0281d8;
+$color-soccer-coach-hover:#0f1c29;
 $color-soccer-coach-selected: #1b534f;
 $gris-soccer-coach: #F3F3F3;
 $gris-obscur-soccer-coach:#919191;
 $gris-clair-soccer-coach:#aaaaaa;
+$color-card:#e0e0e0;
 $color-border: #ced4da;
 //$color-action:#b81752;
 $color-action:#8a2539;
+//$color-action:#fe6700; 2option
 $color-action-selected: #45191f;
+$color-action-margin-bottom: #611b29;
+//$color-action-selected: #7f3100;
 $color-bougth: #370028;
 $color-bougth-action: #572947;
 $box-shadow-color:rgba(23, 184, 125, 0.2);
 $color-succes:#0bac03;
 $color-red:#ac030b;
+$color-text-p:#3d3b3b;
+$color-soccer-coach-opacy:rgba($color: #193045, $alpha: 0.7);
+$color-soccer-coach-action-opacy:rgba($color: $color-action, $alpha: 0.9);
 
 
 // Extra small screen / phone

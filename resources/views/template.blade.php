@@ -8,6 +8,7 @@
 	<meta name="csrf-token" content="{{ csrf_token() }}">
 	<script src="{{ asset('js/app.js') }}" defer></script>
 	<link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet">
+	<link href="https://fonts.googleapis.com/css2?family=Montserrat&display=swap" rel="stylesheet">
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 	<link href="{{ asset('css/app.css') }}" rel="stylesheet">
 	<link href="{{ asset('css/themify-icons/themify-icons.css') }}" rel="stylesheet">
@@ -21,7 +22,7 @@
 <body>
 	<div id="app">
 		<div class="sous-nav">
-			<a class="navbar-brand" href="{{ url('/') }}">SoccerCoach S3</a>
+			<header-page />
 		</div>
 		<nav class="navbar navbar-expand-md navbar-light shadow-sm menu-top">
             <div class="container">
@@ -32,28 +33,28 @@
                     <ul class="navbar-nav mr-auto">
 						@guest
 							<li class="nav-item">
-								<a class="nav-link link-custom" href="{{ url('/') }}">Accueil</a>
+								<a class="nav-link link-custom" href="{{ url('/') }}"><i class="ti-home"></i>  Accueil</a>
 							</li>
 						@endguest
 						<li class="nav-item">
-                            <a class="nav-link link-custom" href="{{ route('exercice.index') }}">Exercices</a>
+                            <a class="nav-link link-custom" href="{{ route('exercice.index') }}"><i class="ti-star"></i> Exercices</a>
 						</li>
 						@auth
 							<li class="nav-item">
-								<a class="nav-link link-custom" href="{{ route('user.services') }}">Mes services</a>
+								<a class="nav-link link-custom" href="{{ route('user.services') }}"><i class="ti-view-list"></i>  Mes services</a>
 							</li>
 						@endauth
                     </ul>
                     <ul class="navbar-nav ml-auto">
                         @guest
                             <li class="nav-item">
-                                <a class="nav-link link-custom" href="{{ route('login') }}"> {{ __('Se connecter') }}</a>
+                                <a class="nav-link link-custom" href="{{ route('login') }}"> {{ __('Connexion') }}</a>
                             </li>
-                            @if (Route::has('register'))
+                            <!-- @if (Route::has('register'))
 							<li class="nav-item">
 								<a class="nav-link link-custom" href="{{ route('register') }}">{{ __('Register') }}</a>
 							</li>
-                            @endif
+                            @endif -->
                         @else
                             <li class="nav-item dropdown">
                                 <a id="navbarDropdown" class="nav-link dropdown-toggle link-custom" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
@@ -78,7 +79,7 @@
 				</div>	
 			</div>
 		</nav>		
-		<div class="border container-soccer-coach">
+		<div class="border container-soccer-coach" id="contenu-page">
 			@yield('contenu')
 		</div>
 		<footer></footer>

@@ -62,9 +62,11 @@
 
     .categorie{
         margin-right: 20px;
-        border: 1px solid $color-soccer-coach;
+        border: 1px solid $color-action;
         margin-bottom: 10px;
         padding: 0;
+        border-radius: 10px;
+        font-family: "Montserrat", sans-serif;
 
         @media screen and (max-width: $screen-xs) {
             margin-right: 0;
@@ -72,8 +74,10 @@
 
         .categorie-nom{
             padding: 10px;
-            background-color: $color-soccer-coach;
+            background-color: $color-action;
             color:white;
+            border-top-left-radius: 10px;
+            border-top-right-radius: 10px;
             h5{
                 margin-bottom: 0;
             }
@@ -89,7 +93,7 @@
                 padding: 0 20px 0 23px;
                 height: 26px;
                 border-radius: 3px 0 0 3px;
-                background: $color-soccer-coach;
+                background: $color-action;
                 color: white;
                 text-decoration: none;
                 font-size: 14px;
@@ -122,7 +126,7 @@
                     right: 0;
                     border-top: 13px solid transparent;
                     border-bottom: 13px solid transparent;
-                    border-left: 10px solid $color-soccer-coach;
+                    border-left: 10px solid $color-action;
                     background: #fff;
                     content: '';
                 }

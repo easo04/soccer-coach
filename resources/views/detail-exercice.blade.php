@@ -6,60 +6,69 @@
 
 @section('contenu')
     <div class="row contenu-exercices">
-        <div class="col-sm-9">
-            <div class="actions-exercice-detail">
-                @auth
-                    <div class="btns">      
-                        <add-favoris :id-exercice="{{$exercice->id}}" :is-added="{{$exercice->isFavoris}}"/>
-                    </div>  
-                @endauth
-            </div>
+        <div class="col-sm-9">  
             <div class="row details-exercice">
                 <div class="col-sm-6 details-exercice-image">
                     <div class="image-exercice">
                         <img class="img-responsive" src="{{ asset('images/uploaded/' . $exercice->image) }}">
-                    </div>                              
+                    </div>
+                    <div class="btn-action-exercice">
+                        <div class="float-left">
+                            @auth 
+                                <add-favoris :id-exercice="{{$exercice->id}}" :is-added="{{$exercice->isFavoris}}"/> 
+                            @endauth
+                        </div>
+                        <div class="float-right">
+                            <a data-v-1dcfdb9b="" class="btn"><i data-v-1dcfdb9b="" class="ti-facebook"></i></a>
+                            <a data-v-1dcfdb9b="" class="btn"><i data-v-1dcfdb9b="" class="ti-instagram"></i></a>  
+                        </div>
+                    </div>                           
                 </div>
                 <div class="col-sm-6 details-exercice-info">
                     <div class="detail bloc-info">
                         <h3>{{ $exercice->principe }}</h3>
                         <p class="description-exercice">{{ $exercice->description }}</p>
-                        <div class="d-flex justify-content-center details-items-info">
-                            <div class="p-flex">
-                                <p class="text">DURÉE:</p>
-                                <p class="value"><i class="ti-timer color-soccer-coach"></i> {{ $exercice->time }}</p>
+                        @if(count($exercice->variantes) > 0)   
+                            <div class="variantes">
+                                @foreach ($exercice->variantes as $variante)
+                                    <div class="variante">
+                                        <div class="variante-header clearfix">
+                                            <span class="float-left"><i class="ti-pin-alt color-soccer-coach"></i> Variante #{{$loop->index + 1}}</span>
+                                            <span class="float-right time"><i class="ti-timer color-soccer-coach"></i> {{$variante->time}}</span>
+                                        </div>
+                                        <div class="variante-body">                   
+                                            <p>{{$variante->description}}</p>
+                                        </div>
+                                    </div>
+                                @endforeach
                             </div>
-                            <div class="p-flex">
-                                <p class="text">NOMBRE DE JOUEURS:</p>
-                                <p class="value">{{ $exercice->nbJoueurs }}</p>
+                        @endif
+                        <div class="details-items-info">
+                            <div class="item-info-exe">
+                                <div>
+                                    <p class="text">DURÉE:</p>
+                                    <p class="value"><i class="ti-timer color-soccer-coach"></i> {{ $exercice->time }}</p>
+                                </div>
                             </div>
-                            <div class="p-flex">
-                                <p class="text">TYPE:</p>
-                                <p class="value"><i class="{{$exercice->typeExercice->icon}} color-soccer-coach"></i> {{ $exercice->typeExercice->nom }}</p>
+                            <div class="item-info-exe">
+                                <div>
+                                    <p class="text">NOMBRE DE JOUEURS:</p>
+                                    <p class="value">{{ $exercice->nbJoueurs }}</p>
+                                </div>
+                            </div>
+                            <div class="item-info-exe">
+                                <div>
+                                    <p class="text">TYPE:</p>
+                                    <p class="value"><i class="{{$exercice->typeExercice->icon}} color-soccer-coach"></i> {{ $exercice->typeExercice->nom }}</p>
+                                </div>
                             </div>
                         </div>
                     </div>     
                 </div>
             </div>
             <div class="row mt-3">
-                    @if(count($exercice->variantes) > 0)   
-                        <div class="variantes col-sm-6">
-                            @foreach ($exercice->variantes as $variante)
-                                <div class="variante">
-                                    <div class="variante-header clearfix">
-                                        <h5 class="float-left"><i class="ti-pin-alt color-soccer-coach"></i> Variante #{{$loop->index + 1}}</h5>
-                                        <h5 class="float-right time"><i class="ti-timer color-soccer-coach"></i> {{$variante->time}}</h5>
-                                    </div>
-                                    <div class="variante-body">                   
-                                        <p>{{$variante->description}}</p>
-                                    </div>
-                                </div>
-                            @endforeach
-                        </div>
-                    @else
-                        <div class="col-sm-6">
-                        </div>
-                    @endif
+                    <div class="col-sm-6">
+                    </div>
                 <div class="col-sm-6">
                     @if($exercice->observations != '')
                         <div class="observations-exercice bloc-sm bloc-info">
@@ -117,7 +126,7 @@
             </div>
         </div>
         <div class="col-sm-3 menu-droite-search"> 
-            <div class="search-by-type search-div">
+            <div class="search-by-type search-div soccer-designer">
                 Soccer designer image
             </div>     
             <div class="search-by-type search-div">

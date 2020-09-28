@@ -1,6 +1,8 @@
 .image-exercice{
     width: inherit;
-    height: 530px;
+    //height: 530px;
+    margin-top: 10px;
+    height: auto;
 }
 
 .image-exercice img{
@@ -8,27 +10,27 @@
 }
 
 .details-items-info{
-    background-color: #F3F3F3;
+    background-color: #e0e0e0;
     box-shadow: 0 2px 3px -1px #DCDCDC;
+    display: flex;
+    margin-top: 10px;
 }
 
-.details-items-info div{
+.details-items-info > div{
     border-right: 1px solid #ededed;
     line-height: 2;
 }
 
-.details-items-info div p.text {
+.details-items-info > div p.text {
     font-weight: 300;
     font-size: 10px;
     letter-spacing: 1px;
     margin: 0;
     color: #7D8693;
-    font-family: Roboto, sans-serif;
-    /*padding-bottom: 0;
-    border-bottom: 1px solid #b81752;*/
+    font-family: "Montserrat", sans-serif;
 }
 
-.details-items-info div p.value {
+.details-items-info > div p.value {
     margin: 0;
     font-size: 16px;
     font-weight: 600;
@@ -37,14 +39,16 @@
 
 .detail{
     height: 530px;
+    padding: 10px;
 }
 
-.p-flex{
+.item-info-exe{
     padding: 10px; 
     text-align: center;
     width: 180px;
-    //height: 80px;
-    /*border: 1px solid  #17a2b8;*/
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .sous-principes{
@@ -68,8 +72,10 @@
 }
 
 .bloc-info{
-    box-shadow: 0 2px 3px -1px #DCDCDC;
-    border-bottom: 2px solid #F3F3F3;
+    box-shadow: 0 2px 3px -1px #e0e0e0;
+    border-bottom: 2px solid #e0e0e0;
+    border-right: 1px solid #e0e0e0;
+    border-radius: 10px;
 }
 
 .bloc-info h5{
@@ -108,25 +114,35 @@
     margin-top: 20px;
 }
 
-
 .variantes .variante{
-    box-shadow: 0 2px 3px -1px #DCDCDC;
+    //box-shadow: 0 2px 3px -1px #DCDCDC;
     height: auto;
-    margin-top: 20px;
+    margin-top: 5px;
 }
 
-.variantes .variante-header h5.float-left{
-    border-left: 5px solid #b81752;
+.variantes .variante-header span{
+    border-left: 0;
+    font-weight: 600;
+}
+
+.variantes .variante-header span.float-left{
+    //border-left: 5px solid #b81752;
     padding-left: 9px;
 }
 
-.variantes .variante-header h5.time{
+.variantes .variante-header span.time{
     margin-right: 11px;
 }
 
 
 .variantes .variante-body{  
     padding-bottom: 2px;
+}
+
+.variantes .variante-body p{  
+    font-size: 14px !important;
+    padding-bottom: 0;
+    margin-bottom: 0;
 }
 
 .add-seance-form .btn-action-sauvegarder{
@@ -152,37 +168,53 @@
 
 
 .suggestions-exercices{  
+    background-color: #F3F3F3;
     margin-top: 20px;
     border-bottom: 2px solid #F3F3F3;
     box-shadow: 0 2px 3px -1px #DCDCDC;
-    border-top: 1px solid #F3F3F3;
     padding-bottom: 10px;
     padding-top: 10px;
+    padding: 10px;
+    border-radius: 10px;
+    border:1px solid #aaaaaa;
 }
 
 .suggestions-exercices .lst-suggestions{  
     position: relative;
+    width: 100%;
     display: flex;
 }
 
 .suggestions-exercices .lst-suggestions .lien-suggestion{
     text-decoration: none;
     color:black;
-    margin-right: 7px;
+    width: 33%;
+    margin-right: 5px;
 }
 
 .suggestions-exercices .suggestion-item{
     padding: 5px;
-    width: 320px;
+    width: 100%;
     height: 300px;
-    background-color: #F3F3F3;
+    background-color: #ced4da;
     position: relative;
+    border-bottom-left-radius: 10px;
+    border-bottom-right-radius: 10px;
+}
+
+.suggestions-exercices .suggestion-item:hover{
+    background-color: #aaaaaa;
 }
 
 .suggestions-exercices .suggestion-item .time{
     position: absolute;
     bottom: 0;
 }
+
+.suggestions-exercices .suggestion-item .time h6, i{
+    font-weight: 600;
+}
+
 
 .suggestions-exercices .suggestion-item .principe{
     margin-top: 5px;
@@ -200,6 +232,19 @@
 .suggestions-exercices .suggestion-item img{
     width: inherit;
     height: inherit;
+}
+
+
+.btn-action-exercice >div .btn{
+    border: 2px solid #193045;
+    color: #193045!important;
+    border-radius: 10px;
+    font-size: 20px;   
+}
+
+.btn-action-exercice >div .btn:hover{
+    background-color: #193045;
+    color: white!important; 
 }
 
 @media screen and (max-width: 480px) {
@@ -229,11 +274,6 @@
     .actions-exercice-detail .btns .btn-soccer-coach-action {
         width: 100%;
         margin-bottom: 2px;
-    }
-
-    .image-exercice{
-        margin-top: 10px;
-        height: auto;
     }
 
     .details-items-info div p.text {

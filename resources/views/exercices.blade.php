@@ -69,7 +69,7 @@
             @endif
         </div>
         <div class="col-sm-3 menu-droite-search"> 
-            <div class="search-by-type search-div">
+            <div class="search-by-type search-div soccer-designer">
                 Soccer designer image
             </div>     
             <div class="search-by-type search-div">

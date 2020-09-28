@@ -10888,32 +10888,30 @@ body {
 
 body .sous-nav {
   height: 70px;
-  width: 100%;
-  background-color: white;
+  /*width: 100%;
+  background-color: $color-soccer-coach;
   position: fixed;
   top: 0;
   z-index: 110;
   display: flex;
   padding-left: 20px;
   padding-top: 10px;
-}
-
-body .sous-nav a {
-  color: black;
+  a{
+      color:black;
+  }*/
 }
 
 body .menu-top {
   height: 50px;
   position: fixed;
-  top: 0;
+  top: 70px;
   width: 100%;
   z-index: 120;
-  margin-top: 60px;
-  background-color: #03aca4 !important;
+  background-color: #8a2539 !important;
+  font-family: "Montserrat", sans-serif;
 }
 
 body .menu-top a.link-custom {
-  border-bottom: 1px solid white;
   padding-bottom: 0px;
   margin-right: 10px;
   color: white !important;
@@ -10921,11 +10919,11 @@ body .menu-top a.link-custom {
 }
 
 body .menu-top a.link-custom:hover {
-  color: rgba(0, 0, 0, 0.5) !important;
+  border-bottom: 1px solid white;
 }
 
 body .menu-top .link-custom-2 {
-  border-bottom: 1px solid #03aca4;
+  border-bottom: 1px solid #193045;
   padding-bottom: 0px;
   color: black !important;
   height: 35px;
@@ -10943,22 +10941,33 @@ body .menu-top .link-custom-2 {
 
 body .container-soccer-coach {
   background-color: white;
-  margin-top: 118px;
+  margin-top: 60px;
   margin-bottom: 10px;
   margin-left: 10px;
   margin-right: 10px;
+  font-family: "Lato", sans-serif;
+}
+
+body .container-soccer-coach h3 {
+  color: #8a2539;
+  font-size: 1.8rem;
 }
 
 body .container-soccer-coach .carre {
   width: 80px;
   height: 80px;
   border-radius: 20px;
-  background: #03aca4;
+  background: #193045;
 }
 
 body .container-soccer-coach h3 {
-  border-bottom: 1px solid #03aca4;
+  border-bottom: 1px solid #193045;
   padding-bottom: 10px;
+}
+
+body .container-soccer-coach .row {
+  margin-left: 0;
+  margin-right: 0;
 }
 
 body .container-soccer-coach .contenu-exercices {
@@ -10970,19 +10979,26 @@ body .container-soccer-coach .contenu-exercices .menu-droite-search {
 }
 
 body .container-soccer-coach .contenu-exercices .menu-droite-search .search-div {
-  border: 1px solid #03aca4;
+  border: 1px solid #aaaaaa;
   padding: 10px;
   margin-bottom: 20px;
+  background: #e0e0e0;
+  border-radius: 10px;
+  font-family: "Montserrat", sans-serif;
+}
+
+body .container-soccer-coach .contenu-exercices .menu-droite-search .soccer-designer {
+  height: 300px;
 }
 
 body .container-soccer-coach .contenu-exercices .menu-droite-search .search-by-type h4 {
-  border-bottom: 1px solid #03aca4;
+  border-bottom: 1px solid #193045;
 }
 
 body .container-soccer-coach .search-by-type .type-item {
   padding: 10px;
   height: 40px;
-  border-bottom: 1px solid #F3F3F3;
+  border-bottom: 1px solid #aaaaaa;
 }
 
 body .container-soccer-coach .search-by-type .type-item a {
@@ -10996,7 +11012,7 @@ body .container-soccer-coach .search-objectifs .objectif-item {
   padding: 0 20px 0 23px;
   height: 26px;
   border-radius: 3px 0 0 3px;
-  background: #03aca4;
+  background: #8a2539;
   text-decoration: none;
   font-size: 14px;
   line-height: 26px;
@@ -11013,7 +11029,7 @@ body .container-soccer-coach .search-objectifs .objectif-item:before {
   width: 6px;
   height: 6px;
   border-radius: 10px;
-  background: #fff;
+  background: #e0e0e0;
   box-shadow: inset 0 1px rgba(0, 0, 0, 0.25);
   content: "";
 }
@@ -11024,8 +11040,8 @@ body .container-soccer-coach .search-objectifs .objectif-item:after {
   right: 0;
   border-top: 13px solid transparent;
   border-bottom: 13px solid transparent;
-  border-left: 10px solid #03aca4;
-  background: #fff;
+  border-left: 10px solid #8a2539;
+  background: #e0e0e0;
   content: "";
 }
 
@@ -11073,18 +11089,18 @@ body .dropdown-custom {
 
 body footer {
   height: 200px;
-  background-color: #03aca4;
+  background-color: #193045;
 }
 
 body .page-item.active .page-link {
   z-index: 3;
   color: #fff;
-  background-color: #03aca4;
-  border-color: #03aca4;
+  background-color: #193045;
+  border-color: #193045;
 }
 
 body .page-link {
-  color: #03aca4;
+  color: #193045;
 }
 
 body .btn-g {
@@ -11127,12 +11143,12 @@ body .exercices-by-user .bought:hover {
 body button.page-link {
   display: inline-block;
   font-size: 20px;
-  color: #03aca4;
+  color: #193045;
   font-weight: 500;
 }
 
 body button.page-link:hover {
-  color: #03aca4 !important;
+  color: #193045 !important;
 }
 
 body .offset {
@@ -11146,7 +11162,7 @@ body .page-item:last-child .page-link {
 }
 
 body .form-control:focus {
-  border-color: #03aca4;
+  border-color: #193045;
   box-shadow: 0 0 0 0.2rem rgba(23, 184, 125, 0.2);
 }
 
@@ -11155,13 +11171,13 @@ body .field-input {
 }
 
 body .field-input:focus {
-  border-color: #03aca4;
+  border-color: #193045;
   box-shadow: 0 0 0 0.2rem rgba(23, 184, 125, 0.2);
 }
 
 body .date-time-picker {
   margin: 0;
-  border-bottom: 2px solid #03aca4;
+  border-bottom: 2px solid #193045;
 }
 
 body .date-time-picker .field .field-input {
@@ -11192,7 +11208,7 @@ body .datepicker-buttons-container .datepicker-button .datepicker-button-effect 
 
 body .input-autocomplete .input-autocomplete-input {
   border: none;
-  border-bottom: 2px solid #03aca4;
+  border-bottom: 2px solid #193045;
   border-right: 1px solid #F3F3F3;
   display: block;
   width: 100%;
@@ -11230,7 +11246,7 @@ body .input-autocomplete .input-autocomplete-result-list {
 }
 
 body .input-autocomplete .input-autocomplete-result-list li {
-  border-bottom: 1px solid #03aca4;
+  border-bottom: 1px solid #193045;
   cursor: default;
   padding: 12px 10px 12px 10px;
 }
@@ -11265,6 +11281,8 @@ body .input-autocomplete .input-autocomplete-result-list li {
   height: inherit;
   width: inherit;
   border-radius: 0;
+  -o-object-fit: cover;
+     object-fit: cover;
 }
 
 .card-body {
@@ -11279,7 +11297,7 @@ body .input-autocomplete .input-autocomplete-result-list li {
 
 .body-exercice {
   padding: 0px;
-  background-color: #F3F3F3;
+  background-color: #e0e0e0;
   padding-bottom: 10px;
 }
 
@@ -11291,8 +11309,11 @@ body .input-autocomplete .input-autocomplete-result-list li {
 }
 
 .footer-exercice {
-  background-color: #F3F3F3;
-  border-radius: 0 !important;
+  background-color: #e0e0e0;
+  border-top-left-radius: 0 !important;
+  border-top-right-radius: 0 !important;
+  border-bottom-left-radius: 8px !important;
+  border-bottom-right-radius: 8px !important;
 }
 
 .actions {
@@ -11309,6 +11330,11 @@ body .input-autocomplete .input-autocomplete-result-list li {
   margin-bottom: 0;
 }
 
+.action-recherche .navbar-dark .navbar-nav {
+  font-family: "Montserrat", sans-serif;
+  line-height: 30px;
+}
+
 .action-recherche .navbar-dark .navbar-nav .nav-link {
   color: white;
 }
@@ -11318,8 +11344,8 @@ body .input-autocomplete .input-autocomplete-result-list li {
 }
 
 .action-recherche .navbar-dark .navbar-nav .nav-item {
-  background: #03aca4 !important;
-  border-right: 1px solid white;
+  background: #8a2539 !important;
+  margin-right: 1px;
 }
 
 .btn-create-exercice {
@@ -11334,9 +11360,7 @@ body .input-autocomplete .input-autocomplete-result-list li {
 }
 
 .selected-type {
-  /*color: black !important;
-  font-weight:bold;*/
-  background-color: #1b534f !important;
+  background-color: #45191f !important;
 }
 
 .btn-soccer-coach-action {
@@ -11366,13 +11390,19 @@ body .input-autocomplete .input-autocomplete-result-list li {
 
 .btn-soccer-coach {
   /*background-color: #b87e17!important;*/
-  background-color: #03aca4 !important;
+  background-color: #8a2539 !important;
+  border-radius: 10px;
+  padding: 10px;
+  border-bottom: 5px solid #611b29;
   color: white;
-  border-radius: 20px;
+  font-family: "Montserrat", sans-serif;
+  letter-spacing: 1px;
+  font-weight: 700;
+  font-size: 15px;
 }
 
 .btn-soccer-coach:hover {
-  background-color: #1b534f !important;
+  background-color: #45191f !important;
   color: white;
 }
 
@@ -11382,6 +11412,7 @@ body .input-autocomplete .input-autocomplete-result-list li {
   padding-left: 9px;
   display: block;
   position: relative;
+  padding-top: 5px;
 }
 
 .card-title-principe h4 {
@@ -11392,14 +11423,21 @@ body .input-autocomplete .input-autocomplete-result-list li {
   position: absolute;
   bottom: 0;
   margin-bottom: 0px;
+  font-weight: 600;
+  color: #193045;
+}
+
+.card-title-principe h6 i {
+  font-weight: 600;
+  color: #193045;
 }
 
 .color-soccer-coach {
-  color: #03aca4;
+  color: #193045;
 }
 
 .bought {
-  background-color: #370028;
+  background-color: #193045;
   position: absolute;
   bottom: 0;
   right: 0;
@@ -11483,7 +11521,7 @@ label {
   width: 25px;
   background-color: #F3F3F3;
   margin-left: 10px;
-  border: 1px solid #03aca4;
+  border: 1px solid #193045;
 }
 
 /* On mouse-over, add a grey background color */
@@ -11495,7 +11533,7 @@ label {
 /* When the checkbox is checked, add a blue background */
 
 .container-label input:checked ~ .checkmark {
-  background-color: #03aca4;
+  background-color: #193045;
 }
 
 /* Create the checkmark/indicator (hidden when not checked) */
@@ -11540,13 +11578,18 @@ textarea {
   }*/
 
   .nav-type-exercice .navbar-nav .nav-item:first-child {
-    border-top-left-radius: 20px;
-    border-bottom-left-radius: 20px;
+    border-top-left-radius: 8px;
+    border-bottom-left-radius: 8px;
+  }
+
+  .nav-type-exercice .navbar-nav .nav-item:first-child a.selected-type {
+    border-top-left-radius: 8px;
+    border-bottom-left-radius: 8px;
   }
 
   .nav-type-exercice .navbar-nav .nav-item:last-child {
-    border-top-right-radius: 20px;
-    border-bottom-right-radius: 20px;
+    border-top-right-radius: 8px;
+    border-bottom-right-radius: 8px;
   }
 }
 

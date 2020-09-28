@@ -1,10 +1,10 @@
 <template>
     <div class="add-favoris">
-        <a class="btn btn-soccer-coach-action" @click="addFavoris"  v-if="!isAddedToFavoris">
-            <i class="ti-heart"></i> Favoris
+        <a class="btn" @click="addFavoris"  v-if="!isAddedToFavoris">
+            <i class="ti-heart"></i>
         </a>
         <span class="favoris-added" v-else>
-            <i class="fa fa-heart"></i> Favoris
+            <i class="fa fa-heart"></i>
         </span>
     </div>
 </template>
@@ -31,4 +31,29 @@ export default {
 }
 </script>
 <style lang="scss" scoped>
+.add-favoris{
+    .favoris-added{
+            background-color: #193045;
+            color: white!important; 
+            border-radius: 10px;
+            font-size: 20px;
+            text-align: center;
+            line-height: 2.3;
+            display: block;
+            width: 48px;
+            height: 48px;
+            font-weight: 400;
+    }
+    .btn{
+        border: 2px solid #193045;
+        color: #193045!important;
+        border-radius: 10px;
+        font-size: 20px;   
+
+        &:hover{
+            background-color: #193045;
+            color: white!important; 
+        }
+    }
+}
 </style>

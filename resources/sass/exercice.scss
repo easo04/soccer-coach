@@ -21,7 +21,8 @@
 .img-liste{
     height: inherit;
     width: inherit;
-    border-radius: 0;
+    border-radius: 0; 
+    object-fit: cover;
 }
 
 .card-body{
@@ -37,7 +38,7 @@
 .body-exercice{
     padding: 0px;
     //border: 1px solid rgba(0,0,0,.125);
-    background-color: $gris-soccer-coach ;
+    background-color: $color-card;
     padding-bottom: 10px;
     p{
         margin-top: 10px;
@@ -48,9 +49,11 @@
 }
 
 .footer-exercice{
-    background-color: $gris-soccer-coach ;
-    //border: 1px solid rgba(0,0,0,.125);
-    border-radius: 0!important;
+    background-color: $color-card;
+    border-top-left-radius: 0 !important;
+    border-top-right-radius: 0 !important;
+    border-bottom-left-radius: 8px !important;
+    border-bottom-right-radius: 8px !important;
 }
 
 .actions{
@@ -68,6 +71,8 @@
     }
     .navbar-dark{
         .navbar-nav{
+            font-family: 'Montserrat', sans-serif;
+            line-height: 30px;
             .nav-link{
                 color:white;
                 &:hover{
@@ -75,8 +80,9 @@
                 }
             }
             .nav-item{
-                background: $color-soccer-coach!important;
-                border-right: 1px solid white;
+                background: $color-action !important;
+                margin-right: 1px;
+                //border-right: 1px solid white;
             }     
         }
     }
@@ -93,9 +99,7 @@
 }
 
 .selected-type{
-    /*color: black !important;
-    font-weight:bold;*/
-    background-color: $color-soccer-coach-selected!important;
+    background-color: $color-action-selected !important;
 }
 
 .btn-soccer-coach-action{
@@ -123,11 +127,17 @@
 
 .btn-soccer-coach{
     /*background-color: #b87e17!important;*/
-    background-color: $color-soccer-coach!important;
-    color:white;
-    border-radius: 20px;
+    background-color: $color-action !important;
+    border-radius: 10px;
+    padding: 10px;
+    border-bottom: 5px solid $color-action-margin-bottom;
+    color: white;
+    font-family: 'Montserrat', sans-serif;
+    letter-spacing: 1px;
+    font-weight: 700;
+    font-size: 15px; 
     &:hover{
-        background-color: $color-soccer-coach-selected!important;
+        background-color: $color-action-selected !important;
         color:white;
     }
 }
@@ -138,6 +148,8 @@
     padding-left: 9px;
     display: block;
     position: relative;
+    padding-top: 5px;
+
     h4{
         font-size: 1.3rem;
     }
@@ -145,6 +157,12 @@
         position: absolute;
         bottom: 0;
         margin-bottom: 0px;
+        font-weight: 600;
+        color:$color-soccer-coach;
+        i{
+            font-weight: 600;
+            color:$color-soccer-coach;
+        }
     }
 }
 
@@ -153,7 +171,7 @@
 }
 
 .bought{
-    background-color: $color-bougth;
+    background-color: $color-soccer-coach;
     position: absolute;
     bottom: 0;
     right: 0;
@@ -290,12 +308,19 @@ textarea{
         .navbar-nav{
             .nav-item{
                 &:first-child{
-                    border-top-left-radius:20px;                 
-                    border-bottom-left-radius:20px;
+                    border-top-left-radius: 8px;
+                    border-bottom-left-radius: 8px;
+                    a{
+                        &.selected-type{
+
+                            border-top-left-radius: 8px;
+                            border-bottom-left-radius: 8px;
+                        }
+                    }
                 }
                 &:last-child{
-                    border-top-right-radius:20px;
-                    border-bottom-right-radius:20px;
+                    border-top-right-radius: 8px;
+                    border-bottom-right-radius: 8px;
                 }
             }
         }
